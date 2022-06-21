@@ -1,8 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect} from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {View, Image, Pressable, Text, ActivityIndicator} from 'react-native';
-import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
+import {
+  View,
+  Image,
+  Pressable,
+  Text,
+  ActivityIndicator,
+  Modal,
+} from 'react-native';
+import {TextInput, Button, Provider, Portal} from 'react-native-paper';
 import style from '../../util/style';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
@@ -73,6 +80,7 @@ export default function Login({navigation}) {
           };
           registerUser(tokenRegister);
         } else {
+          setVisible(false);
           navigation.navigate('Home', tokenLogin);
         }
       })
@@ -92,6 +100,7 @@ export default function Login({navigation}) {
   function btnSubmit() {}
 
   const btnSubmitGoogle = async () => {
+    setVisible(true);
     const {idToken} = await GoogleSignin.signIn();
     console.log('TEstTOKEN', idToken);
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
@@ -115,16 +124,19 @@ export default function Login({navigation}) {
 
   return (
     <SafeAreaView style={style.container}>
-      {/* <Modal
+      <Modal
         visible={visible}
-        contentContainerStyle={{
-          width: 100,
-          height: 100,
+        style={{
+          flex: 1,
+          width: 175,
+          height: 175,
+          justifyContent: 'center',
+          alignItems : 'center',
           alignContent: 'center',
           alignSelf: 'center',
         }}>
         <ActivityIndicator size="large" />
-      </Modal> */}
+      </Modal>
       <Image
         style={style.boxImage}
         source={{
