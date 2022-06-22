@@ -1,26 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect} from 'react';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {
-  View,
-  Image,
-  Pressable,
-  Text,
-  ActivityIndicator,
-  Modal,
-} from 'react-native';
-import {TextInput, Button, Provider, Portal} from 'react-native-paper';
+import React, {useState, useEffect, Alert} from 'react';
+import {View, Image, SafeAreaView, ImageBackground, Text} from 'react-native';
+import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
 import style from '../../util/style';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StackActions} from '@react-navigation/native';
+import {color} from 'native-base/lib/typescript/theme/styled-system';
 
 export default function Login({navigation}) {
-  const [user, setUser] = useState(null);
-  const [pass, setPass] = useState(null);
+  const [telp, setTelp] = useState('');
   const [result, setResult] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [modalOTPVisible, setModalOtpVisible] = useState(false);
+
+  const [timer, setTimer] = useState(0);
 
   let tokenRegister = null;
   let tokenLogin = null;
@@ -57,7 +54,7 @@ export default function Login({navigation}) {
       .then(result => {
         console.log(result);
         setVisible(false);
-        navigation.navigate('Home', dataToken);
+        navigation.dispatch(StackActions.replace('RouterTab'));
       })
       .catch(err => {
         console.log(err);
@@ -65,6 +62,8 @@ export default function Login({navigation}) {
   };
 
   const loginUser = async (data, res) => {
+    const jsonData = JSON.stringify(data);
+    await AsyncStorage.setItem('session_id', jsonData);
     await instanceAPI
       .post('auth', data)
       .then(result => {
@@ -81,7 +80,7 @@ export default function Login({navigation}) {
           registerUser(tokenRegister);
         } else {
           setVisible(false);
-          navigation.navigate('Home', tokenLogin);
+          navigation.dispatch(StackActions.replace('RouterTab'));
         }
       })
       .catch(err => {
@@ -97,7 +96,35 @@ export default function Login({navigation}) {
     }
   };
 
-  function btnSubmit() {}
+  let second = 0;
+
+  const cound = async d => {
+    let m = Math.floor((d % 3600) / 60);
+    let s = Math.floor((d % 3600) % 60);
+    m = `0${m.toString()}`;
+    if (s < 10) {
+      s = `0${s}`;
+    }
+    let result = `${m}:${s}`;
+    return result;
+  };
+
+  const modalShow = () => {
+    setModalOtpVisible(!modalOTPVisible);
+  };
+  const btnOtp = async () => {
+    second = 120;
+    await instanceAPI
+      .post('auth/request_otp_sms', {
+        no_telp: telp,
+      })
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const btnSubmitGoogle = async () => {
     setVisible(true);
@@ -121,89 +148,173 @@ export default function Login({navigation}) {
         console.log(err);
       });
   };
-
   return (
-    <SafeAreaView style={style.container}>
-      <Modal
-        visible={visible}
-        style={{
-          flex: 1,
-          width: 175,
-          height: 175,
-          justifyContent: 'center',
-          alignItems : 'center',
-          alignContent: 'center',
-          alignSelf: 'center',
-        }}>
-        <ActivityIndicator size="large" />
-      </Modal>
-      <Image
-        style={style.boxImage}
-        source={{
-          uri: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Lion_waiting_in_Namibia.jpg/440px-Lion_waiting_in_Namibia.jpg',
-        }}
-        resizeMode="cover"
-      />
-      <TextInput
-        mode="outlined"
-        keyboardType="numeric"
-        outlineColor="black"
-        style={{
-          color: 'black',
-          height: 40,
-          marginStart: 32,
-          marginEnd: 32,
-          padding: 5,
-          marginBottom: 20,
-          textAlign: 'center',
-          alignSelf: 'stretch',
-        }}
-        placeholder="Masukan Nomor Telepon"
-        placeholderTextColor="black"
-        underlineColorAndroid="transparent"
-        theme={{
-          colors: {
-            primary: 'black',
-            underlineColor: 'transparent',
-          },
-          roundness: 8,
-        }}
-      />
+    <Provider>
+      <SafeAreaView style={style.conteiner2}>
+        <Portal>
+          <Modal
+            visible={modalOTPVisible}
+            onDismiss={() => setModalOtpVisible(!modalOTPVisible)}
+            style={style.modalStyle}
+            contentContainerStyle={{
+              borderRadius: 16,
+            }}>
+            <View style={{justifyContent: 'center'}}>
+              <ImageBackground
+                source={require('../../assets/bgot.png')}
+                style={{
+                  borderRadius: 16,
+                  alignSelf: 'center',
+                  height: 350,
+                  width: 250,
+                  overflow: 'hidden',
+                  justifyContent: 'center',
+                  marginBottom: 20,
+                }}
+                resizeMode="stretch">
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    alignSelf: 'center',
+                    fontSize: 20,
+                    marginBottom: 36,
+                    color: 'black',
+                  }}>
+                  Masukan OTP
+                </Text>
+                <TextInput
+                  underlineColor="grey"
+                  mode="flat"
+                  keyboardType="number-pad"
+                  style={{
+                    marginTop: 8,
+                    backgroundColor: 'transparent',
+                    marginStart: 36,
+                    marginEnd: 36,
+                    marginBottom: 18,
+                    height: 45,
+                    textAlign: 'center',
+                  }}
+                  theme={{
+                    colors: {
+                      placeholder: 'grey',
+                      text: 'black',
+                      primary: 'grey',
+                      textAlign: 'center',
+                      fontSize: 12,
+                      underlineColor: 'transparent',
+                      background: 'transparent',
+                    },
+                    roundness: 8,
+                  }}
+                />
+                <Text style={{color: 'black', alignSelf: 'center'}}>
+                  countdown
+                </Text>
+                <Button
+                  mode="contained"
+                  style={{
+                    width: 175,
+                    alignSelf: 'center',
+                    marginTop: 16,
+                    color: 'white',
+                  }}
+                  theme={{
+                    colors: {
+                      text: 'white',
+                      primary: '#F77E21',
+                    },
+                    roundness: 8,
+                  }}>
+                  <Text style={{color: 'white', fontWeight: 'bold'}}>
+                    Kirim
+                  </Text>
+                </Button>
+              </ImageBackground>
+            </View>
+          </Modal>
+        </Portal>
+        <ImageBackground
+          source={require('../../assets/bgot.png')}
+          style={style.containerSplash}>
+          <Image
+            source={require('../../assets/logo.png')}
+            style={[
+              style.boxImageSplash,
+              {
+                width: 175,
+                height: 175,
+              },
+            ]}
+          />
+          <TextInput
+            mode="outlined"
+            keyboardType="number-pad"
+            underlineColor="transparent"
+            outlineColor="grey"
+            placeholder="Masukan Nomor WhatsApp"
+            style={{
+              backgroundColor: 'transparent',
+              marginStart: 36,
+              marginEnd: 36,
+              height: 55,
+              textAlign: 'center',
+            }}
+            theme={{
+              colors: {
+                placeholder: 'grey',
+                text: 'black',
+                primary: 'grey',
+                underlineColor: 'transparent',
+                background: 'transparent',
+              },
+              roundness: 8,
+            }}
+          />
+          <Button
+            mode="contained"
+            onPress={modalShow}
+            style={{
+              width: 175,
+              alignSelf: 'center',
+              marginTop: 36,
+              color: 'white',
+            }}
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#F77E21',
+              },
+              roundness: 8,
+            }}>
+            <Text style={{fontWeight: 'bold', color: 'white'}}>Login</Text>
+          </Button>
 
-      <Button
-        mode="contained"
-        style={{
-          width: 200,
-          height: 36,
-          marginBottom: 16,
-          alignSelf: 'center',
-        }}
-        theme={{
-          roundness: 6,
-          colors: {
-            primary: 'gray',
-          },
-        }}>
-        Login
-      </Button>
-      <Text style={style.textInputLogin}> Atau Menggunakan </Text>
-      <Button
-        mode="contained"
-        style={{
-          marginEnd: 36,
-          marginStart: 36,
-          alignSelf: 'stretch',
-        }}
-        theme={{
-          roundness: 6,
-          colors: {
-            primary: 'green',
-          },
-        }}
-        labelStyle={{color: 'red', fontSize: 14}}
-        onPress={btnSubmitGoogle}>
-        Google
-      </Button>
-    </SafeAreaView>
+          <Text style={{color: 'black', alignSelf: 'center', marginTop: 16}}>
+            Atau Menggunakan
+          </Text>
+
+          <Button
+            onPress={btnSubmitGoogle}
+            mode="contained"
+            theme={{
+              colors: {
+                text: 'white',
+                primary: '#D61C4E',
+              },
+              roundness: 8,
+            }}
+            style={{
+              alignSelf: 'stretch',
+              marginTop: 16,
+              marginEnd: 36,
+              marginStart: 36,
+              color: 'white',
+            }}>
+            <Text style={{fontWeight: 'bold', color: 'white'}}>Google</Text>
+          </Button>
+        </ImageBackground>
+      </SafeAreaView>
+    </Provider>
   );
 }
