@@ -11,6 +11,7 @@ const style = StyleSheet.create({
     backgroundColor: '#F9F9F9',
     margin: 0,
     padding: 0,
+    color : 'black',
   },
   conteiner2: {
     flex: 1,

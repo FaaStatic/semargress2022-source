@@ -1,36 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, Alert} from 'react';
-import {View, Image, SafeAreaView, ImageBackground, Text} from 'react-native';
+import React, {useState, useEffect } from 'react';
+import {View, Image, SafeAreaView, ImageBackground, Text, ToastAndroid, AlertIOS, Platform} from 'react-native';
 import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
 import style from '../../util/style';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import axios from 'axios';
+import {instanceAPI} from '../../util/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackActions} from '@react-navigation/native';
-import {color} from 'native-base/lib/typescript/theme/styled-system';
 
+let time = 0;
 export default function Login({navigation}) {
   const [telp, setTelp] = useState('');
+  const [otp, setOtp] = useState();
   const [result, setResult] = useState([]);
   const [visible, setVisible] = useState(false);
   const [modalOTPVisible, setModalOtpVisible] = useState(false);
+  const [showRequest, setShowRequest] = useState(false);
 
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState();
 
   let tokenRegister = null;
   let tokenLogin = null;
-  let newUser = false;
-
   let fcm = '';
-
   useEffect(() => {
     cekGoogle();
     checkToken();
-    console.log('newUserer', newUser);
-    console.log('register', tokenRegister);
+    if (modalOTPVisible) {
+    } else {
+      setShowRequest(false);
+      setOtp('');
+    }
+    console.log('tes time', time);
+    console.log('test request', showRequest);
+    if (time === 1 || time === 0) {
+      setShowRequest(false);
+      setTimer();
+      time = 0;
+      clearInterval(intervalCount());
+    }
   });
+
+  const intervalCount = () => {
+    if (time !== 0) {
+      setInterval(() => {
+        if (time !== 0) {
+          cound(time);
+          time = time - 1;
+        }
+      }, 1000);
+    } else {
+      setShowRequest(false);
+      clearInterval(intervalCount);
+    }
+  };
 
   const cekGoogle = () => {
     GoogleSignin.configure({
@@ -39,46 +63,23 @@ export default function Login({navigation}) {
     });
   };
 
-  const instanceAPI = axios.create({
-    baseURL: 'https://semargres.gmedia.id/api/',
-    headers: {
-      'Client-Service': 'frontend-client',
-      'Auth-Key': 'gmedia_semargress',
-      'Content-Type': 'application/json',
-    },
-  });
-
-  const registerUser = async dataToken => {
-    await instanceAPI
-      .post('/register', tokenRegister)
-      .then(result => {
-        console.log(result);
-        setVisible(false);
-        navigation.dispatch(StackActions.replace('RouterTab'));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  };
-
   const loginUser = async (data, res) => {
-    const jsonData = JSON.stringify(data);
-    await AsyncStorage.setItem('session_id', jsonData);
     await instanceAPI
       .post('auth', data)
       .then(result => {
         console.log(result);
         if (res === 0) {
-          tokenRegister = {
-            uid: res.user.uid,
-            email: res.user.email,
-            profile_name: res.user.displayName,
-            foto: res.user.photoURL,
-            fcm_id: fcm,
-            type: 'google',
-          };
-          registerUser(tokenRegister);
+          navigation.navigate('Register', data);
         } else {
+          setVisible(false);
+          let data = {
+            token : result.data.response.token,
+            uid : data.uid,
+            email : result.data.response.email,
+            fcm_id : fcm
+          }
+          let session = JSON.stringify(data);
+          AsyncStorage.setItem('session_id', session);
           setVisible(false);
           navigation.dispatch(StackActions.replace('RouterTab'));
         }
@@ -96,30 +97,38 @@ export default function Login({navigation}) {
     }
   };
 
-  let second = 0;
-
-  const cound = async d => {
+  const cound = d => {
+    d = d - 1;
     let m = Math.floor((d % 3600) / 60);
     let s = Math.floor((d % 3600) % 60);
     m = `0${m.toString()}`;
     if (s < 10) {
       s = `0${s}`;
     }
-    let result = `${m}:${s}`;
-    return result;
+    console.log('Minute', m);
+    console.log('Second', s);
+    setTimer(`${m}:${s}`);
   };
 
-  const modalShow = () => {
-    setModalOtpVisible(!modalOTPVisible);
+  const showModal = () => {
+    if (telp !== '' && telp !== 0) {
+      setModalOtpVisible(!modalOTPVisible);
+      btnOtp();
+    } else {
+      console.log('isi nomor dulu');
+    }
   };
+
   const btnOtp = async () => {
-    second = 120;
     await instanceAPI
       .post('auth/request_otp_sms', {
         no_telp: telp,
       })
-      .then(result => {
-        console.log(result);
+      .then(res => {
+        console.log(res);
+        time = res.data.response.time;
+        setShowRequest(true);
+        intervalCount();
       })
       .catch(err => {
         console.log(err);
@@ -148,13 +157,65 @@ export default function Login({navigation}) {
         console.log(err);
       });
   };
+
+
+  const btnRequestOtp = () =>{
+      btnOtp();
+  }
+
+  const toastMsg = (value) =>{
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(value, ToastAndroid.SHORT)
+    } else {
+      AlertIOS.alert(value);
+    }
+  } 
+
+  const btnSubmitLogin = async () => {
+    setVisible(true);
+    await instanceAPI.post('auth/login_check_otp', {
+      "no_telp": telp,
+	    "kode_otp": otp
+    }).then(result => {
+      let action = result.data.response.action;
+      let status = result.data.metadata.status;
+      let msg = result.data.metadata.message;
+      if(status === 400){
+       toastMsg(msg);
+      }else{
+        if(action === "login"){
+          let data = {
+            token : result.data.response.token,
+            uid : result.data.response.uid,
+            email : result.data.response.email,
+            fcm_id : fcm
+          }
+          let session = JSON.stringify(data);
+          AsyncStorage.setItem('session_id', session);
+          setVisible(false);
+          clearInterval(intervalCount);
+          navigation.dispatch(StackActions.replace('RouterTab'));
+        }else{
+          setVisible(false);
+          clearInterval(intervalCount);
+          navigation.navigate('Register', {
+            no_telp : telp,
+            otp : otp,
+          });
+        }
+      }
+    }).catch(err => {
+      console.log(err);
+    });
+  };
+
   return (
     <Provider>
       <SafeAreaView style={style.conteiner2}>
         <Portal>
           <Modal
             visible={modalOTPVisible}
-            onDismiss={() => setModalOtpVisible(!modalOTPVisible)}
+            onDismiss={() => setModalOtpVisible(false)}
             style={style.modalStyle}
             contentContainerStyle={{
               borderRadius: 16,
@@ -186,6 +247,8 @@ export default function Login({navigation}) {
                   underlineColor="grey"
                   mode="flat"
                   keyboardType="number-pad"
+                  value={otp}
+                  onChangeText={text => setOtp(text)}
                   style={{
                     marginTop: 8,
                     backgroundColor: 'transparent',
@@ -208,11 +271,38 @@ export default function Login({navigation}) {
                     roundness: 8,
                   }}
                 />
-                <Text style={{color: 'black', alignSelf: 'center'}}>
-                  countdown
-                </Text>
+                {showRequest ? (
+                  <Text style={{color: 'black', alignSelf: 'center'}}>
+                    {timer}
+                  </Text>
+                ) : (
+                  <Button
+                    onPress={btnRequestOtp}
+                    mode="contained"
+                    style={{
+                      width: 100,
+                      height: 28,
+                      alignSelf: 'center',
+                      justifyContent: 'center',
+                      marginTop: 16,
+                      color: 'white',
+                    }}
+                    theme={{
+                      colors: {
+                        text: 'white',
+                        primary: '#c29f55',
+                      },
+                      roundness: 8,
+                    }}>
+                    <Text
+                      style={{color: 'white', fontWeight: 'bold', fontSize: 8}}>
+                      Request?
+                    </Text>
+                  </Button>
+                )}
                 <Button
                   mode="contained"
+                  onPress={btnSubmitLogin}
                   style={{
                     width: 175,
                     alignSelf: 'center',
@@ -270,10 +360,12 @@ export default function Login({navigation}) {
               },
               roundness: 8,
             }}
+            value={telp}
+            onChangeText={text => setTelp(text)}
           />
           <Button
             mode="contained"
-            onPress={modalShow}
+            onPress={showModal}
             style={{
               width: 175,
               alignSelf: 'center',
