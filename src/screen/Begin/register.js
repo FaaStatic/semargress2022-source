@@ -5,7 +5,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import style from '../../util/style'; 
 import { Api } from '../../util/Api';
 import {StackActions} from '@react-navigation/native';
-import { SessionManager } from '../../util/SessionManager';
+import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 
 export default function Register({navigation, route}) {
@@ -68,7 +68,8 @@ console.log('token', token);
   }
 
   const btnRegisterNomor = async () => {
-    let data = {
+    console.log(txtEmail);
+    const data = {
         uid: uid,
         fcm_id: fcm_id,
         email: txtEmail,
@@ -80,7 +81,7 @@ console.log('token', token);
         alamat: alamat,
         jenis_kelamin: gender ,
        }
-     await regisApi(null, uid, token).post('register_from_otp', {
+     await Api.post('register_from_otp', {
         data,
      }, {
         Headers: {
@@ -96,11 +97,40 @@ console.log('token', token);
             fcm_id : fcm_id
           }
           console.log("Tes",res);
-          SessionManager.StoreAsObject(sessionId, data);
+          saveData(data);
           navigation.dispatch(StackActions.replace('RouterTab'));
      }).catch(err => {
         console.log('tes',err);
      })
+  }
+
+  const toastMsg = (value) =>{
+    if (Platform.OS === 'android') {
+      ToastAndroid.show(value, ToastAndroid.SHORT)
+    } else {
+      AlertIOS.alert(value);
+    }
+  } 
+
+  const saveData = async (data) =>{
+    await SessionManager.StoreAsObject(sessionId, data);
+    console.log("Done Saved");
+  }
+
+
+  const btnSkip = async () => {
+    if(no_telp !== null){
+        const data = {
+            token : token,
+            uid : uid,
+            username : no_telp,
+            fcm_id : fcm_id,
+        }
+        saveData(data);
+        navigation.dispatch(StackActions.replace('RouterTab'));
+    }else{
+        toastMsg("Mohon Data diisi dulu");
+    }
   }
 
 
@@ -137,6 +167,7 @@ console.log('token', token);
         <TextInput 
         selectionColor='grey'
         placeholder='NIK'
+        maxLength={16}
         placeholderTextColor={'grey'}
         onChangeText={(text) => setKTP(text) }
         activeUnderlineColor='transparent'
@@ -269,6 +300,7 @@ console.log('token', token);
         }}>
  <TextInput 
         selectionColor='grey'
+        maxLength={2}
         placeholder='Tanggal'
         onChangeText={(text) => setTgl(text) }
         placeholderTextColor={'grey'}
@@ -296,6 +328,7 @@ console.log('token', token);
 <TextInput 
         selectionColor='grey'
         placeholder='Bulan'
+        maxLength={2}
         onChangeText={(text) => setBln(text) }
         placeholderTextColor={'grey'}
         activeUnderlineColor='transparent'
@@ -321,6 +354,7 @@ console.log('token', token);
 <TextInput 
         selectionColor='grey'
         placeholder='Tahun'
+        maxLength={4}
         onChangeText={(text) => setThn(text) }
         placeholderTextColor={'grey'}
         activeUnderlineColor='transparent'
@@ -440,7 +474,8 @@ console.log('token', token);
     flexDirection:'row',
     justifyContent:'flex-end',
 }}>
-     <Pressable>
+     <Pressable
+     onPress={btnSkip}>
     <Text style={{
         color:'grey',
         fontSize : 14,

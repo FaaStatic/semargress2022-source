@@ -1,15 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useState, useEffect, useCallback } from 'react';
-import {View, Image, SafeAreaView, ImageBackground, Text, ToastAndroid, AlertIOS, Platform} from 'react-native';
+import {View, Image, SafeAreaView, ImageBackground, Text, ToastAndroid, AlertIOS, Platform, StatusBar} from 'react-native';
 import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
 import style from '../../util/style';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
 import {Api} from '../../util/Api';
-import { SessionManager } from '../../util/SessionManager';
+import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackActions} from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
@@ -27,7 +26,12 @@ export default function Login({navigation}) {
 
   useFocusEffect(
     useCallback(() => {
-    
+      if(Platform.OS === 'android'){
+        StatusBar.setHidden(false);
+        StatusBar.setBarStyle("dark-content");
+        StatusBar.setBackgroundColor('transparent');
+        StatusBar.setTranslucent(true);
+      }
       return () => {
         time = 0,
         setModalOtpVisible(false);
@@ -39,6 +43,7 @@ export default function Login({navigation}) {
   useEffect(() => {
     cekGoogle();
     checkToken();
+    console.log("sesi", sessionId);
     if (modalOTPVisible) {
     } else {
       setShowRequest(false);
@@ -83,21 +88,22 @@ export default function Login({navigation}) {
         if (result.data.response.status === 0) {
           console.log("TokenLogin", data);
           navigation.navigate('Register', {
-            uid : data['uid'],
+            uid : data.uid,
             fcm_id : fcm,
-            foto : data['foto'],
+            foto : data.foto,
+            email : data.email,
             no_telp : telp,
             otp : otp,
           });
         } else {
           setVisible(false);
-          let data = {
+          const data = {
             token : result.data.response.token,
             uid : data.uid,
             email : result.data.response.email,
             fcm_id : fcm
           }
-          SessionManager.StoreAsObject(sessionId,data);
+          saveData(data);
           setVisible(false);
           navigation.dispatch(StackActions.replace('RouterTab'));
         }
@@ -161,11 +167,12 @@ export default function Login({navigation}) {
     setResult(response);
     response
       .then(res => {
-        console.log("Tesdata", res.user.uid);
-        let tokenLogin = {
+        console.log("Tesdata", res.user);
+        const tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
           fcm_id: fcm,
+          email : res.user.email,
         };
 
         console.log('tokentoken', tokenLogin);
@@ -195,20 +202,21 @@ export default function Login({navigation}) {
       "no_telp": telp,
 	    "kode_otp": otp
     }).then(result => {
-      let action = result.data.response.action;
-      let status = result.data.metadata.status;
-      let msg = result.data.metadata.message;
+      const action = result.data.response.action;
+      console.log("loginstatus", action);
+      const status = result.data.metadata.status;
+      const msg = result.data.metadata.message;
       if(status === 400){
        toastMsg(msg);
       }else{
         if(action === "login"){
-          let data = {
+          const data = {
             token : result.data.response.token,
             uid : result.data.response.uid,
             email : result.data.response.email,
             fcm_id : fcm
           }
-          SessionManager.StoreAsObject(sessionId,data);
+          saveData(data);
           setVisible(false);
           clearInterval(intervalCount);
           navigation.dispatch(StackActions.replace('RouterTab'));
@@ -228,6 +236,11 @@ export default function Login({navigation}) {
       console.log(err);
     });
   };
+
+  const saveData = async (data) =>{
+    await SessionManager.StoreAsObject(sessionId, data);
+    console.log("Done Saved");
+  }
 
   return (
     <Provider>
@@ -266,6 +279,7 @@ export default function Login({navigation}) {
                 <TextInput
                   underlineColor="grey"
                   mode="flat"
+                  maxLength={6}
                   keyboardType="number-pad"
                   value={otp}
                   onChangeText={text => setOtp(text)}

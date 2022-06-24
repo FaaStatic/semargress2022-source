@@ -6,7 +6,7 @@ import Location from '../screen/Location/location';
 import QR from '../screen/QR/qr';
 import Event from '../screen/Event/event';
 import Profil from '../screen/Profil/profil';
-import {Image} from 'react-native';
+import {Image, Text} from 'react-native';
 
 const TabScreen = createBottomTabNavigator();
 
@@ -26,6 +26,8 @@ export default function RouterTab({navigation}) {
           shadowOpacity: 0.25,
           elevation: 5,
         },
+        tabBarActiveTintColor: '#F29836',
+      tabBarInactiveTintColor: 'gray',
         tabBarIcon: ({focused, color, size}) => {
           let iconName;
 
