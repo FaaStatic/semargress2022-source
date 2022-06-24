@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {SafeAreaView, Text, View, Pressable } from 'react-native';
 import {Portal, Provider, TextInput, Modal} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import style from '../../util/style'; 
-import { regisApi } from '../../util/Api';
+import { Api } from '../../util/Api';
 import {StackActions} from '@react-navigation/native';
+import { SessionManager } from '../../util/SessionManager';
+import { sessionId } from '../../util/GlobalVar';
 
 export default function Register({navigation, route}) {
-const {uid, email, foto, fcm_id, no_telp, otp} = route.params;
+const {uid, email, foto, token, fcm_id, no_telp, otp} = route.params;
 
  const [open, setOpen] = useState(false);
   const [gender, setGender] = useState(null);
@@ -27,6 +29,11 @@ const {uid, email, foto, fcm_id, no_telp, otp} = route.params;
   const [txtEmail, setTxtEmail] = useState('');
   const [txtTelp, setTelp] = useState('');
 
+useEffect(()=>{
+console.log('UID', uid);
+console.log('fcm_id', fcm_id);
+console.log('token', token);
+});
 
   const btnRegisGoogle = async () => {
     let data = {
@@ -37,18 +44,23 @@ const {uid, email, foto, fcm_id, no_telp, otp} = route.params;
 	fcm_id : fcm_id,
 	type : "Google"
     }
-    await regisApi(profile_name, uid, token).post('register',{
+    await Api.post('register',{
         data
+    },{
+        headers: {
+          'Username' : email,
+          'Uid' : uid,
+          'Token' : token, 
+        }
     }).then(res => {
         let msg = res.data.response.message;
         let data = {
             token : res.data.response.token,
             uid : res.data.response.uid,
             email : res.data.response.email,
-            fcm_id : fcm_id
+            fcm_id : fcm_id,
           }
-          let session = JSON.stringify(data);
-          AsyncStorage.setItem('session_id', session);
+          SessionManager.StoreAsObject(sessionId, data);
           navigation.dispatch(StackActions.replace('RouterTab'),{msg});
     }).catch(err => {
 
@@ -68,18 +80,23 @@ const {uid, email, foto, fcm_id, no_telp, otp} = route.params;
         alamat: alamat,
         jenis_kelamin: gender ,
        }
-     await regisApi(profile_name, uid, token).post('register_from_otp', {
-        data
-     }).then(res => {
+     await regisApi(null, uid, token).post('register_from_otp', {
+        data,
+     }, {
+        Headers: {
+          'Username' : no_telp,
+          'Uid' : uid,
+          'Token' : token,
+        }
+    }).then(res => {
         let data = {
             token : res.data.response.token,
             uid : res.data.response.uid,
-            email : res.data.response.email,
+            email : txtEmail,
             fcm_id : fcm_id
           }
           console.log("Tes",res);
-          let session = JSON.stringify(data);
-          AsyncStorage.setItem('session_id', session);
+          SessionManager.StoreAsObject(sessionId, data);
           navigation.dispatch(StackActions.replace('RouterTab'));
      }).catch(err => {
         console.log('tes',err);

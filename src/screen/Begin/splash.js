@@ -5,10 +5,11 @@ import {
   ImageBackground,
   Text,
 } from 'react-native';
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useCallback} from 'react';
 import {StackActions} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import style from '../../util/style';
+import { SessionManager } from '../../util/SessionManager';
+import { sessionId } from '../../util/GlobalVar';
 
 export default function Splash({navigation}) {
   let stat = false;
@@ -21,6 +22,9 @@ export default function Splash({navigation}) {
       useNativeDriver: false,
     }).start();
   };
+
+
+
   useEffect(() => {
     CheckLogin();
     fadeIn();
@@ -35,14 +39,14 @@ export default function Splash({navigation}) {
     }, 3000);
   });
   const CheckLogin = async () => {
-    let session = await AsyncStorage.getItem('session_id');
-    session = session != null ? JSON.parse(session) : null;
+    let session = SessionManager.GetAsObject(sessionId);
     console.log('SESSION_DATA', session.uid);
     if (session.uid != null && session.fcm_id != null) {
       stat = true;
     } else {
       console.log('Login Dulu');
     }
+    return session;
   };
 
   return (

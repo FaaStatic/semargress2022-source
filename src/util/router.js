@@ -23,12 +23,15 @@ export default function Router() {
           email : null,
           foto : null, 
           fcm_id : null,
+          token : null,
           no_telp : null,
           otp : null,
         }} options ={{
           headerShown: true,
         }}/>
-        <StackScreen.Screen name="RouterTab" component={RouteTab} />
+        <StackScreen.Screen name="RouterTab" component={RouteTab} options={{
+          headerShown: false,
+        }}/>
       </StackScreen.Navigator>
     </NavigationContainer>
   );

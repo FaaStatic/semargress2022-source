@@ -1,14 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect } from 'react';
+import React, {useState, useEffect, useCallback } from 'react';
 import {View, Image, SafeAreaView, ImageBackground, Text, ToastAndroid, AlertIOS, Platform} from 'react-native';
 import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
 import style from '../../util/style';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import {instanceAPI} from '../../util/Api';
+import {Api} from '../../util/Api';
+import { SessionManager } from '../../util/SessionManager';
+import { sessionId } from '../../util/GlobalVar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StackActions} from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 
 let time = 0;
 export default function Login({navigation}) {
@@ -20,10 +23,19 @@ export default function Login({navigation}) {
   const [showRequest, setShowRequest] = useState(false);
 
   const [timer, setTimer] = useState();
-
-  let tokenRegister = null;
-  let tokenLogin = null;
   let fcm = '';
+
+  useFocusEffect(
+    useCallback(() => {
+    
+      return () => {
+        time = 0,
+        setModalOtpVisible(false);
+        clearInterval(intervalCount());
+      };
+    }, [])
+  );
+
   useEffect(() => {
     cekGoogle();
     checkToken();
@@ -43,9 +55,9 @@ export default function Login({navigation}) {
   });
 
   const intervalCount = () => {
-    if (time !== 0) {
+    if (time >=  1) {
       setInterval(() => {
-        if (time !== 0) {
+        if (time >=  1) {
           cound(time);
           time = time - 1;
         }
@@ -64,12 +76,19 @@ export default function Login({navigation}) {
   };
 
   const loginUser = async (data, res) => {
-    await instanceAPI
-      .post('auth', data)
+    console.log("TokenLogin", data.uid);
+    await Api.post('auth', data)
       .then(result => {
-        console.log(result);
-        if (res === 0) {
-          navigation.navigate('Register', data);
+        console.log("Tes Login2", result);
+        if (result.data.response.status === 0) {
+          console.log("TokenLogin", data);
+          navigation.navigate('Register', {
+            uid : data['uid'],
+            fcm_id : fcm,
+            foto : data['foto'],
+            no_telp : telp,
+            otp : otp,
+          });
         } else {
           setVisible(false);
           let data = {
@@ -78,8 +97,7 @@ export default function Login({navigation}) {
             email : result.data.response.email,
             fcm_id : fcm
           }
-          let session = JSON.stringify(data);
-          AsyncStorage.setItem('session_id', session);
+          SessionManager.StoreAsObject(sessionId,data);
           setVisible(false);
           navigation.dispatch(StackActions.replace('RouterTab'));
         }
@@ -120,8 +138,7 @@ export default function Login({navigation}) {
   };
 
   const btnOtp = async () => {
-    await instanceAPI
-      .post('auth/request_otp_sms', {
+    await Api.post('auth/request_otp_sms', {
         no_telp: telp,
       })
       .then(res => {
@@ -144,13 +161,14 @@ export default function Login({navigation}) {
     setResult(response);
     response
       .then(res => {
-        console.log(result);
-        console.log(res);
-        tokenLogin = {
+        console.log("Tesdata", res.user.uid);
+        let tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
           fcm_id: fcm,
         };
+
+        console.log('tokentoken', tokenLogin);
         loginUser(tokenLogin, res);
       })
       .catch(err => {
@@ -173,7 +191,7 @@ export default function Login({navigation}) {
 
   const btnSubmitLogin = async () => {
     setVisible(true);
-    await instanceAPI.post('auth/login_check_otp', {
+    await Api.post('auth/login_check_otp', {
       "no_telp": telp,
 	    "kode_otp": otp
     }).then(result => {
@@ -190,8 +208,7 @@ export default function Login({navigation}) {
             email : result.data.response.email,
             fcm_id : fcm
           }
-          let session = JSON.stringify(data);
-          AsyncStorage.setItem('session_id', session);
+          SessionManager.StoreAsObject(sessionId,data);
           setVisible(false);
           clearInterval(intervalCount);
           navigation.dispatch(StackActions.replace('RouterTab'));
@@ -199,6 +216,9 @@ export default function Login({navigation}) {
           setVisible(false);
           clearInterval(intervalCount);
           navigation.navigate('Register', {
+            uid : result.data.response.uid,
+            fcm_id : fcm,
+            token : result.data.response.token,
             no_telp : telp,
             otp : otp,
           });
