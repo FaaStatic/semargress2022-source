@@ -4,10 +4,10 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    ...Platform.select({
-      ios: {paddingTop: 20},
-      android: {paddingTop: StatusBar.currentHeight},
-    }),
+    // ...Platform.select({
+    //   ios: {paddingTop: 20},
+    //   android: {paddingTop: StatusBar.currentHeight},
+    // }),
     backgroundColor: '#F9F9F9',
     margin: 0,
     padding: 0,
@@ -23,10 +23,6 @@ const style = StyleSheet.create({
   containerSplash: {
     flex: 1,
     flexDirection: 'column',
-    ...Platform.select({
-      ios: {paddingTop: 20},
-      android: {paddingTop: StatusBar.currentHeight},
-    }),
     margin: 0,
     padding: 0,
     top: 0,
