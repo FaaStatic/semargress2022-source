@@ -2624,9 +2624,9 @@
   "version" "15.7.5"
 
 "@types/react-native@*":
-  "integrity" "sha512-E+m91xtoX+GRh2MpbIYOanbtXlX76woVgRs6zU7PsJ4ZPFzdsRkpKNTqMZyKgyt7eraZDnJvwFXGXDIW+8NRjA=="
-  "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.68.0.tgz"
-  "version" "0.68.0"
+  "integrity" "sha512-yOCg1dzjN4faDo8uspo8Fm/Rnqns5KYPpCJSlvlrWd6rfiEEOHUdL/cmh6I6D4+V6GFmTZviWlpJ8ihwxi7euA=="
+  "resolved" "https://registry.npmjs.org/@types/react-native/-/react-native-0.69.0.tgz"
+  "version" "0.69.0"
   dependencies:
     "@types/react" "*"
 
@@ -6856,7 +6856,7 @@
     "css-select" "^4.2.1"
     "css-tree" "^1.0.0-alpha.39"
 
-"react-native-vector-icons@*":
+"react-native-vector-icons@*", "react-native-vector-icons@^9.1.0":
   "integrity" "sha512-2AHZ/h9d/+rC0odz+OwbGNlc1Lik/pHhSixn4HfC8RtQ8CxfSBZ6gg7bTLcZhdSvZN+ZEGi30Fj+ZnOSQy+smg=="
   "resolved" "https://registry.npmjs.org/react-native-vector-icons/-/react-native-vector-icons-9.1.0.tgz"
   "version" "9.1.0"
