@@ -94,6 +94,7 @@ export default function Login({navigation}) {
             email : data.email,
             no_telp : telp,
             otp : otp,
+            type : "GOOGLE"
           });
         } else {
           setVisible(false);
@@ -101,11 +102,11 @@ export default function Login({navigation}) {
             token : result.data.response.token,
             uid : data.uid,
             email : result.data.response.email,
-            fcm_id : fcm
+            fcm_id : fcm,
+            type : "GOOGLE"
           }
-          saveData(data);
           setVisible(false);
-          navigation.dispatch(StackActions.replace('RouterTab'));
+          saveData(data, "GOOGLE");
         }
       })
       .catch(err => {
@@ -214,12 +215,12 @@ export default function Login({navigation}) {
             token : result.data.response.token,
             uid : result.data.response.uid,
             email : result.data.response.email,
-            fcm_id : fcm
+            fcm_id : fcm,
+            type : "SMS"
           }
-          saveData(data);
           setVisible(false);
           clearInterval(intervalCount);
-          navigation.dispatch(StackActions.replace('RouterTab'));
+          saveData(data, "SMS");
         }else{
           setVisible(false);
           clearInterval(intervalCount);
@@ -229,6 +230,7 @@ export default function Login({navigation}) {
             token : result.data.response.token,
             no_telp : telp,
             otp : otp,
+            type : "SMS"
           });
         }
       }
@@ -237,9 +239,9 @@ export default function Login({navigation}) {
     });
   };
 
-  const saveData = async (data) =>{
+  const saveData = async (data, type) =>{
     await SessionManager.StoreAsObject(sessionId, data);
-    console.log("Done Saved");
+    navigation.dispatch(StackActions.replace('RouterTab'));
   }
 
   return (
