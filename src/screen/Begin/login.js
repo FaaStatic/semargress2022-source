@@ -1,19 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, {useState, useEffect, useCallback } from 'react';
-import {View, Image, SafeAreaView, ImageBackground, Text, ToastAndroid, AlertIOS, Platform, StatusBar} from 'react-native';
-import {TextInput, Button, Provider, Portal, Modal} from 'react-native-paper';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Image,
+  SafeAreaView,
+  ImageBackground,
+  Text,
+  ToastAndroid,
+  AlertIOS,
+  Platform,
+  StatusBar,
+  StyleSheet
+} from 'react-native';
+import { TextInput, Button, Provider, Portal, Modal } from 'react-native-paper';
 import style from '../../util/style';
-import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import messaging from '@react-native-firebase/messaging';
-import {Api} from '../../util/Api';
-import  {SessionManager}  from '../../util/SessionManager';
+import { Api } from '../../util/Api';
+import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
-import {StackActions} from '@react-navigation/native';
+import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 
 let time = 0;
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
   const [telp, setTelp] = useState('');
   const [otp, setOtp] = useState();
   const [result, setResult] = useState([]);
@@ -26,15 +37,14 @@ export default function Login({navigation}) {
 
   useFocusEffect(
     useCallback(() => {
-      if(Platform.OS === 'android'){
+      if (Platform.OS === 'android') {
         StatusBar.setHidden(false);
-        StatusBar.setBarStyle("dark-content");
+        StatusBar.setBarStyle('dark-content');
         StatusBar.setBackgroundColor('transparent');
         StatusBar.setTranslucent(true);
       }
       return () => {
-        time = 0,
-        setModalOtpVisible(false);
+        (time = 0), setModalOtpVisible(false);
         clearInterval(intervalCount());
       };
     }, [])
@@ -43,7 +53,7 @@ export default function Login({navigation}) {
   useEffect(() => {
     cekGoogle();
     checkToken();
-    console.log("sesi", sessionId);
+    console.log('sesi', sessionId);
     if (modalOTPVisible) {
     } else {
       setShowRequest(false);
@@ -60,9 +70,9 @@ export default function Login({navigation}) {
   });
 
   const intervalCount = () => {
-    if (time >=  1) {
+    if (time >= 1) {
       setInterval(() => {
-        if (time >=  1) {
+        if (time >= 1) {
           cound(time);
           time = time - 1;
         }
@@ -75,41 +85,40 @@ export default function Login({navigation}) {
 
   const cekGoogle = () => {
     GoogleSignin.configure({
-      webClientId:
-        '356805825965-sj1fj3bhitspg19hj87tbs65l0rbsul0.apps.googleusercontent.com',
+      webClientId: '356805825965-sj1fj3bhitspg19hj87tbs65l0rbsul0.apps.googleusercontent.com',
     });
   };
 
   const loginUser = async (data, res) => {
-    console.log("TokenLogin", data.uid);
+    console.log('TokenLogin', data.uid);
     await Api.post('auth', data)
-      .then(result => {
-        console.log("Tes Login2", result);
+      .then((result) => {
+        console.log('Tes Login2', result);
         if (result.data.response.status === 0) {
-          console.log("TokenLogin", data);
+          console.log('TokenLogin', data);
           navigation.navigate('Register', {
-            uid : data.uid,
-            fcm_id : fcm,
-            foto : data.foto,
-            email : data.email,
-            no_telp : telp,
-            otp : otp,
-            type : "GOOGLE"
+            uid: data.uid,
+            fcm_id: fcm,
+            foto: data.foto,
+            email: data.email,
+            no_telp: telp,
+            otp: otp,
+            type: 'GOOGLE',
           });
         } else {
           setVisible(false);
           const data = {
-            token : result.data.response.token,
-            uid : data.uid,
-            email : result.data.response.email,
-            fcm_id : fcm,
-            type : "GOOGLE"
-          }
+            token: result.data.response.token,
+            uid: data.uid,
+            email: result.data.response.email,
+            fcm_id: fcm,
+            type: 'GOOGLE',
+          };
           setVisible(false);
-          saveData(data, "GOOGLE");
+          saveData(data, 'GOOGLE');
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
@@ -122,7 +131,7 @@ export default function Login({navigation}) {
     }
   };
 
-  const cound = d => {
+  const cound = (d) => {
     d = d - 1;
     let m = Math.floor((d % 3600) / 60);
     let s = Math.floor((d % 3600) % 60);
@@ -146,103 +155,104 @@ export default function Login({navigation}) {
 
   const btnOtp = async () => {
     await Api.post('auth/request_otp_sms', {
-        no_telp: telp,
-      })
-      .then(res => {
+      no_telp: telp,
+    })
+      .then((res) => {
         console.log(res);
         time = res.data.response.time;
         setShowRequest(true);
         intervalCount();
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
   const btnSubmitGoogle = async () => {
     setVisible(true);
-    const {idToken} = await GoogleSignin.signIn();
+    const { idToken } = await GoogleSignin.signIn();
     console.log('TEstTOKEN', idToken);
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const response = auth().signInWithCredential(googleCredential);
     setResult(response);
     response
-      .then(res => {
-        console.log("Tesdata", res.user);
+      .then((res) => {
+        console.log('Tesdata', res.user);
         const tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
           fcm_id: fcm,
-          email : res.user.email,
+          email: res.user.email,
         };
 
         console.log('tokentoken', tokenLogin);
         loginUser(tokenLogin, res);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
       });
   };
 
+  const btnRequestOtp = () => {
+    btnOtp();
+  };
 
-  const btnRequestOtp = () =>{
-      btnOtp();
-  }
-
-  const toastMsg = (value) =>{
+  const toastMsg = (value) => {
     if (Platform.OS === 'android') {
-      ToastAndroid.show(value, ToastAndroid.SHORT)
+      ToastAndroid.show(value, ToastAndroid.SHORT);
     } else {
       AlertIOS.alert(value);
     }
-  } 
+  };
 
   const btnSubmitLogin = async () => {
     setVisible(true);
     await Api.post('auth/login_check_otp', {
-      "no_telp": telp,
-	    "kode_otp": otp
-    }).then(result => {
-      const action = result.data.response.action;
-      console.log("loginstatus", action);
-      const status = result.data.metadata.status;
-      const msg = result.data.metadata.message;
-      if(status === 400){
-       toastMsg(msg);
-      }else{
-        if(action === "login"){
-          const data = {
-            token : result.data.response.token,
-            uid : result.data.response.uid,
-            email : result.data.response.email,
-            fcm_id : fcm,
-            type : "SMS"
+      no_telp: telp,
+      kode_otp: otp,
+    })
+      .then((result) => {
+        const action = result.data.response.action;
+        console.log('loginstatus', action);
+        const status = result.data.metadata.status;
+        const msg = result.data.metadata.message;
+        if (status === 400) {
+          toastMsg(msg);
+        } else {
+          if (action === 'login') {
+            const data = {
+              token: result.data.response.token,
+              uid: result.data.response.uid,
+              email: result.data.response.email,
+              fcm_id: fcm,
+              type: 'SMS',
+            };
+            setVisible(false);
+            clearInterval(intervalCount);
+            saveData(data, 'SMS');
+          } else {
+            setVisible(false);
+            clearInterval(intervalCount);
+            navigation.navigate('Register', {
+              uid: result.data.response.uid,
+              fcm_id: fcm,
+              token: result.data.response.token,
+              no_telp: telp,
+              otp: otp,
+              type: 'SMS',
+            });
           }
-          setVisible(false);
-          clearInterval(intervalCount);
-          saveData(data, "SMS");
-        }else{
-          setVisible(false);
-          clearInterval(intervalCount);
-          navigation.navigate('Register', {
-            uid : result.data.response.uid,
-            fcm_id : fcm,
-            token : result.data.response.token,
-            no_telp : telp,
-            otp : otp,
-            type : "SMS"
-          });
         }
-      }
-    }).catch(err => {
-      console.log(err);
-    });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
-  const saveData = async (data, type) =>{
+  const saveData = async (data, type) => {
     await SessionManager.StoreAsObject(sessionId, data);
     navigation.dispatch(StackActions.replace('RouterTab'));
-  }
+  };
 
   return (
     <Provider>
@@ -254,8 +264,9 @@ export default function Login({navigation}) {
             style={style.modalStyle}
             contentContainerStyle={{
               borderRadius: 16,
-            }}>
-            <View style={{justifyContent: 'center'}}>
+            }}
+          >
+            <View style={{ justifyContent: 'center' }}>
               <ImageBackground
                 source={require('../../assets/bgot.png')}
                 style={{
@@ -267,7 +278,8 @@ export default function Login({navigation}) {
                   justifyContent: 'center',
                   marginBottom: 20,
                 }}
-                resizeMode="stretch">
+                resizeMode="stretch"
+              >
                 <Text
                   style={{
                     textAlign: 'center',
@@ -275,7 +287,8 @@ export default function Login({navigation}) {
                     fontSize: 20,
                     marginBottom: 36,
                     color: 'black',
-                  }}>
+                  }}
+                >
                   Masukan OTP
                 </Text>
                 <TextInput
@@ -284,7 +297,7 @@ export default function Login({navigation}) {
                   maxLength={6}
                   keyboardType="number-pad"
                   value={otp}
-                  onChangeText={text => setOtp(text)}
+                  onChangeText={(text) => setOtp(text)}
                   style={{
                     marginTop: 8,
                     backgroundColor: 'transparent',
@@ -308,9 +321,7 @@ export default function Login({navigation}) {
                   }}
                 />
                 {showRequest ? (
-                  <Text style={{color: 'black', alignSelf: 'center'}}>
-                    {timer}
-                  </Text>
+                  <Text style={{ color: 'black', alignSelf: 'center' }}>{timer}</Text>
                 ) : (
                   <Button
                     onPress={btnRequestOtp}
@@ -329,9 +340,9 @@ export default function Login({navigation}) {
                         primary: '#c29f55',
                       },
                       roundness: 8,
-                    }}>
-                    <Text
-                      style={{color: 'white', fontWeight: 'bold', fontSize: 8}}>
+                    }}
+                  >
+                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 8 }}>
                       Request?
                     </Text>
                   </Button>
@@ -351,18 +362,15 @@ export default function Login({navigation}) {
                       primary: '#F77E21',
                     },
                     roundness: 8,
-                  }}>
-                  <Text style={{color: 'white', fontWeight: 'bold'}}>
-                    Kirim
-                  </Text>
+                  }}
+                >
+                  <Text style={{ color: 'white', fontWeight: 'bold' }}>Kirim</Text>
                 </Button>
               </ImageBackground>
             </View>
           </Modal>
         </Portal>
-        <ImageBackground
-          source={require('../../assets/bgot.png')}
-          style={style.containerSplash}>
+        <SafeAreaView style={style.containerSplash}>
           <Image
             source={require('../../assets/logo.png')}
             style={[
@@ -372,6 +380,7 @@ export default function Login({navigation}) {
                 height: 175,
               },
             ]}
+            resizeMode='contain'
           />
           <TextInput
             mode="outlined"
@@ -397,7 +406,7 @@ export default function Login({navigation}) {
               roundness: 8,
             }}
             value={telp}
-            onChangeText={text => setTelp(text)}
+            onChangeText={(text) => setTelp(text)}
           />
           <Button
             mode="contained"
@@ -414,35 +423,45 @@ export default function Login({navigation}) {
                 primary: '#F77E21',
               },
               roundness: 8,
-            }}>
-            <Text style={{fontWeight: 'bold', color: 'white'}}>Login</Text>
+            }}
+          >
+            <Text style={{ fontWeight: 'bold', color: 'white' }}>Login</Text>
           </Button>
 
-          <Text style={{color: 'black', alignSelf: 'center', marginTop: 16}}>
+          <Text style={ styling.textStyle}>
             Atau Menggunakan
           </Text>
 
           <Button
             onPress={btnSubmitGoogle}
             mode="contained"
-            theme={{
-              colors: {
-                text: 'white',
-                primary: '#D61C4E',
-              },
-              roundness: 8,
-            }}
-            style={{
-              alignSelf: 'stretch',
-              marginTop: 16,
-              marginEnd: 36,
-              marginStart: 36,
-              color: 'white',
-            }}>
-            <Text style={{fontWeight: 'bold', color: 'white'}}>Google</Text>
+            theme={btnSubmitGoogleStyle}
+            style={ styling.btnSubmitStyleGoogle}
+          >
+            <Text style={{ fontWeight: 'bold', color: 'white' }}>Google</Text>
           </Button>
-        </ImageBackground>
+        </SafeAreaView>
       </SafeAreaView>
     </Provider>
   );
 }
+
+
+const btnSubmitGoogleStyle = {
+  colors: {
+    text: 'white',
+    primary: '#D61C4E',
+  },
+  roundness: 8,
+}
+
+const styling = StyleSheet.create({
+  btnSubmitStyleGoogle:{
+    alignSelf: 'stretch',
+    marginTop: 16,
+    marginEnd: 36,
+    marginStart: 36,
+    color: 'white',
+  },
+  textStyle:{ color: 'black', alignSelf: 'center', marginTop: 16 },
+})
