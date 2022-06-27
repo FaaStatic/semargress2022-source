@@ -215,7 +215,7 @@ export default function Register({navigation, route}) {
                     email: response.email,
                     type : "SMS"
                 }
-                //console.log("Tes", res);
+                
                 saveData(data);
                 ShowSuccess(metadata.message);
             }else{
@@ -237,7 +237,7 @@ export default function Register({navigation, route}) {
     }
 
     const saveData = async (data) => {
-        //await SessionManager.StoreAsObject(sessionId, data);
+        await SessionManager.StoreAsObject(sessionId, data);
         //navigation.dispatch(StackActions.replace('RouterTab'));
     }
 
