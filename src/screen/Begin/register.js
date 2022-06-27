@@ -16,6 +16,7 @@ import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import messaging from '@react-native-firebase/messaging';
 import {ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
+import { mainColors} from '../../util/color';
 
 var fcm_id = "";
 var loginType = "";
@@ -238,7 +239,7 @@ export default function Register({navigation, route}) {
 
     const saveData = async (data) => {
         await SessionManager.StoreAsObject(sessionId, data);
-        //navigation.dispatch(StackActions.replace('RouterTab'));
+        navigation.dispatch(StackActions.replace('RouterTab'));
     }
 
 
@@ -431,6 +432,8 @@ export default function Register({navigation, route}) {
         </Provider>
     );
 }
+
+
 
 const styles = StyleSheet.create({
     
