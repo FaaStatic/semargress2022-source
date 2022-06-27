@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { SessionManager } from './SessionManager';
+import { sessionId } from '../util/GlobalVar';
 
 export const Api = axios.create({
     baseURL: 'https://semargres.gmedia.id/',
@@ -16,13 +17,14 @@ export const Api = axios.create({
 Api.interceptors.request.use(
   async (request) => {
     console.log(request, 'Cek Request');
-    const session = await SessionManager.GetAsObject('@user')
+    const session = await SessionManager.GetAsObject(sessionId)
     if (session != null) {
       request.headers.common['Uid'] = session.uid;
       request.headers.common['Token'] = session.token;
       request.headers.common['Username'] = session.email;
     }
-    // console.log(request.headers)
+    
+    //console.log("header", request.headers)
     if (request.data) {
       console.log('request ', JSON.stringify(request.data));
     } else {

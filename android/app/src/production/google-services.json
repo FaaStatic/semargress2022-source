@@ -117,50 +117,6 @@
           ]
         }
       }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:356805825965:android:2b858ee6854ba348e1bd24",
-        "android_client_info": {
-          "package_name": "id.net.gmedia.semargres2019.dev"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "356805825965-9pni5ooku1ef5g9vm43vbq7jiujn2bs7.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "id.net.gmedia.semargres2019.dev",
-            "certificate_hash": "a49c5b5d78351470aa983b6b79155e97603bba4f"
-          }
-        },
-        {
-          "client_id": "356805825965-sj1fj3bhitspg19hj87tbs65l0rbsul0.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDHSAQnu9Zj-sQkKkYqqJmxvTZf2YQrsXI"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "356805825965-4lpaqftajn2llvl9p1bo8ns83g62a0l7.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "356805825965-obe640eddc9maojsugpvs3g1i30ktohe.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.gmedia.semargress2019"
-              }
-            }
-          ]
-        }
-      }
     }
   ],
   "configuration_version": "1"
