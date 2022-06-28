@@ -21,8 +21,8 @@ const style = StyleSheet.create({
         borderRadius: 16,
       },
       bannerImage: {
-        height: 300,
-        width: 300,
+        height: 200,
+        width: 200,
         borderRadius: 16,
       },
 })
