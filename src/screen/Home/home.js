@@ -20,6 +20,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Api } from '../../util/Api';
 import IconList from '../../util/ListItem/IconList';
 import BannerList from '../../util/ListItem/BannerList';
+import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 
 export default function Home({ navigation, route }) {
   const [iconVisible, setIconVisible] = useState(false);
@@ -50,6 +51,7 @@ export default function Home({ navigation, route }) {
     await Api.get('merchant/all')
       .then((res) => {
         console.log('ResponseMerchant', res.data.response);
+        setMerchantPop(res.data.response);
       })
       .catch((err) => {});
   };
@@ -170,6 +172,8 @@ export default function Home({ navigation, route }) {
             nestedScrollEnabled={true}
             data={category}
             horizontal={true}
+            showsHorizontalScrollIndicator={true}
+            indicatorStyle={'#05245A'}
             renderItem={itemRender}
           />
 
@@ -200,6 +204,7 @@ export default function Home({ navigation, route }) {
               nestedScrollEnabled={true}
               horizontal={true}
               data={banner}
+              showsHorizontalScrollIndicator={false}
               renderItem={BannerList}
             />
           </ScrollView>
@@ -207,14 +212,14 @@ export default function Home({ navigation, route }) {
         <SafeAreaView style={style.containerMerchant}>
           <Pressable style={style.btnAllMerchant}>
             <Text style={style.textAllMerchant}>Merchant Populer</Text>
-            <SimpleIcon name="arrow-right" size={24} color={'black'} style={style.styleIconArrow} />
+            <SimpleIcon name="arrow-right" size={18} color={'black'} style={style.styleIconArrow} />
           </Pressable>
-          {/* <ScrollView>
+          <ScrollView>
             <FlatList nestedScrollEnabled={true}
-            data={}
-            renderItem={}
+            data={merchantPop.slice(0,10)}
+            renderItem={HomeMerchantList}
             horizontal={true}/>
-          </ScrollView> */}
+          </ScrollView>
 
           <LinearGradient
             colors={['#0F2E6333', '#0F2E6300', '#ffffff']}
@@ -229,7 +234,9 @@ export default function Home({ navigation, route }) {
             />
             <SafeAreaView style={style.styleNoticeKuis}>
               <Text style={style.textNoticeKuis} numberOfLines={5}>Jawab Kuis yang diajukan oleh merchant dan menangkan hadiahnya!</Text>
-              <Pressable style={style.btnKuis}>
+              <Pressable style={style.btnKuis} onPress={
+               ()=> { navigation.navigate('RouterQuiz')}
+              }>
                 <Text style={style.texbtnKuis}>Lihat Kuis</Text>
               </Pressable>
             </SafeAreaView>
@@ -270,6 +277,8 @@ const style = StyleSheet.create({
     borderRadius: 8,
     bottom: 0,
     marginStart: 16,
+    marginBottom:15,
+    backgroundColor:'white',
     flexDirection: 'row',
   },
   SearchStyle: {
@@ -429,7 +438,6 @@ const style = StyleSheet.create({
     marginTop: 16,
     marginBottom:16,
     flexDirection: 'row',
-    elevation: 10,
   },
   imageWomanHappy: {
     width: 150,
