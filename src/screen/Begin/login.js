@@ -39,10 +39,10 @@ export default function Login({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       if (Platform.OS === 'android') {
-        StatusBar.setHidden(false);
-        StatusBar.setBarStyle('dark-content');
-        StatusBar.setBackgroundColor('transparent');
-        StatusBar.setTranslucent(true);
+        // StatusBar.setHidden(false);
+        // StatusBar.setBarStyle('dark-content');
+        // StatusBar.setBackgroundColor('transparent');
+        // StatusBar.setTranslucent(true);
       }
       return () => {
         (time = 0), setModalOtpVisible(false);

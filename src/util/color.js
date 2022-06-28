@@ -1,5 +1,5 @@
 const mainColors ={
-    colorPrimary:'#EB2943',
+    colorPrimary:'#0F2E63',
     colorSecondary:'#EC3FA7',
     colorDark1:'#405260',
     colorDark2:'#8A979F',

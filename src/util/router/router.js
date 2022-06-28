@@ -7,6 +7,7 @@ import Login from '../../screen/Begin/login';
 import Register from '../../screen/Begin/register';
 import RouterQuiz from './routerQuiz';
 import DetailMerchant from '../../screen/Home/homecomponents/DetailMerchant';
+import DetailQR from '../../screen/QR/detailqr'
 
 const StackScreen = createNativeStackNavigator();
 
@@ -72,6 +73,13 @@ export default function Router() {
               marginBottom:0,
               borderBottomWidth: 0,
             }
+          }}
+        />
+        <StackScreen.Screen
+          name="DetailQR"
+          component={DetailQR}
+          options={{
+            headerShown: false,
           }}
         />
       </StackScreen.Navigator>

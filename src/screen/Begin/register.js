@@ -22,7 +22,7 @@ var fcm_id = "";
 var loginType = "";
 export default function Register({navigation, route}) {
     
-    const { uid, email, foto, token, no_telp, otp, type, display_name } = route.params;
+    const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
 
     const [dataUID, setDataUID] = useState('');
     const [open, setOpen] = useState(false);
@@ -77,6 +77,7 @@ export default function Register({navigation, route}) {
             
             // if session is set already
             loginType = session.type;
+            setTxtEmail(session.email)
             setDataUID(session.uid);
         }else{
             const data = {
@@ -89,6 +90,7 @@ export default function Register({navigation, route}) {
             await SessionManager.StoreAsObject(sessionId, data);
             loginType = type;
             setDataUID(uid);
+            setTxtEmail(email);
         }
 
         if(display_name != undefined){
@@ -156,7 +158,6 @@ export default function Register({navigation, route}) {
     // get profile data
     const getDataProfile = () => {
 
-        //console.log(param)
         Api.get('profile/view')
         .then(async (respon) => {
             let body = respon.data;
@@ -202,7 +203,13 @@ export default function Register({navigation, route}) {
 
                             btnRegisterNomor();
                         }else{
-                            btnRegisGoogle();
+                            if(edit){
+                                
+                                editProfile();
+                            }else{
+                                btnRegisGoogle();
+                            }
+                            
                         }
                     }
                 },
@@ -215,8 +222,8 @@ export default function Register({navigation, route}) {
     const btnRegisGoogle = async () => {
         
         let data = {
-            uid: uid,
-            email: email,
+            uid: dataUID,
+            email: txtEmail,
             profile_name: nama,
             foto: foto,
             fcm_id: fcm_id,
@@ -253,7 +260,8 @@ export default function Register({navigation, route}) {
     const editProfile = async () => {
         
         let data = {
-            email: email,
+            no_ktp: ktp,
+            email: txtEmail,
             profile_name: nama,
             tgl_lahir: `${thn}-${bln}-${tgl}`,
             no_telp: txtTelp,
@@ -271,15 +279,11 @@ export default function Register({navigation, route}) {
             
             if(metadata.status === 200){
 
-                let data = {
-                    token: res.data.response.token,
-                    uid: res.data.response.uid,
-                    email: res.data.response.email,
-                    type: loginType
-                }
-
                 ShowSuccess(metadata.message);
-                saveData(data);
+                if(!edit || edit == undefined){
+                    navigation.dispatch(StackActions.replace('RouterTab'));
+                }
+                //saveData(data);
 
             }else{
                 
@@ -503,7 +507,7 @@ export default function Register({navigation, route}) {
                         style={styles.title}/>
 
                     <TextInput
-                        placeholder={email ? email : "Masukan Email"}
+                        placeholder={txtEmail ? txtEmail : "Masukan Email"}
                         value={txtEmail}
                         disabled={loginType == "GOOGLE" ? true : false}
                         onChangeText={(text) => setTxtEmail(text)}
@@ -525,18 +529,20 @@ export default function Register({navigation, route}) {
                         justifyContent: 'flex-end',
                     }}>
 
-                        <Pressable
-                            onPress={btnSkip}>
-                            <Text style={{
-                                color: 'grey',
-                                fontSize: 14,
-                                marginEnd: 36,
-                                fontWeight: 'bold',
-                            }}>
-                                Skip
-                            </Text>
+                        {edit == undefined || !edit && 
+                            <Pressable
+                                onPress={btnSkip}>
+                                <Text style={{
+                                    color: 'grey',
+                                    fontSize: 14,
+                                    marginEnd: 36,
+                                    fontWeight: 'bold',
+                                }}>
+                                    Skip
+                                </Text>
 
-                        </Pressable>
+                            </Pressable>
+                        }
 
                         <Pressable
                             onPress={showAlert}>
