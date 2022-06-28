@@ -112,7 +112,9 @@ const Profile = ({navigation, route}) => {
         <Button
           title='Profile'
           onPress={()=>{
-            navigation.navigate('Register');
+            navigation.navigate('Register',{
+              edit: true 
+            });
           }}
         ></Button>
 

@@ -26,18 +26,6 @@ export default function Splash({navigation}) {
     }).start();
   };
 
-  useFocusEffect(
-    useCallback(() => {
-       StatusBar.setHidden(true);
-       StatusBar.setBarStyle("dark-content");
-       StatusBar.currentHeight = 0;
-      return () => {
-      };
-    }, [])
-  );
-
-
-
   useEffect(() => {
     CheckLogin();
     fadeIn();
