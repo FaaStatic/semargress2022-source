@@ -60,7 +60,7 @@ export default function RouterTab({ navigation }) {
           }
         }}
       />
-      <TabScreen.Screen name="Location" component={Location} 
+      <TabScreen.Screen name="Feed" component={Location} 
        options={{
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_inactive.png') 

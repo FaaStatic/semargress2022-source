@@ -26,6 +26,7 @@ const style = StyleSheet.create({
     margin: 0,
     padding: 0,
     top: 0,
+    backgroundColor:'#001F58',
     justifyContent: 'center',
   },
   boxImage: {
