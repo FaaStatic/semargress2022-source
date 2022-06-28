@@ -1,11 +1,11 @@
 import { showMessage } from "react-native-flash-message";
 
-export const ShowError = (title, message) => {
+export const ShowError = (message) => {
     showMessage({
-      message: 'Terjadi kesalahan data',
+      message: 'Terjadi Kesalahan',
       description: message ? message : "Something bad error, please check your action",
       type: "default",
-      backgroundColor: "#9F9F9F",
+      backgroundColor: "#EB5757",
       color: "#FFFFFF",
       icon: "danger"
     });
@@ -20,12 +20,12 @@ export const ShowError = (title, message) => {
     });
   }
   
-  export const ShowWarning = (title, message) => {
+  export const ShowWarning = (message) => {
     showMessage({
       message: 'Peringatan',
       description: message ? message : "Harap teliti lagi masukan anda",
       type: "default",
-      backgroundColor: "#FBFBFB",
+      backgroundColor: "#FFC800",
       color: "#FFFFFF",
       icon: "warning"
     });
