@@ -5,7 +5,8 @@ import {
     View, 
     Pressable, 
     StyleSheet,
-    ScrollView
+    ScrollView,
+    Alert
 } from 'react-native';
 import {Portal, Provider, TextInput, Modal} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -16,6 +17,8 @@ import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import messaging from '@react-native-firebase/messaging';
 import {ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
+import { mainColors} from '../../util/color';
+import { showMessage } from "react-native-flash-message";
 
 var fcm_id = "";
 var loginType = "";
@@ -25,8 +28,36 @@ export default function Register({navigation, route}) {
 
     const [dataUID, setDataUID] = useState('');
     const [open, setOpen] = useState(false);
+    const [openDate, setOpenDate] = useState(false);
+    const [openMonth, setOpenMonth] = useState(false);
     const [gender, setGender] = useState(null);
     const [items, setItems] = useState([]);
+    const [dateItems, setDateItems] = useState([
+        {label : '01', value: "01"}, {label : '02', value: "02"},
+        {label : '03', value: "03"}, {label : '04', value: "04"},
+        {label : '05', value: "05"}, {label : '06', value: "06"},
+        {label : '07', value: "07"}, {label : '08', value: "08"},
+        {label : '09', value: "09"}, {label : '10', value: "10"},
+        {label : '11', value: "11"}, {label : '12', value: "12"},
+        {label : '13', value: "13"}, {label : '14', value: "14"},
+        {label : '15', value: "15"}, {label : '16', value: "16"},
+        {label : '17', value: "17"}, {label : '18', value: "18"},
+        {label : '19', value: "19"}, {label : '20', value: "20"},
+        {label : '21', value: "21"}, {label : '22', value: "22"},
+        {label : '23', value: "23"}, {label : '24', value: "24"},
+        {label : '25', value: "25"}, {label : '26', value: "26"},
+        {label : '27', value: "27"}, {label : '28', value: "28"},
+        {label : '29', value: "29"}, {label : '30', value: "30"},
+        {label : '31', value: "31"}
+    ]);
+    const [monthItems, setMonthItems] = useState([
+        {label : 'Januari', value: "01"}, {label : 'Februari', value: "02"},
+        {label : 'Maret', value: "03"}, {label : 'April', value: "04"},
+        {label : 'Mei', value: "05"}, {label : 'Juni', value: "06"},
+        {label : 'Juli', value: "07"}, {label : 'Agustus', value: "08"},
+        {label : 'September', value: "09"},  {label : 'Oktober', value: "10"},
+        {label : 'November', value: "11"},  {label : 'Desember', value: "12"}
+    ]);
 
     const [visible, setVisible] = useState(false);
     const [ktp, setKTP] = useState('');
@@ -47,7 +78,6 @@ export default function Register({navigation, route}) {
         if(session != null){
             
             // if session is set already
-            console.log("datasession", session)
             loginType = session.type;
             setDataUID(session.uid);
         }else{
@@ -63,6 +93,7 @@ export default function Register({navigation, route}) {
             setDataUID(uid);
         }
 
+        console.log("logintype ",loginType);
         getGender();
     };
 
@@ -88,7 +119,6 @@ export default function Register({navigation, route}) {
         const fcmToken = await messaging().getToken();
         if (fcmToken) {
           fcm_id = fcmToken;
-          console.log("fcm ", fcm_id);
         }
       };
 
@@ -131,7 +161,6 @@ export default function Register({navigation, route}) {
             let body = respon.data;
             let metadata = body.metadata;
             let response = body.response;
-            console.log("dataprofile", response)
             
             if(metadata.status === 200){
             
@@ -141,6 +170,10 @@ export default function Register({navigation, route}) {
                 setAlamat(response.alamat);
                 setTxtEmail(response.email);
                 setGender(response.id_gender);
+                let tglLahir = response.tgl_lahir.split('-');
+                setThn(tglLahir[0]);
+                setBln(tglLahir[1]);
+                setTgl(tglLahir[2]);
                 setTelp(response.no_telp);
             }else{
               
@@ -151,38 +184,113 @@ export default function Register({navigation, route}) {
         })
     }
 
+    const showAlert = () =>
+        Alert.alert(
+            "Konfirmasi",
+            "Apakah anda yakin ingin menyimpan data",
+            [
+                {
+                    text: "Tidak",
+                    onPress: () => {},
+                    style: "cancel",
+                },
+                {
+                    text: "Iya",
+                    onPress: () => {
+                        if(loginType == 'SMS'){
+
+                            btnRegisterNomor();
+                        }else{
+                            btnRegisGoogle();
+                        }
+                    }
+                },
+            ],
+            {
+                cancelable: true,
+            }
+    );
+
     const btnRegisGoogle = async () => {
+        
         let data = {
             uid: uid,
             email: email,
             profile_name: nama,
             foto: foto,
             fcm_id: fcm_id,
-            type: "Google"
+            type: "GOOGLE"
         }
 
-        console.log("datagoogle", data);
-        // await Api.post('register', {
-        //     data
-        // }, {
-        //     headers: {
-        //         'Username': email,
-        //         'Uid': uid,
-        //         'Token': token,
-        //     }
-        // }).then(res => {
-        //     let msg = res.data.response.message;
-        //     let data = {
-        //         token: res.data.response.token,
-        //         uid: res.data.response.uid,
-        //         email: res.data.response.email,
-        //         fcm_id: fcm_id,
-        //     }
-        //     SessionManager.StoreAsObject(sessionId, data);
-        //     navigation.dispatch(StackActions.replace('RouterTab'), { msg });
-        // }).catch(err => {
+        await Api.post('register', data)
+        .then(async res => {
+            
+            let body = res.data;
+            let metadata = body.metadata;
+            let response = body.response;
+            
+            if(metadata.status === 200){
 
-        // })
+                let data = {
+                    token: response.token,
+                    uid: response.uid,
+                    email: response.email,
+                    fcm_id: fcm_id
+                }
+
+                await SessionManager.StoreAsObject(sessionId, data);
+                editProfile()
+            }
+            
+        }).catch(err => {
+
+            console.log("err ",err);
+            editProfile();
+        })
+    }
+
+    const editProfile = async () => {
+        
+        let data = {
+            email: email,
+            profile_name: nama,
+            tgl_lahir: `${thn}-${bln}-${tgl}`,
+            no_telp: txtTelp,
+            alamat: alamat,
+            jenis_kelamin: gender,
+            tempat_lahir: tmptlahir
+        }
+
+        await Api.post('profile/edit', data)
+        .then(res => {
+            
+            let body = res.data;
+            let metadata = body.metadata;
+            let response = body.response;
+            
+            if(metadata.status === 200){
+
+                let data = {
+                    token: res.data.response.token,
+                    uid: res.data.response.uid,
+                    email: res.data.response.email,
+                    fcm_id: fcm_id
+                }
+
+                ShowSuccess(metadata.message)
+                showMessage({
+                    message: 'Berhasil',
+                    description: metatada.message,
+                    type: 'success',
+                    icon: "success"
+                  });
+
+                saveData(data);
+            }
+
+        }).catch(err => {
+
+        })
     }
 
     const btnRegisterNomor = async () => {
@@ -238,7 +346,7 @@ export default function Register({navigation, route}) {
 
     const saveData = async (data) => {
         await SessionManager.StoreAsObject(sessionId, data);
-        //navigation.dispatch(StackActions.replace('RouterTab'));
+        navigation.dispatch(StackActions.replace('RouterTab'));
     }
 
 
@@ -314,14 +422,7 @@ export default function Register({navigation, route}) {
                             marginEnd: 16,
                             width: 250,
                         }}
-                        style={{
-                            borderColor: 'transparent',
-                            backgroundColor: 'transparent',
-                            borderBottomWidth: 1,
-                            borderBottomColor: 'grey',
-                            borderRadius: 0,
-                            marginBottom: 8,
-                        }}
+                        style={styles.dropdown}
                         dropDownContainerStyle={{
                             borderColor: 'transparent',
                             borderRadius: 0,
@@ -344,21 +445,48 @@ export default function Register({navigation, route}) {
                         marginBottom: 8,
                         justifyContent: 'center',
                     }}>
-                        <TextInput
-                            maxLength={2}
-                            placeholder='Tanggal'
+                        
+                        <DropDownPicker
+                            placeholder="Tanggal"
+                            open={openDate}
                             value={tgl}
-                            onChangeText={(text) => setTgl(text)}
-                            keyboardType="number-pad"
-                            style={styles.customDate} />
+                            items={dateItems}
+                            onSelectItem={(item)=>{
+                                setTgl(item.value)
+                            }}
+                            setOpen={setOpenDate}
+                            setItems={setDateItems}
+                            stickyHeader={true}
+                            containerStyle={{
+                                flex:1
+                            }}
+                            style={styles.dropdown}
+                            dropDownContainerStyle={{
+                                borderColor: 'transparent',
+                                borderRadius: 0,
+                            }}
+                        />
 
-                        <TextInput
-                            placeholder='Bulan'
-                            maxLength={2}
+                        <DropDownPicker
+                            placeholder="Bulan"
+                            open={openMonth}
                             value={bln}
-                            onChangeText={(text) => setBln(text)}
-                            keyboardType="number-pad"                        
-                            style={styles.customDate} />
+                            items={monthItems}
+                            onSelectItem={(item)=>{
+                                setBln(item.value)
+                            }}
+                            setOpen={setOpenMonth}
+                            setItems={setMonthItems}
+                            stickyHeader={true}
+                            containerStyle={{
+                                flex:1
+                            }}
+                            style={styles.dropdown}
+                            dropDownContainerStyle={{
+                                borderColor: 'transparent',
+                                borderRadius: 0,
+                            }}
+                        />
 
                         <TextInput
                             placeholder='Tahun'
@@ -366,7 +494,7 @@ export default function Register({navigation, route}) {
                             value={thn}
                             onChangeText={(text) => setThn(text)}
                             keyboardType="number-pad"
-                            style={styles.customDate}/>
+                            style={styles.customYear}/>
                     </View>
 
                     <TextInput
@@ -379,14 +507,14 @@ export default function Register({navigation, route}) {
                     <TextInput
                         placeholder={email ? email : "Masukan Email"}
                         value={txtEmail}
-                        disabled={email ? true : false}
+                        disabled={loginType == "GOOGLE" ? true : false}
                         onChangeText={(text) => setTxtEmail(text)}
                         keyboardType="default"
                         style={styles.title} />
 
                     <TextInput
                         placeholder={txtTelp ? txtTelp : 'Nomor Telepon'}
-                        disabled={txtTelp ? true : false}
+                        disabled={loginType == "SMS" ? true : false}
                         value={txtTelp}
                         onChangeText={(text) => setTelp(text)}
                         keyboardType="number-pad"
@@ -413,7 +541,7 @@ export default function Register({navigation, route}) {
                         </Pressable>
 
                         <Pressable
-                            onPress={loginType == "SMS" ? btnRegisterNomor : btnRegisGoogle}>
+                            onPress={showAlert}>
                             <Text style={{
                                 fontSize: 14,
                                 color: 'red',
@@ -470,11 +598,27 @@ const styles = StyleSheet.create({
         color: 'black',
         textAlign: 'center' 
     },
+    customYear:{
+        backgroundColor: 'transparent',
+        height:45,
+        maxHeight : 50,
+        flex: 1,
+        color: 'black',
+        textAlign: 'center' 
+    },
     dropdownTitle: {
         fontSize: 12,
         color: 'black',
         marginStart: 24,
         marginBottom: 8,
         marginTop: 8,
+    },
+    dropdown : {
+        borderColor: 'transparent',
+        backgroundColor: 'transparent',
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
+        borderRadius: 0,
+        marginBottom: 8,
     }
   });
