@@ -90,12 +90,12 @@ export default function Login({ navigation }) {
   };
 
   const loginUser = async (data, res) => {
-    console.log('TokenLogin', data.uid);
+    
     await Api.post('auth', data)
       .then((result) => {
-        console.log('Tes Login2', result);
+
         if (result.data.response.status === 0) {
-          console.log('TokenLogin', data);
+          
           navigation.navigate('Register', {
             uid: data.uid,
             fcm_id: fcm,
@@ -106,6 +106,7 @@ export default function Login({ navigation }) {
             type: 'GOOGLE',
           });
         } else {
+
           setVisible(false);
           const data = {
             token: result.data.response.token,
@@ -171,7 +172,15 @@ export default function Login({ navigation }) {
   const btnSubmitGoogle = async () => {
     setVisible(true);
     const { idToken } = await GoogleSignin.signIn();
-    console.log('TEstTOKEN', idToken);
+
+    // check kalau sudah login
+    const isSignedIn = await GoogleSignin.isSignedIn();
+    if (isSignedIn) {
+
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+    }
+    
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const response = auth().signInWithCredential(googleCredential);
     setResult(response);
@@ -250,8 +259,14 @@ export default function Login({ navigation }) {
   };
 
   const saveData = async (data, type) => {
+    
     await SessionManager.StoreAsObject(sessionId, data);
-    navigation.dispatch(StackActions.replace('RouterTab'));
+    if(type == 'register'){
+      navigation.dispatch(StackActions.replace('RouterTab'));
+    }else{
+      navigation.dispatch(StackActions.replace('RouterTab'));
+    }
+    
   };
 
   return (
