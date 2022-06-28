@@ -17,14 +17,12 @@ import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import messaging from '@react-native-firebase/messaging';
 import {ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
-import { mainColors} from '../../util/color';
-import { showMessage } from "react-native-flash-message";
 
 var fcm_id = "";
 var loginType = "";
 export default function Register({navigation, route}) {
     
-    const { uid, email, foto, token, no_telp, otp, type } = route.params;
+    const { uid, email, foto, token, no_telp, otp, type, display_name } = route.params;
 
     const [dataUID, setDataUID] = useState('');
     const [open, setOpen] = useState(false);
@@ -93,7 +91,10 @@ export default function Register({navigation, route}) {
             setDataUID(uid);
         }
 
-        console.log("logintype ",loginType);
+        if(display_name != undefined){
+            setNama(display_name)
+        }
+        
         getGender();
     };
 
@@ -235,7 +236,7 @@ export default function Register({navigation, route}) {
                     token: response.token,
                     uid: response.uid,
                     email: response.email,
-                    fcm_id: fcm_id
+                    type : loginType
                 }
 
                 await SessionManager.StoreAsObject(sessionId, data);
@@ -274,22 +275,19 @@ export default function Register({navigation, route}) {
                     token: res.data.response.token,
                     uid: res.data.response.uid,
                     email: res.data.response.email,
-                    fcm_id: fcm_id
+                    type: loginType
                 }
 
-                ShowSuccess(metadata.message)
-                showMessage({
-                    message: 'Berhasil',
-                    description: metatada.message,
-                    type: 'success',
-                    icon: "success"
-                  });
-
+                ShowSuccess(metadata.message);
                 saveData(data);
+
+            }else{
+                
+                ShowWarning(metadata.message);
             }
 
         }).catch(err => {
-
+            ShowError();
         })
     }
 
@@ -356,7 +354,7 @@ export default function Register({navigation, route}) {
                 token: token,
                 uid: uid,
                 username: no_telp,
-                fcm_id: fcm_id,
+                type : "SMS"
             }
             saveData(data);
             navigation.dispatch(StackActions.replace('RouterTab'));

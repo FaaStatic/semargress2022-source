@@ -14,11 +14,8 @@ import {
 import {Api} from '../../util/Api';
 import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import {StackActions} from '@react-navigation/native';
 
-var typeLogin = "";
-const Profile = ({navigation, route}) => {
+const Screen = ({navigation, route}) => {
   const [data, setData] = useState([]);
 
   // Load data session
@@ -27,7 +24,6 @@ const Profile = ({navigation, route}) => {
     const session = await SessionManager.GetAsObject(sessionId);
       if(session != null){
           console.log("session ",session.token);
-          typeLogin = session.type;
       }
   };
 
@@ -66,10 +62,10 @@ const Profile = ({navigation, route}) => {
       })
   }
 
-  const showAlert = async () =>
+  const showAlert = () =>
         Alert.alert(
             "Konfirmasi",
-            "Apakah anda yakin ingin keluar dari akun anda?",
+            "Apakah anda yakin ingin menyimpan data",
             [
                 {
                     text: "Tidak",
@@ -78,22 +74,13 @@ const Profile = ({navigation, route}) => {
                 },
                 {
                     text: "Iya",
-                    onPress: async () => {
-                        SessionManager.ClearAllKeys();
-                        if(typeLogin == 'SMS'){
+                    onPress: () => {
+                        if(loginType == 'SMS'){
 
-                            
-                        }else if(typeLogin == 'GOOGLE'){
-
-                            const isSignedIn = await GoogleSignin.isSignedIn();
-                            if (isSignedIn) {
-                        
-                              await GoogleSignin.revokeAccess();
-                              await GoogleSignin.signOut();
-                            }
+                            btnRegisterNomor();
+                        }else{
+                            btnRegisGoogle();
                         }
-
-                        navigation.dispatch(StackActions.replace('Login'));
                     }
                 },
             ],
@@ -110,16 +97,9 @@ const Profile = ({navigation, route}) => {
       >
         
         <Button
-          title='Profile'
+          title='profile'
           onPress={()=>{
             navigation.navigate('Register');
-          }}
-        ></Button>
-
-        <Button
-          title='Logout'
-          onPress={()=>{
-            showAlert();
           }}
         ></Button>
       </View>
@@ -127,7 +107,7 @@ const Profile = ({navigation, route}) => {
   );
 };
 
-export default Profile;
+export default Screen;
 
 const styles = StyleSheet.create({
   page: {

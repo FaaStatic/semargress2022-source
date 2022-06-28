@@ -22,6 +22,7 @@ import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
+import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
 
 let time = 0;
 export default function Login({ navigation }) {
@@ -51,16 +52,17 @@ export default function Login({ navigation }) {
   );
 
   useEffect(() => {
+    
     cekGoogle();
     checkToken();
-    console.log('sesi', sessionId);
+    
+    
     if (modalOTPVisible) {
     } else {
       setShowRequest(false);
       setOtp('');
     }
-    console.log('tes time', time);
-    console.log('test request', showRequest);
+    
     if (time === 1 || time === 0) {
       setShowRequest(false);
       setTimer();
@@ -94,30 +96,54 @@ export default function Login({ navigation }) {
     await Api.post('auth', data)
       .then((result) => {
 
-        if (result.data.response.status === 0) {
-          
-          navigation.navigate('Register', {
-            uid: data.uid,
-            fcm_id: fcm,
-            foto: data.foto,
-            email: data.email,
-            no_telp: telp,
-            otp: otp,
-            type: 'GOOGLE',
-          });
-        } else {
+        let body = result.data;
+        let metadata = body.metadata;
+        let response = body.response;
+        
+        if(metadata.status == 200){
+        
+          if (response.status == 0) {
 
-          setVisible(false);
-          const data = {
-            token: result.data.response.token,
-            uid: data.uid,
-            email: result.data.response.email,
-            fcm_id: fcm,
-            type: 'GOOGLE',
-          };
-          setVisible(false);
-          saveData(data, 'GOOGLE');
+              ShowWarning("Silahkan lengkapi informasi akun anda")
+              navigation.navigate('Register', {
+                uid: data.uid,
+                fcm_id: fcm,
+                foto: data.foto,
+                display_name : data.displayName,
+                email: data.email,
+                no_telp: telp,
+                otp: otp,
+                type: 'GOOGLE',
+              });
+
+            } else {
+    
+              ShowSuccess(response.message);
+              setVisible(false);
+              const data = {
+                token: response.token,
+                uid: response.uid,
+                email: response.email,
+                type: 'GOOGLE',
+              };
+              
+              saveData(data, 'GOOGLE');
+            }
+        }else{
+
+            ShowWarning("Silahkan lengkapi informasi akun anda")
+              navigation.navigate('Register', {
+                uid: data.uid,
+                fcm_id: fcm,
+                foto: data.foto,
+                email: data.email,
+                display_name : data.displayName,
+                no_telp: telp,
+                otp: otp,
+                type: 'GOOGLE',
+              });
         }
+        
       })
       .catch((err) => {
         console.log(err);
@@ -186,19 +212,20 @@ export default function Login({ navigation }) {
     setResult(response);
     response
       .then((res) => {
-        console.log('Tesdata', res.user);
+        
         const tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
           fcm_id: fcm,
           email: res.user.email,
+          displayName : res.user.displayName
         };
-
-        console.log('tokentoken', tokenLogin);
+        
         loginUser(tokenLogin, res);
       })
       .catch((err) => {
         console.log(err);
+        ShowError("Terjadi Kesalahan Saat Terhubung ke Akun Anda")
       });
   };
 
@@ -221,13 +248,17 @@ export default function Login({ navigation }) {
       kode_otp: otp,
     })
       .then((result) => {
+        
         const action = result.data.response.action;
         console.log('loginstatus', action);
         const status = result.data.metadata.status;
         const msg = result.data.metadata.message;
         if (status === 400) {
-          toastMsg(msg);
+
+          ShowError(msg);
         } else {
+          
+          ShowSuccess("Selamat Datang " + result.data.response.nama);
           if (action === 'login') {
             const data = {
               token: result.data.response.token,
@@ -240,6 +271,8 @@ export default function Login({ navigation }) {
             clearInterval(intervalCount);
             saveData(data, 'SMS');
           } else {
+
+            ShowWarning("Silahkan lengkapi informasi akun anda");
             setVisible(false);
             clearInterval(intervalCount);
             navigation.navigate('Register', {
@@ -385,76 +418,88 @@ export default function Login({ navigation }) {
             </View>
           </Modal>
         </Portal>
+        
         <SafeAreaView style={style.containerSplash}>
-          <Image
-            source={require('../../assets/logo.png')}
-            style={[
-              style.boxImageSplash,
-              {
+          <View
+            style={{
+              backgroundColor:'white',
+              height: '100%',
+              marginTop: '100%',
+              borderRadius: 10,
+              marginLeft : 20,
+              marginRight : 20,
+            }}
+          >
+            <Image
+              source={require('../../assets/logo.png')}
+              style={[
+                style.boxImageSplash,
+                {
+                  width: 220,
+                  height: 220,
+                },
+              ]}
+              resizeMode='contain'
+            />
+            <TextInput
+              mode="outlined"
+              keyboardType="number-pad"
+              underlineColor="transparent"
+              outlineColor="grey"
+              placeholder="Masukan Nomor WhatsApp"
+              style={{
+                backgroundColor: 'transparent',
+                marginStart: 36,
+                marginEnd: 36,
+                height: 55,
+                textAlign: 'center',
+              }}
+              theme={{
+                colors: {
+                  placeholder: 'grey',
+                  text: 'black',
+                  primary: 'grey',
+                  underlineColor: 'transparent',
+                  background: 'transparent',
+                },
+                roundness: 8,
+              }}
+              value={telp}
+              onChangeText={(text) => setTelp(text)}
+            />
+            <Button
+              mode="contained"
+              onPress={showModal}
+              style={{
                 width: 175,
-                height: 175,
-              },
-            ]}
-            resizeMode='contain'
-          />
-          <TextInput
-            mode="outlined"
-            keyboardType="number-pad"
-            underlineColor="transparent"
-            outlineColor="grey"
-            placeholder="Masukan Nomor WhatsApp"
-            style={{
-              backgroundColor: 'transparent',
-              marginStart: 36,
-              marginEnd: 36,
-              height: 55,
-              textAlign: 'center',
-            }}
-            theme={{
-              colors: {
-                placeholder: 'grey',
-                text: 'black',
-                primary: 'grey',
-                underlineColor: 'transparent',
-                background: 'transparent',
-              },
-              roundness: 8,
-            }}
-            value={telp}
-            onChangeText={(text) => setTelp(text)}
-          />
-          <Button
-            mode="contained"
-            onPress={showModal}
-            style={{
-              width: 175,
-              alignSelf: 'center',
-              marginTop: 36,
-              color: 'white',
-            }}
-            theme={{
-              colors: {
-                text: 'white',
-                primary: '#F77E21',
-              },
-              roundness: 8,
-            }}
-          >
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>Login</Text>
-          </Button>
+                alignSelf: 'center',
+                marginTop: 36,
+                color: 'white',
+              }}
+              theme={{
+                colors: {
+                  text: 'white',
+                  primary: '#F77E21',
+                },
+                roundness: 8,
+              }}
+            >
+              <Text style={{ fontWeight: 'bold', color: 'white' }}>Login</Text>
+            </Button>
 
-          <Text style={ styling.textStyle}>
-            Atau Menggunakan
-          </Text>
+            <Text style={styling.textStyle}>
+              Atau Menggunakan
+            </Text>
 
-          <Button
-            onPress={btnSubmitGoogle}
-            mode="contained"
-            theme={btnSubmitGoogleStyle}
-            style={ styling.btnSubmitStyleGoogle}
-          >
-            <Text style={{ fontWeight: 'bold', color: 'white' }}>Google</Text>
-          </Button>
+            <Button
+              onPress={btnSubmitGoogle}
+              mode="contained"
+              theme={btnSubmitGoogleStyle}
+              style={styling.btnSubmitStyleGoogle}
+            >
+              <Text style={{ fontWeight: 'bold', color: 'white' }}>Google</Text>
+            </Button>
+          </View>
         </SafeAreaView>
       </SafeAreaView>
     </Provider>
