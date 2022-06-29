@@ -1,13 +1,16 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {View, TouchableOpacity } from 'react-native';
 import RouteTab from './routertab';
 import Splash from '../../screen/Begin/splash';
 import Login from '../../screen/Begin/login';
 import Register from '../../screen/Begin/register';
 import RouterQuiz from './routerQuiz';
 import DetailMerchant from '../../screen/Home/homecomponents/DetailMerchant';
-import DetailQR from '../../screen/QR/detailqr'
+import DetailQR from '../../screen/QR/detailqr';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import DetailListCategory from '../../screen/Home/homecomponents/DetailListCategory';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -62,18 +65,27 @@ export default function Router() {
         <StackScreen.Screen
           name="RouterQuiz"
           component={RouterQuiz}
-          options={{
+          options={( {navigation , screenProps} )=>({
             headerShown: true,
-            headerTitle: 'Kuis',
+            headerTitle: 'Kuis Semargress',
+            headerTitleAlign:'center',
             headerShadowVisible: false,
+            headerLeft: () => { return(
+              <View>
+                <TouchableOpacity onPress={()=>navigation.goBack()}>
+                <IonIcon name="chevron-back" size={24} color={'black'}/>
+                </TouchableOpacity>
+              </View>
+            )
+            } ,
             headerStyle: {
               elevation: 0,
               shadowOpacity: 0,
-              backgroundColor:'white',
-              marginBottom:0,
+              backgroundColor: 'white',
+              marginBottom: 0,
               borderBottomWidth: 0,
-            }
-          }}
+            },
+          })}
         />
         <StackScreen.Screen
           name="DetailQR"
@@ -82,6 +94,30 @@ export default function Router() {
             headerShown: false,
           }}
         />
+        <StackScreen.Screen
+        name='DetailListCategory'
+        component={DetailListCategory}
+        options={( {navigation , screenProps, route} )=>({
+          headerShown: true,
+          title: route.params.nama,
+          headerTitleAlign:'center',
+          headerShadowVisible: false,
+          headerLeft: () => { return(
+            <View>
+              <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <IonIcon name="chevron-back" size={24} color={'black'}/>
+              </TouchableOpacity>
+            </View>
+          )
+          } ,
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            backgroundColor: 'white',
+            marginBottom: 0,
+            borderBottomWidth: 0,
+          },
+        })}/>
       </StackScreen.Navigator>
     </NavigationContainer>
   );

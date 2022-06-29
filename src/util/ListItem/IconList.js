@@ -1,11 +1,11 @@
 import React from 'react';
 import {View, Pressable, Image, StyleSheet, Text} from 'react-native'
 
-export default function IconList(item) {
+export default function IconList({item, Press}) {
     return (
       
       <View style={{ margin: 8 }}>
-        <Pressable onPress={()=> {console.log("Tes Press", item.nama)}}>
+        <Pressable onPress={() => {Press(item)}}>
         <View style={style.categoryContainer}>
           <Image source={{ uri: item.icon }} style={style.iconCategory} resizeMode="contain" />
         </View>

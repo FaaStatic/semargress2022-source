@@ -15,10 +15,10 @@ export default function RouterTab({ navigation }) {
     <TabScreen.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarShowLabel: true,
+        tabBarShowLabel: false,
         tabBarStyle: {
           shadowColor: '#D8E3E7',
-          height:65,
+          height:80,
           padding:5,
           shadowOffset: {
             width: 0,
@@ -44,7 +44,10 @@ export default function RouterTab({ navigation }) {
                 borderRadius:8,
                 backgroundColor:'#f9f9f9',
                 elevation: focused ? 5 : 0,
-                justifyContent:'center'
+                justifyContent:'center',
+                bottom : 0,
+                position:'absolute',
+                marginBottom:16,
               }}>
                 <Image
                 source={active}
@@ -71,7 +74,10 @@ export default function RouterTab({ navigation }) {
               borderRadius:8,
               backgroundColor:'#f9f9f9',
               elevation: focused ? 5 : 0,
-              justifyContent:'center'
+              justifyContent:'center',
+              bottom : 0,
+              position:'absolute',
+              marginBottom:16,
             }}>
               <Image
               source={active}
@@ -92,15 +98,18 @@ export default function RouterTab({ navigation }) {
           let active = focused ? require('../../assets/qr_active.png') : require('../../assets/qr_inactive.png') 
           return(
             <View style={{
-              height:65,
-              width:65,
+              height:55,
+              width:55,
               marginBottom:24,
               borderRadius:8,
               backgroundColor:'#05245A',
               borderWidth:0.5,
               borderColor:'white',
               elevation: focused ? 5 : 0,
-              justifyContent:'center'
+              justifyContent:'center',
+              bottom : 0,
+              position:'absolute',
+              marginBottom:16,
             }}>
               <Image
               source={active}
@@ -126,7 +135,10 @@ export default function RouterTab({ navigation }) {
               borderRadius:8,
               backgroundColor:'#f9f9f9',
               elevation: focused ? 5 : 0,
-              justifyContent:'center'
+              justifyContent:'center',
+              bottom : 0,
+              position:'absolute',
+              marginBottom:16,
             }}>
               <Image
               source={active}
@@ -151,7 +163,10 @@ export default function RouterTab({ navigation }) {
               borderRadius:8,
               backgroundColor:'#f9f9f9',
               elevation: focused ? 5 : 0,
-              justifyContent:'center'
+              justifyContent:'center',
+              bottom : 0,
+              position:'absolute',
+              marginBottom:16,
             }}>
               <Image
               source={active}

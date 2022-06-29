@@ -101,11 +101,21 @@ export default function Home({ navigation, route }) {
     console.log('item tes', item[0]);
     return (
       <View>
-        <IconList {...item[0]} />
-        <IconList {...item[1]} />
+        <IconList item= {item[0]} Press={moveCategory} />
+        <IconList item = {item[1]} Press={moveCategory} />
       </View>
     );
   }, []);
+
+
+  const moveCategory = (data) =>{
+    navigation.navigate('DetailListCategory', {
+      ...data
+    });
+    console.log('tesidk', data);
+  }
+
+
 
   const keyExtractor = useCallback(({ item }) => {
     return item.id_k;
