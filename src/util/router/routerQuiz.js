@@ -17,25 +17,22 @@ export default function RouterQuiz({ navigation, route }) {
       <StackTab.Navigator
       screenOptions={{
         tabBarLabelStyle: { fontSize: 12 },
+        upperCaseLabel: false,
           tabBarItemStyle: { height:45, width: Math.ceil(windowWidth/3)},
           tabBarStyle: { backgroundColor: 'white', elevation:5, marginTop:0, },
-          tabBarActiveTintColor:'#0F2E63',
+          tabBarActiveTintColor:'#F29836',
           tabBarIndicatorStyle:{
-            backgroundColor:'#0F2E63'
+            backgroundColor:'#F29836'
+          },
+          tabBarLabelStyle:{
+            textTransform:'none',
           }
       }}>
         <StackTab.Screen
           name="QuizReady"
           component={QuizReady}
           options={{
-            tabBarLabel: 'Berlangsung',
-          }}
-        />
-        <StackTab.Screen
-          name="QuizDone"
-          component={QuizDone}
-          options={{
-            tabBarLabel: 'Selesai',
+            tabBarLabel: 'Pertanyaan',
           }}
         />
         <StackTab.Screen
@@ -43,6 +40,13 @@ export default function RouterQuiz({ navigation, route }) {
           component={QuizAnswer}
           options={{
             tabBarLabel: 'Dijawab',
+          }}
+        />
+        <StackTab.Screen
+          name="QuizDone"
+          component={QuizDone}
+          options={{
+            tabBarLabel: 'Selesai',
           }}
         />
       </StackTab.Navigator>
