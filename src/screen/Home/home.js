@@ -21,6 +21,7 @@ import { Api } from '../../util/Api';
 import IconList from '../../util/ListItem/IconList';
 import BannerList from '../../util/ListItem/BannerList';
 import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
+import SpotWisataList from '../../util/ListItem/SpotWisataList';
 
 export default function Home({ navigation, route }) {
   const [iconVisible, setIconVisible] = useState(false);
@@ -29,6 +30,7 @@ export default function Home({ navigation, route }) {
   const [merchantPop, setMerchantPop] = useState([]);
   const [countKoupon, setCountKoupon] = useState(0);
   const [search, setSearch] = useState();
+  const [spotWisata, setSpotWisata] = useState([]);
   useEffect(() => {
     checkSession();
     kategoriHome();
@@ -115,7 +117,9 @@ export default function Home({ navigation, route }) {
     console.log('tesidk', data);
   }
 
+const showAllDestination = () =>{
 
+}
 
   const keyExtractor = useCallback(({ item }) => {
     return item.id_k;
@@ -163,16 +167,16 @@ export default function Home({ navigation, route }) {
             style={style.SearchStyle}
           />
           {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />}
-          <Pressable style={style.iconNotif}>
+          {/* <Pressable style={style.iconNotif}>
             <Icon name="notifications" size={36} color="white" />
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
 
       <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View style={style.viewCoupon}>
           <Text style={style.TextCoupon}>Jumlah E-Kupon Anda : {countKoupon}</Text>
-          <Pressable style={style.btnStyle}>
+          <Pressable style={style.btnStyle} onPress={()=>{navigation.navigate('EKupon')}}>
             <Text style={style.TextListCoupon}>Lihat E-kupon</Text>
           </Pressable>
         </View>
@@ -200,7 +204,9 @@ export default function Home({ navigation, route }) {
                 resizeMode="contain"
               />
               <Text style={style.voucherNotice}>Jangan sia-siakan voucher kamu</Text>
-              <Pressable style={style.btnStyleVoucher}>
+              <Pressable style={style.btnStyleVoucher} onPress={()=>{
+                navigation.navigate('VoucherHome');
+              }}>
                 <Text style={style.textVoucherBtn}>Lihat Voucher</Text>
               </Pressable>
             </LinearGradient>
@@ -251,6 +257,20 @@ export default function Home({ navigation, route }) {
               </Pressable>
             </SafeAreaView>
           </LinearGradient>
+        </SafeAreaView>
+
+        <SafeAreaView>
+          <Text>Pariwisata Semarang</Text>
+          <ScrollView>
+            <FlatList
+              nestedScrollEnabled={true}
+              horizontal={true}
+              data={spotWisata}
+              showsHorizontalScrollIndicator={false}
+              renderItem={SpotWisataList}
+              ListFooterComponent={showAllDestination}
+            />
+          </ScrollView>
         </SafeAreaView>
       </ScrollView>
     </SafeAreaView>
@@ -379,7 +399,7 @@ const style = StyleSheet.create({
     color: 'white',
     paddingTop: 6,
     textAlign: 'center',
-    borderRadius: 16,
+    borderRadius: 8,
   },
   textVoucherBtn: {
     color: 'white',

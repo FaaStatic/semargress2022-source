@@ -11,6 +11,8 @@ import DetailMerchant from '../../screen/Home/homecomponents/DetailMerchant';
 import DetailQR from '../../screen/QR/detailqr';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import DetailListCategory from '../../screen/Home/homecomponents/DetailListCategory';
+import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
+import EKupon from '../../screen/Home/homecomponents/Ekupon';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -102,6 +104,54 @@ export default function Router() {
           title: route.params.nama,
           headerTitleAlign:'center',
           headerShadowVisible: false,
+          headerLeft: () => { return(
+            <View>
+              <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <IonIcon name="chevron-back" size={24} color={'black'}/>
+              </TouchableOpacity>
+            </View>
+          )
+          } ,
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            backgroundColor: 'white',
+            marginBottom: 0,
+            borderBottomWidth: 0,
+          },
+        })}/>
+         <StackScreen.Screen
+        name='VoucherHome'
+        component={VoucherHome}
+        options={( {navigation , screenProps, route} )=>({
+          headerShown: true,
+          title: 'Voucher Saya',
+          headerTitleAlign:'center',
+          headerShadowVisible: true,
+          headerLeft: () => { return(
+            <View>
+              <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <IonIcon name="chevron-back" size={24} color={'black'}/>
+              </TouchableOpacity>
+            </View>
+          )
+          } ,
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            backgroundColor: 'white',
+            marginBottom: 0,
+            borderBottomWidth: 0,
+          },
+        })}/>
+           <StackScreen.Screen
+        name='EKupon'
+        component={EKupon}
+        options={( {navigation , screenProps, route} )=>({
+          headerShown: true,
+          title: 'E-Koupon Semargress',
+          headerTitleAlign:'center',
+          headerShadowVisible: true,
           headerLeft: () => { return(
             <View>
               <TouchableOpacity onPress={()=>navigation.goBack()}>

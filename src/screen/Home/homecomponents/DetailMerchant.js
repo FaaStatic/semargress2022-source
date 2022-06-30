@@ -1,6 +1,5 @@
-import useFloatingBottomTabBarHeight from '@react-navigation/bottom-tabs/lib/typescript/src/utils/useBottomTabBarHeight';
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Animated, Image, ScrollView, Text } from 'react-native';
+import { View, Animated, Image, ScrollView, Text, StyleSheet } from 'react-native';
 import { Api } from '../../../util/Api';
 import { SessionManager } from '../../../util/SessionManager';
 

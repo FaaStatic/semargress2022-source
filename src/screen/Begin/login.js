@@ -10,7 +10,9 @@ import {
   AlertIOS,
   Platform,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  Pressable,
+  TouchableOpacity
 } from 'react-native';
 import { TextInput, Button, Provider, Portal, Modal } from 'react-native-paper';
 import style from '../../util/style';
@@ -334,15 +336,16 @@ export default function Login({ navigation }) {
                     alignSelf: 'center',
                     fontSize: 20,
                     marginBottom: 36,
-                    color: 'black',
+                    color: 'white',
                   }}
                 >
                   Masukan OTP
                 </Text>
                 <TextInput
-                  underlineColor="grey"
+                  underlineColor="white"
                   mode="flat"
                   maxLength={6}
+                  selectionColor={'white'}
                   keyboardType="number-pad"
                   value={otp}
                   onChangeText={(text) => setOtp(text)}
@@ -358,7 +361,7 @@ export default function Login({ navigation }) {
                   theme={{
                     colors: {
                       placeholder: 'grey',
-                      text: 'black',
+                      text: 'white',
                       primary: 'grey',
                       textAlign: 'center',
                       fontSize: 12,
@@ -369,7 +372,7 @@ export default function Login({ navigation }) {
                   }}
                 />
                 {showRequest ? (
-                  <Text style={{ color: 'black', alignSelf: 'center' }}>{timer}</Text>
+                  <Text style={{  color: 'white', alignSelf: 'center' }}>{timer}</Text>
                 ) : (
                   <Button
                     onPress={btnRequestOtp}
@@ -424,7 +427,7 @@ export default function Login({ navigation }) {
             style={{
               backgroundColor:'white',
               height: '100%',
-              marginTop: '100%',
+              marginTop: '65%',
               borderRadius: 10,
               marginLeft : 20,
               marginRight : 20,
@@ -435,14 +438,16 @@ export default function Login({ navigation }) {
               style={[
                 style.boxImageSplash,
                 {
-                  width: 220,
-                  height: 220,
+                  width: 275,
+                  height: 275,
+                  marginBottom:0,
                 },
               ]}
               resizeMode='contain'
             />
             <TextInput
               mode="outlined"
+              disabled={ modalOTPVisible ? true : false }
               keyboardType="number-pad"
               underlineColor="transparent"
               outlineColor="grey"
@@ -473,8 +478,10 @@ export default function Login({ navigation }) {
               style={{
                 width: 175,
                 alignSelf: 'center',
-                marginTop: 36,
+                marginTop: 18,
+                height:45,
                 color: 'white',
+                paddingTop:4,
               }}
               theme={{
                 colors: {
@@ -486,19 +493,33 @@ export default function Login({ navigation }) {
             >
               <Text style={{ fontWeight: 'bold', color: 'white' }}>Login</Text>
             </Button>
-
+            <View style={{
+  borderBottomWidth:1,
+  borderBottomColor:'grey',
+  marginStart:16,
+  marginEnd:16,
+  marginTop:16,
+  marginBottom:16,
+}}/>
             <Text style={styling.textStyle}>
-              Atau Menggunakan
+              Atau kamu dapa login menggunakan
             </Text>
 
-            <Button
-              onPress={btnSubmitGoogle}
-              mode="contained"
-              theme={btnSubmitGoogleStyle}
-              style={styling.btnSubmitStyleGoogle}
-            >
-              <Text style={{ fontWeight: 'bold', color: 'white' }}>Google</Text>
-            </Button>
+
+            <View style={styling.btnSubmitStyleGoogle}>
+            <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+            <Image source={require('../../assets/google.png')} resizeMode='contain' style={styling.googleIcon} />
+            <Text style={[styling.textStyle,{
+              color:'grey',
+              marginTop:0,
+              marginStart:'40%',
+              position:'absolute',
+              fontSize:18,
+              fontWeight:'bold',
+            }]}>Google</Text>
+            </TouchableOpacity>
+            </View>
+           
           </View>
         </SafeAreaView>
       </SafeAreaView>
@@ -518,10 +539,27 @@ const btnSubmitGoogleStyle = {
 const styling = StyleSheet.create({
   btnSubmitStyleGoogle:{
     alignSelf: 'stretch',
+    flexDirection:'row',
+    height:45,
     marginTop: 16,
     marginEnd: 36,
     marginStart: 36,
-    color: 'white',
+    backgroundColor:'white',
+    borderRadius:8,
+    elevation:5,
+    padding:0,
   },
-  textStyle:{ color: 'black', alignSelf: 'center', marginTop: 16 },
+  btnTouchableGoogle:{
+    flexDirection:'row',
+    alignSelf: 'stretch',
+    width:'100%',
+  },
+  googleIcon:{
+  height:24,
+  width:24,
+  marginTop:10,
+  marginStart:36,
+
+  },
+  textStyle:{ color: 'black', alignSelf: 'center', marginTop: 6 },
 })
