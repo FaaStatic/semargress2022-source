@@ -1,10 +1,10 @@
 import React from 'react';
-import { SafeAreaView, View, Text, Image, StyleSheet } from 'react-native';
+import { SafeAreaView, View, Text, Image, StyleSheet, Pressable } from 'react-native';
 
 
-export default function ListCategory({item}){
+export default function ListCategory({item, pressCall}){
     return(
-        <SafeAreaView style={style.container}>
+        <Pressable style={style.container} onPress={() => {pressCall(item)}}>
             <Image source={{uri:item.foto}} resizeMode='cover' style={style.imageStyle}/>
             <View style={style.containerText}>
                 <Text style={[style.textStyle,{
@@ -19,7 +19,7 @@ export default function ListCategory({item}){
                     marginTop:8,
                 }]}>{ item.alamat }</Text>
             </View>
-        </SafeAreaView>
+        </Pressable>
     );
 }
 
