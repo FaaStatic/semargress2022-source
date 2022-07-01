@@ -113,11 +113,7 @@ export default function DetailListCategory({ navigation, route }) {
     }
   };
 
-  const getCurrentPosition = useCallback(
-    ()=>{
-       return location;
-    },[location]
-  )
+
 
   const getListItem = async (data) => {
     if (onProgress) {
@@ -171,10 +167,20 @@ export default function DetailListCategory({ navigation, route }) {
     }
   };
 
+  const moveDetail = (data) =>{
+    
+    const param = {
+      id_m : data.id_m,
+      kategori : id_k,
+    }
+    console.log("categoryitem",param);
+    navigation.navigate('DetailMerchant',param)
+  }
+
   const itemRender = useCallback(({ item }) => {
     return (
       <View>
-        {item.flag_tipe === 'merchant' ? <ListCategory item={item} /> : <IklanItem item={item} />}
+        {item.flag_tipe === 'merchant' ? <ListCategory item={item} pressCall={moveDetail}/> : <IklanItem item={item} />}
       </View>
     );
   }, []);
