@@ -292,6 +292,9 @@ dependencies {
 
     implementation project(':react-native-push-notification')
 
+    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+
+
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
@@ -345,3 +348,4 @@ def isNewArchitectureEnabled() {
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+    
