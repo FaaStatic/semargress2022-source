@@ -268,7 +268,7 @@ const showAllDestination = () =>{
               data={spotWisata}
               showsHorizontalScrollIndicator={false}
               renderItem={SpotWisataList}
-              ListFooterComponent={showAllDestination}
+              // ListFooterComponent={showAllDestination}
             />
           </ScrollView>
         </SafeAreaView>
