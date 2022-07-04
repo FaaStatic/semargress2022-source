@@ -26,6 +26,7 @@ import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
 
 const ScanQR = ({navigation, route}) => {
   
+  const windowWidth = Dimensions.get('window').width;
   const [data, setData] = useState([]);
   const [nominal, setNominal] = useState(0);
   const [modalQR, setModalQR] = useState(false);
@@ -85,7 +86,7 @@ const ScanQR = ({navigation, route}) => {
           
           if(metadata.status === 200){
           
-            ShowSuccess("Anda berhasil mendapatkan "+response.jumlah_kupon + " kupon");
+            ShowSuccess("Anda berhasil mendapatkan "+response.jumlah_kupon + " E-Kupon");
           }else{
             ShowError(metadata.message)
           }
@@ -330,6 +331,21 @@ const ScanQR = ({navigation, route}) => {
                       }} />
 
                   </TouchableOpacity>
+
+                  <Image
+                    source={require('../../assets/qrframe.png')}
+                    style={{
+                        position:'absolute',
+                        alignSelf:'center',
+                        marginVertical:'50%',
+                        resizeMode:'contain',
+                        width:windowWidth*2/3,
+                        height:windowWidth*2/3,
+                        tintColor:colors.white,
+                    }}
+                  >
+
+                  </Image>
               </Modal>
           </View>
       </SafeAreaView>

@@ -23,8 +23,11 @@ import IconList from '../../util/ListItem/IconList';
 import BannerList from '../../util/ListItem/BannerList';
 import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 import SpotWisataList from '../../util/ListItem/SpotWisataList';
+import {Environment} from '../../util/environment';
+import messaging from '@react-native-firebase/messaging';
 
 export default function Home({ navigation, route }) {
+  
   const [iconVisible, setIconVisible] = useState(false);
   const [category, setCategory] = useState([]);
   const [banner, setBanner] = useState([]);
@@ -32,7 +35,9 @@ export default function Home({ navigation, route }) {
   const [countKoupon, setCountKoupon] = useState(0);
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
+
   useEffect(() => {
+
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
@@ -40,11 +45,28 @@ export default function Home({ navigation, route }) {
       getBannerSlider();
       merchantPopuler();
       getSpotPariwisata();
+      checkFCMToken();
     });
     return () => {
       unsubscribe;
     };
   }, [navigation]);
+
+  const checkFCMToken = async () => {
+    
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      
+      let param = {
+        fcm_id : fcmToken
+      }
+      await Api.post('auth/update_fcm_id', param)
+      .then((res) => {
+      })
+      .catch((err) => {});
+
+    }
+  };
 
   const merchantPopuler = async () => {
     await Api.get('merchant/all')
@@ -299,6 +321,13 @@ const showAllDestination = () =>{
          
         </SafeAreaView>
       </ScrollView>
+
+      {Environment.ENV != 'PRODUCTION' && 
+        <View
+              style={{width:'100%', backgroundColor:'red', position:'absolute', marginTop:0, padding:8}}
+        >
+          <Text style={{color:'white', alignSelf:'center'}}>{Environment.ENV}</Text>
+        </View>}
     </SafeAreaView>
   );
 }

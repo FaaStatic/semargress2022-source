@@ -5889,6 +5889,11 @@
   "resolved" "https://registry.npmjs.org/react-native-currency-input/-/react-native-currency-input-1.0.1.tgz"
   "version" "1.0.1"
 
+"react-native-device-info@^9.0.2":
+  "integrity" "sha512-+IfYZ/OuKjnFf7SFfgIzEqynSeFngrIHc5KgHUIfXusLDXIFJ+LhRBCD7skqnraHrfmESUOMjLbNcvy4SVdwSA=="
+  "resolved" "https://registry.npmjs.org/react-native-device-info/-/react-native-device-info-9.0.2.tgz"
+  "version" "9.0.2"
+
 "react-native-dropdown-picker@^5.4.2":
   "integrity" "sha512-cZBPyN+k52jA9XguFnKoF5tLf31z6gjZ8GijO/pfVNSSEtPwZ14UTUrr87JiiOnMh5K/O2kRzZ/jZN8D0MmUMA=="
   "resolved" "https://registry.npmjs.org/react-native-dropdown-picker/-/react-native-dropdown-picker-5.4.2.tgz"
