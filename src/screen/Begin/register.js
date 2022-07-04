@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, View, Pressable, StyleSheet, ScrollView, Alert } from 'react-native';
+import { 
+  SafeAreaView, 
+  Text, 
+  View, 
+  Pressable, 
+  StyleSheet, 
+  ScrollView, 
+  Alert,
+  Dimensions,
+  ActivityIndicator,
+  Image,
+} from 'react-native';
 import { Portal, Provider, TextInput, Modal } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import style from '../../util/style';
@@ -9,12 +20,14 @@ import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import messaging from '@react-native-firebase/messaging';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
+import { colors } from '../../util/color';
 
 var fcm_id = '';
 var loginType = '';
 export default function Register({ navigation, route }) {
-  const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
 
+  const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
+  const windowWidth = Dimensions.get('window').width;
   const [dataUID, setDataUID] = useState('');
   const [open, setOpen] = useState(false);
   const [openDate, setOpenDate] = useState(false);
@@ -69,6 +82,7 @@ export default function Register({ navigation, route }) {
     { label: 'Desember', value: '12' },
   ]);
 
+  const [loading, setLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const [ktp, setKTP] = useState('');
   const [nama, setNama] = useState('');
@@ -86,6 +100,7 @@ export default function Register({ navigation, route }) {
 
     if (session != null) {
       // if session is set already
+      console.log("sessionlama ", session)
       loginType = session.type;
       setTxtEmail(session.email);
       setDataUID(session.uid);
@@ -96,6 +111,8 @@ export default function Register({ navigation, route }) {
         email: email,
         type: type,
       };
+
+      console.log("buatsession ", data)
 
       await SessionManager.StoreAsObject(sessionId, data);
       loginType = type;
@@ -165,8 +182,13 @@ export default function Register({ navigation, route }) {
 
   // get profile data
   const getDataProfile = () => {
+
+    setLoading(true);
+
     Api.get('profile/view')
       .then(async (respon) => {
+
+        setLoading(false);
         let body = respon.data;
         let metadata = body.metadata;
         let response = body.response;
@@ -186,7 +208,9 @@ export default function Register({ navigation, route }) {
         } else {
         }
       })
-      .catch((error) => {});
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const showAlert = () =>
@@ -229,6 +253,7 @@ export default function Register({ navigation, route }) {
       type: 'GOOGLE',
     };
 
+    console.log(data);
     await Api.post('register', data)
       .then(async (res) => {
         let body = res.data;
@@ -245,11 +270,15 @@ export default function Register({ navigation, route }) {
 
           await SessionManager.StoreAsObject(sessionId, data);
           editProfile();
+        }else{
+
+          ShowError(metadata.message);
         }
       })
       .catch((err) => {
         console.log('err ', err);
-        editProfile();
+        ShowError();
+        //editProfile();
       });
   };
 
@@ -267,6 +296,7 @@ export default function Register({ navigation, route }) {
 
     await Api.post('profile/edit', data)
       .then((res) => {
+
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
@@ -275,6 +305,8 @@ export default function Register({ navigation, route }) {
           ShowSuccess(metadata.message);
           if (!edit || edit == undefined) {
             navigation.dispatch(StackActions.replace('RouterTab'));
+          }else{
+            //navigation.goBack();
           }
           //saveData(data);
         } else {
@@ -444,7 +476,7 @@ export default function Register({ navigation, route }) {
             style={styles.title}
           />
 
-          <Text style={styles.subTitle}> Tanggal Lahir (dd mm yy)</Text>
+          <Text style={styles.subTitle}> Tanggal Lahir (DD Month YYYY)</Text>
 
           <View
             style={{
@@ -574,6 +606,21 @@ export default function Register({ navigation, route }) {
             </Pressable>
           </View>
         </ScrollView>
+        
+        {loading &&
+          <ActivityIndicator size="large" 
+            style={{
+              backgroundColor:'rgba(52, 52, 52, 0.6)',
+              width: '100%',
+              height: '100%',
+              alignSelf:'center',
+              position:'absolute',
+              top:0,
+              bottom:0,
+            }}
+            animating={true}
+          />
+        }
       </SafeAreaView>
     </Provider>
   );

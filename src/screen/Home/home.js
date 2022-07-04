@@ -11,6 +11,9 @@ import {
   Pressable,
   FlatList,
   ImageBackground,
+  BackHandler,
+  Alert,
+  Dimensions,
 } from 'react-native';
 import Style from '../../util/style';
 import { TextInput } from 'react-native-paper';
@@ -25,6 +28,7 @@ import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 import SpotWisataList from '../../util/ListItem/SpotWisataList';
 import {Environment} from '../../util/environment';
 import messaging from '@react-native-firebase/messaging';
+const windowWidth = Dimensions.get('window').width;
 
 export default function Home({ navigation, route }) {
   
@@ -38,6 +42,24 @@ export default function Home({ navigation, route }) {
 
   useEffect(() => {
 
+    const backAction = () => {
+
+      if (navigation.isFocused()) {
+          Alert.alert("Konfirmasi", "Apakah anda yakin ingin keluar dari aplikasi?", [
+              {
+                  text: "Batal",
+                  onPress: () => null,
+                  style: "cancel"
+              },
+              { text: "Iya", onPress: () => BackHandler.exitApp() }
+          ]);
+          return true;
+      }
+
+  };
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
@@ -47,8 +69,13 @@ export default function Home({ navigation, route }) {
       getSpotPariwisata();
       checkFCMToken();
     });
+
     return () => {
+
+      backHandler.remove();
       unsubscribe;
+      
+      
     };
   }, [navigation]);
 
@@ -137,7 +164,7 @@ export default function Home({ navigation, route }) {
   })
 
   const moveDetailWisata = (item)=>{
-    console.log('testeswisata', item.nama);
+    //console.log('testeswisata', item.nama);
     navigation.navigate('DetailWisata', {
       id_wisata : item.id,
       name : item.nama,
@@ -188,7 +215,7 @@ export default function Home({ navigation, route }) {
 const showAllDestination = () =>{
       return(
         <Pressable style={style.containerFooter}>
-        <Image source={require('../../assets/logotugumuda.png')} resizeMode='stretch' style={style.imageStyleFooter}/>
+        <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
     </Pressable>);
       }
@@ -375,10 +402,10 @@ const style = StyleSheet.create({
 
   },
   containerFooter :{
-  height:175,
-  width:122,
+  height:windowWidth/2,
+  width:windowWidth/3,
   justifyContent:'center',
-  borderRadius:8,
+  borderRadius:5,
   marginStart:8,
   marginEnd:32,
   flexDirection:'column',
@@ -390,6 +417,7 @@ imageStyleFooter :{
     height:50,
     alignSelf:'center',
     marginBottom:12,
+    resizeMode:'contain',
 },
 textAllFooter:{
     fontSize:16,

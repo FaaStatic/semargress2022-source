@@ -119,19 +119,20 @@ const DetailQR = ({navigation, route}) => {
 
         <View
             style={{
-                justifyContent:'center',
+                alignItems:'center',
                 marginLeft:24,
                 marginRight:24,
             }}
         >
             <Text
-                style={{color:colors.white, textAlign:'center'}}
+                style={{color:colors.white, textAlign:'center', marginTop:'5%'}}
             >Tunjukan QR code anda kepada petugas merchant untuk dilakukan proses scan</Text>
 
             <View
                 style={{
                     backgroundColor: colors.white,
                     height: '75%',
+                    width:'94%',
                     marginTop: 18,
                     borderRadius: 16,
                     alignItems:'center',
@@ -159,6 +160,7 @@ const DetailQR = ({navigation, route}) => {
                 
                     <Image
                         source={{uri:dataQR}}
+                        defaultSource={require('../../assets/qr.png')}
                         style={{
                             marginTop: 20,
                             width: windowWidth*0.65,
@@ -197,8 +199,6 @@ const DetailQR = ({navigation, route}) => {
 
             </View>
         </View>
-        
-
 
         <View
             style={{
