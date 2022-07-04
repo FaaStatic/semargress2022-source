@@ -1,24 +1,24 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Image, Text } from 'react-native';
+import { StyleSheet, SafeAreaView, Image, Text, Pressable } from 'react-native';
 
 
-export default function HomeMerchantList({item}){
+export default function HomeMerchantList({item, pressCall}){
     console.log('listMerchant',item);
     return(
-        <SafeAreaView style={style.containerList}>
+        <Pressable style={style.containerList} onPress={()=>pressCall(item)}>
         <SafeAreaView style={style.containerImage}>
             <Image source={{uri : item.foto}}style={style.ImageStyle} resizeMode='contain'/>
         </SafeAreaView>
         <Text numberOfLines={2} style={style.textStyle}>{item.nama}</Text>
-        </SafeAreaView>
+        </Pressable>
     );
 }
 
 
 const style = StyleSheet.create({
     ImageStyle : {
-        height:80,
-        width:80,
+        height:120,
+        width:120,
         borderRadius:8,
         alignSelf:'center',
     },

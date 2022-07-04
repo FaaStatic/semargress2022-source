@@ -14,6 +14,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import DetailListCategory from '../../screen/Home/merchant/DetailListCategory';
 import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
 import EKupon from '../../screen/Home/homecomponents/Ekupon';
+import DetailWisataSemarang from '../../screen/Home/homecomponents/wisata/DetailWisataSemarang';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -158,6 +159,30 @@ export default function Router() {
         options={( {navigation , screenProps, route} )=>({
           headerShown: true,
           title: 'E-Koupon Semargress',
+          headerTitleAlign:'center',
+          headerShadowVisible: true,
+          headerLeft: () => { return(
+            <View>
+              <TouchableOpacity onPress={()=>navigation.goBack()}>
+              <IonIcon name="chevron-back" size={24} color={'black'}/>
+              </TouchableOpacity>
+            </View>
+          )
+          } ,
+          headerStyle: {
+            elevation: 0,
+            shadowOpacity: 0,
+            backgroundColor: 'white',
+            marginBottom: 0,
+            borderBottomWidth: 0,
+          },
+        })}/>
+           <StackScreen.Screen
+        name='DetailWisata'
+        component={DetailWisataSemarang}
+        options={( {navigation , screenProps, route} )=>({
+          headerShown: true,
+          title: route.params.name,
           headerTitleAlign:'center',
           headerShadowVisible: true,
           headerLeft: () => { return(
