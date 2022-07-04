@@ -12,6 +12,7 @@ const mainColors ={
     white:'#FFF',
     black:'#000',
     black2:'rgba(0,0,0,0.7)',
+    black3:'#333333',
     colorGrey1 :'#EBEBEB',
     colorGrey2:'#7A7A7A',
     colorGrey3:'#FAFAFA',
@@ -20,7 +21,7 @@ const mainColors ={
     colorRed2:'#FFF3F5',
     colorGreen:'#31B057',
     colorYellow1:'#FFB41F',
-    colorYellow2: '#FFF8EB',
+    colorYellow2: '#F29836',
     colorOrange1 :'#FF691F',
     colorBlue1:'#0D80EB'
   }
@@ -35,6 +36,7 @@ const mainColors ={
     orange1:mainColors.colorOrange1,
     white:mainColors.white,
     black:mainColors.black,
+    black3:mainColors.black3,
     bgButtonGoogle:mainColors.primary,
     background:mainColors.colorDark3,
     backgroundDetail:"#FBFBFB",

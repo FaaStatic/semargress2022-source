@@ -111,6 +111,12 @@ export default function Register({ navigation, route }) {
   };
 
   useEffect(() => {
+
+    if(edit){
+      navigation.setOptions({
+        title : "Profile"
+      });
+    }
     loadSession();
     checkToken();
 

@@ -16,11 +16,13 @@ import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import {colors} from '../../util/color'
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
+import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
 
 const DetailQR = ({navigation, route}) => {
 
   const [dataQR, setDataQR] = useState('');
   const windowWidth = Dimensions.get('window').width;
+  const [onLengkapiProfile, setLengkapiProfile] = useState(false);
 
   // Load data session
   const loadSession = async () => {
@@ -57,9 +59,11 @@ const DetailQR = ({navigation, route}) => {
           
           if(metadata.status === 200){
             
+            setLengkapiProfile(false);
             setDataQR(response.url)
-          }else{
             
+          }else{
+            setLengkapiProfile(true);
           }
       })
       .catch((error) => {
@@ -151,15 +155,45 @@ const DetailQR = ({navigation, route}) => {
                     }}
                 >SCAN QR CODE</Text>
 
-                <Image
-                    source={{uri:dataQR}}
-                    style={{
-                        marginTop: 20,
-                        width: windowWidth*0.65,
-                        height: windowWidth*0.65,
-                    }}
-                    resizeMode='contain'
-                />
+                {dataQR != undefined && dataQR != '' && 
+                
+                    <Image
+                        source={{uri:dataQR}}
+                        style={{
+                            marginTop: 20,
+                            width: windowWidth*0.65,
+                            height: windowWidth*0.65,
+                        }}
+                        resizeMode='contain'
+                    />
+                }
+
+                {onLengkapiProfile && 
+                    <TouchableOpacity
+                        style={{
+                            marginTop:50,
+                            marginLeft:30,
+                            marginRight:30,
+                            backgroundColor:colors.yellow2,
+                            borderRadius:5
+                        }}
+
+                        onPress={()=>{
+                            
+                            navigation.navigate('Register',{
+                                edit: true 
+                            });
+                        }}
+                    >
+                        <Text
+                            style={{
+                                color:colors.white,
+                                padding:10,
+
+                            }}
+                        >Harap Lengkapi Profile Terlebih Dahulu</Text>
+                    </TouchableOpacity>
+                }
 
             </View>
         </View>

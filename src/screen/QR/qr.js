@@ -203,7 +203,7 @@ const Qr = ({navigation, route}) => {
                   color: colors.primary,
                   fontSize:14,
                   marginTop:8,
-                  fontWeight:'100',
+                  fontWeight:'400',
                 }}
               >1. Masukan nominal belanja dan cara bayar
               {"\n"}2. Scan QR code yang terdapat pada merchant</Text>
@@ -213,6 +213,9 @@ const Qr = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 alignSelf:'flex-end',
+              }}
+              onPress={()=>{
+                navigation.navigate('ScanQR');
               }}
             >
                   <Text
@@ -237,6 +240,8 @@ const styles = StyleSheet.create({
     marginTop: 0,
     top: 0,
     width: '100%',
+    height:'10%',
+    resizeMode:'stretch',
     position: 'absolute',
     flexDirection: 'row',
   },
