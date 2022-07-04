@@ -1,7 +1,9 @@
 import React from 'react';
-import { SafeAreaView, Image, Text,StyleSheet } from 'react-native';
+import { SafeAreaView, Image, Text,StyleSheet, Dimensions } from 'react-native';
 
-export default function SpotWisataList({item, pressCall}){
+const windowWidth = Dimensions.get('window').width;
+
+export default function ListWisataSemarang({item, pressCall}){
     return (
     <SafeAreaView style={style.container}>
         <Image source={{uri : item.gambar}} resizeMode='stretch' style={style.imageStyle}/>
@@ -11,8 +13,8 @@ export default function SpotWisataList({item, pressCall}){
 
 const style = StyleSheet.create({
     container :{
-    height:175,
-    width:125,
+    height:250,
+    width: windowWidth/4,
     borderRadius:16,
     flexDirection:'column',
     marginStart:8,

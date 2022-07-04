@@ -10,6 +10,7 @@ import {
   StyleSheet,
   Pressable,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import Style from '../../util/style';
 import { TextInput } from 'react-native-paper';
@@ -32,17 +33,13 @@ export default function Home({ navigation, route }) {
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
   useEffect(() => {
-    checkSession();
-    kategoriHome();
-    jumlahCoupon();
-    getBannerSlider();
-    merchantPopuler();
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
       jumlahCoupon();
       getBannerSlider();
       merchantPopuler();
+      getSpotPariwisata();
     });
     return () => {
       unsubscribe;
@@ -109,6 +106,27 @@ export default function Home({ navigation, route }) {
     );
   }, []);
 
+  const getSpotPariwisata = async () => {
+    await Api.post('api/tempat_wisata',{
+      start:0,
+      count:6,
+    }).then(res => {
+      let body = res.data;
+      let response = body.response;
+      let metadata = body.metadata;
+      console.log("spotWisata", body);
+      if(metadata.status === 200){
+        setSpotWisata(response);
+      }else if( metadata.status === 401){
+
+      }else{
+        
+      }
+    }).catch(err =>{
+      console.log(err);
+    })
+  }
+
 
   const moveCategory = (data) =>{
     navigation.navigate('DetailListCategory', {
@@ -118,8 +136,12 @@ export default function Home({ navigation, route }) {
   }
 
 const showAllDestination = () =>{
-
-}
+      return(
+        <Pressable style={style.containerFooter}>
+        <Image source={require('../../assets/logotugumuda.png')} resizeMode='stretch' style={style.imageStyleFooter}/>
+        <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
+    </Pressable>);
+      }
 
   const keyExtractor = useCallback(({ item }) => {
     return item.id_k;
@@ -259,8 +281,9 @@ const showAllDestination = () =>{
           </LinearGradient>
         </SafeAreaView>
 
-        <SafeAreaView>
-          <Text>Pariwisata Semarang</Text>
+        <SafeAreaView style={style.spotPariwisataContainer}>
+        <ImageBackground source={require('../../assets/bgpopulerwisata.png')} style={style.imagestyleBg} resizeMode='cover'>
+          <Text style={style.textSpotTitle}>Pariwisata Semarang</Text>
           <ScrollView>
             <FlatList
               nestedScrollEnabled={true}
@@ -268,9 +291,12 @@ const showAllDestination = () =>{
               data={spotWisata}
               showsHorizontalScrollIndicator={false}
               renderItem={SpotWisataList}
-              // ListFooterComponent={showAllDestination}
+              ListFooterComponent={showAllDestination}
+              style={style.containerListSpotPariwisata}
             />
           </ScrollView>
+          </ImageBackground>
+         
         </SafeAreaView>
       </ScrollView>
     </SafeAreaView>
@@ -287,6 +313,51 @@ const themeSearch = {
 };
 
 const style = StyleSheet.create({
+  containerListSpotPariwisata:{
+    padding:16,
+
+  },
+  containerFooter :{
+  height:175,
+  width:125,
+  justifyContent:'center',
+  borderRadius:8,
+  marginStart:8,
+  marginEnd:32,
+  flexDirection:'column',
+  backgroundColor:'#f29836',
+
+},
+imageStyleFooter :{
+    width:24,
+    height:50,
+    alignSelf:'center',
+    marginBottom:12,
+},
+textAllFooter:{
+    fontSize:16,
+    fontWeight:'bold',
+    alignSelf:'center',
+    textAlign:'center',
+    color:'white',
+    width:100,
+},
+imagestyleBg:{
+  height:300,
+  width:'100%'
+},
+  spotPariwisataContainer :{
+    height:300,
+    backgroundColor:'#B60D00',
+    flexDirection:'column',
+  },
+  textSpotTitle:{
+    color:'white',
+    fontSize:18,
+    margin:16,
+    fontWeight:'bold'
+  },
+
   containerHome: [
     Style.container,
     {

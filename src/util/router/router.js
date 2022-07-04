@@ -7,10 +7,11 @@ import Splash from '../../screen/Begin/splash';
 import Login from '../../screen/Begin/login';
 import Register from '../../screen/Begin/register';
 import RouterQuiz from './routerQuiz';
-import DetailMerchant from '../../screen/Home/homecomponents/DetailMerchant';
+import DetailMerchant from '../../screen/Home/merchant/DetailMerchant';
 import DetailQR from '../../screen/QR/detailqr';
+import ScanQR from '../../screen/QR/detailscanqr';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import DetailListCategory from '../../screen/Home/homecomponents/DetailListCategory';
+import DetailListCategory from '../../screen/Home/merchant/DetailListCategory';
 import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
 import EKupon from '../../screen/Home/homecomponents/Ekupon';
 
@@ -92,6 +93,13 @@ export default function Router() {
         <StackScreen.Screen
           name="DetailQR"
           component={DetailQR}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <StackScreen.Screen
+          name="ScanQR"
+          component={ScanQR}
           options={{
             headerShown: false,
           }}
