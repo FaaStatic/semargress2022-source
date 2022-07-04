@@ -12,13 +12,20 @@ import {
   Alert
 } from 'react-native';
 import {Api} from '../../util/Api';
+import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {StackActions} from '@react-navigation/native';
+import { colors } from '../../util/color';
+import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
+import { ScrollView } from 'react-native-gesture-handler';
 
 var typeLogin = "";
 const Profile = ({navigation, route}) => {
+
+  const windowHeight = Dimensions.get('window').height;
+  const windowWidth = Dimensions.get('window').width;
   const [data, setData] = useState([]);
 
   // Load data session
@@ -26,8 +33,9 @@ const Profile = ({navigation, route}) => {
 
     const session = await SessionManager.GetAsObject(sessionId);
       if(session != null){
-          console.log("session ",session.token);
+          
           typeLogin = session.type;
+          getData();
       }
   };
 
@@ -48,15 +56,14 @@ const Profile = ({navigation, route}) => {
 
   const getData = () => {
 
-      //console.log(param)
-      Api.post('', param)
+      Api.get('profile/view')
       .then(async (respon) => {
           let body = respon.data;
           let metadata = body.metadata;
           let response = body.response;
           
           if(metadata.status === 200){
-          
+            setData(response);
           }else{
             
           }
@@ -108,22 +115,169 @@ const Profile = ({navigation, route}) => {
       <View
         style={styles.container}
       >
-        
-        <Button
-          title='Profile'
-          onPress={()=>{
-            navigation.navigate('Register',{
-              edit: true 
-            });
-          }}
-        ></Button>
 
-        <Button
-          title='Logout'
-          onPress={()=>{
-            showAlert();
-          }}
-        ></Button>
+        <Image
+          source={require('../../assets/header_app.png')}
+          style={styles.imageHeder}
+        />
+
+        <ScrollView>
+
+          <Text style={styles.title} >Profile</Text>
+
+          <View
+            style={{
+              flexDirection: 'column',
+              alignItems: 'center',
+              marginTop: 30,
+            }}
+          >
+
+            <View
+              style={{
+                backgroundColor: colors.primary,
+                width: windowWidth - 50,
+                height: windowWidth - 50,
+                padding: 30,
+                borderRadius: 10,
+              }}
+            >
+              <Image
+                source={{ uri: data.foto }}
+                style={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: 10,
+                  resizeMode: 'contain',
+                }}
+              >
+
+              </Image>
+
+
+              <TouchableOpacity
+                style={{
+                  width: 40,
+                  height: 40,
+                  position: 'absolute',
+                  marginTop: 25,
+                  right: 0,
+                  marginRight: 25,
+                }}
+
+                onPress={() => {
+                  navigation.navigate('Register', { edit: true })
+                }}
+              >
+                <Image
+                  source={require('../../assets/edit_profile.png')}
+                  style={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: 10,
+                    resizeMode: 'contain',
+                  }}
+                >
+
+                </Image>
+              </TouchableOpacity>
+
+              <Text style={styles.label} >Nama</Text>
+
+              <Text style={styles.value} numberOfLines={1} >{data.profile_name}</Text>
+
+              <Text style={styles.label} >Alamat</Text>
+
+              <Text style={styles.value} numberOfLines={1} >{data.alamat}</Text>
+
+              <Text style={styles.label} >No. Telepon</Text>
+
+              <Text style={styles.value} numberOfLines={1} >{data.no_telp}</Text>
+
+            </View>
+          </View>
+
+          <View style={styles.menuContainer}>
+
+            <Image
+              source={require('../../assets/ic_ekupon.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >E-Kupon Saya</Text>
+
+            <TouchableOpacity style={styles.leftIcon}>
+
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.menuContainer}>
+
+            <Image
+              source={require('../../assets/ic_voucher.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >Voucher Saya</Text>
+
+            <TouchableOpacity style={styles.leftIcon}>
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.menuContainer}>
+
+            <Image
+              source={require('../../assets/ic_kuis.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >Kuis</Text>
+
+            <TouchableOpacity style={styles.leftIcon}>
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={styles.menuContainer}>
+
+            <Image
+              source={require('../../assets/ic_tentang.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >Tentang Semargres</Text>
+
+            <TouchableOpacity style={styles.leftIcon}>
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </TouchableOpacity>
+
+          </View>
+
+          <View style={[styles.menuContainer,{marginBottom:30,}]}>
+
+            <Image
+              source={require('../../assets/ic_logout.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >Log Out</Text>
+
+            <TouchableOpacity style={styles.leftIcon}
+              onPress={() => { showAlert(); }}
+            >
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </TouchableOpacity>
+
+          </View>
+
+        </ScrollView>
+
+
       </View>
     </SafeAreaView>
   );
@@ -132,21 +286,57 @@ const Profile = ({navigation, route}) => {
 export default Profile;
 
 const styles = StyleSheet.create({
-  page: {
-    flex: 1,
-    alignItems: 'center',
-    paddingTop: 20,
-    backgroundColor: 'white',
-    flexDirection: 'column',
-    // justifyContent: 'center',
+  imageHeder: {
+    marginTop: 0,
+    top: 0,
+    width: '100%',
+    height:'10%',
+    resizeMode:'stretch',
+    position: 'absolute',
+    flexDirection: 'row',
   },
   title: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 28,
+    alignSelf:'center',
+    marginTop:'12%',
+    fontSize:25,
+    color:'black'
   },
   container: {
     width: '100%',
     height: '100%'
+  },
+  label: {
+    color:colors.white,
+    marginTop:10,
+    fontWeight:'400',
+  },
+  value: {
+    color:colors.white,
+    marginTop:10,
+    fontSize:18,
+    fontWeight:'600',
+  },
+  icon:{
+    width:30,
+    height:30,
+    resizeMode:'contain',
+  },
+  leftIcon:{
+    position:'absolute', 
+    right:0, 
+    marginRight:10,
+  },
+  menuTitle:{
+    fontSize:16,
+    windowHeight:'600',
+    color:colors.black,
+    marginLeft:19,
+  },
+  menuContainer :{
+    flexDirection:'row',
+    marginLeft:30,
+    marginRight:30,
+    marginTop:30,
+    alignItems:'center'
   }
 });

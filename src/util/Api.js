@@ -17,7 +17,7 @@ export const Api = axios.create({
 // Intercept all requests
 Api.interceptors.request.use(
   async (request) => {
-    console.log(request, 'Cek Request');
+    //console.log(request, 'Cek Request');
     const session = await SessionManager.GetAsObject(sessionId)
     if (session != null) {
       request.headers.common['Uid'] = session.uid;
