@@ -126,10 +126,10 @@ export default function Home({ navigation, route }) {
   const kategoriHome = async () => {
     await Api.get('kategori')
       .then((res) => {
-        console.log('Kategori', res.data.response);
+        //console.log('Kategori', res.data.response);
         let arr = splitArray(res.data.response);
         setCategory(arr);
-        console.log('tes kategori', category);
+        //console.log('tes kategori', category);
       })
       .catch((err) => {});
   };
@@ -209,7 +209,7 @@ export default function Home({ navigation, route }) {
     navigation.navigate('DetailListCategory', {
       ...data
     });
-    console.log('tesidk', data);
+    //console.log('tesidk', data);
   }
 
 const showAllDestination = () =>{
