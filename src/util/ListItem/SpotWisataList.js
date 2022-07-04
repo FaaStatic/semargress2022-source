@@ -1,18 +1,18 @@
 import React from 'react';
-import { SafeAreaView, Image, Text,StyleSheet } from 'react-native';
+import { SafeAreaView, Image, Text,StyleSheet, Pressable } from 'react-native';
 
 export default function SpotWisataList({item, pressCall}){
     return (
-    <SafeAreaView style={style.container}>
+    <Pressable style={style.container} onPress={()=>{pressCall(item)}}>
         <Image source={{uri : item.gambar}} resizeMode='stretch' style={style.imageStyle}/>
         <Text style={style.textNama}>{item.nama}</Text>
-    </SafeAreaView>);
+    </Pressable>);
 }
 
 const style = StyleSheet.create({
     container :{
     height:175,
-    width:125,
+    width:122,
     borderRadius:16,
     flexDirection:'column',
     marginStart:8,
@@ -20,7 +20,7 @@ const style = StyleSheet.create({
     },
     imageStyle:{
         height:175,
-        width:125,
+        width:122,
         borderRadius:8,
     },
     textNama:{

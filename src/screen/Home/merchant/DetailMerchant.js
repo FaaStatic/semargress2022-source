@@ -50,7 +50,7 @@ export default function DetailMerchant({ navigation, route }) {
   };
 
   const DetailGet = async () => {
-    await Api.get(`merchant/all/${id_m}/${kategori}`, 1)
+    await Api.get(`merchant/all/${id_m}/`, 1)
       .then((res) => {
         let body = res.data;
         let response = body.response;

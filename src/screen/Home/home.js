@@ -128,6 +128,22 @@ export default function Home({ navigation, route }) {
     );
   }, []);
 
+  const itemRenderWisata = useCallback(({item}) => {
+    return(
+      <View>
+        <SpotWisataList item={item} pressCall={moveDetailWisata}/>
+      </View>
+    )
+  })
+
+  const moveDetailWisata = (item)=>{
+    console.log('testeswisata', item.nama);
+    navigation.navigate('DetailWisata', {
+      id_wisata : item.id,
+      name : item.nama,
+    })
+  }
+
   const getSpotPariwisata = async () => {
     await Api.post('api/tempat_wisata',{
       start:0,
@@ -147,6 +163,18 @@ export default function Home({ navigation, route }) {
     }).catch(err =>{
       console.log(err);
     })
+  }
+
+  const detailMerchant = useCallback(({item}) =>{
+    return(
+      <HomeMerchantList item={item} pressCall={moveDetail}/>
+    );
+  });
+
+  const moveDetail = (value) =>{
+    navigation.navigate('DetailMerchant', {
+      id_m : value.id_m
+    });
   }
 
 
@@ -277,7 +305,7 @@ const showAllDestination = () =>{
           <ScrollView>
             <FlatList nestedScrollEnabled={true}
             data={merchantPop.slice(0,10)}
-            renderItem={HomeMerchantList}
+            renderItem={detailMerchant}
             horizontal={true}/>
           </ScrollView>
 
@@ -312,7 +340,7 @@ const showAllDestination = () =>{
               horizontal={true}
               data={spotWisata}
               showsHorizontalScrollIndicator={false}
-              renderItem={SpotWisataList}
+              renderItem={itemRenderWisata}
               ListFooterComponent={showAllDestination}
               style={style.containerListSpotPariwisata}
             />
@@ -348,7 +376,7 @@ const style = StyleSheet.create({
   },
   containerFooter :{
   height:175,
-  width:125,
+  width:122,
   justifyContent:'center',
   borderRadius:8,
   marginStart:8,
