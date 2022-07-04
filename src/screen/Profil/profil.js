@@ -143,11 +143,12 @@ const Profile = ({navigation, route}) => {
               }}
             >
               <Image
-                source={{ uri: data.foto }}
+                source={data.foto != undefined? { uri: data.foto } : require('../../assets/logo.png')}
                 style={{
                   width: 100,
                   height: 100,
                   borderRadius: 10,
+                  backgroundColor:colors.white,
                   resizeMode: 'contain',
                 }}
               >
@@ -172,8 +173,8 @@ const Profile = ({navigation, route}) => {
                 <Image
                   source={require('../../assets/edit_profile.png')}
                   style={{
-                    width: 40,
-                    height: 40,
+                    width: 35,
+                    height: 35,
                     borderRadius: 10,
                     resizeMode: 'contain',
                   }}
@@ -197,7 +198,11 @@ const Profile = ({navigation, route}) => {
             </View>
           </View>
 
-          <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuContainer}
+            onPress={()=>{
+              navigation.navigate('EKupon');
+            }}
+          >
 
             <Image
               source={require('../../assets/ic_ekupon.png')}
@@ -206,14 +211,18 @@ const Profile = ({navigation, route}) => {
 
             <Text style={styles.menuTitle} >E-Kupon Saya</Text>
 
-            <TouchableOpacity style={styles.leftIcon}>
+            <View style={styles.leftIcon}>
 
               <SimpleIcon name="arrow-right" size={18} color={'black'} />
-            </TouchableOpacity>
+            </View>
 
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuContainer}
+            onPress={()=>{
+              navigation.navigate('VoucherHome');
+            }}
+          >
 
             <Image
               source={require('../../assets/ic_voucher.png')}
@@ -222,13 +231,17 @@ const Profile = ({navigation, route}) => {
 
             <Text style={styles.menuTitle} >Voucher Saya</Text>
 
-            <TouchableOpacity style={styles.leftIcon}>
+            <View style={styles.leftIcon}>
               <SimpleIcon name="arrow-right" size={18} color={'black'} />
-            </TouchableOpacity>
+            </View>
 
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuContainer}
+            onPress={()=>{
+              navigation.navigate('RouterQuiz');
+            }}
+          >
 
             <Image
               source={require('../../assets/ic_kuis.png')}
@@ -237,13 +250,17 @@ const Profile = ({navigation, route}) => {
 
             <Text style={styles.menuTitle} >Kuis</Text>
 
-            <TouchableOpacity style={styles.leftIcon}>
+            <View style={styles.leftIcon}>
               <SimpleIcon name="arrow-right" size={18} color={'black'} />
-            </TouchableOpacity>
+            </View>
 
-          </View>
+          </TouchableOpacity>
 
-          <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.menuContainer}
+            onPress={()=>{
+              navigation.navigate('About');
+            }}
+          >
 
             <Image
               source={require('../../assets/ic_tentang.png')}
@@ -252,13 +269,15 @@ const Profile = ({navigation, route}) => {
 
             <Text style={styles.menuTitle} >Tentang Semargres</Text>
 
-            <TouchableOpacity style={styles.leftIcon}>
+            <View style={styles.leftIcon}>
               <SimpleIcon name="arrow-right" size={18} color={'black'} />
-            </TouchableOpacity>
+            </View>
 
-          </View>
+          </TouchableOpacity>
 
-          <View style={[styles.menuContainer,{marginBottom:30,}]}>
+          <TouchableOpacity style={[styles.menuContainer,{marginBottom:30,}]}
+            onPress={() => { showAlert(); }}
+          >
 
             <Image
               source={require('../../assets/ic_logout.png')}
@@ -267,13 +286,11 @@ const Profile = ({navigation, route}) => {
 
             <Text style={styles.menuTitle} >Log Out</Text>
 
-            <TouchableOpacity style={styles.leftIcon}
-              onPress={() => { showAlert(); }}
-            >
+            <View style={styles.leftIcon}>
               <SimpleIcon name="arrow-right" size={18} color={'black'} />
-            </TouchableOpacity>
+            </View>
 
-          </View>
+          </TouchableOpacity>
 
         </ScrollView>
 
@@ -328,7 +345,7 @@ const styles = StyleSheet.create({
   },
   menuTitle:{
     fontSize:16,
-    windowHeight:'600',
+    fontWeight:'600',
     color:colors.black,
     marginLeft:19,
   },

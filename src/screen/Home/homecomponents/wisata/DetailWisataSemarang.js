@@ -372,6 +372,7 @@ const styling = StyleSheet.create({
     height: 250,
     margin: 16,
     borderRadius: 8,
+    resizeMode:'cover',
   },
   containerScroll: {
     flexDirection: 'column',

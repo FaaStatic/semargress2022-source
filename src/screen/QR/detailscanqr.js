@@ -291,6 +291,7 @@ const ScanQR = ({navigation, route}) => {
 
               <Modal
                   visible={modalQR}
+                  animationType="fade"
                   onDismiss={() => setModalQR(false)}
                   style={styles.modalStyle}
                   contentContainerStyle={{
