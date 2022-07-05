@@ -36,8 +36,7 @@ const style = StyleSheet.create({
         height:windowWidth/2.5,
         justifyContent:'flex-start',
         borderRadius:5,
-        
-        backgroundColor:'rgba(0,0,0,0)',
+        backgroundColor:'white',
         marginLeft:8,
         marginRight:8,
         padding:0,

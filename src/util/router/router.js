@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, TouchableOpacity } from 'react-native';
+import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
 import RouteTab from './routertab';
 import Splash from '../../screen/Begin/splash';
 import Login from '../../screen/Begin/login';
@@ -19,8 +19,11 @@ import DetailWisataSemarang from '../../screen/Home/homecomponents/wisata/Detail
 import HomeWisataSemarang from '../../screen/Home/homecomponents/wisata/HomeWisataSemarang';
 import Search from '../../screen/Home/Search';
 import HomeMerchat from '../../screen/Home/merchant/HomeMerchant';
+import EventDetail from '../../screen/Event/EventDetail';
 
 const StackScreen = createNativeStackNavigator();
+
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Router() {
   return (
@@ -92,7 +95,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -111,7 +114,6 @@ export default function Router() {
           }}
         />
 
-
         <StackScreen.Screen
           name="ScanQR"
           component={ScanQR}
@@ -127,7 +129,7 @@ export default function Router() {
           }}
         />
         <StackScreen.Screen
-          name='DetailListCategory'
+          name="DetailListCategory"
           component={DetailListCategory}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -141,7 +143,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -150,9 +152,73 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
         <StackScreen.Screen
-          name='VoucherHome'
+          name="EventDetail"
+          component={EventDetail}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            title: route.params.nama,
+            headerTitleAlign: 'center',
+            headerShadowVisible: true,
+            // headerLeft: () => {
+            //   return (
+            //     <View>
+            //       <TouchableOpacity onPress={() => navigation.goBack()}>
+            //         <IonIcon name="chevron-back" size={24} color={'black'} />
+            //       </TouchableOpacity>
+            //     </View>
+            //   )
+            // },
+            header: (screenProps) => {
+              return (
+                <View
+                  style={{
+                    height: 100,
+                    width: '100%',
+                    justifyContent: 'center',
+                    backgroundColor: 'white',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      alignSelf: 'center',
+                      top: SCREEN_HEIGHT / 20,
+                      left: 0,
+                      marginStart: 16,
+                    }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+
+                  <Text
+                    style={{
+                      color: 'black',
+                      alignSelf: 'center',
+                      fontSize: 18,
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {route.params.nama}
+                  </Text>
+                </View>
+              );
+            },
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              backgroundColor: 'white',
+              marginBottom: 0,
+              borderBottomWidth: 0,
+            },
+          })}
+        />
+        <StackScreen.Screen
+          name="VoucherHome"
           component={VoucherHome}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -166,7 +232,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -175,9 +241,10 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
         <StackScreen.Screen
-          name='EKupon'
+          name="EKupon"
           component={EKupon}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -191,7 +258,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -200,9 +267,10 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
         <StackScreen.Screen
-          name='DetailWisata'
+          name="DetailWisata"
           component={DetailWisataSemarang}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -216,7 +284,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -225,9 +293,10 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
         <StackScreen.Screen
-          name='MerchantHome'
+          name="MerchantHome"
           component={HomeMerchat}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -241,7 +310,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -250,13 +319,14 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
         <StackScreen.Screen
-          name='HomeWisata'
+          name="HomeWisata"
           component={HomeWisataSemarang}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: "Wisata Semarang",
+            title: 'Wisata Semarang',
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {
@@ -266,7 +336,7 @@ export default function Router() {
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
                 </View>
-              )
+              );
             },
             headerStyle: {
               elevation: 0,
@@ -275,7 +345,8 @@ export default function Router() {
               marginBottom: 0,
               borderBottomWidth: 0,
             },
-          })} />
+          })}
+        />
       </StackScreen.Navigator>
     </NavigationContainer>
   );
