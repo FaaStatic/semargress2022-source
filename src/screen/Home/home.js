@@ -218,13 +218,8 @@ export default function Home({ navigation, route }) {
 
 const showAllDestination = () =>{
       return(
-<<<<<<< HEAD
         <Pressable style={style.containerFooter}>
         <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
-=======
-        <Pressable style={style.containerFooter} onPress={moveHomeWisata}>
-        <Image source={require('../../assets/logotugumuda.png')} resizeMode='stretch' style={style.imageStyleFooter}/>
->>>>>>> 9b94104d0c4f1ca82b03ce441a423db2587882a1
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
     </Pressable>);
       }
