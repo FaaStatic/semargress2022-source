@@ -9,10 +9,47 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
+import FeedList from '../../util/ListItem/FeedList';
+import { Api } from '../../util/Api';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 export default function Location({ navigation, route }) {
+  
+  const [response,setResponse] =useState([]);
+  let offset = 0;
+  let onProgress = false;
+  const [length, setLength] = useState(10);
+  const [Last, setLast] = useState(false);
+  const [jumlahItem, setJumlahItem] = useState(0);
+  const [dataKosong, setDataKosong] = useState(false);
+  const [extraData, setExtraData] = useState(false);
+
+
+  useEffect(()=>{
+    offset = 0;
+    onProgress = false;
+    setJumlahItem(0);
+    setResponse([]);
+    getFeed();
+      const subscribe = navigation.addListener('focus',()=>{
+        offset = 0;
+        onProgress = false;
+        setJumlahItem(0);
+        setResponse([]);
+        getFeed();
+      });
+      return()=>{
+        subscribe;
+      }
+  },[navigation,getFeed])
+
+
+  const getFeed = async ()=>{
+  
+  }
+
+
   return (
     <SafeAreaView style={style.container}>
       <View
@@ -36,7 +73,11 @@ export default function Location({ navigation, route }) {
 
         <Text style={style.textHeader}>Feed Promo</Text>
       </View>
-      <SafeAreaView style={style.continerFeed}></SafeAreaView>
+      <SafeAreaView style={style.continerFeed}>
+        <FlatList
+        
+        />
+      </SafeAreaView>
     </SafeAreaView>
   );
 }

@@ -80,7 +80,7 @@ export default function Search({navigation, route}){
       await Api.post('/merchant/nearby_filter_order/',{
         "latitude" : latitude,
         "longitude" : longitude,
-        "jarak" : 10,
+        "jarak" : 50,
         "start" : 0,
         "limit" : 10,
         "kategori" : [],
