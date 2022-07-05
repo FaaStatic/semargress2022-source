@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf:'center',
-    marginTop:'20%',
+    marginTop:'12%',
     fontSize:25,
     color:'black'
   },

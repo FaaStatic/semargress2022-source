@@ -97,7 +97,7 @@ export default function DetailMerchant({ navigation, route }) {
     <SafeAreaView style={styling.containerView}>
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
         <SafeAreaView style={styling.constainerHeader}>
-          <Image source={{ uri: getDetail.foto }} resizeMode="stretch" style={styling.styleImage} />
+          <Image source={{ uri: getDetail.foto }} resizeMode="cover" style={styling.styleImage} />
           <SafeAreaView style={styling.constainerItemHeader}>
             <Pressable
               style={styling.styleIcon}
@@ -123,7 +123,7 @@ export default function DetailMerchant({ navigation, route }) {
                 fontWeight: 'bold',
               }}
             >
-              Promo yang Berlangsung
+              Promo yang Sedang Berlangsung
             </Text>
             {promo.length > 0 ? (
               <ScrollView>

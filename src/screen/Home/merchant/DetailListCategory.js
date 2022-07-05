@@ -179,7 +179,9 @@ export default function DetailListCategory({ navigation, route }) {
 
   const itemRender = useCallback(({ item }) => {
     return (
-      <View>
+      <View
+        style={{margin:10}}
+      >
         {item.flag_tipe === 'merchant' ? <ListCategory item={item} pressCall={moveDetail}/> : <IklanItem item={item} />}
       </View>
     );

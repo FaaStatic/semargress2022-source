@@ -2,7 +2,7 @@ import { showMessage } from "react-native-flash-message";
 
 export const ShowError = (message) => {
     showMessage({
-      message: 'Terjadi Kesalahan',
+      message: 'Maaf',
       description: message ? message : "Something bad error, please check your action",
       type: "default",
       backgroundColor: "#EB5757",
@@ -22,7 +22,7 @@ export const ShowError = (message) => {
   
   export const ShowWarning = (message) => {
     showMessage({
-      message: 'Peringatan',
+      message: 'Pemberitahuan',
       description: message ? message : "Harap teliti lagi masukan anda",
       type: "default",
       backgroundColor: "#FFC800",

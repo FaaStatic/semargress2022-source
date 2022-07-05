@@ -1,9 +1,10 @@
 import axios from 'axios';
 import { SessionManager } from './SessionManager';
 import { sessionId } from '../util/GlobalVar';
+import {Environment} from './environment';
 
 export const Api = axios.create({
-    baseURL: 'https://semargres.gmedia.id/',
+    baseURL: Environment.BASE_URL,
     headers: {
       Accept: 'application/json',
       'Client-Service': 'frontend-client',
@@ -16,7 +17,7 @@ export const Api = axios.create({
 // Intercept all requests
 Api.interceptors.request.use(
   async (request) => {
-    console.log(request, 'Cek Request');
+    //console.log(request, 'Cek Request');
     const session = await SessionManager.GetAsObject(sessionId)
     if (session != null) {
       request.headers.common['Uid'] = session.uid;

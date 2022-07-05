@@ -58,7 +58,6 @@ export default function Login({ navigation }) {
     cekGoogle();
     checkToken();
     
-    
     if (modalOTPVisible) {
     } else {
       setShowRequest(false);
@@ -96,7 +95,7 @@ export default function Login({ navigation }) {
   const loginUser = async (data, res) => {
     
     await Api.post('auth', data)
-      .then((result) => {
+      .then(async(result) => {
 
         let body = result.data;
         let metadata = body.metadata;
@@ -106,6 +105,7 @@ export default function Login({ navigation }) {
         
           if (response.status == 0) {
 
+              await SessionManager.ClearAllKeys();
               ShowWarning("Silahkan lengkapi informasi akun anda")
               navigation.navigate('Register', {
                 uid: data.uid,
@@ -133,6 +133,7 @@ export default function Login({ navigation }) {
             }
         }else{
 
+            await SessionManager.ClearAllKeys();
             ShowWarning("Silahkan lengkapi informasi akun anda")
               navigation.navigate('Register', {
                 uid: data.uid,
@@ -156,7 +157,7 @@ export default function Login({ navigation }) {
     const fcmToken = await messaging().getToken();
     if (fcmToken) {
       fcm = fcmToken;
-      console.log('Test Token', fcmToken);
+      console.log('FCMToken', fcmToken);
     }
   };
 
@@ -168,8 +169,7 @@ export default function Login({ navigation }) {
     if (s < 10) {
       s = `0${s}`;
     }
-    console.log('Minute', m);
-    console.log('Second', s);
+    
     setTimer(`${m}:${s}`);
   };
 
@@ -178,7 +178,7 @@ export default function Login({ navigation }) {
       setModalOtpVisible(!modalOTPVisible);
       btnOtp();
     } else {
-      console.log('isi nomor dulu');
+      //console.log('isi nomor dulu');
     }
   };
 
@@ -187,7 +187,7 @@ export default function Login({ navigation }) {
       no_telp: telp,
     })
       .then((res) => {
-        console.log(res);
+        
         time = res.data.response.time;
         setShowRequest(true);
         intervalCount();
@@ -215,6 +215,7 @@ export default function Login({ navigation }) {
     response
       .then((res) => {
         
+        //console.log("datalogingoogle ",res);
         const tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
@@ -249,10 +250,10 @@ export default function Login({ navigation }) {
       no_telp: telp,
       kode_otp: otp,
     })
-      .then((result) => {
+      .then(async (result) => {
         
         const action = result.data.response.action;
-        console.log('loginstatus', action);
+        //console.log('loginstatus', action);
         const status = result.data.metadata.status;
         const msg = result.data.metadata.message;
         if (status === 400) {
@@ -274,6 +275,7 @@ export default function Login({ navigation }) {
             saveData(data, 'SMS');
           } else {
 
+            await SessionManager.ClearAllKeys();
             ShowWarning("Silahkan lengkapi informasi akun anda");
             setVisible(false);
             clearInterval(intervalCount);

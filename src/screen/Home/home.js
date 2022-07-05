@@ -11,6 +11,9 @@ import {
   Pressable,
   FlatList,
   ImageBackground,
+  BackHandler,
+  Alert,
+  Dimensions,
 } from 'react-native';
 import Style from '../../util/style';
 import { Button, TextInput } from 'react-native-paper';
@@ -23,8 +26,12 @@ import IconList from '../../util/ListItem/IconList';
 import BannerList from '../../util/ListItem/BannerList';
 import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 import SpotWisataList from '../../util/ListItem/SpotWisataList';
+import {Environment} from '../../util/environment';
+import messaging from '@react-native-firebase/messaging';
+const windowWidth = Dimensions.get('window').width;
 
 export default function Home({ navigation, route }) {
+  
   const [iconVisible, setIconVisible] = useState(false);
   const [category, setCategory] = useState([]);
   const [banner, setBanner] = useState([]);
@@ -32,7 +39,27 @@ export default function Home({ navigation, route }) {
   const [countKoupon, setCountKoupon] = useState(0);
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
+
   useEffect(() => {
+
+    const backAction = () => {
+
+      if (navigation.isFocused()) {
+          Alert.alert("Konfirmasi", "Apakah anda yakin ingin keluar dari aplikasi?", [
+              {
+                  text: "Batal",
+                  onPress: () => null,
+                  style: "cancel"
+              },
+              { text: "Iya", onPress: () => BackHandler.exitApp() }
+          ]);
+          return true;
+      }
+
+  };
+
+    const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
@@ -40,11 +67,33 @@ export default function Home({ navigation, route }) {
       getBannerSlider();
       merchantPopuler();
       getSpotPariwisata();
+      checkFCMToken();
     });
+
     return () => {
+
+      backHandler.remove();
       unsubscribe;
+      
+      
     };
   }, [navigation, getBannerSlider, merchantPopuler, getSpotPariwisata, jumlahCoupon]);
+
+  const checkFCMToken = async () => {
+    
+    const fcmToken = await messaging().getToken();
+    if (fcmToken) {
+      
+      let param = {
+        fcm_id : fcmToken
+      }
+      await Api.post('auth/update_fcm_id', param)
+      .then((res) => {
+      })
+      .catch((err) => {});
+
+    }
+  };
 
   const merchantPopuler = async () => {
     await Api.get('merchant/all')
@@ -77,10 +126,10 @@ export default function Home({ navigation, route }) {
   const kategoriHome = async () => {
     await Api.get('kategori')
       .then((res) => {
-        console.log('Kategori', res.data.response);
+        //console.log('Kategori', res.data.response);
         let arr = splitArray(res.data.response);
         setCategory(arr);
-        console.log('tes kategori', category);
+        //console.log('tes kategori', category);
       })
       .catch((err) => {});
   };
@@ -115,7 +164,7 @@ export default function Home({ navigation, route }) {
   })
 
   const moveDetailWisata = (item)=>{
-    console.log('testeswisata', item.nama);
+    //console.log('testeswisata', item.nama);
     navigation.navigate('DetailWisata', {
       id_wisata : item.id,
       name : item.nama,
@@ -160,7 +209,7 @@ export default function Home({ navigation, route }) {
     navigation.navigate('DetailListCategory', {
       ...data
     });
-    console.log('tesidk', data);
+    //console.log('tesidk', data);
   }
 
   const moveHomeWisata = ()=>{
@@ -169,8 +218,13 @@ export default function Home({ navigation, route }) {
 
 const showAllDestination = () =>{
       return(
+<<<<<<< HEAD
+        <Pressable style={style.containerFooter}>
+        <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
+=======
         <Pressable style={style.containerFooter} onPress={moveHomeWisata}>
         <Image source={require('../../assets/logotugumuda.png')} resizeMode='stretch' style={style.imageStyleFooter}/>
+>>>>>>> 9b94104d0c4f1ca82b03ce441a423db2587882a1
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
     </Pressable>);
       }
@@ -330,6 +384,13 @@ const showAllDestination = () =>{
          
         </SafeAreaView>
       </ScrollView>
+
+      {Environment.ENV != 'PRODUCTION' && 
+        <View
+              style={{width:'100%', backgroundColor:'red', position:'absolute', marginTop:0, padding:8}}
+        >
+          <Text style={{color:'white', alignSelf:'center'}}>{Environment.ENV}</Text>
+        </View>}
     </SafeAreaView>
   );
 }
@@ -349,10 +410,10 @@ const style = StyleSheet.create({
 
   },
   containerFooter :{
-  height:175,
-  width:122,
+  height:windowWidth/2,
+  width:windowWidth/3,
   justifyContent:'center',
-  borderRadius:8,
+  borderRadius:5,
   marginStart:8,
   marginEnd:32,
   flexDirection:'column',
@@ -364,6 +425,7 @@ imageStyleFooter :{
     height:50,
     alignSelf:'center',
     marginBottom:12,
+    resizeMode:'contain',
 },
 textAllFooter:{
     fontSize:16,
