@@ -15,6 +15,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import DetailListCategory from '../../screen/Home/merchant/DetailListCategory';
 import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
 import EKupon from '../../screen/Home/homecomponents/Ekupon';
+import Voucher from '../../screen/Voucher/voucher';
 import DetailWisataSemarang from '../../screen/Home/homecomponents/wisata/DetailWisataSemarang';
 import HomeWisataSemarang from '../../screen/Home/homecomponents/wisata/HomeWisataSemarang';
 import Search from '../../screen/Home/Search';
@@ -122,6 +123,13 @@ export default function Router() {
         <StackScreen.Screen
           name="About"
           component={About}
+          options={{
+            headerShown: true,
+          }}
+        />
+        <StackScreen.Screen
+          name="Voucher"
+          component={Voucher}
           options={{
             headerShown: true,
           }}

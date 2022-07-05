@@ -51,7 +51,7 @@ export default function VoucherHome({ navigation, route }) {
   }, []);
 
   const callPress = (data) => {
-    console.log('id_voucher', data);
+    navigation.navigate('Voucher', {id:data.id});
   };
 
   const loadMore = async () => {

@@ -71,7 +71,7 @@ export default function ListVoucher({ item, PressCall }) {
       >
         <Image
           style={style.imageStyle}
-          resizeMode="stretch"
+          resizeMode="cover"
           source={require('../../assets/dummy_voucher.png')}
         />
         <Text

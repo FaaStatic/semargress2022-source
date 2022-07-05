@@ -174,8 +174,8 @@ const DetailQR = ({navigation, route}) => {
                     <TouchableOpacity
                         style={{
                             marginTop:50,
-                            marginLeft:30,
-                            marginRight:30,
+                            marginLeft:20,
+                            marginRight:20,
                             backgroundColor:colors.yellow2,
                             borderRadius:5
                         }}
@@ -191,7 +191,7 @@ const DetailQR = ({navigation, route}) => {
                             style={{
                                 color:colors.white,
                                 padding:10,
-
+                                textAlign:'center',
                             }}
                         >Harap Lengkapi Profile Terlebih Dahulu</Text>
                     </TouchableOpacity>
