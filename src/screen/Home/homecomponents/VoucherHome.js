@@ -56,7 +56,7 @@ export default function VoucherHome({ navigation, route }) {
 
   const loadMore = async () => {
     if (isLast === false) {
-      getVoucherList;
+      getVoucherList();
     }
   };
 
@@ -83,7 +83,7 @@ export default function VoucherHome({ navigation, route }) {
           setDataList(response.vouchers);
           setDataList(offset === 0 ? response.vouchers : [...dataList, ...response.vouchers]);
           offset = response.length === 0 ? offset + response.vouchers.length : offset;
-          setIsLast(response.vouchers !== length ? true : false);
+          setIsLast(response.vouchers.length !== length ? true : false);
           setDataKosong(false);
           console.log('list voucher',dataList)
           setJumlahItem(jumlahItem + response.vouchers.length);

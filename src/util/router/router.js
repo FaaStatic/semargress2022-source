@@ -16,6 +16,9 @@ import DetailListCategory from '../../screen/Home/merchant/DetailListCategory';
 import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
 import EKupon from '../../screen/Home/homecomponents/Ekupon';
 import DetailWisataSemarang from '../../screen/Home/homecomponents/wisata/DetailWisataSemarang';
+import HomeWisataSemarang from '../../screen/Home/homecomponents/wisata/HomeWisataSemarang';
+import Search from '../../screen/Home/Search';
+import HomeMerchat from '../../screen/Home/merchant/HomeMerchant';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -61,6 +64,13 @@ export default function Router() {
           }}
         />
         <StackScreen.Screen
+          name="Search"
+          component={Search}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <StackScreen.Screen
           name="DetailMerchant"
           component={DetailMerchant}
           options={{
@@ -100,6 +110,8 @@ export default function Router() {
             headerShown: false,
           }}
         />
+
+
         <StackScreen.Screen
           name="ScanQR"
           component={ScanQR}
@@ -195,6 +207,56 @@ export default function Router() {
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
             title: route.params.name,
+            headerTitleAlign: 'center',
+            headerShadowVisible: true,
+            headerLeft: () => {
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+                </View>
+              )
+            },
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              backgroundColor: 'white',
+              marginBottom: 0,
+              borderBottomWidth: 0,
+            },
+          })} />
+        <StackScreen.Screen
+          name='MerchantHome'
+          component={HomeMerchat}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            title: 'Merchant Populer',
+            headerTitleAlign: 'center',
+            headerShadowVisible: true,
+            headerLeft: () => {
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+                </View>
+              )
+            },
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              backgroundColor: 'white',
+              marginBottom: 0,
+              borderBottomWidth: 0,
+            },
+          })} />
+        <StackScreen.Screen
+          name='HomeWisata'
+          component={HomeWisataSemarang}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            title: "Wisata Semarang",
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {

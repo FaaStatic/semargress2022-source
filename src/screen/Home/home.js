@@ -16,7 +16,7 @@ import {
   Dimensions,
 } from 'react-native';
 import Style from '../../util/style';
-import { TextInput } from 'react-native-paper';
+import { Button, TextInput } from 'react-native-paper';
 import { SessionManager } from '../../util/SessionManager';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
@@ -77,7 +77,7 @@ export default function Home({ navigation, route }) {
       
       
     };
-  }, [navigation]);
+  }, [navigation, getBannerSlider, merchantPopuler, getSpotPariwisata, jumlahCoupon]);
 
   const checkFCMToken = async () => {
     
@@ -212,10 +212,19 @@ export default function Home({ navigation, route }) {
     //console.log('tesidk', data);
   }
 
+  const moveHomeWisata = ()=>{
+    navigation.navigate('HomeWisata');
+  }
+
 const showAllDestination = () =>{
       return(
+<<<<<<< HEAD
         <Pressable style={style.containerFooter}>
         <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
+=======
+        <Pressable style={style.containerFooter} onPress={moveHomeWisata}>
+        <Image source={require('../../assets/logotugumuda.png')} resizeMode='stretch' style={style.imageStyleFooter}/>
+>>>>>>> 9b94104d0c4f1ca82b03ce441a423db2587882a1
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
     </Pressable>);
       }
@@ -255,20 +264,19 @@ const showAllDestination = () =>{
           resizeMode={'stretch'}
         />
         <View style={style.searchView}>
-          <TextInput
-            mode="flat"
-            underlineColor="transparent"
-            activeUnderlineColor="transparent"
-            placeholder="Cari Merchant"
-            theme={themeSearch}
-            onFocus={() => setIconVisible(true)}
-            onBlur={() => setIconVisible(false)}
-            style={style.SearchStyle}
-          />
-          {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />}
-          {/* <Pressable style={style.iconNotif}>
-            <Icon name="notifications" size={36} color="white" />
-          </Pressable> */}
+        <Pressable style={style.SearchStyle} onPress={()=>{navigation.navigate('Search')}}>
+        <SafeAreaView style={{
+          flexDirection:'row',
+          width:'100%',
+        }}>
+        <Text style={{
+          color:'grey',
+          fontSize:18,
+          marginStart:6,
+        }}>Cari Merchant</Text>
+        <Icon name="search" size={24} color="grey" style={style.iconSearch} />
+        </SafeAreaView>
+        </Pressable>
         </View>
       </View>
 
@@ -327,7 +335,7 @@ const showAllDestination = () =>{
         <SafeAreaView style={style.containerMerchant}>
           <Pressable style={style.btnAllMerchant}>
             <Text style={style.textAllMerchant}>Merchant Populer</Text>
-            <SimpleIcon name="arrow-right" size={18} color={'black'} style={style.styleIconArrow} />
+            <SimpleIcon name="arrow-right" size={18} color={'black'} style={style.styleIconArrow} onPress={()=>{navigation.navigate('MerchantHome')}} />
           </Pressable>
           <ScrollView>
             <FlatList nestedScrollEnabled={true}
@@ -468,15 +476,18 @@ imagestyleBg:{
     flexDirection: 'row',
   },
   SearchStyle: {
-    width: 200,
+    width: 250,
+    justifyContent:'center',
+    padding:0,
     alignSelf: 'flex-start',
     height: 36,
     marginStart: 6,
     backgroundColor: 'transparent',
   },
   iconSearch: {
-    marginTop: 4,
-    marginStart: 6,
+    position:'absolute',
+    right:0,
+    marginEnd:16,
   },
   iconNotif: {
     marginStart: 54,
