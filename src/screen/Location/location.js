@@ -9,10 +9,96 @@ import {
   Text,
   Dimensions,
 } from 'react-native';
-
+import FeedList from '../../util/ListItem/FeedList';
+import { Api } from '../../util/Api';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 export default function Location({ navigation, route }) {
+  
+  const [responseFeed,setResponseFeed] =useState([]);
+  let offset = 0;
+  let onProgress = false;
+  let length = 6
+  const [Last, setLast] = useState(false);
+  const [jumlahItem, setJumlahItem] = useState(0);
+  const [dataKosong, setDataKosong] = useState(false);
+  const [extraData, setExtraData] = useState(false);
+
+
+  useEffect(()=>{
+    offset = 0;
+    onProgress = false;
+    setJumlahItem(0);
+    setResponseFeed([]);
+    getFeed();
+      const subscribe = navigation.addListener('focus',()=>{
+        offset = 0;
+        onProgress = false;
+        setJumlahItem(0);
+        setResponseFeed([]);
+        getFeed();
+      });
+      return()=>{
+        subscribe;
+      }
+  },[navigation])
+
+
+
+  const loadmore = async () =>{
+    if(Last === false){
+        getFeed();
+    }
+}
+
+  const itemRender = useCallback(({item})=>{
+    return(
+      <FeedList item={item}/>
+    );
+  })
+
+
+  const getFeed = async ()=>{
+    if(onProgress){
+      return;
+    }
+
+    onProgress = true;
+    const param = {
+      start:offset,
+      count : length,
+    }
+    await Api.post('api/feed_instagram',param).then(res =>{
+
+        let body = res.data;
+        let response = body.response;
+        let metadata = body.metadata;
+        onProgress=false;
+        if(metadata.status === 200){
+          console.log('testestesfeed', response);
+          setJumlahItem(jumlahItem + responseFeed.length + response.length);
+          setResponseFeed(offset === 0 ? response :  setResponseFeed(responseFeed.concat(response)))
+          offset = response.length === 0 ? offset + response.length : offset;
+          setLast(response.length !== length ? true : false);
+          setDataKosong(false);
+          console.log('testestesfeed2', responseFeed);
+        }else if(metadata.status === 401){
+          setDataKosong(true);
+        }else if(metadata.status === 404){
+          setDataKosong(true);
+        }else{
+          if(offset === 0){
+            setDataKosong(true);
+          }
+          setLast(true);
+        }
+        setExtraData(!extraData);
+    }).catch(err =>{
+        console.log(err);
+    })
+  }
+
+
   return (
     <SafeAreaView style={style.container}>
       <View
@@ -36,22 +122,39 @@ export default function Location({ navigation, route }) {
 
         <Text style={style.textHeader}>Feed Promo</Text>
       </View>
-      <SafeAreaView style={style.continerFeed}></SafeAreaView>
+      <View style={style.continerFeed}>
+       
+        <FlatList
+        data={responseFeed}
+        renderItem = {itemRender}
+        showsVerticalScrollIndicator = {false}
+        onEndReached={loadmore}
+        keyExtractor={(item) => item.id}
+        contentContainerStyle={{
+          position:'absolute',
+        }}
+        style={{
+          height:'100%'
+        }}
+        />
+      
+        
+      </View>
     </SafeAreaView>
   );
 }
 
 const style = StyleSheet.create({
   continerFeed: {
-    flex: 1,
     borderTopStartRadius: 16,
     borderTopEndRadius: 16,
     width: '100%',
-    minHeight: SCREEN_HEIGHT,
     position: 'absolute',
     backgroundColor:'white',
     marginTop:100,
-  },
+    top:0,
+    bottom:0,
+    },
   textHeader: {
     fontSize: 18,
     fontWeight: 'bold',
@@ -62,7 +165,8 @@ const style = StyleSheet.create({
     marginTop: 16,
   },
   container: {
-    flex: 1,
+    width:'100%',
+    height:'100%',
     flexDirection: 'column',
     backgroundColor: '#0F2E63',
   },

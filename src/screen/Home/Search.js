@@ -1,5 +1,5 @@
 import React,{useCallback, useEffect, useState} from 'react';
-import { SafeAreaView, StyleSheet, FlatList, Image, Dimensions, PermissionsAndroid,Text } from 'react-native';
+import { SafeAreaView, StyleSheet, FlatList, Image, Dimensions, PermissionsAndroid,Text, View } from 'react-native';
 import { Api } from '../../util/Api';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native-paper';
@@ -80,7 +80,7 @@ export default function Search({navigation, route}){
       await Api.post('/merchant/nearby_filter_order/',{
         "latitude" : latitude,
         "longitude" : longitude,
-        "jarak" : 10,
+        "jarak" : 50,
         "start" : 0,
         "limit" : 10,
         "kategori" : [],
@@ -135,7 +135,7 @@ export default function Search({navigation, route}){
     })
 
     return(<SafeAreaView style={style.container}>
-        <SafeAreaView style={style.containerHeader}>
+        <View style={style.containerHeader}>
         <Image
           source={require('../../assets/header_app.png')}
           style={{
@@ -148,7 +148,7 @@ export default function Search({navigation, route}){
           }}
           resizeMode={'stretch'}
         />
-        <SafeAreaView style={style.searchView}>  
+        <View style={style.searchView}>  
         <TextInput
             mode="flat"
             selectionColor='grey'
@@ -165,16 +165,14 @@ export default function Search({navigation, route}){
             onSubmitEditing={currentLocation}
           />
           {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />} 
-        </SafeAreaView>
+        </View>
      
            {/* <Pressable style={style.iconNotif}>
             <Icon name="notifications" size={36} color="white" />
           </Pressable> */}
-        </SafeAreaView>
-        <SafeAreaView>
-
-        </SafeAreaView>
-        <SafeAreaView style ={{
+        </View>
+  
+        <View style ={{
           marginTop:8,
           flex:1,
         }}>
@@ -194,7 +192,7 @@ export default function Search({navigation, route}){
         }}>{msg != '' ? msg : '' }</Text>}
       
 
-        </SafeAreaView>
+        </View>
     </SafeAreaView>);
 }
 
