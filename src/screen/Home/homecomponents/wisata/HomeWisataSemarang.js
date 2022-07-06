@@ -1,6 +1,17 @@
 import React,{useState, useCallback, useEffect} from 'react';
-import { SafeAreaView, FlatList, StyleSheet, Image, Text, Pressable,Dimensions } from 'react-native';
+import { 
+    SafeAreaView, 
+    FlatList, 
+    StyleSheet, 
+    Image, 
+    Text, 
+    Pressable,
+    Dimensions, 
+    View
+ } from 'react-native';
 import { Api } from '../../../../util/Api';
+import LinearGradient from 'react-native-linear-gradient';
+import { colors } from '../../../../util/color';
 
 const {height : SCREEN_HEIGHT} = Dimensions.get('window');
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
@@ -51,15 +62,20 @@ export default function HomeWisataSemarang({navigation, route}){
     }
 
     const itemRender = useCallback(({item})=>{
-        console.log(item);
         return(
-            <SafeAreaView style={style.listContainer}>
-            <Pressable onPress={()=>{moveDetail(item)}}>
-            <Image source={{uri:item.gambar}} resizeMode={'stretch'} style={style.imageStyle}/>
-
-            </Pressable>
-            <Text style={style.textStyle}>{item.nama}</Text>
-            </SafeAreaView>
+            <View style={style.listContainer}>
+                <Pressable onPress={()=>{moveDetail(item)}}>
+                    <Image source={{uri:item.gambar}} resizeMode={'cover'} style={style.imageStyle}/>
+                    <LinearGradient
+                        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(15, 46, 99, 0.7)', 'rgba(20, 99, 99, 0.8)']}
+                        start={{ x: 0.0, y: 0 }}
+                        end={{ x: 0.0, y: 1.5 }}
+                        style={style.imageGradient}
+                    >
+                    </LinearGradient>
+                </Pressable>
+                <Text style={style.textStyle}>{item.nama}</Text>
+            </View>
         );
     });
 
@@ -134,6 +150,12 @@ const style = StyleSheet.create({
         borderRadius:8,
         margin:8,
         },
+    imageGradient:{
+        width: '100%',
+        height: '100%',
+        position:'absolute',
+        borderRadius:5,
+    },
     imageStyle : {
         height:SCREEN_HEIGHT/3,
         width:SCREEN_WIDTH/2.2,
@@ -142,11 +164,12 @@ const style = StyleSheet.create({
 
     },
     textStyle : {
-        fontSize:20,
+        fontSize:16,
+        color:colors.white,
         position:'absolute',
         bottom:0,
         marginBottom:16,
-        fontWeight:'bold',
+        fontWeight:'400',
         alignSelf:'center'
        
     }

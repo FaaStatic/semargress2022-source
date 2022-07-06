@@ -315,6 +315,7 @@ const Voucher = ({ navigation, route }) => {
                   marginTop:10,
                   fontSize:15,
                   fontWeight:'400',
+                  color:colors.black3,
                 }}
               >{data.syarat}</Text>
             }
@@ -363,6 +364,7 @@ const Voucher = ({ navigation, route }) => {
                   marginTop:10,
                   fontSize:15,
                   fontWeight:'400',
+                  color:colors.black3,
                 }}
               >{data.snk}</Text>
             }

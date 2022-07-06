@@ -27,8 +27,14 @@ const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 var latitudeBottomSheet = 0;
 var longitudeBottomSheet = 0;
+var offset = 0;
+var onProgress = false;
 
 export default function DetailWisataSemarang({ navigation, route }) {
+
+  const [length, setLength] = useState(10);
+  const [extraData, setExtraData] = useState(false);
+  const [isLast, setIsLast] = useState(false);
   const [detailResponse, setDetailResponse] = useState([]);
   const [responseMerchant, setResponseMerchant] = useState([]);
   const [loc, setLoc] = useState({
@@ -38,7 +44,8 @@ export default function DetailWisataSemarang({ navigation, route }) {
   const { id_wisata } = route.params;
 
   useEffect(() => {
-    DetailGet();
+
+    offset = 0;
     const subscribe = navigation.addListener('focus', () => {
       DetailGet();
     });
@@ -51,34 +58,6 @@ export default function DetailWisataSemarang({ navigation, route }) {
   const itemRenderBottomSheet = useCallback(({ item }) => {
     return <MerchanList item={item} pressCall={moveDetailMerchant} />;
   });
-
-  const getMerchant = async () => {
-    await Api.post('merchant/nearby_filter_order/', {
-      latitude: latitudeBottomSheet,
-      longitude: longitudeBottomSheet,
-      start: 0,
-      limit: 10,
-      kategori: [],
-      search: '',
-      order_col: {
-        nama: 'asc',
-        favorit: 'desc',
-      },
-      order_dir: '',
-    })
-      .then((res) => {
-        let body = res.data;
-        let metadata = body.metadata;
-        let response = body.response;
-        console.log('testes', body);
-        if (metadata.status === 200) {
-          setResponseMerchant(response);
-        } else if (metadata.status === 401) {
-        } else {
-        }
-      })
-      .catch((err) => {});
-  };
 
   const DetailGet = async () => {
     await Api.get(`api/tempat_wisata/view/${id_wisata}`, 1)
@@ -95,7 +74,9 @@ export default function DetailWisataSemarang({ navigation, route }) {
           });
           latitudeBottomSheet = parseFloat(response.latitude);
           longitudeBottomSheet = parseFloat(response.longitude);
-          console.log('datahasilgambar', response.gambar);
+
+          setResponseMerchant([]);
+          offset = 0;
           getMerchant();
         } else if (metadata.status === 401) {
         } else if (metadata.status === 404) {
@@ -108,135 +89,183 @@ export default function DetailWisataSemarang({ navigation, route }) {
       });
   };
 
+  const getMerchant = async () => {
+
+    if(onProgress){
+      return;
+    }
+
+    onProgress = true;
+
+    await Api.post('merchant/nearby_filter_order/', {
+      latitude: latitudeBottomSheet,
+      longitude: longitudeBottomSheet,
+      start: offset,
+      limit: 10,
+      kategori: [],
+      search: '',
+      order_col: {
+        nama: 'asc',
+        favorit: 'desc',
+      },
+      order_dir: '',
+    })
+      .then((res) => {
+
+        onProgress = false;
+        let body = res.data;
+        let metadata = body.metadata;
+        let response = body.response;
+        
+        if (metadata.status === 200) {
+
+          setResponseMerchant(offset === 0 ? response : [...responseMerchant, ...response]);
+          offset = offset + response.length;
+          setIsLast(response.length !== length ? true : false);
+
+        } else if (metadata.status === 401) {
+        } else {
+        }
+      })
+      .catch((err) => {
+        onProgress = false;
+      });
+  };
+
+  const loadMore = async () => {
+
+    if (isLast === false) {
+      offset += length;
+      getMerchant();
+    }
+  };  
+
   const moveDetailMerchant = (data) => {
-    console.log(data);
-    console.log('testesdetailmerchant', data.id);
+    // console.log(data);
+    // console.log('testesdetailmerchant', data.id);
     navigation.navigate('DetailMerchant', {
       id_m: data.id,
     });
   };
   return (
-    // <GestureHandlerRootView
-    //   style={{
-    //     flex: 1,
-    //   }}
-    // >
-      <SafeAreaView style={styling.containerView}>
-        <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
-          <SafeAreaView style={styling.containerTentang}>
-            <Image source={{ uri: detailResponse.gambar }} style={styling.styleImage} />
-            <Text style={styling.headerTextDetail}>Tentang</Text>
+    <SafeAreaView style={styling.containerView}>
+      <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
+        <View style={styling.containerTentang}>
+          <Image source={{ uri: detailResponse.gambar }} style={styling.styleImage} />
+          <Text style={styling.headerTextDetail}>Tentang</Text>
+          <Text
+            style={[
+              styling.itemTextDetail,
+              {
+                marginStart: 16,
+                marginEnd: 16,
+                marginBottom: 16,
+                textAlign: 'justify',
+              },
+            ]}
+          >
+            {detailResponse.deskripsi}
+          </Text>
+        </View>
+        <View style={styling.containerDetailMerchant}>
+          {/* <View
+            style={[
+              styling.itemDetailContainer,
+              {
+                marginTop: 8,
+              },
+            ]}
+          >
+            <Material name="storefront" size={28} color={'#0f2e63'} />
             <Text
               style={[
                 styling.itemTextDetail,
                 {
-                  marginStart: 16,
-                  marginEnd: 16,
-                  marginBottom: 16,
-                  textAlign: 'justify',
+                  fontWeight: 'bold',
+                  fontSize: 16,
                 },
               ]}
             >
-              {detailResponse.deskripsi}
+              {detailResponse.nama}
             </Text>
-          </SafeAreaView>
-          <SafeAreaView style={styling.containerDetailMerchant}>
-            <View
+          </View>
+          <View style={styling.itemDetailContainer}>
+            <SimpleIcon name="location-pin" size={28} color={'#0f2e63'} />
+            <Text
               style={[
-                styling.itemDetailContainer,
+                styling.itemTextDetail,
                 {
-                  marginTop: 8,
+                  width: 200,
                 },
               ]}
             >
-              <Material name="storefront" size={28} color={'#0f2e63'} />
-              <Text
-                style={[
-                  styling.itemTextDetail,
-                  {
-                    fontWeight: 'bold',
-                    fontSize: 16,
-                  },
-                ]}
-              >
-                {detailResponse.nama}
-              </Text>
-            </View>
-            <View style={styling.itemDetailContainer}>
-              <SimpleIcon name="location-pin" size={28} color={'#0f2e63'} />
-              <Text
-                style={[
-                  styling.itemTextDetail,
-                  {
-                    width: 200,
-                  },
-                ]}
-              >
-                {detailResponse.alamat}
-              </Text>
-            </View>
-            <View style={styling.itemDetailContainer}>
-              <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
-              <Text style={styling.itemTextDetail}>
-                {detailResponse.notelp ? detailResponse.notelp : '-'}
-              </Text>
-            </View>
-            <View style={styling.itemDetailContainer}>
-              <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
-              <Text style={styling.itemTextDetail}>
-                {detailResponse.link_ig ? detailResponse.link_ig : '-'}
-              </Text>
-            </View>
-            <View style={styling.itemDetailContainer}>
-              <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
-              <Text style={styling.itemTextDetail}>
-                {detailResponse.link_fb ? detailResponse.link_fb : '-'}
-              </Text>
-            </View>
+              {detailResponse.alamat}
+            </Text>
+          </View>
+          <View style={styling.itemDetailContainer}>
+            <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
+            <Text style={styling.itemTextDetail}>
+              {detailResponse.notelp ? detailResponse.notelp : '-'}
+            </Text>
+          </View>
+          <View style={styling.itemDetailContainer}>
+            <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
+            <Text style={styling.itemTextDetail}>
+              {detailResponse.link_ig ? detailResponse.link_ig : '-'}
+            </Text>
+          </View>
+          <View style={styling.itemDetailContainer}>
+            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
+            <Text style={styling.itemTextDetail}>
+              {detailResponse.link_fb ? detailResponse.link_fb : '-'}
+            </Text>
+          </View> */}
 
-            <SafeAreaView style={styling.constainerMaps}>
-              <MapView
-                style={styling.MapsStyle}
-                initialRegion={{
+          <View style={styling.constainerMaps}>
+            <MapView
+              style={styling.MapsStyle}
+              initialRegion={{
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              }}
+              region={{
+                latitude: loc.latitude,
+                longitude: loc.longitude,
+                latitudeDelta: 0.01,
+                longitudeDelta: 0.01,
+              }}
+            >
+              <Marker
+                coordinate={{
                   latitude: loc.latitude,
                   longitude: loc.longitude,
-                  latitudeDelta: 0.01,
-                  longitudeDelta: 0.01,
                 }}
-                region={{
-                  latitude: loc.latitude,
-                  longitude: loc.longitude,
-                  latitudeDelta: 0.01,
-                  longitudeDelta: 0.01,
-                }}
-              >
-                <Marker
-                  coordinate={{
-                    latitude: loc.latitude,
-                    longitude: loc.longitude,
-                  }}
-                  pinColor="red"
-                  title="You"
-                />
-              </MapView>
-            </SafeAreaView>
-          </SafeAreaView>
-        </ScrollView>
-        <BottomSheetWisata>
-         
-          <FlatList
-            data={responseMerchant}
-            renderItem={itemRenderBottomSheet}
-            showsVerticalScrollIndicator={false}
-            horizontal={false}
-            numColumns={2}
-            contentContainerStyle={styling.flatContainer}
-            style={styling.flatlistStyle}
-          />
-          
-       
-        </BottomSheetWisata>
-      </SafeAreaView>
+                pinColor="red"
+                title="You"
+              />
+            </MapView>
+          </View>
+        </View>
+      </ScrollView>
+      <BottomSheetWisata>
+
+        <FlatList
+          data={responseMerchant}
+          extraData={extraData}
+          renderItem={itemRenderBottomSheet}
+          showsVerticalScrollIndicator={false}
+          horizontal={false}
+          numColumns={2}
+          onEndReached={loadMore}
+          contentContainerStyle={styling.flatContainer}
+          style={[styling.flatlistStyle,{marginLeft:5, marginRight:5}]}
+        />
+
+
+      </BottomSheetWisata>
+    </SafeAreaView>
     // </GestureHandlerRootView>
   );
 }

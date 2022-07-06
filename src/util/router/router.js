@@ -286,7 +286,7 @@ export default function Router() {
           component={DetailWisataSemarang}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: route.params.name,
+            title: "Info Wisata",
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {
