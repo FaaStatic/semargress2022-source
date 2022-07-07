@@ -6,7 +6,7 @@ export default function BannerList({ item }) {
     console.log('console dari banner', item.gambar);
     return (
       <View style={style.bannerContainer}>
-        <Image source={{ uri: item.gambar }} style={style.bannerImage} />
+        <Image source={{ uri: item.gambar }} style={style.bannerImage} resizeMode='cover'/>
       </View>
     );
   }
@@ -15,14 +15,15 @@ export default function BannerList({ item }) {
 
 const style = StyleSheet.create({
       bannerContainer: {
-        flex: 1,
-        margin: 8,
         padding: 0,
-        borderRadius: 16,
+        height: 130,
+        width: 130,
+        borderRadius: 8,
+        margin:14,
       },
       bannerImage: {
-        height: 200,
-        width: 200,
-        borderRadius: 16,
+        height: 130,
+        width: 130,
+        borderRadius: 8,
       },
 })

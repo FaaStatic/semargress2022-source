@@ -37,7 +37,8 @@ export default function Splash({navigation}) {
         navigation.dispatch(StackActions.replace('Login'));
        }
      }, 3000);
-  });
+  },[CheckLogin, fadeIn, setTimeout ]);
+  
   const CheckLogin = async () => {
     const sesi = await SessionManager.GetAsObject(sessionId);
     console.log('SESSION_DATA', sesi);

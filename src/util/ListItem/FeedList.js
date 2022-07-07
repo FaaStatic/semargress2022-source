@@ -30,12 +30,12 @@ return(<View style={style.container}>
             marginEnd:8,
         }}>
             <Text style={[style.textDeskripsi,{
-                fontWeight:'bold',
+                fontWeight:'800',
                 marginEnd:4,
             }]}>instagram</Text> 
             <Text style={[style.textDeskripsi,]}>{` ${item.media_caption}`}</Text>
         </Text><Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
-            color:'grey',
+            color:'#828282',
             marginStart:8,
         }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text></Pressable>
 </View>);
@@ -48,33 +48,37 @@ const style = StyleSheet.create({
         flex:1,
     },
     imageProfileStyle :{
-    width: 35,
-    height: 35,
-    borderRadius: 35 / 2,
+    width: 42,
+    height: 42,
+    borderRadius: 42 / 2,
     overflow: "hidden",
-    marginStart:8,
-    marginTop:16
+    marginStart:20,
+    marginTop:18
     },
     textHeader:{
-        fontSize:16,
+        fontSize:15,
         color:'black',
-        fontWeight:'bold',
-        marginStart:16,
-        marginTop:20,
+        fontWeight:'600',
+        marginStart:17,
+        marginTop:25,
     },
     imagePromo:{
         marginTop:16,
             width:'100%',
             height:HEIGHT_CONTAINER/2,
+            overflow:'hidden',
     },
     container:{
         flex:1,
         flexDirection:'column',
         width:WIDTH_CONTAINER,
+        marginBottom:42,
+        borderRadius: 16, 
+        overflow: 'hidden',
         
     },
     textDeskripsi:{
-     fontSize : 14,
-     color:'black',
+     fontSize : 15,
+     color:'#333333',
     }
 })

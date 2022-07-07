@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Home from '../../screen/Home/home';
-import Location from '../../screen/Location/location';
+import Feed from '../../screen/Feed/Feed';
 import QR from '../../screen/QR/qr';
 import Event from '../../screen/Event/event';
 import Profil from '../../screen/Profil/profil';
@@ -63,7 +63,7 @@ export default function RouterTab({ navigation }) {
           }
         }}
       />
-      <TabScreen.Screen name="Feed" component={Location} 
+      <TabScreen.Screen name="Feed" component={Feed} 
        options={{
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_inactive.png') 

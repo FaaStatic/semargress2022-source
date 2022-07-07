@@ -198,7 +198,14 @@ style={styling.MapsStyle}
       longitude: loc.longitude,
       }}
               pinColor="red"
-              title="You"/></MapView>
+              title="You"/>
+              
+              <Pressable style={{
+                
+              }}>
+                Buka Maps
+              </Pressable>
+              </MapView>
 </SafeAreaView>
 
 

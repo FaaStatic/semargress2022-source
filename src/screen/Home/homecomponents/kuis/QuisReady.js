@@ -177,6 +177,7 @@ const theme = {
 const style = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'white',
     flexDirection: 'row',
   },
   ModalStyle: {
@@ -189,6 +190,7 @@ const style = StyleSheet.create({
   containerModalStyle: {
     flexDirection: 'column',
     flex: 1,
+    backgroundColor:'white',
     justifyContent: 'center',
   },
   containerBtn: {

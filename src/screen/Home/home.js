@@ -39,7 +39,8 @@ export default function Home({ navigation, route }) {
   const [countKoupon, setCountKoupon] = useState(0);
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
-
+  const [left, setLeft] = useState(true);
+  const [right, setRight] = useState(false);
   useEffect(() => {
 
     const backAction = () => {
@@ -59,7 +60,8 @@ export default function Home({ navigation, route }) {
   };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-
+    console.log(left)
+    console.log(right)
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
@@ -218,7 +220,7 @@ export default function Home({ navigation, route }) {
 
 const showAllDestination = () =>{
       return(
-        <Pressable style={style.containerFooter}>
+        <Pressable onPress={moveHomeWisata} style={style.containerFooter}>
         <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
     </Pressable>);
@@ -239,6 +241,8 @@ const showAllDestination = () =>{
       navigation.dispatch(StackActions.replace('Login'));
     }
   };
+
+
   return (
     <SafeAreaView style={style.containerHome}>
       <View
@@ -249,7 +253,7 @@ const showAllDestination = () =>{
         <Image
           source={require('../../assets/header_app.png')}
           style={{
-            height: 100,
+            height: 106,
             marginTop: 0,
             top: 0,
             width: '100%',
@@ -266,10 +270,12 @@ const showAllDestination = () =>{
         }}>
         <Text style={{
           color:'grey',
-          fontSize:18,
+          fontSize:13,
+          width:205,
+          marginTop:2,
           marginStart:6,
         }}>Cari Merchant</Text>
-        <Icon name="search" size={24} color="grey" style={style.iconSearch} />
+        <Icon name="search" size={22} color="#4F4F4F" style={style.iconSearch} />
         </SafeAreaView>
         </Pressable>
         </View>
@@ -283,21 +289,51 @@ const showAllDestination = () =>{
           </Pressable>
         </View>
 
-        <SafeAreaView style={style.listService}>
+        <View style={style.listService}>
           <FlatList
             nestedScrollEnabled={true}
             data={category}
             horizontal={true}
+            onMomentumScrollEnd={e => {
+              if (e.nativeEvent.contentOffset.x === 0) {
+                setLeft(true)
+                setRight(false)
+              }else{
+                setLeft(false)
+                setRight(true)
+              }
+            }}
             showsHorizontalScrollIndicator={true}
             indicatorStyle={'#05245A'}
             renderItem={itemRender}
           />
 
+          <View style={{
+            flexDirection:'row',alignSelf:'center'
+          }}>
+            <View style={{
+              width:6,
+              height:6,
+              margin:2,
+              borderRadius:6/2,
+              backgroundColor: left? '#0F2E63' : '#f9f9f9'
+            }}>
+            </View>
+            <View style={{
+              width:6,
+              height:6,
+              margin:2,
+              borderRadius:6/2,
+              backgroundColor: right ? '#0F2E63' : '#f9f9f9'
+            }}>
+            </View>
+          </View>
+
           <View>
             <LinearGradient
               colors={['#F29836', '#FBEDB7', '#ffffff']}
-              start={{ x: 0.0, y: 0.0 }}
-              end={{ x: 1.5, y: 0.0 }}
+              start={{ x: 0.2, y: 0.0 }}
+              end={{ x: 1, y: 0.5 }}
               style={style.voucherView}
             >
               <Image
@@ -313,10 +349,20 @@ const showAllDestination = () =>{
               </Pressable>
             </LinearGradient>
           </View>
-        </SafeAreaView>
+        </View>
 
         <Text style={style.textBannerSmargress}>Event Semargress</Text>
-        <SafeAreaView>
+            <View style={{
+              width:350,
+              height:135,
+              borderRadius:7,
+              alignSelf:'center',
+              backgroundColor:'white',
+              marginBottom:20
+            }}>
+
+            </View>
+        <View>
           <ScrollView>
             <FlatList
               nestedScrollEnabled={true}
@@ -326,11 +372,11 @@ const showAllDestination = () =>{
               renderItem={BannerList}
             />
           </ScrollView>
-        </SafeAreaView>
+        </View>
         <SafeAreaView style={style.containerMerchant}>
           <Pressable style={style.btnAllMerchant}>
             <Text style={style.textAllMerchant}>Merchant Populer</Text>
-            <SimpleIcon name="arrow-right" size={18} color={'black'} style={style.styleIconArrow} onPress={()=>{navigation.navigate('MerchantHome')}} />
+            <SimpleIcon name="arrow-right" size={12} color={'#0F2E63'} style={style.styleIconArrow} onPress={()=>{navigation.navigate('MerchantHome')}} />
           </Pressable>
           <ScrollView>
             <FlatList nestedScrollEnabled={true}
@@ -361,7 +407,7 @@ const showAllDestination = () =>{
           </LinearGradient>
         </SafeAreaView>
 
-        <SafeAreaView style={style.spotPariwisataContainer}>
+        <View style={style.spotPariwisataContainer}>
         <ImageBackground source={require('../../assets/bgpopulerwisata.png')} style={style.imagestyleBg} resizeMode='cover'>
           <Text style={style.textSpotTitle}>Pariwisata Semarang</Text>
           <ScrollView>
@@ -377,7 +423,7 @@ const showAllDestination = () =>{
           </ScrollView>
           </ImageBackground>
          
-        </SafeAreaView>
+        </View>
       </ScrollView>
 
       {Environment.ENV != 'PRODUCTION' && 
@@ -401,7 +447,7 @@ const themeSearch = {
 
 const style = StyleSheet.create({
   containerListSpotPariwisata:{
-    padding:16,
+    marginBottom:16,
 
   },
   containerFooter :{
@@ -435,7 +481,7 @@ imagestyleBg:{
   width:'100%'
 },
   spotPariwisataContainer :{
-    height:300,
+    height:270,
     backgroundColor:'#B60D00',
     flexDirection:'column',
   },
@@ -443,13 +489,13 @@ imagestyleBg:{
     color:'white',
     fontSize:18,
     margin:16,
-    fontWeight:'bold'
+    fontWeight:'600'
   },
 
   containerHome: [
     Style.container,
     {
-      backgroundColor: '#0F2E63',
+      backgroundColor: '#001F58',
     },
   ],
 
@@ -480,8 +526,9 @@ imagestyleBg:{
     backgroundColor: 'transparent',
   },
   iconSearch: {
-    position:'absolute',
+    bottom:0,
     right:0,
+    alignSelf:'flex-end',
     marginEnd:16,
   },
   iconNotif: {
@@ -500,16 +547,16 @@ imagestyleBg:{
     paddingTop: 16,
   },
   TextCoupon: {
-    color: 'white',
+    color: '#FFFFFF',
     fontSize: 18,
     marginStart: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
   },
   btnStyle: {
-    width: 100,
+    width: 95,
     height: 30,
-    marginStart: 32,
-    backgroundColor: 'white',
+    marginStart: 45,
+    backgroundColor: '#F9F9F9',
     borderRadius: 8,
     textAlign: 'center',
     justifyContent: 'center',
@@ -517,8 +564,8 @@ imagestyleBg:{
   TextListCoupon: {
     color: '#0F2E63',
     fontSize: 12,
-    fontWeight: 'bold',
-    marginStart: 8,
+    fontWeight: '600',
+    marginStart: 8, 
   },
   listService: {
     margin: 0,
@@ -530,7 +577,7 @@ imagestyleBg:{
     justifyContent: 'center',
   },
   voucherView: {
-    height: 75,
+    height: 64,
     borderRadius: 16,
     elevation: 8,
     marginStart: 16,
@@ -540,22 +587,22 @@ imagestyleBg:{
     flexDirection: 'row',
   },
   voucherImage: {
-    height: 55,
-    width: 55,
+    height: 28,
+    width: 39,
     marginStart: 8,
-    marginTop: 8,
+    marginTop: 16,
   },
   voucherNotice: {
-    fontWeight: 'bold',
-    fontSize: 11,
+    fontWeight: '500',
+    fontSize: 14,
     color: 'black',
     marginStart: 8,
-    marginTop: 26,
+    marginTop: 20,
   },
   btnStyleVoucher: {
-    width: 80,
-    height: 30,
-    marginStart: 16,
+    width: 70,
+    height: 25,
+    marginStart: 14,
     marginTop: 20,
     backgroundColor: '#F29836',
     color: 'white',
@@ -566,9 +613,9 @@ imagestyleBg:{
   textVoucherBtn: {
     color: 'white',
     fontSize: 8,
-    fontWeight: 'bold',
+    fontWeight: '600',
     alignSelf: 'center',
-    marginTop: 3,
+    
   },
   categoryContainer: {
     flexDirection: 'column',
@@ -604,9 +651,9 @@ imagestyleBg:{
     flex: 1,
   },
   textAllMerchant: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: 'black',
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333333',
     marginStart: 16,
   },
   styleIconArrow: {
@@ -616,25 +663,27 @@ imagestyleBg:{
     marginRight: 16,
   },
   textBannerSmargress: {
-    fontSize: 28,
+    fontSize: 26,
     alignSelf: 'center',
     margin: 56,
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
   kuisContainer: {
-    height: 200,
+    height: 170,
+    width:340,
     borderRadius: 16,
-    marginStart: 16,
-    marginEnd: 16,
     marginTop: 16,
+    alignSelf:'center',
     marginBottom:16,
     flexDirection: 'row',
   },
   imageWomanHappy: {
-    width: 150,
+    width: 105,
     height: 175,
-    marginTop: 24,
+    marginTop:8,
+    marginStart:16,
+    marginEnd:8,
   },
   styleNoticeKuis: {
     flexDirection: 'column',
@@ -643,19 +692,17 @@ imagestyleBg:{
     justifyContent:'center',
   },
   textNoticeKuis:{
-    alignItems:'center',
     color:'black',
     width:200,
     alignSelf:'flex-start',
     marginEnd:8,
-    fontSize:18,
-    fontWeight:'bold',
-    textAlignVertical:'center'
+    fontSize:16,
+    fontWeight:'600',
   },
   texbtnKuis:{
-    fontSize:12,
-    fontWeight:'bold',
-    marginTop:3,
+    fontSize:10,
+    fontWeight:'600',
+    marginTop:4,
     alignSelf:'center',
     color:'white',
   },
@@ -665,7 +712,7 @@ imagestyleBg:{
     height:24,
     marginTop:16,
     marginEnd:16,
-    width:100,
+    width:70,
     backgroundColor:'#F29836'
   }
 });

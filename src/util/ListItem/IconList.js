@@ -4,7 +4,7 @@ import {View, Pressable, Image, StyleSheet, Text} from 'react-native'
 export default function IconList({item, Press}) {
     return (
       
-      <View style={{ margin: 8 }}>
+      <View style={{ margin: 20 }}>
         <Pressable onPress={() => {Press(item)}}>
         <View style={style.categoryContainer}>
           <Image source={{ uri: item.icon }} style={style.iconCategory} resizeMode="contain" />
@@ -18,13 +18,13 @@ export default function IconList({item, Press}) {
   const style = StyleSheet.create({
     categoryContainer: {
         flexDirection: 'column',
-        flex: 1,
-        padding: 10,
-        backgroundColor: 'transparent',
+        height: 62,
+        width: 62,
+        backgroundColor:'transparent',
       },
       iconCategory: {
-        height: 56,
-        width: 56,
+        height: 62,
+        width: 62,
         flexDirection: 'column',
         backgroundColor: '#f9f9f9',
         borderRadius: 16,

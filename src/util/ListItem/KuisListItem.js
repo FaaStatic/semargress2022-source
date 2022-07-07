@@ -1,15 +1,82 @@
 import React from 'react';
-import { StyleSheet, SafeAreaView, Text, Pressable, View } from 'react-native';
+import { StyleSheet,  Text, Pressable, View, Image } from 'react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 
 export default function KuisListItem({ item, onModal }) {
+
+
+  function changeDate(data){
+    let dateFetch =  data.split(' ');
+    console.log(data)
+    console.log(dateFetch)
+    let dateArr = dateFetch[0].split('-');
+    console.log(dateArr)
+    let dateAnswer = null;
+     switch(dateArr[1]){
+         case '01':
+             dateAnswer = `${dateArr[2]} Januari ${dateArr[0]}`;
+             break;
+         case '02':
+             dateAnswer = `${dateArr[2]} Februari ${dateArr[0]}`;
+             break;
+         case '03':
+             dateAnswer = `${dateArr[2]} Maret ${dateArr[0]}`;
+             break;
+         case '04':
+             dateAnswer = `${dateArr[2]} April ${dateArr[0]}`;
+             break;
+         case '05':
+             dateAnswer = `${dateArr[2]} Mei ${dateArr[0]}`;
+             break;
+         case '06':
+             dateAnswer = `${dateArr[2]} Juni ${dateArr[0]}`;
+             break;
+         case '07':
+             dateAnswer = `${dateArr[2]} Juli ${dateArr[0]}`;
+             break;
+         case '08':
+             dateAnswer = `${dateArr[2]} Agustus ${dateArr[0]}`;
+             break;
+         case '09':
+             dateAnswer = `${dateArr[2]} September ${dateArr[0]}`;
+             break;
+         case '10':
+             dateAnswer = `${dateArr[2]} Oktober ${dateArr[0]}`;
+             break;
+         case '11':
+             dateAnswer = `${dateArr[2]} November ${dateArr[0]}`;
+             break;
+         case '12':
+             dateAnswer = `${dateArr[2]} Desember ${dateArr[0]}`;
+             break;
+         default: 
+             dateAnswer = 'error';
+             break;
+     }
+     return dateAnswer;
+
+ }
+
+
   console.log('ItemDataKuis', item);
   return (
-    <SafeAreaView style={style.container}>
+    <View style={style.container}>
       <Pressable onPress={() => onModal(item)}>
         <View style={style.merchantView}>
-          <Icon name="shop" size={24} color={'#0F2E63'} />
+          <Image source={require('../../assets/kuis2.png')} style={{
+            height:48,
+            width:48,
+
+          }}/>
+          <View style={{
+            flexDirection:'column'
+          }}>
           <Text style={style.textMerchant}>{item.nama_merchant}</Text>
+          <Text style={style.textPeriode}>
+          Periode {changeDate(item.periode_start)} - {changeDate(item.periode_end)}
+        </Text>
+          </View>
+          
         </View>
         <Text
           style={[
@@ -21,42 +88,44 @@ export default function KuisListItem({ item, onModal }) {
         >
           Pertanyan : {item.soal}
         </Text>
-        <Text style={style.textPeriode}>
-          Periode {item.periode_start} - {item.periode_end}
-        </Text>
+      
         <Text style={style.textStyle}>Hadiah : {item.hadiah}</Text>
       </Pressable>
-    </SafeAreaView>
+    </View>
   );
 }
 
 const style = StyleSheet.create({
   merchantView: {
-    flexDirection: 'row',
-    padding: 8,
-    elevation: 5,
+    flexDirection:'row',
+    backgroundColor:'transparent',
+    margin:8,
+    marginBottom:2,
+    padding:2,
   },
   container: {
-    borderRadius: 8,
-    backgroundColor: '#f9f9f9',
     flexDirection: 'column',
     margin: 8,
     padding: 8,
+    borderBottomWidth:1,
+    borderBottomColor:'#f9f9f9'
   },
   iconStyle: {
     marginStart: 16,
   },
   textMerchant: {
     marginStart: 16,
-    fontSize: 18,
-    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom:4,
+    fontWeight: '600',
     color: '#0F2E63',
   },
   textPeriode: {
     marginStart: 16,
-    color: 'grey',
+    color: '#828282',
     marginBottom: 16,
-    fontSize: 14,
+    fontWeight:'400',
+    fontSize: 12,
   },
   textStyle: {
     marginStart: 16,

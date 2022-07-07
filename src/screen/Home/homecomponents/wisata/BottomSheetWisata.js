@@ -13,7 +13,7 @@ import Animated, {
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const BottomSheetWisata = forwardRef(
-    (props) => {
+    (props,ref) => {
       
   const heightTranslated = useSharedValue(0);
   const contextBS = useSharedValue({ y: 0 });

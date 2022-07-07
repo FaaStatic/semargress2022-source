@@ -30,7 +30,7 @@ const style = StyleSheet.create({
     container :{
     height:windowWidth/2,
     width:windowWidth/3,
-    borderRadius:5,
+    borderRadius:8,
     backgroundColor:colors.black,
     flexDirection:'column',
     marginStart:8,
@@ -40,8 +40,8 @@ const style = StyleSheet.create({
         height:'100%',
         width:'100%',
         backgroundColor:colors.black,
-        borderRadius:4,
         resizeMode:'cover',
+        borderRadius:8,
     },
     textNama:{
         position:'absolute',
@@ -58,6 +58,6 @@ const style = StyleSheet.create({
         width: '100%',
         height: '100%',
         position:'absolute',
-        borderRadius:5,
+        borderRadius:8,
     }
 })
