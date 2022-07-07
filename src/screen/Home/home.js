@@ -218,10 +218,10 @@ export default function Home({ navigation, route }) {
 
 const showAllDestination = () =>{
       return(
-        <Pressable style={style.containerFooter}>
-        <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
-        <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
-    </Pressable>);
+        <Pressable style={style.containerFooter} onPress={moveHomeWisata}>
+          <Image source={require('../../assets/logotugumuda.png')}  style={style.imageStyleFooter}/>
+          <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
+      </Pressable>);
       }
 
   const keyExtractor = useCallback(({ item }) => {

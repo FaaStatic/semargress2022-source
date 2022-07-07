@@ -33,6 +33,7 @@ export default function EventList({item, pressCall}){
                 marginBottom:16,
                
             }}>
+                
                 <Text style={[style.textGeneric,{
                     fontSize:16,
                     marginEnd:8,

@@ -1,4 +1,8 @@
-import {Platform, StyleSheet, StatusBar} from 'react-native';
+import {Platform, StyleSheet, StatusBar, Dimensions} from 'react-native';
+import { colors } from './color';
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const style = StyleSheet.create({
   container: {
@@ -14,20 +18,21 @@ const style = StyleSheet.create({
     color : 'black',
   },
   conteiner2: {
-    flex: 1,
+    width:'100%',
+    height:'100%',
   },
   modalStyle: {
     flexDirection: 'column',
     alignItems: 'center',
   },
   containerSplash: {
-    flex: 1,
+    height:windowHeight,
     flexDirection: 'column',
     margin: 0,
     padding: 0,
     top: 0,
-    backgroundColor:'#001F58',
-    justifyContent: 'center',
+    backgroundColor:colors.primary,
+    alignItems:'center',
   },
   boxImage: {
     alignSelf: 'center',
