@@ -50,6 +50,7 @@ export default function HomeWisataSemarang({navigation, route}){
 
     const loadmore = async () =>{
         if(Last === false){
+            offset += length;
             getApi();
         }
     }

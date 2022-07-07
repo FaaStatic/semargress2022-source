@@ -4,6 +4,7 @@ import { colors } from '../color';
 const windowWidth = Dimensions.get('window').width;
 
 export default function ListCategory({item, pressCall}){
+    console.log(item);
     return(
         <Pressable style={style.container} onPress={() => {pressCall(item)}}>
             

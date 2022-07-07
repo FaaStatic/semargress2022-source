@@ -7,16 +7,17 @@ import ListCategory from '../../../util/ListItem/ListCategory';
 import IklanItem from '../../../util/ListItem/IklanItem';
 import Geolocation from 'react-native-geolocation-service';
 import {
-    BallIndicator,
-    BarIndicator,
-    DotIndicator,
-    MaterialIndicator,
-    PacmanIndicator,
-    PulseIndicator,
-    SkypeIndicator,
-    UIActivityIndicator,
-    WaveIndicator,
-  } from 'react-native-indicators';
+  BallIndicator,
+  BarIndicator,
+  DotIndicator,
+  MaterialIndicator,
+  PacmanIndicator,
+  PulseIndicator,
+  SkypeIndicator,
+  UIActivityIndicator,
+  WaveIndicator,
+} from 'react-native-indicators';
+import MerchanList from '../../../util/ListItem/MerchantList';
 
 var latitude = 0;
 var longitude = 0;
@@ -29,6 +30,7 @@ export default function DetailListCategory({ navigation, route }) {
   const [refreshing, setRefresh] = useState(false);
   const [isLast, setLast] = useState(false);
   const [responList, setResponList] = useState([]);
+  const [col, setCol] = useState(0);
   const [ListKosong, setListKosong] = useState(false);
   const [location, setLocation] = useState({
     latitude: 0,
@@ -57,7 +59,6 @@ export default function DetailListCategory({ navigation, route }) {
       setResponList([]);
       currentLocation();
       loadSession();
-     
     });
     return () => {
       unsubscribe;
@@ -70,14 +71,14 @@ export default function DetailListCategory({ navigation, route }) {
         async (pos) => {
           const datalatitude = pos.coords.latitude;
           const datalongitude = pos.coords.longitude;
-       
-        setLocation({
-            latitude : datalatitude,
-            longitude :  datalongitude
-        })
-        latitude = datalatitude;
-        longitude = datalongitude;
-        getListItem()
+
+          setLocation({
+            latitude: datalatitude,
+            longitude: datalongitude,
+          });
+          latitude = datalatitude;
+          longitude = datalongitude;
+          getListItem();
           console.log('current', pos);
           console.log('currentstate', location);
         },
@@ -113,8 +114,6 @@ export default function DetailListCategory({ navigation, route }) {
     }
   };
 
-
-
   const getListItem = async (data) => {
     if (onProgress) {
       return;
@@ -139,11 +138,35 @@ export default function DetailListCategory({ navigation, route }) {
         onProgress = false;
         console.log('tessaja', response);
         if (metadata.status === 200) {
-          setResponList(response);
-          setResponList(offset == 0 ? response : [...responList, response]);
-          offset = response.length !== 0 ? offset + response.length : offset;
-          setLast(response.length !== length ? true : false);
-          setListKosong(false);
+          setResponList(data);
+         
+          var merchant = [];
+          var listNew = [];
+          response.forEach((element) => {
+            if (element.flag_tipe=== 'merchant') {
+              merchant.push(element);
+              if (merchant.length == 2) {
+                listNew.push({
+                  type: 'merchant',
+                  data: merchant,
+                });
+                merchant = [];
+              }
+            } else if (element.flag_tipe === 'iklan') {
+              listNew.push({
+                type: 'iklan',
+                data: element,
+              });
+            }
+            setResponList(offset == 0 ? listNew : [...responList, ...listNew]);
+            offset = response.length !== 0 ? offset + response.length : offset;
+            setLast(response.length !== length ? true : false);
+            setListKosong(false);
+            setJumlahItem(jumlahItem + response.length);
+            console.log('testestes',listNew);
+          
+          });
+
           setJumlahItem(jumlahItem + response.length);
         } else if (metadata.status === 401) {
           setListKosong(true);
@@ -163,28 +186,35 @@ export default function DetailListCategory({ navigation, route }) {
 
   const loadMore = async () => {
     if (isLast === false) {
-      getListItem();    
+      offset += length;
+      getListItem();
     }
   };
 
-  const moveDetail = (data) =>{
-    
+  const moveDetail = (data) => {
     const param = {
-      id_m : data.id_m,
-      kategori : id_k,
-    }
-    console.log("categoryitem",param);
-    navigation.navigate('DetailMerchant',param)
-  }
+      id_m: data.id_m,
+      kategori: id_k,
+    };
+    console.log('categoryitem', param);
+    navigation.navigate('DetailMerchant', param);
+  };
 
   const itemRender = useCallback(({ item }) => {
-    return (
-      <View
-        style={{margin:10}}
-      >
-        {item.flag_tipe === 'merchant' ? <ListCategory item={item} pressCall={moveDetail}/> : <IklanItem item={item} />}
-      </View>
-    );
+    if (item.type === 'merchant') {
+      return (
+        <View style={{ margin: 10, flexDirection:'row' }}>
+        <MerchanList item={item.data[0]} pressCall={moveDetail}/>
+        <MerchanList item={item.data[1]} pressCall={moveDetail}/>
+        </View>
+      );
+    } else {
+      return (
+        <View style={{ margin: 10 }}>
+          <IklanItem item={item.data} />
+        </View>
+      );
+    }
   }, []);
 
   const onRefresh = async () => {
@@ -215,9 +245,6 @@ export default function DetailListCategory({ navigation, route }) {
         onEndReached={loadMore}
         style={style.listStyle}
       />
-    
-   
-     
     </SafeAreaView>
   );
 }
@@ -232,12 +259,11 @@ const style = StyleSheet.create({
     flex: 1,
     width: '100%',
   },
-  constainerLoading:{
-    height:100,
-    justifyContent:'center',
-
+  constainerLoading: {
+    height: 100,
+    justifyContent: 'center',
   },
-  styleLoading :{
-    alignSelf:'center',
-  }
+  styleLoading: {
+    alignSelf: 'center',
+  },
 });

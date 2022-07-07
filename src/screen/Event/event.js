@@ -33,6 +33,13 @@ export default function Event({ navigation, route }) {
     };
   }, [navigation]);
 
+  const loadMore =() =>{
+    if (Last === false) {
+      offset += length;
+     getApi();
+  }
+}
+
   const getApi = async () => {
     if (onProgress) {
       return;
@@ -53,6 +60,7 @@ export default function Event({ navigation, route }) {
           onProgress = false;
           console.log('cektesevent', response);
           setJumlahItem(jumlahItem + response.length);
+          setResponseEvent(response)
           setResponseEvent(
             offset === 0 ? response : setResponseEvent(responseEvent.concat(response))
           );
@@ -117,6 +125,7 @@ height: 300,
           <FlatList 
           data={responseEvent}
           renderItem={itemRender}
+          onEndReached={loadMore}
           keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
            />

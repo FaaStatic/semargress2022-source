@@ -88,7 +88,7 @@ const About = ({navigation, route}) => {
         </Image>
 
         <ScrollView
-          style={{borderWidth:0, marginTop:30,}}
+          style={{borderWidth:0, marginTop:30, marginBottom:Dimensions.get('window').height/5}}
           showsVerticalScrollIndicator={false}
         >
 

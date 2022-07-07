@@ -13,12 +13,12 @@ import FeedList from '../../util/ListItem/FeedList';
 import { Api } from '../../util/Api';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-export default function Location({ navigation, route }) {
+export default function Feed({ navigation, route }) {
   
   const [responseFeed,setResponseFeed] =useState([]);
   let offset = 0;
   let onProgress = false;
-  let length = 6
+  const [length, setLength] = useState(10);
   const [Last, setLast] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
   const [dataKosong, setDataKosong] = useState(false);
@@ -45,11 +45,12 @@ export default function Location({ navigation, route }) {
 
 
 
-  const loadmore = async () =>{
-    if(Last === false){
-        getFeed();
+  const loadmore = async () => {
+    if (Last === false) {
+      offset += length;
+      getFeed();
     }
-}
+  };
 
   const itemRender = useCallback(({item})=>{
     return(
@@ -65,7 +66,7 @@ export default function Location({ navigation, route }) {
 
     onProgress = true;
     const param = {
-      start:offset,
+      start: offset,
       count : length,
     }
     await Api.post('api/feed_instagram',param).then(res =>{
@@ -76,11 +77,12 @@ export default function Location({ navigation, route }) {
         onProgress=false;
         if(metadata.status === 200){
           console.log('testestesfeed', response);
-          setJumlahItem(jumlahItem + responseFeed.length + response.length);
-          setResponseFeed(offset === 0 ? response :  setResponseFeed(responseFeed.concat(response)))
+          setResponseFeed(response)
+          setResponseFeed(offset === 0 ? response :  [...responseFeed, ...response])
           offset = response.length === 0 ? offset + response.length : offset;
           setLast(response.length !== length ? true : false);
           setDataKosong(false);
+          setJumlahItem(jumlahItem + responseFeed.length + response.length);
           console.log('testestesfeed2', responseFeed);
         }else if(metadata.status === 401){
           setDataKosong(true);
@@ -125,16 +127,21 @@ export default function Location({ navigation, route }) {
       <View style={style.continerFeed}>
        
         <FlatList
+        onEndReached={loadmore}
         data={responseFeed}
         renderItem = {itemRender}
         showsVerticalScrollIndicator = {false}
-        onEndReached={loadmore}
         keyExtractor={(item) => item.id}
+        extraData={extraData}
         contentContainerStyle={{
-          position:'absolute',
+          borderTopStartRadius:16,
+          borderTopEndRadius:16,
         }}
         style={{
-          height:'100%'
+          height:'100%',
+          marginTop:10,
+          
+         
         }}
         />
       

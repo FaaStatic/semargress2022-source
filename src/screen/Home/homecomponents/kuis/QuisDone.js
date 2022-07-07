@@ -59,7 +59,7 @@ export default function QuizDone({navigation}){
         }
       };
 
-    return(<SafeAreaView>
+    return(<SafeAreaView style={style.container}>
         <FlatList
         showsVerticalScrollIndicator={false}
         data={questList}
@@ -68,5 +68,8 @@ export default function QuizDone({navigation}){
 }
 
 const style = StyleSheet.create({
+    container:{
+      backgroundColor:'white',
 
+    }
 })

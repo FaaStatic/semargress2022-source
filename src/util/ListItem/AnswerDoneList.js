@@ -1,11 +1,10 @@
 import React from 'react'
-import {SafeAreaView, Text, StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
+import {SafeAreaView, Text, StyleSheet, View, Image} from 'react-native';
 
 
 export default function AnswerDoneList({item}){
 
-   function changeDate(data){
+function changeDate(data){
        let dateFetch =  data.split(' ');
        console.log(data)
        console.log(dateFetch)
@@ -60,33 +59,62 @@ export default function AnswerDoneList({item}){
 
     return(
         <SafeAreaView style={style.containerList}>
-            <View style={style.containerHeader}>
-            <Icon name='shop' size={28} color={'#0F2E63'}/>
-            <Text style={[style.textHeader,{
-                width:175,
-            }]}>{item.nama_merchant}</Text>
-            <Text style={[style.textStyleContent,{
-                color:'grey',
-                alignSelf:'flex-end',
-                marginTop:0,
-                marginEnd:16,
-                position:'absolute',
-                right:0,
-                top:0,
-            }]}>{ changeDate(item.answered_at) }</Text>
-            </View>
+          <View style={style.containerHeader}>
+          <Image source={require('../../assets/kuis2.png')} style={{
+            height:48,
+            width:48,
+
+          }}/>
+          <View style={{
+            flexDirection:'column',
+            marginStart:8
+          }}>
+          <Text style={style.textHeader}>{item.nama_merchant}</Text>
+          <Text style={style.textPeriode}>
+          Periode {changeDate(item.periode_start)} - {changeDate(item.periode_end)}
+        </Text>
+          </View>
+          
+        </View>
            
-            <Text style={[style.textStyleContent,{
-                fontSize:18,
-                fontWeight:'bold',
-                color:'black',
-            }]}>{item.soal}</Text>
-          <Text style={[style.textStyleContent,{
-                marginBottom:16,
-                marginTop:16,
-                fontSize:12,
-                fontWeight:'bold'
-            }]}>Jawaban {`\t\t : `} {item.jawaban }</Text>
+        <Text style={[style.textStyleContent,{
+                    fontSize:16,
+                    fontWeight:'400',
+                    color:'black',
+                    marginStart:75,
+                    width:240,marginBottom:4,
+                }]}><Text style={{
+                    fontSize:16,
+                    fontWeight:'600',
+                    color:'black',
+                }}>Pertanyaan: </Text>{item.soal}</Text>
+                <Text style={[style.textStyleContent,{
+                    fontSize:16,
+                    fontWeight:'400',
+                    color:'black',
+                    marginStart:75,
+                    width:240
+                }]}><Text style={{
+                    fontSize:16,
+                    fontWeight:'600',
+                    color:'black',
+                    marginTop:4,
+                }}>Hadiah: </Text>{item.hadiah}</Text>
+                <Text style={{
+                    fontSize:16,
+                    marginTop:12,
+                    color:'#FB44A0',
+                    marginStart:75,
+                    fontWeight:'600',
+                    marginBottom:4,
+                }}>Jawaban Kamu</Text>
+                <Text style={{
+                    fontSize:13,
+                    fontWeight:'400',
+                    marginStart:75,
+                    color:'black',
+                    marginBottom:20,
+                }}>{item.jawaban}</Text>
         </SafeAreaView>);
 }
 
@@ -95,14 +123,17 @@ export default function AnswerDoneList({item}){
 const style = StyleSheet.create({
     containerList:{
         borderRadius:8,
-        backgroundColor:'#f9f9f9',
+        backgroundColor:'white',
         margin:8,
-        elevation:5,
         flexDirection:'column',
+        borderBottomWidth:1,
+        borderBottomColor:'#f9f9f9'
     },
     containerHeader:{
         flexDirection:'row',
+        backgroundColor:'transparent',
         margin:8,
+        marginBottom:2,
         padding:2,
         
     },
@@ -111,8 +142,9 @@ const style = StyleSheet.create({
     },
     textHeader:{
         marginStart:8,
-        fontSize:14,
-        color:'black',
+        fontSize:16,
+        marginBottom:4,
+        color:'#3B237E',
         fontWeight:'bold',
     },
     textStyleContent:{
@@ -124,6 +156,18 @@ const style = StyleSheet.create({
         flexDirection:'row',
          marginStart:45,
          marginBottom:18
-    }
+    },
+    textPeriode: {
+        marginStart: 8,
+        color: '#828282',
+        marginBottom: 4,
+        fontWeight:'400',
+        fontSize: 12,
+      },
+      textStyleContent:{
+        marginStart:24,
+        fontSize:15,
+        color:'#4F4F4F',
+    },
 
 })

@@ -8,6 +8,7 @@ export default function QuizAnswer({navigation}){
     const [responJawab, setResponJawab] = useState([]);
  
 
+
     useEffect(() => {
         getJawabList();
         loadSession();
@@ -60,5 +61,6 @@ const style = StyleSheet.create({
     container :{
         flex:1,
         flexDirection:'column',
+        backgroundColor:'white'
     }
 })

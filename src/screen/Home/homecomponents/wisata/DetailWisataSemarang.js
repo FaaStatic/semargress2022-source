@@ -16,8 +16,9 @@ import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import simple from 'react-native-vector-icons/SimpleLineIcons'
 import MerchanList from '../../../../util/ListItem/MerchantList';
+import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 // import { enableLatestRenderer } from 'react-native-maps';
 
 // enableLatestRenderer();
@@ -168,7 +169,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
           </Text>
         </View>
         <View style={styling.containerDetailMerchant}>
-          {/* <View
+          <View
             style={[
               styling.itemDetailContainer,
               {
@@ -219,7 +220,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
             <Text style={styling.itemTextDetail}>
               {detailResponse.link_fb ? detailResponse.link_fb : '-'}
             </Text>
-          </View> */}
+          </View>
 
           <View style={styling.constainerMaps}>
             <MapView
@@ -248,6 +249,19 @@ export default function DetailWisataSemarang({ navigation, route }) {
             </MapView>
           </View>
         </View>
+        {/* <Pressable style={{
+        heightzz:27,
+        position:'absolute',
+        backgroundColor:'#0F2E63',
+        borderRadius:2,
+        bottom:0,
+        padding:2,
+        right:0,
+        marginBottom:SCREEN_HEIGHT/5,
+        marginEnd:36,
+      }}>
+      <SimpleIcon name='frame' size={27/2} />
+      </Pressable> */}
       </ScrollView>
       <BottomSheetWisata>
 
@@ -265,6 +279,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
 
 
       </BottomSheetWisata>
+     
     </SafeAreaView>
     // </GestureHandlerRootView>
   );
@@ -312,12 +327,14 @@ const styling = StyleSheet.create({
     borderRadius: 16,
     overflow: 'hidden',
     margin: 16,
+    flex:1,
     marginBottom:SCREEN_HEIGHT/10,
     elevation: 5,
    
   },
   MapsStyle: {
     height: 250,
+    flex:1,
   },
 
   itemTextDetail: {

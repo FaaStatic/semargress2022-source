@@ -40,6 +40,7 @@ export default function HomeMerchat({navigation, route}){
 
     const loadmore = async () =>{
         if(Last === false){
+            offset += length;
             getApi();
         }
     }

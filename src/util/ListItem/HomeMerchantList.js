@@ -17,15 +17,16 @@ export default function HomeMerchantList({item, pressCall}){
 
 const style = StyleSheet.create({
     ImageStyle : {
-        height:120,
-        width:120,
+        height:95,
+        width:95,
         borderRadius:8,
         alignSelf:'center',
     },
     containerImage:{
-        height:120,
-        top:0,
-        width:120,
+        height:95,
+        alignSelf:'center',
+        top:10,
+        width:95,
         elevation:3,
         borderRadius:8,
         position:'absolute',
@@ -35,8 +36,8 @@ const style = StyleSheet.create({
     containerList:{
         justifyContent:'center',
         flexDirection:'column',
-        height:175,
-        width:120,
+        height:150,
+        width:130,
         padding:0,
         marginTop:16,
         marginStart:16,

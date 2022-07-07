@@ -9,7 +9,6 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 import { Api } from '../../util/Api';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');

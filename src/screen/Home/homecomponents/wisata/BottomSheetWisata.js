@@ -8,12 +8,13 @@ import Animated, {
   withSpring,
   interpolate,
   Extrapolate,
+  set,
 } from 'react-native-reanimated';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 const BottomSheetWisata = forwardRef(
-    (props) => {
+    (props,ref) => {
       
   const heightTranslated = useSharedValue(0);
   const contextBS = useSharedValue({ y: 0 });
@@ -88,14 +89,15 @@ const BottomSheetWisata = forwardRef(
       <Animated.View style={[style.container, styleBottomSheet]}>
         <View style={style.containerHeader}>
           {statIcon || statHeight.value ? (
-            <EvilIcons name="chevron-down" color={'#0f2e63'} size={52} style={style.iconArrow} onPress={
+            <EvilIcons name="chevron-down" color={'#0F2E63'}
+            size={25} style={style.iconArrow} onPress={
                 buttonDown
             }/>
           ) : (
             <EvilIcons
               name="chevron-up"
-              color={'#0f2e63'}
-              size={52}
+              color={'#0F2E63'}
+              size={25}
               style={style.iconArrow}
               onPress={buttonUp}
             />
@@ -132,12 +134,13 @@ const style = StyleSheet.create({
   containerHeader: {
     flexDirection: 'column',
     justifyContent: 'center',
+    marginTop:8,
     width: '100%',
   },
   textStyle: {
     color: '#0f2e63',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
     alignSelf: 'center',
   },
 });

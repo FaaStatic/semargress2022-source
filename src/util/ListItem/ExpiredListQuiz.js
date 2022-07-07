@@ -1,71 +1,116 @@
 import React from 'react';
-import {SafeAreaView, Text, StyleSheet, View} from 'react-native';
-import Icon from 'react-native-vector-icons/Entypo';
-import User from 'react-native-vector-icons/AntDesign';
+import { Text, StyleSheet, View, Image} from 'react-native';
 
 
 
 export default function ExpiredListQuiz({item}){
       return(
-            <SafeAreaView style={style.containerList}>
+            <View style={style.containerList}>
                 <View style={style.containerHeader}>
-                <Icon name='shop' size={28} color={'#0F2E63'}/>
+                <Image source={require('../../assets/kuis2.png')} style={{
+                    height:48,
+                    width:48,
+                    borderRadius: 8,
+                }} resizeMode='cover'/>
                 <View style={style.containerHeaderText}>
                 <Text style={style.textHeader}>{item.nama_merchant}</Text>
                 <Text style={[style.textStyleContent,{
-                    marginStart:8,
+                    marginStart:14,
                     color:'grey',
+                    fontSize:12,
+                    fontWeight:'400',
+                    color:'#828282'
                 }]}>Periode {item.tanggal_mulai} - {item.tanggal_selesai}</Text>
                 </View>
                 </View>
-               
+             
                 <Text style={[style.textStyleContent,{
-                    fontSize:18,
-                    fontWeight:'bold',
+                    fontSize:16,
+                    fontWeight:'400',
                     color:'black',
-                }]}>{item.soal}</Text>
-                <View style={style.containerHeader}>
-                <User name='user' size={18} color={'red'}/>
-                <Text style={[style.textHeader,{
-                    color:'red',
-                    marginTop:6
-                }]}>Pemenang</Text>
-                </View>
+                    marginStart:75,
+                    width:240
+                }]}><Text style={{
+                    fontSize:16,
+                    fontWeight:'600',
+                    color:'black',
+                }}>Pertanyaan: </Text>{item.soal}</Text>
+                <Text style={[style.textStyleContent,{
+                    fontSize:16,
+                    fontWeight:'400',
+                    color:'black',
+                    marginStart:75,
+                    width:240
+                }]}><Text style={{
+                    fontSize:16,
+                    fontWeight:'600',
+                    color:'black',
+                    marginTop:4,
+                }}>Hadiah: </Text>{item.hadiah}</Text>
+                  <View style={{
+                borderRadius:15,
+                paddingStart:16,
+                backgroundColor:'#f9f9f9',
+                padding:8,
+                margin:20,
+               }}>
               <View>
+              <Text style={[style.textHeader,{
+                    color:'#f2994a',
+                    marginTop:6,
+                    fontSize:18,
+                    marginStart:24,
+                    marginBottom:8,
+                }]}>Pemenang</Text>
               <Text style={[style.textStyleContent,{
                     marginBottom:8,
-                }]}>Nama  {`\t\t\t\t : `} {item.pemenang.nama ? item.pemenang.nama : '-' }</Text>
+                }]}><Text style={[style.textStyleContent,{
+                    fontWeight:'600',
+                    color:'#4F4F4F'
+                }]}>Nama</Text> {`\t\t\t\t\t: `} {item.pemenang.nama ? item.pemenang.nama : '-' }</Text>
                 <Text style={[style.textStyleContent,{
                     marginBottom:8,
-                }]}>Email  {`\t\t\t\t : `} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
+                }]}><Text style={[style.textStyleContent,{
+                    fontWeight:'600',
+                    color:'#4F4F4F'
+                }]}>Email</Text>   {`\t\t\t\t\t: `} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
                 <Text style={[style.textStyleContent,{
                     marginBottom:8,
-                }]}>Jawaban {`\t\t : `} {item.pemenang.jawaban ? item.pemenang.jawaban : '-' }</Text>
+                }]}><Text style={[style.textStyleContent,{
+                    fontWeight:'600',
+                    color:'#4F4F4F'
+                }]}>Jawaban</Text> {`\t\t: `} {item.pemenang.jawaban ? item.pemenang.jawaban : '-' }</Text>
                 <View style={style.containerHadiah}>
                 <Text style={[style.textStyleContent,{
                     marginStart:0,
-                }]}>Hadiah  {`\t\t\t : `} </Text><Text style={[style.textStyleContent,{
+                    color:'#4F4F4F'
+                }]}><Text style={[style.textStyleContent,{
+                    fontWeight:'600',
+                }]}>Hadiah </Text> {`\t\t\t: `} </Text><Text style={[style.textStyleContent,{
                     marginStart:0,
                     width:200,
                 }]}>{item.hadiah}</Text>
                 </View>
               </View>
-            </SafeAreaView>
+              </View>
+            </View>
       );
 }
 
 const style = StyleSheet.create({
     containerList:{
         borderRadius:8,
-        backgroundColor:'#f9f9f9',
+        backgroundColor:'white',
         margin:8,
-        elevation:5,
         flexDirection:'column',
+        borderBottomWidth:1,
+        borderBottomColor:'#f7f7f7'
     },
     containerHeader:{
         flexDirection:'row',
         backgroundColor:'transparent',
         margin:8,
+        marginBottom:2,
         padding:2,
         
     },
@@ -73,19 +118,20 @@ const style = StyleSheet.create({
         flexDirection:'column',
     },
     textHeader:{
-        marginStart:8,
-        fontSize:14,
-        color:'black',
-        fontWeight:'bold',
+        marginStart:14,
+        fontSize:18,
+        color:'#3B237E',
+        fontWeight:'600',
     },
     textStyleContent:{
-        marginStart:45,
-        fontSize:12,
-        color:'red',
+        marginStart:24,
+        fontSize:15,
+        color:'#4F4F4F',
     },
     containerHadiah : {
         flexDirection:'row',
-         marginStart:45,
+         marginStart:24,
+         fontSize:15,
          marginBottom:18
     }
 
