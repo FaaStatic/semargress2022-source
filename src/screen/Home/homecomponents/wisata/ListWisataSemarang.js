@@ -17,11 +17,6 @@ export default function ListWisataSemarang({navigation, route}){
           }
     },[navigation])
 
-
-    const getWisata = async () =>{
-        
-    }
-
     const moveDetailWisata = (item) =>{
         console.log(item.id)
     }

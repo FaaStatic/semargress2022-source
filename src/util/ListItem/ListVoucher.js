@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -7,16 +7,29 @@ import {
   Image,
   TouchableOpacity,
   Pressable,
+  Dimensions,
 } from 'react-native';
+import { colors } from '../color';
+
+const images = {
+  logos: {
+    0: require('../../assets/vector_1.png'),
+    1: require('../../assets/vector_2.png'),
+    2: require('../../assets/vector_3.png'),
+
+  }
+};
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function ListVoucher({ item, PressCall }) {
-  console.log('listitemvoucher', item);
+  
+  var bgImage = item.id % 3;
+
   function changeDate(data) {
     let dateFetch = data.split(' ');
-    console.log(data);
-    console.log(dateFetch);
     let dateArr = dateFetch[0].split('-');
-    console.log(dateArr);
     let dateAnswer = null;
     switch (dateArr[1]) {
       case '01':
@@ -63,70 +76,160 @@ export default function ListVoucher({ item, PressCall }) {
   }
 
   return (
+
       <TouchableOpacity
-        style={style.containerTouch}
         onPress={() => {
           PressCall(item.id);
         }}
       >
-        <Image
-          style={style.imageStyle}
-          resizeMode="stretch"
-          source={require('../../assets/dummy_voucher.png')}
-        />
-        <Text
-          style={[
-            style.textStyle,
-            {
-              color: 'black',
-              fontWeight: 'bold',
-            },
-          ]}
-        >
-          {item.nama_voucher}
-        </Text>
-        <Text
-          style={[
-            style.textStyle,
-            {
-              color: 'grey',
-              fontSize: 14,
-            },
-          ]}
-        >
-          Berlaku hingga {changeDate(item.valid_end)}
-        </Text>
+        
+        <View style={style.containerTouch}>
+          <View
+            style={{
+              width: '100%',
+              height: windowWidth / 2.5,
+              borderRadius: 12,
+            }}
+          >
+            <Image
+              source={{ uri: item.image }}
+              style={{
+                width: '100%',
+                height: '100%',
+                resizeMode: 'cover',
+                borderRadius: 15,
+              }}
+            ></Image>
+
+            <Image
+              source={images.logos[bgImage]}
+              style={{
+                width: '70%',
+                height: '100%',
+                right: 0,
+                position: 'absolute',
+                resizeMode: 'contain',
+                borderRadius: 15,
+              }}
+            ></Image>
+
+            <Image
+              source={require('../../assets/logo.png')}
+              style={{
+                width: 30,
+                height: 30,
+                right: 0,
+                marginTop: 10,
+                marginRight: 10,
+                backgroundColor: colors.white,
+                position: 'absolute',
+                resizeMode: 'contain',
+                borderRadius: 15,
+              }}
+            ></Image>
+
+            <View
+              style={{
+                width: '58%',
+                height: '100%',
+                alignItems: 'flex-start',
+                right: 0,
+                padding: 20,
+                color: colors.white,
+                position: 'absolute',
+                resizeMode: 'contain',
+              }}
+            >
+              <Text
+                style={{
+                  width: '100%',
+                  marginTop: '16%',
+                  fontSize: 20,
+                  fontWeight:'700',
+                  color: colors.white,
+                }}
+                numberOfLines={1}
+              >{item.nama_merchant}</Text>
+
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: colors.white,
+                  marginTop: 4,
+                }}
+                numberOfLines={1}
+              >{item.tipe == 'P' ? 'Diskon' : 'Potongan'}</Text>
+
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight:'600',
+                  color: colors.white,
+                  marginTop: 4,
+                }}
+                numberOfLines={1}
+              >{item.tipe == 'P' && item.tipe != undefined ? item.nominal+ "% OFF" :  currencyFormat(item.nominal) }</Text>
+            </View>
+
+          </View>        
+  
+          <View style={style.textContainer} >
+            <Text
+              style={[
+                style.textStyle,
+                {
+                  color: 'black',
+                },
+              ]}
+              numberOfLines={1}
+            >
+              {item.nama_voucher}
+            </Text>
+            <Text
+              style={[
+                style.textStyle,
+                {
+                  fontWeight: '400',
+                  fontSize:13,
+                },
+              ]}
+            >
+              Berlaku hingga {changeDate(item.valid_end)}
+            </Text>
+          </View>
+        </View>
       </TouchableOpacity>
   );
 }
 
 const style = StyleSheet.create({
+
   containerTouch: {
     flexDirection: 'column',
-    borderRadius: 8,
+    flexBasis:1,
+    borderRadius: 5,
     borderWidth: 0.1,
-    height: 300,
     marginStart: 8,
     marginEnd: 8,
     marginTop: 8,
-    marginBottom: 8,
+    marginBottom: 10,
+    alignItems:'center',
     shadowColor: "#00000",
-    shadowOffset: {
-        width: 0,
-        height: 1,
-    },
-    shadowOpacity: 0.20,
-    shadowRadius: 1.00,
-  },
-  imageStyle: {
-    height: 200,
-    width: '100%',
-    borderRadius: 16,
+    
   },
   textStyle: {
-    fontSize: 24,
-    marginStart: 16,
-    marginTop: 8,
+    fontSize: 18,
+    color:colors.black3,
+    fontWeight:'600',
+    marginTop: 4,
     alignSelf: 'flex-start',
   },
+  textContainer :{
+    width:'100%',
+    flexDirection:'column',
+    marginTop:8,
+    paddingLeft:16,
+    paddingRight:16,
+    marginBottom:16,
+  }
 });

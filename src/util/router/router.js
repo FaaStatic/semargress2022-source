@@ -15,6 +15,7 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import DetailListCategory from '../../screen/Home/merchant/DetailListCategory';
 import VoucherHome from '../../screen/Home/homecomponents/VoucherHome';
 import EKupon from '../../screen/Home/homecomponents/Ekupon';
+import Voucher from '../../screen/Voucher/voucher';
 import DetailWisataSemarang from '../../screen/Home/homecomponents/wisata/DetailWisataSemarang';
 import HomeWisataSemarang from '../../screen/Home/homecomponents/wisata/HomeWisataSemarang';
 import Search from '../../screen/Home/Search';
@@ -57,6 +58,7 @@ export default function Router() {
           }}
           options={{
             headerShown: true,
+            headerTitleAlign: 'center',
           }}
         />
         <StackScreen.Screen
@@ -126,10 +128,20 @@ export default function Router() {
           component={About}
           options={{
             headerShown: true,
+            headerTitleAlign: 'center',
           }}
         />
         <StackScreen.Screen
-          name="DetailListCategory"
+          name="Voucher"
+          component={Voucher}
+          options={{
+            title: 'Detail Voucher',
+            headerShown: true,
+            headerTitleAlign: 'center',
+          }}
+        />
+        <StackScreen.Screen
+          name='DetailListCategory'
           component={DetailListCategory}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -274,7 +286,7 @@ export default function Router() {
           component={DetailWisataSemarang}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: route.params.name,
+            title: "Info Wisata",
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {

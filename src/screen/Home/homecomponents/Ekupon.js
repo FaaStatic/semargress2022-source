@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { SafeAreaView, FlatList, Dimensions, StyleSheet } from 'react-native';
+import { SafeAreaView, FlatList, Dimensions, StyleSheet, View, Text, ScrollViewBase } from 'react-native';
 import { Api } from '../../../util/Api';
 import { SessionManager } from '../../../util/SessionManager';
 import { sessionId } from '../../../util/GlobalVar';
 import ListKoupon from '../../../util/ListItem/ListKoupon';
 
-const windowWidth = Dimensions.get('window');
+const { width : SCREEN_WIDTH}  = Dimensions.get('window');
+const { height : SCREEN_HEIGHT} = Dimensions.get('window');
 export default function EKupon({ navigation, route }) {
   let offset = 0;
   let onProgress = false;
@@ -18,6 +19,7 @@ export default function EKupon({ navigation, route }) {
   const [extraData, setExtraData] = useState(false);
   const [msg, setMsg] = useState('');
   const [filtered, setFiltered] = useState([]);
+  const [jumlah, setJumlah] = useState(0);
 
 
   useEffect(()=>{
@@ -26,12 +28,14 @@ export default function EKupon({ navigation, route }) {
     setJumlahItem(0);
     setKuponList([]);
     getKupon();
+    jumlahCoupon();
     const unsubscribe = navigation.addListener('focus', () => {
     offset = 0;
     onProgress = false;
     setJumlahItem(0);
     setKuponList([]);
     getKupon();
+    jumlahCoupon();
     });
     return() => {
         unsubscribe;
@@ -41,6 +45,25 @@ export default function EKupon({ navigation, route }) {
   },[navigation])
 
 
+  const jumlahCoupon = async () => {
+    await Api.get('kupon/total')
+      .then((res) => {
+        let body = res.data;
+        let metadata = body.metadata;
+        let response = body.response;
+        if(metadata.status === 200){
+          console.log("testes", response);
+          setJumlah(response.total);
+
+        }else if(metadata.status === 401){
+
+        }else{
+
+        }
+        
+      })
+      .catch((err) => {});
+  };
 
   const itemRender = useCallback(({item}) => {
     return(<ListKoupon data={item}/>);
@@ -48,6 +71,7 @@ export default function EKupon({ navigation, route }) {
 
   const loadMore = () => {
     if (isLast === false) {
+      offset += length;
        getKupon;
       }
   };
@@ -141,21 +165,39 @@ export default function EKupon({ navigation, route }) {
       });
   };
 
-  return <SafeAreaView>
+  return <SafeAreaView style={{
+    backgroundColor:'white'
+  }}>
+    <View style={{
+      borderBottomColor:'#E0E0E0',
+      borderBottomWidth:1,
+      marginBottom:23,
+    }}>
+      <Text style={{
+        color:'#333333',
+        fontWeight:'600',
+        fontSize:16,
+        marginStart:18,
+        marginBottom:24,
+        marginTop:23,
+
+      }} >Jumlah E-Kupon Kamu : {jumlah}</Text>
+    </View>
     <FlatList
     data={kuponList}
     renderItem={itemRender}
     numColumns={2}
-    keyExtractor={(item)=>{item.id}}
     onEndReached={loadMore}
     extraData={extraData}
+    contentContainerStyle={{
+      height:SCREEN_HEIGHT
+    }}
     style={style.listcontainer}/>
   </SafeAreaView>;
 }
 
 const style=StyleSheet.create({
     listcontainer : {
-        height:windowWidth.height,
         backgroundColor:'white',
     }
 })

@@ -67,9 +67,9 @@ export default function ListKoupon({data}){
         }}>
         <Text style={{
                 color:'black',
-                fontSize:14,
-                fontWeight:'bold',
-                marginStart:8,
+                fontSize:15,
+                fontWeight:'600',
+                marginStart:20,
                 marginBottom:16,
                 marginTop:16,
                 
@@ -79,9 +79,10 @@ export default function ListKoupon({data}){
                 position:'absolute',
                 right:0,
                 marginTop:18,
-                fontSize:12,
+                fontSize:13,
+                fontWeight:'400',
                 marginBottom:16,
-                marginEnd:8,
+                marginEnd:32,
             }}>{changeDate(data.insert_at)}</Text>
         </View>
         

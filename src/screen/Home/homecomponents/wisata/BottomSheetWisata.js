@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
-import { Text, SafeAreaView, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions } from 'react-native';
 import EvilIcons from'react-native-vector-icons/EvilIcons';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -8,6 +8,7 @@ import Animated, {
   withSpring,
   interpolate,
   Extrapolate,
+  set,
 } from 'react-native-reanimated';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -86,16 +87,17 @@ const BottomSheetWisata = forwardRef(
   return (
     // <GestureDetector gesture={gestureFunc}>
       <Animated.View style={[style.container, styleBottomSheet]}>
-        <SafeAreaView style={style.containerHeader}>
+        <View style={style.containerHeader}>
           {statIcon || statHeight.value ? (
-            <EvilIcons name="chevron-down" color={'#0f2e63'} size={32} style={style.iconArrow} onPress={
+            <EvilIcons name="chevron-down" color={'#0F2E63'}
+            size={25} style={style.iconArrow} onPress={
                 buttonDown
             }/>
           ) : (
             <EvilIcons
               name="chevron-up"
-              color={'#0f2e63'}
-              size={32}
+              color={'#0F2E63'}
+              size={25}
               style={style.iconArrow}
               onPress={buttonUp}
             />
@@ -103,14 +105,13 @@ const BottomSheetWisata = forwardRef(
 
           <Text style={style.textStyle}>Lihat Merchant Terdekat</Text>
         
-        </SafeAreaView>
-        <SafeAreaView style={{
+        </View>
+        <View style={{
             marginTop:16,
           }}>
           {props.children}
-        </SafeAreaView>
+        </View>
       </Animated.View>
-    // </GestureDetector>
   );
 });
 
@@ -133,12 +134,13 @@ const style = StyleSheet.create({
   containerHeader: {
     flexDirection: 'column',
     justifyContent: 'center',
+    marginTop:8,
     width: '100%',
   },
   textStyle: {
     color: '#0f2e63',
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: '600',
     alignSelf: 'center',
   },
 });

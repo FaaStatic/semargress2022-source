@@ -18,8 +18,10 @@ export default function RouterTab({ navigation }) {
         tabBarShowLabel: false,
         tabBarStyle: {
           shadowColor: '#D8E3E7',
-          height:80,
+          height:85,
           padding:5,
+          paddingLeft:20,
+          paddingRight:20,
           shadowOffset: {
             width: 0,
             height: 28,
@@ -38,26 +40,8 @@ export default function RouterTab({ navigation }) {
           tabBarIcon:({focused, size, color}) =>{
             let active = focused ? require('../../assets/home_active.png') : require('../../assets/home_inactive.png') 
             return(
-              <View style={{
-                height:36,
-                width:36,
-                borderRadius:8,
-                backgroundColor:'#f9f9f9',
-                elevation: focused ? 5 : 0,
-                justifyContent:'center',
-                bottom : 0,
-                position:'absolute',
-                marginBottom:16,
-              }}>
-                <Image
-                source={active}
-                style={{
-                  height:24,
-                  width:24,
-                  alignSelf:'center',
-                }}
-                resizeMode='contain'/>
-
+              <View style={style.iconContainer(focused)}>
+                <Image source={active} style={style.iconStyle}/>
               </View>
             )
           }
@@ -68,26 +52,8 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_inactive.png') 
           return(
-            <View style={{
-              height:36,
-              width:36,
-              borderRadius:8,
-              backgroundColor:'#f9f9f9',
-              elevation: focused ? 5 : 0,
-              justifyContent:'center',
-              bottom : 0,
-              position:'absolute',
-              marginBottom:16,
-            }}>
-              <Image
-              source={active}
-              style={{
-                height:20,
-                width:20,
-                alignSelf:'center',
-              }}
-              resizeMode='contain'/>
-
+            <View style={style.iconContainer(focused)}>
+              <Image source={active} style={[style.iconStyle, {resizeMode:'center'}]}/>
             </View>
           )
         }
@@ -97,28 +63,8 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/qr_active.png') : require('../../assets/qr_inactive.png') 
           return(
-            <View style={{
-              height:55,
-              width:55,
-              marginBottom:24,
-              borderRadius:8,
-              backgroundColor:'#05245A',
-              borderWidth:0.5,
-              borderColor:'white',
-              elevation: focused ? 5 : 0,
-              justifyContent:'center',
-              bottom : 0,
-              position:'absolute',
-              marginBottom:16,
-            }}>
-              <Image
-              source={active}
-              style={{
-                height:36,
-                width:36,
-                alignSelf:'center',
-              }}
-              resizeMode='contain'/>
+            <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#05245A',justifyContent:'center',borderRadius:12,}]}>
+              <Image source={active} style={[style.iconStyle, {width:30, height:30}]}/>
 
             </View>
           )
@@ -129,54 +75,18 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/even_active.png') : require('../../assets/event_inactive.png') 
           return(
-            <View style={{
-              height:36,
-              width:36,
-              borderRadius:8,
-              backgroundColor:'#f9f9f9',
-              elevation: focused ? 5 : 0,
-              justifyContent:'center',
-              bottom : 0,
-              position:'absolute',
-              marginBottom:16,
-            }}>
-              <Image
-              source={active}
-              style={{
-                height:24,
-                width:24,
-                alignSelf:'center',
-              }}
-              resizeMode='contain'/>
-
+            <View style={style.iconContainer(focused)}>
+              <Image source={active} style={style.iconStyle}/>
             </View>
           )
         }
       }}/>
-      <TabScreen.Screen name="Profil" component={Profil}  options={{
+      <TabScreen.Screen name="Profil" component={Profil} options={{
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/profile_active.png') : require('../../assets/profile_inactive.png') 
           return(
-            <View style={{
-              height:36,
-              width:36,
-              borderRadius:8,
-              backgroundColor:'#f9f9f9',
-              elevation: focused ? 5 : 0,
-              justifyContent:'center',
-              bottom : 0,
-              position:'absolute',
-              marginBottom:16,
-            }}>
-              <Image
-              source={active}
-              style={{
-                height:24,
-                width:24,
-                alignSelf:'center',
-              }}
-              resizeMode='contain'/>
-
+            <View style={style.iconContainer(focused)}>
+              <Image source={active} style={style.iconStyle}/> 
             </View>
           )
         }
@@ -187,7 +97,25 @@ export default function RouterTab({ navigation }) {
 
 const style = StyleSheet.create({
   btnCOntainer: {
-    borderRadius: 8,
+    borderRadius: 10,
     backgroundColor: '#f9f9f9',
   },
+  iconContainer:focused => ({
+    height:40,
+    width:40,
+    borderRadius:12,
+    backgroundColor:'#f9f9f9',
+    elevation: focused ? 2 : 0,
+    justifyContent:'center',
+    bottom : 0,
+    padding:8,
+    position:'absolute',
+    marginBottom:16,
+  }),
+  iconStyle:{
+    height:20,
+    width:20,
+    alignSelf:'center',
+    resizeMode:'center',
+  }
 });

@@ -47,6 +47,7 @@ export default function Feed({ navigation, route }) {
 
   const loadmore = async () => {
     if (Last === false) {
+      offset += length;
       getFeed();
     }
   };
@@ -77,7 +78,7 @@ export default function Feed({ navigation, route }) {
         if(metadata.status === 200){
           console.log('testestesfeed', response);
           setResponseFeed(response)
-          setResponseFeed(offset === 0 ? response :  [...responseFeed,...response])
+          setResponseFeed(offset === 0 ? response :  [...responseFeed, ...response])
           offset = response.length === 0 ? offset + response.length : offset;
           setLast(response.length !== length ? true : false);
           setDataKosong(false);

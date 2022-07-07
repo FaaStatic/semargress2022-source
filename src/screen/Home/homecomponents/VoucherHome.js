@@ -6,13 +6,13 @@ import { sessionId } from '../../../util/GlobalVar';
 import ListVoucher from '../../../util/ListItem/ListVoucher';
 
 let windows = Dimensions.get('window');
+const windowWidth = Dimensions.get('window').width;
 
+var offset = 0;
+var onProgress = false;
 
 export default function VoucherHome({ navigation, route }) {
-
-
-  let offset = 0;
-  let onProgress = false;
+  
   const [dataList, setDataList] = useState([]);
   const [isLast, setIsLast] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
@@ -22,11 +22,7 @@ export default function VoucherHome({ navigation, route }) {
   const [msg,setMsg] = useState('');
 
   useEffect(() => {
-    offset = 0;
-    onProgress = false;
-    setJumlahItem(0);
-    setDataList([]);
-    getVoucherList();
+    
     const unsubscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
@@ -42,25 +38,25 @@ export default function VoucherHome({ navigation, route }) {
 
 
   const renderList = useCallback(({ item }) => {
-    console.log('item voucher', item);
     return (
-      <View>
-         <ListVoucher item={item} PressCall={callPress} />  
-      </View>
+         <ListVoucher item={item} PressCall={callPress} />
     );
   }, []);
 
   const callPress = (data) => {
-    console.log('id_voucher', data);
+    navigation.navigate('Voucher', {id:data});
   };
 
   const loadMore = async () => {
+
     if (isLast === false) {
+      offset += length;
       getVoucherList();
     }
   };
 
   const getVoucherList = async () => {
+
     if (onProgress) {
       return;
     }
@@ -73,19 +69,18 @@ export default function VoucherHome({ navigation, route }) {
       search: '',
     })
       .then((res) => {
+
+        onProgress = false;
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
-        
 
         if (metadata.status === 200) {
-          console.log('voucherlist', response.vouchers);
-          setDataList(response.vouchers);
+          
           setDataList(offset === 0 ? response.vouchers : [...dataList, ...response.vouchers]);
           offset = response.length === 0 ? offset + response.vouchers.length : offset;
           setIsLast(response.vouchers.length !== length ? true : false);
           setDataKosong(false);
-          console.log('list voucher',dataList)
           setJumlahItem(jumlahItem + response.vouchers.length);
           isEmpty = false;
         } else if (metadata.status === 401) {
@@ -107,13 +102,14 @@ export default function VoucherHome({ navigation, route }) {
       })
       .catch((err) => {
         console.log(err);
-        onProgress(false);
+        onProgress = false;
       });
   };
 
   return (
     <SafeAreaView style={style.container}>
         { dataList.length === 0 ? <Text style={style.textStyle}>{msg}</Text>  : 
+
          <FlatList
          onEndReached={loadMore}
          extraData={extraData}

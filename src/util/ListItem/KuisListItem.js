@@ -78,18 +78,27 @@ export default function KuisListItem({ item, onModal }) {
           </View>
           
         </View>
+        <View style={{
+          marginStart:60,
+          marginBottom:16,
+        }}>
         <Text
           style={[
             style.textStyle,
             {
-              color: 'black',
+              marginBottom:4
             },
           ]}
         >
-          Pertanyan : {item.soal}
+         
+          <Text style={{
+            fontWeight:'600'
+          }}>Pertanyan</Text> : {item.soal}
         </Text>
-      
-        <Text style={style.textStyle}>Hadiah : {item.hadiah}</Text>
+        <Text style={style.textStyle}><Text style={[style.textStyle,{
+          fontWeight:'600'
+        }]}>Hadiah </Text> : {item.hadiah}</Text>
+        </View>
       </Pressable>
     </View>
   );
@@ -98,7 +107,6 @@ export default function KuisListItem({ item, onModal }) {
 const style = StyleSheet.create({
   merchantView: {
     flexDirection:'row',
-    backgroundColor:'transparent',
     margin:8,
     marginBottom:2,
     padding:2,
@@ -116,21 +124,21 @@ const style = StyleSheet.create({
   textMerchant: {
     marginStart: 16,
     fontSize: 16,
+    marginTop:4,
     marginBottom:4,
     fontWeight: '600',
-    color: '#0F2E63',
+    color: '#3B237E',
   },
   textPeriode: {
-    marginStart: 16,
+    marginStart: 14,
     color: '#828282',
     marginBottom: 16,
     fontWeight:'400',
     fontSize: 12,
   },
-  textStyle: {
+   textStyle: {
     marginStart: 16,
-    marginBottom: 16,
-    color: 'red',
-    fontSize: 14,
+    color: '#333333',
+    fontSize: 15,
   },
 });

@@ -43,7 +43,7 @@ export default function DetailMerchant({ navigation, route }) {
     return () => {
       subscribe;
     };
-  });
+  },[navigation]);
 
   const renderingPromo = ({ item }) => {
     return <ListPromo item={item} />;
@@ -96,7 +96,7 @@ export default function DetailMerchant({ navigation, route }) {
   return (
     <SafeAreaView style={styling.containerView}>
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
-        <SafeAreaView style={styling.constainerHeader}>
+        <View style={styling.constainerHeader}>
           <Image source={{ uri: getDetail.foto }} resizeMode="cover" style={styling.styleImage} />
           <SafeAreaView style={styling.constainerItemHeader}>
             <Pressable
@@ -112,7 +112,7 @@ export default function DetailMerchant({ navigation, route }) {
               <Text style={styling.textTitle}>{getDetail.nama}</Text>
             </View>
           </SafeAreaView>
-          <SafeAreaView styling={styling.cardPromo}>
+          <View styling={styling.cardPromo}>
             <Text
               style={{
                 color: 'black',
@@ -148,9 +148,9 @@ export default function DetailMerchant({ navigation, route }) {
                 Tidak Ada Promo Tersedia!
               </Text>
             )}
-          </SafeAreaView>
-        </SafeAreaView>
-        <SafeAreaView style={styling.containerDetailMerchant}>
+          </View>
+        </View>
+        <View style={styling.containerDetailMerchant}>
           <Text style={ styling.headerTextDetail}>Detail Merchant</Text>
           <View style={[styling.itemDetailContainer,{
             marginTop:8,
@@ -199,18 +199,12 @@ style={styling.MapsStyle}
       }}
               pinColor="red"
               title="You"/>
-              
-              <Pressable style={{
-                
-              }}>
-                Buka Maps
-              </Pressable>
               </MapView>
 </SafeAreaView>
 
 
 
-        </SafeAreaView>
+        </View>
         <View style={styling.card}>
           <View
             style={{

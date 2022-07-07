@@ -12,9 +12,11 @@ import {
   StatusBar,
   StyleSheet,
   Pressable,
-  TouchableOpacity
+  TouchableOpacity,
+  TextInput, 
+  Button, 
+  Modal
 } from 'react-native';
-import { TextInput, Button, Provider, Portal, Modal } from 'react-native-paper';
 import style from '../../util/style';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
@@ -24,7 +26,9 @@ import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
-import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
+import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
+import {colors} from '../../util/color';
+import { ScrollView } from 'react-native-gesture-handler';
 
 let time = 0;
 export default function Login({ navigation }) {
@@ -41,10 +45,7 @@ export default function Login({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       if (Platform.OS === 'android') {
-        // StatusBar.setHidden(false);
-        // StatusBar.setBarStyle('dark-content');
-        // StatusBar.setBackgroundColor('transparent');
-        // StatusBar.setTranslucent(true);
+        
       }
       return () => {
         (time = 0), setModalOtpVisible(false);
@@ -54,16 +55,17 @@ export default function Login({ navigation }) {
   );
 
   useEffect(() => {
-    
+
     cekGoogle();
     checkToken();
-    
+
     if (modalOTPVisible) {
+    
     } else {
       setShowRequest(false);
       setOtp('');
     }
-    
+
     if (time === 1 || time === 0) {
       setShowRequest(false);
       setTimer();
@@ -93,60 +95,60 @@ export default function Login({ navigation }) {
   };
 
   const loginUser = async (data, res) => {
-    
+
     await Api.post('auth', data)
-      .then(async(result) => {
+      .then(async (result) => {
 
         let body = result.data;
         let metadata = body.metadata;
         let response = body.response;
-        
-        if(metadata.status == 200){
-        
+
+        if (metadata.status == 200) {
+
           if (response.status == 0) {
-
-              await SessionManager.ClearAllKeys();
-              ShowWarning("Silahkan lengkapi informasi akun anda")
-              navigation.navigate('Register', {
-                uid: data.uid,
-                fcm_id: fcm,
-                foto: data.foto,
-                display_name : data.displayName,
-                email: data.email,
-                no_telp: telp,
-                otp: otp,
-                type: 'GOOGLE',
-              });
-
-            } else {
-    
-              ShowSuccess(response.message);
-              setVisible(false);
-              const data = {
-                token: response.token,
-                uid: response.uid,
-                email: response.email,
-                type: 'GOOGLE',
-              };
-              
-              saveData(data, 'GOOGLE');
-            }
-        }else{
 
             await SessionManager.ClearAllKeys();
             ShowWarning("Silahkan lengkapi informasi akun anda")
-              navigation.navigate('Register', {
-                uid: data.uid,
-                fcm_id: fcm,
-                foto: data.foto,
-                email: data.email,
-                display_name : data.displayName,
-                no_telp: telp,
-                otp: otp,
-                type: 'GOOGLE',
-              });
+            navigation.navigate('Register', {
+              uid: data.uid,
+              fcm_id: fcm,
+              foto: data.foto,
+              display_name: data.displayName,
+              email: data.email,
+              no_telp: telp,
+              otp: otp,
+              type: 'GOOGLE',
+            });
+
+          } else {
+
+            ShowSuccess(response.message);
+            setVisible(false);
+            const data = {
+              token: response.token,
+              uid: response.uid,
+              email: response.email,
+              type: 'GOOGLE',
+            };
+
+            saveData(data, 'GOOGLE');
+          }
+        } else {
+
+          await SessionManager.ClearAllKeys();
+          ShowWarning("Silahkan lengkapi informasi akun anda")
+          navigation.navigate('Register', {
+            uid: data.uid,
+            fcm_id: fcm,
+            foto: data.foto,
+            email: data.email,
+            display_name: data.displayName,
+            no_telp: telp,
+            otp: otp,
+            type: 'GOOGLE',
+          });
         }
-        
+
       })
       .catch((err) => {
         console.log(err);
@@ -169,7 +171,7 @@ export default function Login({ navigation }) {
     if (s < 10) {
       s = `0${s}`;
     }
-    
+
     setTimer(`${m}:${s}`);
   };
 
@@ -187,13 +189,24 @@ export default function Login({ navigation }) {
       no_telp: telp,
     })
       .then((res) => {
+
+        let response = res.data.response;
+        let metadata = res.data.metadata;
+        let status = metadata.status;
+
+        if(status == 200){
+
+            time = response.time;
+            setShowRequest(true);
+            intervalCount();
+        }else{
+          ShowWarning(metadata.message);
+        }
         
-        time = res.data.response.time;
-        setShowRequest(true);
-        intervalCount();
       })
       .catch((err) => {
         console.log(err);
+        ShowError();
       });
   };
 
@@ -208,22 +221,22 @@ export default function Login({ navigation }) {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
     }
-    
+
     const googleCredential = auth.GoogleAuthProvider.credential(idToken);
     const response = auth().signInWithCredential(googleCredential);
     setResult(response);
     response
       .then((res) => {
-        
+
         //console.log("datalogingoogle ",res);
         const tokenLogin = {
           uid: res.user.uid,
           foto: res.user.photoURL,
           fcm_id: fcm,
           email: res.user.email,
-          displayName : res.user.displayName
+          displayName: res.user.displayName
         };
-        
+
         loginUser(tokenLogin, res);
       })
       .catch((err) => {
@@ -251,16 +264,15 @@ export default function Login({ navigation }) {
       kode_otp: otp,
     })
       .then(async (result) => {
-        
+
         const action = result.data.response.action;
-        //console.log('loginstatus', action);
         const status = result.data.metadata.status;
         const msg = result.data.metadata.message;
         if (status === 400) {
 
           ShowError(msg);
         } else {
-          
+
           ShowSuccess("Selamat Datang " + result.data.response.nama);
           if (action === 'login') {
             const data = {
@@ -296,272 +308,248 @@ export default function Login({ navigation }) {
   };
 
   const saveData = async (data, type) => {
-    
+
     await SessionManager.StoreAsObject(sessionId, data);
-    if(type == 'register'){
+    if (type == 'register') {
       navigation.dispatch(StackActions.replace('RouterTab'));
-    }else{
+    } else {
       navigation.dispatch(StackActions.replace('RouterTab'));
     }
-    
+
   };
 
   return (
-    <Provider>
+    
       <SafeAreaView style={style.conteiner2}>
-        <Portal>
-          <Modal
-            visible={modalOTPVisible}
-            onDismiss={() => setModalOtpVisible(false)}
-            style={style.modalStyle}
-            contentContainerStyle={{
-              borderRadius: 16,
-            }}
-          >
-            <View style={{ justifyContent: 'center' }}>
-              <ImageBackground
-                source={require('../../assets/bgot.png')}
+        
+        <ScrollView showsVerticalScrollIndicator={false}>
+
+          <View style={style.containerSplash}>
+            <View
+              style={{
+                backgroundColor: 'white',
+                width:'90%',
+                height:'90%',
+                marginTop:50,
+                borderRadius: 10,
+                marginLeft: 20,
+                marginRight: 20,
+              }}
+            >
+              <Image
+                source={require('../../assets/logo.png')}
+                style={[
+                  style.boxImageSplash,
+                  {
+                    width: 245,
+                    height: 245,
+                    marginBottom: 0,
+                  },
+                ]}
+                resizeMode='contain'
+              />
+              <TextInput
+                disabled={modalOTPVisible ? true : false}
+                keyboardType="number-pad"
+                placeholder="Masukkan Nomor WhatsApp"
                 style={{
-                  borderRadius: 16,
-                  alignSelf: 'center',
-                  height: 350,
-                  width: 250,
-                  overflow: 'hidden',
-                  justifyContent: 'center',
-                  marginBottom: 20,
+                  backgroundColor: '#F9F9F9',
+                  borderRadius:8,
+                  marginStart: 36,
+                  marginEnd: 36,
+                  height: 55,
+                  textAlign: 'center',
+                  alignContent:'center',
+                  alignItems:'center',
                 }}
-                resizeMode="stretch"
+                value={telp}
+                onChangeText={(text) => setTelp(text)}
+              />
+
+              <TouchableOpacity
+                onPress={showModal}
+                style={{
+                  backgroundColor:colors.yellow2,
+                  justifyContent:'center',
+                  alignItems:'center',
+                  alignSelf:'center',
+                  marginTop: 30,
+                  borderRadius:10,
+                }}
               >
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    alignSelf: 'center',
-                    fontSize: 20,
-                    marginBottom: 36,
-                    color: 'white',
-                  }}
-                >
-                  Masukan OTP
-                </Text>
-                <TextInput
-                  underlineColor="white"
-                  mode="flat"
-                  maxLength={6}
-                  selectionColor={'white'}
-                  keyboardType="number-pad"
-                  value={otp}
-                  onChangeText={(text) => setOtp(text)}
-                  style={{
-                    marginTop: 8,
-                    backgroundColor: 'transparent',
-                    marginStart: 36,
-                    marginEnd: 36,
-                    marginBottom: 18,
-                    height: 45,
-                    textAlign: 'center',
-                  }}
-                  theme={{
-                    colors: {
-                      placeholder: 'grey',
-                      text: 'white',
-                      primary: 'grey',
-                      textAlign: 'center',
-                      fontSize: 12,
-                      underlineColor: 'transparent',
-                      background: 'transparent',
-                    },
-                    roundness: 8,
-                  }}
-                />
-                {showRequest ? (
-                  <Text style={{  color: 'white', alignSelf: 'center' }}>{timer}</Text>
+                <Text style={{ color: colors.white, fontSize:16, fontWeight:'600', marginLeft: 70, marginRight:70, marginTop:14, marginBottom:14 }}>Login</Text>
+              </TouchableOpacity>
+              
+              <View style={{
+                marginStart: 16,
+                marginEnd: 16,
+                marginTop: 10,
+                marginBottom: 16,
+              }} />
+              
+              <Text style={styling.textStyleGap}>
+                Atau kamu dapat login menggunakan
+              </Text>
+
+              <View style={styling.btnSubmitStyleGoogle}>
+                <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                  <Image source={require('../../assets/google.png')} resizeMode='contain' style={styling.googleIcon} />
+                  <Text style={[styling.textStyle, {
+                    color: colors.black3,
+                    flex:1,
+                    textAlign:'center',
+                    marginRight:20,
+                    fontSize: 16,
+                    fontWeight: '600',
+                  }]}>Sign in With Google</Text>
+                </TouchableOpacity>
+              </View>
+
+              <View style={[styling.btnSubmitStyleGoogle, {backgroundColor:colors.black, marginBottom:20,}]}>
+                <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                  <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
+                  <Text style={[styling.textStyle, {
+                    color: colors.white,
+                    flex:1,
+                    textAlign:'center',
+                    marginRight:20,
+                    fontSize: 16,
+                    fontWeight: '600',
+                  }]}>Sign in with Apple</Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+          </View>
+          
+        </ScrollView>
+
+        <Image style={{resizeMode:'stretch', width:'100%', height:130,position:'absolute', bottom:0,}} source={require('../../assets/bg_bottom.png')}></Image>
+
+        <Modal
+          visible={modalOTPVisible}
+          animationType="slide"
+          onDismiss={() => setModalOtpVisible(false)}
+          style={style.modalStyle}
+          transparent={true}
+        >
+          <View style={{ justifyContent: 'center', flex:1, backgroundColor:'rgba(52, 52, 52, 0.6)' }}>
+            <ImageBackground
+              source={require('../../assets/bgot.png')}
+              style={{
+                borderRadius: 16,
+                alignSelf: 'center',
+                height: 350,
+                width: 250,
+                overflow: 'hidden',
+                justifyContent: 'center',
+                marginBottom: 20,
+              }}
+              resizeMode="stretch"
+            >
+              <Text
+                style={{
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontSize: 20,
+                  marginBottom: 36,
+                  color: 'white',
+                }}
+              >
+                Masukkan OTP
+              </Text>
+
+              <TextInput
+                maxLength={6}
+                selectionColor={'white'}
+                keyboardType="number-pad"
+                value={otp}
+                onChangeText={(text) => setOtp(text)}
+                placeholder="000000"
+                placeholderTextColor={'#FFFFFF66'}
+                style={{
+                  width:200,
+                  marginTop: 8,
+                  color:colors.white,
+                  alignSelf:'center',
+                  borderRadius:8,
+                  backgroundColor: '#FFFFFF44',
+                  marginStart: 36,
+                  marginEnd: 36,
+                  marginBottom: 18,
+                  height: 45,
+                  textAlign: 'center',
+                }}
+              />
+              {showRequest ? (
+                <Text style={{ color: 'white', alignSelf: 'center' }}>{timer}</Text>
                 ) : (
-                  <Button
-                    onPress={btnRequestOtp}
-                    mode="contained"
-                    style={{
-                      width: 100,
-                      height: 28,
-                      alignSelf: 'center',
-                      justifyContent: 'center',
-                      marginTop: 16,
-                      color: 'white',
-                    }}
-                    theme={{
-                      colors: {
-                        text: 'white',
-                        primary: '#c29f55',
-                      },
-                      roundness: 8,
-                    }}
-                  >
-                    <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 8 }}>
-                      Request?
-                    </Text>
-                  </Button>
-                )}
-                <Button
-                  mode="contained"
-                  onPress={btnSubmitLogin}
+
+                <TouchableOpacity
+                  onPress={btnRequestOtp}
                   style={{
-                    width: 175,
+                    width: 100,
+                    height: 28,
                     alignSelf: 'center',
+                    alignItems: 'center',
                     marginTop: 16,
                     color: 'white',
                   }}
-                  theme={{
-                    colors: {
-                      text: 'white',
-                      primary: '#F77E21',
-                    },
-                    roundness: 8,
-                  }}
                 >
-                  <Text style={{ color: 'white', fontWeight: 'bold' }}>Kirim</Text>
-                </Button>
-              </ImageBackground>
-            </View>
-          </Modal>
-        </Portal>
-        
-        <SafeAreaView style={style.containerSplash}>
-          <View
-            style={{
-              backgroundColor:'white',
-              height: '100%',
-              marginTop: '65%',
-              borderRadius: 10,
-              marginLeft : 20,
-              marginRight : 20,
-            }}
-          >
-            <Image
-              source={require('../../assets/logo.png')}
-              style={[
-                style.boxImageSplash,
-                {
-                  width: 275,
-                  height: 275,
-                  marginBottom:0,
-                },
-              ]}
-              resizeMode='contain'
-            />
-            <TextInput
-              mode="outlined"
-              disabled={ modalOTPVisible ? true : false }
-              keyboardType="number-pad"
-              underlineColor="transparent"
-              outlineColor="grey"
-              placeholder="Masukan Nomor WhatsApp"
-              style={{
-                backgroundColor: 'transparent',
-                marginStart: 36,
-                marginEnd: 36,
-                height: 55,
-                textAlign: 'center',
-              }}
-              theme={{
-                colors: {
-                  placeholder: 'grey',
-                  text: 'black',
-                  primary: 'grey',
-                  underlineColor: 'transparent',
-                  background: 'transparent',
-                },
-                roundness: 8,
-              }}
-              value={telp}
-              onChangeText={(text) => setTelp(text)}
-            />
-            <Button
-              mode="contained"
-              onPress={showModal}
-              style={{
-                width: 175,
-                alignSelf: 'center',
-                marginTop: 18,
-                height:45,
-                color: 'white',
-                paddingTop:4,
-              }}
-              theme={{
-                colors: {
-                  text: 'white',
-                  primary: '#F77E21',
-                },
-                roundness: 8,
-              }}
-            >
-              <Text style={{ fontWeight: 'bold', color: 'white' }}>Login</Text>
-            </Button>
-            <View style={{
-  borderBottomWidth:1,
-  borderBottomColor:'grey',
-  marginStart:16,
-  marginEnd:16,
-  marginTop:16,
-  marginBottom:16,
-}}/>
-            <Text style={styling.textStyle}>
-              Atau kamu dapa login menggunakan
-            </Text>
+                    <Text style={{ color: 'white', fontWeight: '400', fontSize: 14 }}>
+                      Kirim Ulang ?
+                    </Text>
+                </TouchableOpacity>
+              )}
 
+              <TouchableOpacity
+                onPress={btnSubmitLogin}
+                style={{
+                  alignSelf: 'center',
+                  marginTop: 16,
+                  color: 'white',
+                  backgroundColor:colors.yellow2, 
+                  borderRadius:6,
+                }}
+              >
+                  <Text style={{ color: 'white', fontWeight: '600', marginLeft:20, marginRight:20, marginTop:8, marginBottom:8 }}>Kirim</Text>
+              </TouchableOpacity>
 
-            <View style={styling.btnSubmitStyleGoogle}>
-            <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
-            <Image source={require('../../assets/google.png')} resizeMode='contain' style={styling.googleIcon} />
-            <Text style={[styling.textStyle,{
-              color:'grey',
-              marginTop:0,
-              marginStart:'40%',
-              position:'absolute',
-              fontSize:18,
-              fontWeight:'bold',
-            }]}>Google</Text>
-            </TouchableOpacity>
-            </View>
-           
+            </ImageBackground>
           </View>
-        </SafeAreaView>
-      </SafeAreaView>
-    </Provider>
+        </Modal>
+    </SafeAreaView>
+    
   );
 }
 
-
-const btnSubmitGoogleStyle = {
-  colors: {
-    text: 'white',
-    primary: '#D61C4E',
-  },
-  roundness: 8,
-}
-
 const styling = StyleSheet.create({
-  btnSubmitStyleGoogle:{
-    alignSelf: 'stretch',
-    flexDirection:'row',
-    height:45,
-    marginTop: 16,
-    marginEnd: 36,
-    marginStart: 36,
-    backgroundColor:'white',
-    borderRadius:8,
-    elevation:5,
-    padding:0,
-  },
-  btnTouchableGoogle:{
-    flexDirection:'row',
-    alignSelf: 'stretch',
-    width:'100%',
-  },
-  googleIcon:{
-  height:24,
-  width:24,
-  marginTop:10,
-  marginStart:36,
 
+  btnSubmitStyleGoogle: {
+    width:240,
+    height: 50,
+    justifyContent:'center',
+    paddingLeft:20,
+    alignSelf:'center',
+    marginTop: 24,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    elevation: 4,
   },
-  textStyle:{ color: 'black', alignSelf: 'center', marginTop: 6 },
+  btnTouchableGoogle: {
+    flexDirection: 'row',
+    alignItems:'center',
+  },
+  googleIcon: {
+    height: 24,
+    width: 24,
+    alignSelf:'flex-start',
+  },
+  textStyleGap: { 
+    alignSelf: 'center',
+    fontSize:14,
+    fontWeight:'400',
+    color:colors.black3,
+  },
+  textStyle: { alignSelf: 'center' },
 })
