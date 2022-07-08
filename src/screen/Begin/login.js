@@ -15,7 +15,8 @@ import {
   TouchableOpacity,
   TextInput, 
   Button, 
-  Modal
+  Modal,
+  ScrollView 
 } from 'react-native';
 import style from '../../util/style';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -28,7 +29,6 @@ import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import {colors} from '../../util/color';
-import { ScrollView } from 'react-native-gesture-handler';
 
 let time = 0;
 export default function Login({ navigation }) {
@@ -344,6 +344,7 @@ export default function Login({ navigation }) {
                     width: 245,
                     height: 245,
                     marginBottom: 0,
+                  
                   },
                 ]}
                 resizeMode='contain'
@@ -351,6 +352,8 @@ export default function Login({ navigation }) {
               <TextInput
                 disabled={modalOTPVisible ? true : false}
                 keyboardType="number-pad"
+                placeholderTextColor={'black'}
+                selectionColor={'grey'}
                 placeholder="Masukkan Nomor WhatsApp"
                 style={{
                   backgroundColor: '#F9F9F9',
@@ -358,9 +361,12 @@ export default function Login({ navigation }) {
                   marginStart: 36,
                   marginEnd: 36,
                   height: 55,
+                  width:300,
                   textAlign: 'center',
+                  alignSelf:'center',
                   alignContent:'center',
                   alignItems:'center',
+                  color:'black',
                 }}
                 value={telp}
                 onChangeText={(text) => setTelp(text)}
@@ -421,10 +427,10 @@ export default function Login({ navigation }) {
 
             </View>
           </View>
-          
+          <Image style={{resizeMode:'contain', width:'100%', height:130,marginTop:-130, }} source={require('../../assets/bg_bottom.png')}></Image>
         </ScrollView>
 
-        <Image style={{resizeMode:'stretch', width:'100%', height:130,position:'absolute', bottom:0,}} source={require('../../assets/bg_bottom.png')}></Image>
+      
 
         <Modal
           visible={modalOTPVisible}

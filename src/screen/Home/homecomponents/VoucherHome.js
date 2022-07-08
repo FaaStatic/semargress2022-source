@@ -22,13 +22,19 @@ export default function VoucherHome({ navigation, route }) {
   const [msg,setMsg] = useState('');
 
   useEffect(() => {
-    
+    offset = 0;
+    onProgress = false;
+    setJumlahItem(0);
+    setDataList([]);
+    getVoucherList();
+    setExtraData(false);
     const unsubscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
       setJumlahItem(0);
       setDataList([]);
       getVoucherList();
+      setExtraData(false);
     });
 
     return () => {

@@ -77,20 +77,14 @@ export default function Search({navigation, route}){
 
 
     const onSearch = async () =>{
-      await Api.post('/merchant/nearby_filter_order/',{
+      await Api.post('merchant/nearby_with_ads/',{
         "latitude" : latitude,
         "longitude" : longitude,
-        "jarak" : 50,
         "start" : 0,
-        "limit" : 10,
-        "kategori" : [],
-        "search" : textInput,
-        "order_col" : 
-        {
-            "nama" : "asc",
-            "favorit" : "desc"
-        },
-        "order_dir" : ""
+        "count" : 10,
+        "jarak" : 50,
+        "kategori" : "",
+        "keyword" : textInput
       }).then(res =>{
         let body = res.data;
         let response = body.response;
@@ -129,9 +123,11 @@ export default function Search({navigation, route}){
     }
 
     const itemRender = useCallback(({item})=>{
-      return(
-        <MerchanList item={item} pressCall={moveDetail}/>
-      )
+      if(item.flag_tipe){
+        return(
+          <MerchanList item={item} pressCall={moveDetail}/>
+        )
+      }
     })
 
     return(<SafeAreaView style={style.container}>
@@ -182,8 +178,8 @@ export default function Search({navigation, route}){
           showsVerticalScrollIndicator={false}
           horizontal={false}
             numColumns={2}
-          contentContainerStyle={styling.flatContainer}
-            style={styling.flatlistStyle}
+          contentContainerStyle={style.flatContainer}
+            style={style.flatlistStyle}
         /> : <Text style={{
           fontSize:24,
           fontWeight:'bold',
@@ -211,7 +207,7 @@ const style = StyleSheet.create({
     width:SCREEN_WIDTH,
   },
   flatlistStyle:{
-     marginBottom:SCREEN_HEIGHT/6,
+     
   },
   container:{
     flex:1,

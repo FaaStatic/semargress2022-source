@@ -27,12 +27,14 @@ export default function EKupon({ navigation, route }) {
     onProgress = false;
     setJumlahItem(0);
     setKuponList([]);
+    setExtraData(false);
     getKupon();
     jumlahCoupon();
     const unsubscribe = navigation.addListener('focus', () => {
     offset = 0;
     onProgress = false;
     setJumlahItem(0);
+    setExtraData(false);
     setKuponList([]);
     getKupon();
     jumlahCoupon();

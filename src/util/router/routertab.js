@@ -63,7 +63,7 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/qr_active.png') : require('../../assets/qr_inactive.png') 
           return(
-            <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#05245A',justifyContent:'center',borderRadius:12,}]}>
+            <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#A57FF8',justifyContent:'center',borderRadius:12,}]}>
               <Image source={active} style={[style.iconStyle, {width:30, height:30}]}/>
 
             </View>

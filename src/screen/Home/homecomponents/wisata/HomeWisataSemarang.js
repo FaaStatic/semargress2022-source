@@ -34,10 +34,12 @@ export default function HomeWisataSemarang({navigation, route}){
         setJumlahItem(0);
         setResponse([]);
         getApi();
+        setExtraData(false);
 
         const subscribe = navigation.addListener('focus',()=>{
         offset = 0;
         onProgress = false;
+        setExtraData(false);
         setJumlahItem(0);
         setResponse([]);
         getApi();

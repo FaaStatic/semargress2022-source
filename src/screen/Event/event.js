@@ -15,15 +15,18 @@ export default function Event({ navigation, route }) {
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
 
+
   useEffect(() => {
     offset = 0;
     onProgress = false;
     setResponseEvent([]);
+    setExtraData(false);
     setJumlahItem(0);
     getApi();
     const subscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
+      setExtraData(false);
       setResponseEvent([]);
       setJumlahItem(0);
       getApi();
@@ -116,7 +119,13 @@ height: 300,
           resizeMode={'stretch'}
         />
         <Text style={style.textHeader}>Event</Text>
-        <View style={style.containerHeaderAds}></View>
+        <View style={style.containerHeaderAds}>
+          <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
+                   width: SCREEN_WIDTH / 1.2,
+                   height: SCREEN_HEIGHT / 5,
+                  borderRadius:7,
+              }}/>
+        </View>
       </View>
       </View>
    
@@ -126,7 +135,6 @@ height: 300,
           data={responseEvent}
           renderItem={itemRender}
           onEndReached={loadMore}
-          keyExtractor={(item) => item.id}
           showsVerticalScrollIndicator={false}
            />
         </View>

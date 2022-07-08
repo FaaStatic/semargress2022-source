@@ -18,6 +18,7 @@ import {
   WaveIndicator,
 } from 'react-native-indicators';
 import MerchanList from '../../../util/ListItem/MerchantList';
+import FlashMessage from 'react-native-flash-message';
 
 var latitude = 0;
 var longitude = 0;
@@ -47,6 +48,7 @@ export default function DetailListCategory({ navigation, route }) {
     console.log('idk', id_k);
     offset = 0;
     onProgress = false;
+    setExtraData(false);
     GrantLocation();
     currentLocation();
     setJumlahItem(0);
@@ -55,6 +57,7 @@ export default function DetailListCategory({ navigation, route }) {
     const unsubscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
+      setExtraData(false);
       setJumlahItem(0);
       setResponList([]);
       currentLocation();
@@ -108,6 +111,7 @@ export default function DetailListCategory({ navigation, route }) {
         console.log('StatusLokasi', granted);
       } else {
         console.log('StatusLokasi', granted);
+       
       }
     } catch (error) {
       console.log(error.message);
