@@ -16,7 +16,6 @@ import {
   Dimensions,
 } from 'react-native';
 import Style from '../../util/style';
-import { Button, TextInput } from 'react-native-paper';
 import { SessionManager } from '../../util/SessionManager';
 import Icon from 'react-native-vector-icons/Ionicons';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
@@ -28,7 +27,9 @@ import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 import SpotWisataList from '../../util/ListItem/SpotWisataList';
 import {Environment} from '../../util/environment';
 import messaging from '@react-native-firebase/messaging';
-const windowWidth = Dimensions.get('window').width;
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export default function Home({ navigation, route }) {
   
@@ -62,6 +63,13 @@ export default function Home({ navigation, route }) {
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
     console.log(left)
     console.log(right)
+    checkSession();
+    kategoriHome();
+    jumlahCoupon();
+    getBannerSlider();
+    merchantPopuler();
+    getSpotPariwisata();
+    checkFCMToken();
     const unsubscribe = navigation.addListener('focus', () => {
       checkSession();
       kategoriHome();
@@ -79,7 +87,7 @@ export default function Home({ navigation, route }) {
       
       
     };
-  }, [navigation, getBannerSlider, merchantPopuler, getSpotPariwisata, jumlahCoupon]);
+  }, [navigation]);
 
   const checkFCMToken = async () => {
     
@@ -226,10 +234,6 @@ const showAllDestination = () =>{
       </Pressable>);
       }
 
-  const keyExtractor = useCallback(({ item }) => {
-    return item.id_k;
-  }, []);
-
   const checkSession = async () => {
     const session = await SessionManager.GetAsObject(sessionId);
     if (session != null) {
@@ -306,7 +310,7 @@ const showAllDestination = () =>{
                 setRight(true)
               }
             }}
-            showsHorizontalScrollIndicator={true}
+            showsHorizontalScrollIndicator={false}
             indicatorStyle={'#05245A'}
             renderItem={itemRender}
           />
@@ -319,7 +323,7 @@ const showAllDestination = () =>{
               height:6,
               margin:2,
               borderRadius:6/2,
-              backgroundColor: left? '#0F2E63' : '#f9f9f9'
+              backgroundColor: left? '#A57FF8' : '#f9f9f9'
             }}>
             </View>
             <View style={{
@@ -327,16 +331,16 @@ const showAllDestination = () =>{
               height:6,
               margin:2,
               borderRadius:6/2,
-              backgroundColor: right ? '#0F2E63' : '#f9f9f9'
+              backgroundColor: right ? '#A57FF8' : '#f9f9f9'
             }}>
             </View>
           </View>
 
           <View>
             <LinearGradient
-              colors={['#F29836', '#FBEDB7', '#ffffff']}
-              start={{ x: 0.2, y: 0.0 }}
-              end={{ x: 1, y: 0.5 }}
+              colors={['#A57FF833', '#A57FF81B', '#ffffff']}
+              start={{ x: 0.0, y: 0.0 }}
+              end={{ x: 1, y: 1 }}
               style={style.voucherView}
             >
               <Image
@@ -363,6 +367,11 @@ const showAllDestination = () =>{
               backgroundColor:'white',
               marginBottom:20
             }}>
+              <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
+                  width:350,
+                  height:135,
+                  borderRadius:7,
+              }}/>
 
             </View>
         <View>
@@ -384,14 +393,15 @@ const showAllDestination = () =>{
           <ScrollView>
             <FlatList nestedScrollEnabled={true}
             data={merchantPop.slice(0,10)}
+            showsHorizontalScrollIndicator={false}
             renderItem={detailMerchant}
             horizontal={true}/>
           </ScrollView>
 
           <LinearGradient
-            colors={['#0F2E6333', '#0F2E6300', '#ffffff']}
+            colors={['#35CAED33', '#35CAED33', '#ffffff']}
             start={{ x: 0.0, y: 0.0 }}
-            end={{ x: 3.0, y: 0.0 }}
+            end={{ x: 1.0, y: 1.0 }}
             style={style.kuisContainer}
           >
             <Image
@@ -454,14 +464,14 @@ const style = StyleSheet.create({
 
   },
   containerFooter :{
-  height:windowWidth/2,
-  width:windowWidth/3,
+  height:SCREEN_WIDTH/2,
+  width:SCREEN_WIDTH/3,
   justifyContent:'center',
   borderRadius:5,
   marginStart:8,
   marginEnd:32,
   flexDirection:'column',
-  backgroundColor:'#f29836',
+  backgroundColor:'#19b0bf',
 
 },
 imageStyleFooter :{
@@ -498,7 +508,8 @@ imagestyleBg:{
   containerHome: [
     Style.container,
     {
-      backgroundColor: '#001F58',
+      width: SCREEN_WIDTH,
+      backgroundColor: '#9a85f7',
     },
   ],
 
@@ -543,7 +554,7 @@ imagestyleBg:{
     borderTopRightRadius: 16,
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#05245A',
+    backgroundColor: '#8B68D9',
     elevation: 16,
     height: 65,
     marginTop: 8,
@@ -558,9 +569,14 @@ imagestyleBg:{
   btnStyle: {
     width: 95,
     height: 30,
-    marginStart: 45,
+    bottom:0,
+    top:0,
+    marginEnd:16,
+    marginTop:SCREEN_WIDTH/30,
     backgroundColor: '#F9F9F9',
     borderRadius: 8,
+    position:'absolute',
+    right:0,
     textAlign: 'center',
     justifyContent: 'center',
   },
@@ -582,7 +598,6 @@ imagestyleBg:{
   voucherView: {
     height: 64,
     borderRadius: 16,
-    elevation: 8,
     marginStart: 16,
     marginTop: 36,
     marginBottom: 36,
@@ -607,7 +622,7 @@ imagestyleBg:{
     height: 25,
     marginStart: 14,
     marginTop: 20,
-    backgroundColor: '#F29836',
+    backgroundColor: '#A57FF8',
     color: 'white',
     paddingTop: 6,
     textAlign: 'center',
@@ -716,6 +731,6 @@ imagestyleBg:{
     marginTop:16,
     marginEnd:16,
     width:70,
-    backgroundColor:'#F29836'
+    backgroundColor:'#A57FF8'
   }
 });

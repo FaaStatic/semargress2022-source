@@ -9,7 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  Alert
+  Alert,
+  ScrollView 
 } from 'react-native';
 import {Api} from '../../util/Api';
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
@@ -19,7 +20,6 @@ import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import {StackActions} from '@react-navigation/native';
 import { colors } from '../../util/color';
 import { ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
-import { ScrollView } from 'react-native-gesture-handler';
 
 var typeLogin = "";
 const Profile = ({navigation, route}) => {
@@ -116,12 +116,13 @@ const Profile = ({navigation, route}) => {
         style={styles.container}
       >
 
+      
+
+        <ScrollView showsVerticalScrollIndicator={false}>
         <Image
           source={require('../../assets/header_app.png')}
           style={styles.imageHeder}
         />
-
-        <ScrollView>
 
           <Text style={styles.title} >Profile</Text>
 
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
     marginTop: 0,
     top: 0,
     width: '100%',
-    height:'10%',
+    height:'15%',
     resizeMode:'stretch',
     position: 'absolute',
     flexDirection: 'row',
@@ -316,7 +317,8 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     marginTop:'12%',
     fontSize:25,
-    color:'black'
+    color:'white',
+    fontWeight:'600'
   },
   container: {
     width: '100%',

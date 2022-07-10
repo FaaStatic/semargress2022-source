@@ -287,6 +287,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
 
 const styling = StyleSheet.create({
   flatContainer:{
+    marginTop:SCREEN_HEIGHT/10,
     justifyContent:'center',
     width:SCREEN_WIDTH,
   },

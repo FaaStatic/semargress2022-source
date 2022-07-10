@@ -97,7 +97,7 @@ const BottomSheetWisata = forwardRef(
             <EvilIcons
               name="chevron-up"
               color={'#0F2E63'}
-              size={25}
+              size={40}
               style={style.iconArrow}
               onPress={buttonUp}
             />
@@ -119,6 +119,7 @@ const BottomSheetWisata = forwardRef(
 const style = StyleSheet.create({
   iconArrow: {
     alignSelf: 'center',
+    margin:0,
   },
   container: {
     width: '100%',

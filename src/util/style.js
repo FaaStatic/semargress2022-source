@@ -43,11 +43,8 @@ const style = StyleSheet.create({
   },
   boxImageSplash: {
     alignSelf: 'center',
-    height: 250,
-    width: 250,
     justifyContent: 'center',
     marginBottom: 20,
-    borderRadius: 16,
   },
   textInputLogin: {
     marginBottom: 16,

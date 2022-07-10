@@ -18,8 +18,8 @@ export default function FeedList({item}){
 
 return(<View style={style.container}>
         <View style={style.containerHeader}>
-            <Image source={{uri : 'https://cdn-icons-png.flaticon.com/512/174/174855.png'}} resizeMode='stretch' style={style.imageProfileStyle}/>
-            <Text style={style.textHeader}>Instagram Dummy</Text>
+            <Image source={{uri : item.profile_pic}} resizeMode='stretch' style={style.imageProfileStyle}/>
+            <Text style={style.textHeader}>{item.profile_name}</Text>
         </View>
         <Image source={{uri : item.media_thumb}} resizeMode='cover' style={style.imagePromo} />
 
@@ -37,6 +37,7 @@ return(<View style={style.container}>
         </Text><Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
             color:'#828282',
             marginStart:8,
+            marginTop:2,
         }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text></Pressable>
 </View>);
 
@@ -74,7 +75,6 @@ const style = StyleSheet.create({
         width:WIDTH_CONTAINER,
         marginBottom:42,
         borderRadius: 16, 
-        overflow: 'hidden',
         
     },
     textDeskripsi:{

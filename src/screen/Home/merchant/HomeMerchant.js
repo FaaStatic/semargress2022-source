@@ -22,12 +22,14 @@ export default function HomeMerchat({navigation, route}){
         offset = 0;
         onProgress = false;
         setJumlahItem(0);
+        setExtraData(false);
         setResponse([]);
         getApi();
 
         const subscribe = navigation.addListener('focus',()=>{
         offset = 0;
         onProgress = false;
+        setExtraData(false);
         setJumlahItem(0);
         setResponse([]);
         getApi();

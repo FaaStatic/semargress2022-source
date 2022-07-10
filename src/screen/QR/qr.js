@@ -240,16 +240,17 @@ const styles = StyleSheet.create({
     marginTop: 0,
     top: 0,
     width: '100%',
-    height:'10%',
+    height:'15%',
     resizeMode:'stretch',
     position: 'absolute',
     flexDirection: 'row',
   },
   title: {
     alignSelf:'center',
-    marginTop:'12%',
+    marginTop:'10%',
     fontSize:25,
-    color:'black'
+    fontWeight:'600',
+    color:'white'
   },
   container: {
     width: '100%',
