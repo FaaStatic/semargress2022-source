@@ -8,8 +8,6 @@ const {width : WIDTH_CONTAINER} = Dimensions.get('window');
 
 export default function FeedList({item}){
 
-    console.log('tesItem', item);
-
     const [fullDeskripsi, setFullDeskripsi] = useState(false);
     const [show, setShowMore] = useState(0);
     const onTextLayout = useCallback(e =>{

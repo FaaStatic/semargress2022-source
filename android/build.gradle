@@ -31,7 +31,7 @@ buildscript {
     }
 }
 
-
+com.android.ddmlib.DdmPreferences.setTimeOut(30000)
 allprojects {
     repositories {
         maven {

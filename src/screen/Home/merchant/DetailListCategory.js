@@ -22,7 +22,7 @@ import FlashMessage from 'react-native-flash-message';
 
 var latitude = 0;
 var longitude = 0;
-
+var offset = 0;
 export default function DetailListCategory({ navigation, route }) {
   const [extraData, setExtraData] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
@@ -40,7 +40,6 @@ export default function DetailListCategory({ navigation, route }) {
 
   const { id_k } = route.params;
   console.log('routeparams', route.params);
-  let offset = 0;
   let onProgress = false;
 
   useEffect(() => {
@@ -242,9 +241,7 @@ export default function DetailListCategory({ navigation, route }) {
         data={responList}
         renderItem={itemRender}
         extraData={extraData}
-        keyExtractor={(item) => {
-          item.id_m;
-        }}
+        keyExtractor={(item,index) => {index.toString()}}
         showsVerticalScrollIndicator={false}
         onEndReached={loadMore}
         style={style.listStyle}

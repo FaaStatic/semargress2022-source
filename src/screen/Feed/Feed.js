@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import {
-  ScrollView,
   SafeAreaView,
   FlatList,
   StyleSheet,
@@ -8,50 +7,43 @@ import {
   View,
   Text,
   Dimensions,
+  Modal,
 } from 'react-native';
 import { BallIndicator, DotIndicator } from 'react-native-indicators';
-import { useFocusEffect } from '@react-navigation/native';
 import FeedList from '../../util/ListItem/FeedList';
 import { Api } from '../../util/Api';
+import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+var offset = 0;
 export default function Feed({ navigation, route }) {
   const [responseFeed, setResponseFeed] = useState([]);
-  let offset = 0;
   let onProgress = false;
-  const [length, setLength] = useState(10);
+  // const [offset, setOffset] = useState(0);
+
+   const length = 6;
   const [Last, setLast] = useState(false);
-  const [jumlahItem, setJumlahItem] = useState(0);
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
   const [loadIndicator, setLoadIndicator] = useState(false);
   const [loadingOpen, setLoadingOpen] = useState(false);
 
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //       console.log('TESSSSONRESUME', 'resume');
-  //       offset = 0;
-  //       onProgress = false;
-  //       setJumlahItem(0);
-  //       setResponseFeed([]);
-  //       getFeed();
-  //   }, [getFeed])
-  // );
 
   useEffect(() => {
     offset = 0;
+    setLoadingOpen(true);
     onProgress = false;
-    setJumlahItem(0);
     setExtraData(!extraData)
     setResponseFeed([]);
     getFeed();
     const subscribe = navigation.addListener('focus', () => {
       console.log('TESSSSONRESUME', 'resume');
       offset = 0;
+      // setOffset(0);
+      setLoadingOpen(true);
       onProgress = false;
       setExtraData(!extraData)
-      setJumlahItem(0);
       setResponseFeed([]);
       getFeed();
     });
@@ -81,8 +73,11 @@ export default function Feed({ navigation, route }) {
   const loadmore = async () => {
     setLoadIndicator(true);
     if (Last === false) {
-      offset += length;
+      // setOffset(offset + length);
+      offset = offset + length;
       getFeed();
+    }else{
+
     }
   };
 
@@ -100,6 +95,7 @@ export default function Feed({ navigation, route }) {
       start: offset,
       count: length,
     };
+    console.log('jumlah_offset', offset);
     await Api.post('api/feed_instagram', param)
       .then((res) => {
         let body = res.data;
@@ -108,22 +104,26 @@ export default function Feed({ navigation, route }) {
         onProgress = false;
         if (metadata.status === 200) {
           console.log('testestesfeed', response);
-          setResponseFeed(response);
-          setResponseFeed(offset === 0 ? response : [...responseFeed, ...response]);
-          offset = response.length === 0 ? offset + response.length : offset;
-          setLast(response.length !== length ? true : false);
+          setResponseFeed(offset === 0 ? response : responseFeed.concat(response));
+          setLast(offset+length === response.length ? true : false);
+          onProgress = false;
           setDataKosong(false);
-          setJumlahItem(jumlahItem + responseFeed.length + response.length);
-          console.log('testestesfeed2', responseFeed);
+          setLoadingOpen(false);
         } else if (metadata.status === 401) {
+          ShowError(metadata.message);
           setDataKosong(true);
+          setLoadingOpen(false);
         } else if (metadata.status === 404) {
+          ShowError(metadata.message);
           setDataKosong(true);
+          setLoadingOpen(false);
         } else {
+          ShowError(metadata.message);
           if (offset === 0) {
             setDataKosong(true);
           }
           setLast(true);
+          setLoadingOpen(false);
         }
         setExtraData(!extraData);
         setLoadIndicator(false);
@@ -173,13 +173,20 @@ export default function Feed({ navigation, route }) {
 
   return (
     <SafeAreaView style={style.container}>
+       <Modal
+        animationType="fade"
+        transparent={true}
+        visible={loadingOpen}
+      >
+        <BallIndicator size={32} color={'#0F2E63'}/>
+      </Modal>
       <FlatList
         onEndReached={loadmore}
         data={responseFeed}
         renderItem={itemRender}
         ListHeaderComponent={headerFlatlist}
         showsVerticalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item,index) => index.toString()}
         ListFooterComponent={loadIndice}
         extraData={extraData}
         contentContainerStyle={{
@@ -189,6 +196,7 @@ export default function Feed({ navigation, route }) {
         style={{
           height: '100%',
           width: '100%',
+          backgroundColor: 'white',
         }}
       />
     </SafeAreaView>

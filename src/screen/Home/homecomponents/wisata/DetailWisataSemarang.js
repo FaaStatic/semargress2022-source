@@ -273,6 +273,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
           horizontal={false}
           numColumns={2}
           onEndReached={loadMore}
+          keyExtractor={(item,index) => {index.toString()}}
           contentContainerStyle={styling.flatContainer}
           style={[styling.flatlistStyle,{marginLeft:5, marginRight:5}]}
         />

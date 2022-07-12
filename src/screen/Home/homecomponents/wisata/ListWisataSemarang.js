@@ -31,6 +31,7 @@ export default function ListWisataSemarang({navigation, route}){
     return(<SafeAreaView>
         <FlatList
         numColumns={2}
+        keyExtractor={(item,index) => {index.toString()}}
         renderItem/>
     </SafeAreaView>);
 }

@@ -26,7 +26,9 @@
 #endif
 
 @implementation AppDelegate
-
+    if (@available(iOS 13.0, *)) {
+        rootView.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   RCTAppSetupPrepareApp(application);

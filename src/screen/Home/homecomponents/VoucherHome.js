@@ -122,6 +122,7 @@ export default function VoucherHome({ navigation, route }) {
          data={dataList}
          showsVerticalScrollIndicator={false}
          renderItem={renderList}
+         keyExtractor={(item,index) => {index.toString()}}
          style={style.listcontainer}
        />
         }
