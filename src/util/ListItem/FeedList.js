@@ -30,13 +30,14 @@ return(<View style={style.container}>
             <Text style={[style.textDeskripsi,{
                 fontWeight:'800',
                 marginEnd:4,
-            }]}>instagram</Text> 
+                fontFamily:'NeutrifPro-Reguler'
+            }]}>{item.profile_name}</Text> 
             <Text style={[style.textDeskripsi,]}>{` ${item.media_caption}`}</Text>
-        </Text><Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
+        </Text>{show >5  ? <Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
             color:'#828282',
             marginStart:8,
             marginTop:2,
-        }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text></Pressable>
+        }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text></Pressable> : <></>}
 </View>);
 
 }

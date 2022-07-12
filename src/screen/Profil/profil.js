@@ -139,6 +139,7 @@ const Profile = ({navigation, route}) => {
                 backgroundColor: colors.primary,
                 width: windowWidth - 50,
                 height: windowWidth - 50,
+                marginTop:'25%',
                 padding: 30,
                 borderRadius: 10,
               }}
@@ -308,17 +309,19 @@ const styles = StyleSheet.create({
     marginTop: 0,
     top: 0,
     width: '100%',
-    height:'15%',
+    height:100,
     resizeMode:'stretch',
     position: 'absolute',
     flexDirection: 'row',
   },
   title: {
-    alignSelf:'center',
-    marginTop:'12%',
-    fontSize:25,
-    color:'white',
-    fontWeight:'600'
+    fontSize: 18,
+    fontWeight: '600',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 0,
+    color: 'white',
+    marginTop: 16,
   },
   container: {
     width: '100%',

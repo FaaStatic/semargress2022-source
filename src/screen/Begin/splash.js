@@ -55,6 +55,7 @@ export default function Splash({navigation}) {
       margin:0,
       padding:0,
       justifyContent:'center',
+      fontFamily:'NeutrifPro-Regular'
     }}>
         <Image
         source={require('../../assets/header_app.png')}
@@ -62,7 +63,7 @@ export default function Splash({navigation}) {
           height:80,
           marginTop:0,
           top:0,
-          height:'15%',
+          height:'10%',
           width : '100%',
           position :'absolute'
         }}
@@ -92,6 +93,7 @@ export default function Splash({navigation}) {
             color: 'black',
             fontWeight: 'bold',
             bottom: 0,
+            fontFamily:'NeutrifPro-Regular',
             alignSelf: 'center',
             position: 'absolute',
             marginBottom: 36,

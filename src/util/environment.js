@@ -9,7 +9,7 @@ var _Environments = {
 
 function getEnvironment() {
     // Insert logic here to get the current platform (e.g. staging, production, etc)
-    var platform = 'production';
+    var platform = 'development';
     let bundleId = DeviceInfo.getBundleId();
     let deviceOS = Platform.OS;
     if(deviceOS == 'android'){

@@ -154,6 +154,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     borderRadius: 16,
+    fontFamily:'NeutrifPro-Regular',
     alignSelf: 'center',
     marginTop: 120,
     elevation: 5,
@@ -175,11 +176,12 @@ const style = StyleSheet.create({
   },
   textHeader: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '600',
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
     color: 'white',
+    fontFamily:'NeutrifPro-Regular',
     marginTop: 16,
   },
 });
