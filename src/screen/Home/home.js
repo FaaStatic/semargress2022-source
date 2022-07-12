@@ -312,6 +312,7 @@ const showAllDestination = () =>{
             }}
             showsHorizontalScrollIndicator={false}
             indicatorStyle={'#05245A'}
+            keyExtractor={(item,index) => index.toString()}
             renderItem={itemRender}
           />
 
@@ -380,6 +381,7 @@ const showAllDestination = () =>{
               nestedScrollEnabled={true}
               horizontal={true}
               data={banner}
+              keyExtractor={(item,index) => index.toString()}
               showsHorizontalScrollIndicator={false}
               renderItem={BannerList}
             />
@@ -395,6 +397,7 @@ const showAllDestination = () =>{
             data={merchantPop.slice(0,10)}
             showsHorizontalScrollIndicator={false}
             renderItem={detailMerchant}
+            keyExtractor={(item,index) => index.toString()}
             horizontal={true}/>
           </ScrollView>
 
@@ -428,6 +431,7 @@ const showAllDestination = () =>{
               nestedScrollEnabled={true}
               horizontal={true}
               data={spotWisata}
+              keyExtractor={(item,index) => index.toString()}
               showsHorizontalScrollIndicator={false}
               renderItem={itemRenderWisata}
               ListFooterComponent={showAllDestination}

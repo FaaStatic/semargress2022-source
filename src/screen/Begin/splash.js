@@ -62,6 +62,7 @@ export default function Splash({navigation}) {
           height:80,
           marginTop:0,
           top:0,
+          height:'15%',
           width : '100%',
           position :'absolute'
         }}

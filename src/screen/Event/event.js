@@ -5,8 +5,8 @@ import EventList from '../../util/ListItem/EventList';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+var offset = 0;
 export default function Event({ navigation, route }) {
-  let offset = 0;
   let onProgress = false;
   const length = 10;
   const [responseEvent, setResponseEvent] = useState([]);
@@ -135,6 +135,7 @@ height: 300,
           data={responseEvent}
           renderItem={itemRender}
           onEndReached={loadMore}
+          keyExtractor={(item,index) => {index.toString()}}
           showsVerticalScrollIndicator={false}
            />
         </View>

@@ -427,7 +427,7 @@ export default function Login({ navigation }) {
 
             </View>
           </View>
-          <Image style={{resizeMode:'contain', width:'100%', height:130,marginTop:-130, }} source={require('../../assets/bg_bottom.png')}></Image>
+          <Image style={{resizeMode:'stretch', width:'100%', height:130,marginTop:-130, }} source={require('../../assets/bg_bottom.png')}></Image>
         </ScrollView>
 
       

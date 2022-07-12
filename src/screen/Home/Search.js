@@ -123,7 +123,7 @@ export default function Search({navigation, route}){
     }
 
     const itemRender = useCallback(({item})=>{
-      if(item.flag_tipe){
+      if(item.flag_tipe === 'merchant'){
         return(
           <MerchanList item={item} pressCall={moveDetail}/>
         )
@@ -177,6 +177,7 @@ export default function Search({navigation, route}){
           renderItem={itemRender}
           showsVerticalScrollIndicator={false}
           horizontal={false}
+          keyExtractor={(item,index) => {index.toString()}}
             numColumns={2}
           contentContainerStyle={style.flatContainer}
             style={style.flatlistStyle}

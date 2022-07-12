@@ -63,6 +63,7 @@ export default function QuizDone({navigation}){
         <FlatList
         showsVerticalScrollIndicator={false}
         data={questList}
+        keyExtractor={(item,index) => {index.toString()}}
         renderItem={ExpiredListQuiz}/>
     </SafeAreaView>);
 }

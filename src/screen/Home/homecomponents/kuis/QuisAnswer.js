@@ -52,6 +52,7 @@ export default function QuizAnswer({navigation}){
 <FlatList
 data={responJawab}
 renderItem={AnswerDoneList}
+keyExtractor={(item,index) => {index.toString()}}
 showsVerticalScrollIndicator={false}/>
     </SafeAreaView>);
 }

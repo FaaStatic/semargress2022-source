@@ -130,6 +130,7 @@ export default function DetailMerchant({ navigation, route }) {
                 <FlatList
                   nestedScrollEnabled={true}
                   data={promo}
+                  keyExtractor={(item,index) => {index.toString()}}
                   renderItem={renderingPromo}
                   key={(item) => item.id_i}
                   horizontal={true}

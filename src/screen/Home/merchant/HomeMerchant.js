@@ -5,10 +5,9 @@ import MerchanList from '../../../util/ListItem/MerchantList';
 
 const {height : SCREEN_HEIGHT} = Dimensions.get('window');
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
-
+var offset = 0;
 export default function HomeMerchat({navigation, route}){
 
-    let offset = 0;
     let onProgress = false;
     const [length, setLength] = useState(10);
     const [response, setResponse] = useState([]);
@@ -113,6 +112,7 @@ export default function HomeMerchat({navigation, route}){
             renderItem={itemRender}
             onEndReached = {loadmore}
             numColumns = {2}
+            keyExtractor={(item,index) => {index.toString()}}
             centerContent={true}
             contentContainerStyle={style.flatlistStyle}
             style={{flex:1,}}

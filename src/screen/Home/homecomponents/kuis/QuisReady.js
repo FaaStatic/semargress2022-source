@@ -155,8 +155,8 @@ export default function QuisReady({ navigation, route }) {
         <FlatList
           data={listQuiz}
           renderItem={itemRender}
+          keyExtractor={(item,index) => {index.toString()}}
           showsVerticalScrollIndicator={false}
-          keyExtractor={keyIdExtra}
         />
       </SafeAreaView>
     </Provider>

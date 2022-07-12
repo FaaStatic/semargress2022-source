@@ -7,8 +7,8 @@ import ListKoupon from '../../../util/ListItem/ListKoupon';
 
 const { width : SCREEN_WIDTH}  = Dimensions.get('window');
 const { height : SCREEN_HEIGHT} = Dimensions.get('window');
+var offset = 0;
 export default function EKupon({ navigation, route }) {
-  let offset = 0;
   let onProgress = false;
   let isEmpty = true;
   const [kuponList, setKuponList] = useState([]);
@@ -189,6 +189,7 @@ export default function EKupon({ navigation, route }) {
     data={kuponList}
     renderItem={itemRender}
     numColumns={2}
+    keyExtractor={(item,index) => index.toString()}
     onEndReached={loadMore}
     extraData={extraData}
     contentContainerStyle={{
