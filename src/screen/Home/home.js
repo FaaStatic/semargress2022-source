@@ -61,8 +61,9 @@ export default function Home({ navigation, route }) {
   };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-    console.log(left)
-    console.log(right)
+   setMerchantPop([]);
+    setSpotWisata([]);
+    setBanner([]);
     checkSession();
     kategoriHome();
     jumlahCoupon();
@@ -71,6 +72,9 @@ export default function Home({ navigation, route }) {
     getSpotPariwisata();
     checkFCMToken();
     const unsubscribe = navigation.addListener('focus', () => {
+      setMerchantPop([]);
+      setSpotWisata([]);
+      setBanner([]);
       checkSession();
       kategoriHome();
       jumlahCoupon();
@@ -156,7 +160,6 @@ export default function Home({ navigation, route }) {
   };
 
   const itemRender = useCallback(({ item }) => {
-    console.log('item tes', item[0]);
     return (
       <View>
         <IconList item= {item[0]} Press={moveCategory} />
@@ -249,6 +252,12 @@ const showAllDestination = () =>{
 
   return (
     <SafeAreaView style={style.containerHome}>
+      <View style={{
+        flexDirection:'column',
+        top:0,
+        height:'25%'
+      }}>
+
       <View
         style={{
           height: 100,
@@ -283,16 +292,20 @@ const showAllDestination = () =>{
         </SafeAreaView>
         </Pressable>
         </View>
+        
       </View>
-
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
-        <View style={style.viewCoupon}>
+      <View style={style.viewCoupon}>
           <Text style={style.TextCoupon}>Jumlah E-Kupon Anda : {countKoupon}</Text>
           <Pressable style={style.btnStyle} onPress={()=>{navigation.navigate('EKupon')}}>
             <Text style={style.TextListCoupon}>Lihat E-kupon</Text>
           </Pressable>
         </View>
+      </View>
+      
 
+      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{
+        backgroundColor:'#8B68D9'
+      }}>
         <View style={style.listService}>
           <FlatList
             nestedScrollEnabled={true}
@@ -487,6 +500,7 @@ imageStyleFooter :{
 },
 textAllFooter:{
     fontSize:16,
+    fontFamily :'NeutrifPro-Regular',
     fontWeight:'bold',
     alignSelf:'center',
     textAlign:'center',
@@ -506,6 +520,7 @@ imagestyleBg:{
     color:'white',
     fontSize:18,
     margin:16,
+    fontFamily :'NeutrifPro-Regular',
     fontWeight:'600'
   },
 
@@ -514,6 +529,7 @@ imagestyleBg:{
     {
       width: SCREEN_WIDTH,
       backgroundColor: '#9a85f7',
+      fontFamily:'NeutrifPro-Regular'
     },
   ],
 
@@ -542,6 +558,7 @@ imagestyleBg:{
     height: 36,
     marginStart: 6,
     backgroundColor: 'transparent',
+    fontFamily:'NeutrifPro-Regular'
   },
   iconSearch: {
     bottom:0,
@@ -560,8 +577,11 @@ imagestyleBg:{
     flexDirection: 'row',
     backgroundColor: '#8B68D9',
     elevation: 16,
+    width:'100%',
+    position:'absolute',
+    bottom:0,
     height: 65,
-    marginTop: 8,
+    marginTop: '25%',
     paddingTop: 16,
   },
   TextCoupon: {

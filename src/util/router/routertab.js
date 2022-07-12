@@ -22,6 +22,7 @@ export default function RouterTab({ navigation }) {
           padding:5,
           paddingLeft:20,
           paddingRight:20,
+          fontFamily:'NeutrifPro-Regular',
           shadowOffset: {
             width: 0,
             height: 28,

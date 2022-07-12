@@ -91,6 +91,7 @@ const style = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    fontFamily:'NeutrifPro-Regular',
     flexDirection: 'column',
   },
   imageStyle: {
@@ -106,6 +107,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     fontSize:24,
     fontWeight:'bold',
+    fontFamily:'NeutrifPro-Regular',
     color:'black',
     marginTop:8
   },

@@ -206,12 +206,14 @@ const style = StyleSheet.create({
   flatContainer:{
     justifyContent:'center',
     width:SCREEN_WIDTH,
+    fontFamily:'NeutrifPro-Regular'
   },
   flatlistStyle:{
-     
+    fontFamily:'NeutrifPro-Regular'
   },
   container:{
     flex:1,
+    fontFamily:'NeutrifPro-Regular',
     flexDirection:'column',
     backgroundColor:'white'
   },

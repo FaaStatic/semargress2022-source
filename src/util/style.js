@@ -16,10 +16,12 @@ const style = StyleSheet.create({
     margin: 0,
     padding: 0,
     color : 'black',
+    fontFamily :'NeutrifPro-Regular',
   },
   conteiner2: {
     width:'100%',
     height:'100%',
+    fontFamily:'NeutrifPro-Regular'
   },
   modalStyle: {
     flexDirection: 'column',
@@ -33,6 +35,7 @@ const style = StyleSheet.create({
     top: 0,
     backgroundColor:colors.primary,
     alignItems:'center',
+    fontFamily:'NeutrifPro-Regular'
   },
   boxImage: {
     alignSelf: 'center',
@@ -50,6 +53,7 @@ const style = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
     color: 'black',
+    fontFamily:'NeutrifPro-Regular',
     fontSize: 14,
   },
   btnStyleLogin: {
@@ -59,6 +63,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     color: 'white',
+    fontFamily:'NeutrifPro-Regular'
   },
   btnStyleGoogle: {
     width: 100,
@@ -67,6 +72,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 360,
+    fontFamily:'NeutrifPro-Regular'
   },
   textInputStyleLogin: {
     color: 'black',
@@ -77,6 +83,7 @@ const style = StyleSheet.create({
     textAlign: 'center',
     alignSelf: 'center',
     borderColor: 'black',
+    fontFamily:'NeutrifPro-Regular'
   },
 });
 

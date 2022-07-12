@@ -9,6 +9,7 @@ import {
   View,
   FlatList,
   Pressable,
+  Linking
 } from 'react-native';
 import { Api } from '../../../util/Api';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -93,6 +94,21 @@ export default function DetailMerchant({ navigation, route }) {
     },
   ];
 
+  const openLink = async (url) => {
+    await Linking.canOpenURL(url);
+    Linking.openURL(url);
+  };
+
+  const openTelp = async (tel) => {
+    await Linking.canTell(url);
+    Linking.tel(tel);
+  };
+  const openMaps = (latitude, longitude) => {
+    const daddr = `${latitude},${longitude}`;
+    const company = Platform.OS === "ios" ? "apple" : "google";
+    Linking.openURL(`http://maps.${company}.com/maps?daddr=${daddr}`);
+  }
+
   return (
     <SafeAreaView style={styling.containerView}>
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
@@ -120,7 +136,8 @@ export default function DetailMerchant({ navigation, route }) {
                 fontSize: 16,
                 marginStart: 16,
                 marginBottom: 16,
-                fontWeight: 'bold',
+                fontWeight: '800',
+                fontFamily:'NeutrifPro-Regular',
               }}
             >
               Promo yang Sedang Berlangsung
@@ -144,6 +161,7 @@ export default function DetailMerchant({ navigation, route }) {
                   alignSelf: 'center',
                   height: 75,
                   marginTop: 28,
+                  fontFamily:'NeutrifPro-Regular',
                 }}
               >
                 Tidak Ada Promo Tersedia!
@@ -173,11 +191,11 @@ export default function DetailMerchant({ navigation, route }) {
             <Text style={styling.itemTextDetail}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
           </View>
           <View style={styling.itemDetailContainer}>
-            <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
+            <FeatherIcon name="instagram" size={28} color={'#0f2e63'} onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}/>
             <Text style={styling.itemTextDetail}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
           </View>
           <View style={styling.itemDetailContainer}>
-            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
+            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} onPress={getDetail.link_ig ? ()=>{openLink(`fb://page/${getDetail.link_fb}`)}: ()=>{}}/>
             <Text style={styling.itemTextDetail}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
           </View>
 <SafeAreaView style={styling.constainerMaps} >
@@ -201,6 +219,22 @@ style={styling.MapsStyle}
               pinColor="red"
               title="You"/>
               </MapView>
+
+<Pressable style={{
+  height:30,
+  width:30,
+  padding:'5%',
+  backgroundColor:'#0F2E63',
+  position:'absolute',
+  borderRadius:8,
+  bottom:0,
+  right:0,
+  marginEnd:'5%',
+  marginBottom:'5%',
+  justifyContent:'center'
+}} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
+  <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
+</Pressable>
 </SafeAreaView>
 
 
@@ -214,13 +248,14 @@ style={styling.MapsStyle}
               top: 0,
             }}
           >
-            <Text style={{ color: 'grey', fontSize: 12, marginStart: 16, marginTop: 16 }}>
+            <Text style={{ color: 'grey', fontSize: 12, marginStart: 16, marginTop: 16,  fontFamily:'NeutrifPro-Regular', }}>
               Diskon Yang Diberikan
             </Text>
             <Text
             numberOfLines={1}
               style={{
                 color: 'black',
+                fontFamily:'NeutrifPro-Regular',
                 fontSize: 16,
                 fontWeight: 'bold',
                 marginStart: 16,
@@ -286,6 +321,7 @@ const styling = StyleSheet.create({
   itemTextDetail:{
     fontSize:14,
     color:'#0f2e63',
+    fontFamily:'NeutrifPro-Regular',
     marginStart:16,
     marginTop:4,
   },
@@ -294,6 +330,7 @@ const styling = StyleSheet.create({
     fontWeight:'bold',
     color:'#0f2e63',
     marginTop:16,
+    fontFamily:'NeutrifPro-Regular',
     marginStart:16,
     marginBottom:16,
 
@@ -347,6 +384,7 @@ const styling = StyleSheet.create({
   containerTitle: {
     flexDirection: 'row',
     justifyContent: 'center',
+    fontFamily:'NeutrifPro-Regular',
     width: '100%',
     marginEnd: 16,
   },
@@ -355,9 +393,10 @@ const styling = StyleSheet.create({
   },
   textTitle: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: '800',
     color: 'white',
     alignSelf: 'center',
+    fontFamily:'NeutrifPro-Regular',
     marginEnd: windowWidth / 4,
   },
   styleImage: {
