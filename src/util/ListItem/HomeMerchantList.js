@@ -3,7 +3,6 @@ import { StyleSheet, SafeAreaView, Image, Text, Pressable } from 'react-native';
 
 
 export default function HomeMerchantList({item, pressCall}){
-    console.log('listMerchant',item);
     return(
         <Pressable style={style.containerList} onPress={()=>pressCall(item)}>
         <SafeAreaView style={style.containerImage}>

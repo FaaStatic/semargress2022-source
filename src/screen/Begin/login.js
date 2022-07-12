@@ -420,6 +420,7 @@ export default function Login({ navigation }) {
                     textAlign:'center',
                     marginRight:20,
                     fontSize: 16,
+                    fontFamily:'NeutrifPro-Regular',
                     fontWeight: '600',
                   }]}>Sign in with Apple</Text>
                 </TouchableOpacity>
@@ -502,7 +503,7 @@ export default function Login({ navigation }) {
                     color: 'white',
                   }}
                 >
-                    <Text style={{ color: 'white', fontWeight: '400', fontSize: 14 }}>
+                    <Text style={{ color: 'white', fontWeight: '400', fontSize: 14,fontFamily:'NeutrifPro-Regular', }}>
                       Kirim Ulang ?
                     </Text>
                 </TouchableOpacity>
@@ -518,7 +519,7 @@ export default function Login({ navigation }) {
                   borderRadius:6,
                 }}
               >
-                  <Text style={{ color: 'white', fontWeight: '600', marginLeft:20, marginRight:20, marginTop:8, marginBottom:8 }}>Kirim</Text>
+                  <Text style={{ color: 'white', fontWeight: '600', marginLeft:20, marginRight:20, marginTop:8, marginBottom:8,fontFamily:'NeutrifPro-Regular', }}>Kirim</Text>
               </TouchableOpacity>
 
             </ImageBackground>

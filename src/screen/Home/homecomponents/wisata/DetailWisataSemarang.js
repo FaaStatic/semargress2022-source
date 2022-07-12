@@ -31,6 +31,8 @@ var longitudeBottomSheet = 0;
 var offset = 0;
 var onProgress = false;
 
+
+var dataSet = new Set();
 export default function DetailWisataSemarang({ navigation, route }) {
 
   const [length, setLength] = useState(10);
@@ -65,7 +67,8 @@ export default function DetailWisataSemarang({ navigation, route }) {
       .then((res) => {
         let body = res.data;
         let response = body.response;
-        let metadata = body.metadata;
+        var metadata = body.metadata;
+        console.log('datahasil', body);
         if (metadata.status === 200) {
           console.log('datahasil', response);
           setDetailResponse(response);
@@ -117,7 +120,6 @@ export default function DetailWisataSemarang({ navigation, route }) {
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
-        
         if (metadata.status === 200) {
 
           setResponseMerchant(offset === 0 ? response : [...responseMerchant, ...response]);
