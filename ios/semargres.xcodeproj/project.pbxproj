@@ -10,8 +10,18 @@
 		00E356F31AD99517003FC87E /* semargresTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* semargresTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2CC7204B27BFBA49201DFA7E /* Pods_semargres.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD2A440DC4DECB5F9090194D /* Pods_semargres.framework */; };
-		A1FC841F82D685372CD6AC5F /* Pods_semargres_semargresTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 17794A7A557502849363CDBD /* Pods_semargres_semargresTests.framework */; };
+		65CFE691C55FDB03D5FB39EC /* libPods-semargres-semargresTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1A6E901C2B252A8C0E2F2F1 /* libPods-semargres-semargresTests.a */; };
+		7CD59DE9348C4AEDA275B162 /* NeutrifPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */; };
+		825BF7FD3EE84319A7F9C9CB /* NeutrifPro-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */; };
+		8C29E1E4EFA24004B6D1B033 /* NeutrifPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */; };
+		8D80609644634C41B1336F0A /* NeutrifPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 893BF9289F60489789B53BC0 /* NeutrifPro-Medium.ttf */; };
+		AC1723C058414D2DA1594C4C /* NeutrifPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C5837AC3FF349F1A3E39168 /* NeutrifPro-Light.ttf */; };
+		C7E689B5AECF4312A375CB0E /* NeutrifPro-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */; };
+		C8CC0E59CAD2BE2652CFA9C3 /* libPods-semargres.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AE47E84DB5B4CAE0D3044B9 /* libPods-semargres.a */; };
+		CF9344D6AD1E48FFA95CE26E /* NeutrifPro-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D24CCC1DDD2B4A0FA6D907FB /* NeutrifPro-BoldItalic.ttf */; };
+		EE3746087186448AA3057162 /* NeutrifPro-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFD79B5431D44C60A2AEE8E8 /* NeutrifPro-MediumItalic.ttf */; };
+		EF9A99C4BA29421780CAFDA5 /* NeutrifPro-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B5C2533212545C39C7D6B14 /* NeutrifPro-LightItalic.ttf */; };
+		F8261A53B30A43769A4BA72B /* NeutrifPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,28 +45,38 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = semargres/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = semargres/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = semargres/main.m; sourceTree = "<group>"; };
-		17794A7A557502849363CDBD /* Pods_semargres_semargresTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_semargres_semargresTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A4DDD4F0CEB4A968ECA5CE5 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		1A5B0ABD3C9F4EC591F808BC /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
 		277C661A287E1D9B00141FAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "semargres/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-semargres.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-semargres.debug.xcconfig"; path = "Target Support Files/Pods-semargres/Pods-semargres.debug.xcconfig"; sourceTree = "<group>"; };
+		4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Regular.ttf"; path = "../src/assets/fonts/NeutrifPro-Regular.ttf"; sourceTree = "<group>"; };
+		4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Bold.ttf"; path = "../src/assets/fonts/NeutrifPro-Bold.ttf"; sourceTree = "<group>"; };
+		499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-SemiBoldItalic.ttf"; path = "../src/assets/fonts/NeutrifPro-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		52B5D6DE0A9048378B8C22F0 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
+		5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-RegularItalic.ttf"; path = "../src/assets/fonts/NeutrifPro-RegularItalic.ttf"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-semargres.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-semargres.release.xcconfig"; path = "Target Support Files/Pods-semargres/Pods-semargres.release.xcconfig"; sourceTree = "<group>"; };
 		572D1AC1AFEF4AD7ABA97B9B /* SimpleLineIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = SimpleLineIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-semargres-semargresTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-semargres-semargresTests.debug.xcconfig"; path = "Target Support Files/Pods-semargres-semargresTests/Pods-semargres-semargresTests.debug.xcconfig"; sourceTree = "<group>"; };
 		5E6225CBC0494C1CB3B92E40 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		64C93E48435545A59A39D72D /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = semargres/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		893BF9289F60489789B53BC0 /* NeutrifPro-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Medium.ttf"; path = "../src/assets/fonts/NeutrifPro-Medium.ttf"; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-semargres-semargresTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-semargres-semargresTests.release.xcconfig"; path = "Target Support Files/Pods-semargres-semargresTests/Pods-semargres-semargresTests.release.xcconfig"; sourceTree = "<group>"; };
+		8C5837AC3FF349F1A3E39168 /* NeutrifPro-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Light.ttf"; path = "../src/assets/fonts/NeutrifPro-Light.ttf"; sourceTree = "<group>"; };
 		92D0060E00AB48078B410D9C /* Fontisto.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Fontisto.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf"; sourceTree = "<group>"; };
+		9AE47E84DB5B4CAE0D3044B9 /* libPods-semargres.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-semargres.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9B5C2533212545C39C7D6B14 /* NeutrifPro-LightItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-LightItalic.ttf"; path = "../src/assets/fonts/NeutrifPro-LightItalic.ttf"; sourceTree = "<group>"; };
 		A55387F7D2084955A3E45879 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		B6684955E61444B197B11083 /* AntDesign.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = AntDesign.ttf; path = "../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf"; sourceTree = "<group>"; };
 		CE14E63D195743BFA73797DF /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		DD2A440DC4DECB5F9090194D /* Pods_semargres.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_semargres.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D1A6E901C2B252A8C0E2F2F1 /* libPods-semargres-semargresTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-semargres-semargresTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D24CCC1DDD2B4A0FA6D907FB /* NeutrifPro-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-BoldItalic.ttf"; path = "../src/assets/fonts/NeutrifPro-BoldItalic.ttf"; sourceTree = "<group>"; };
 		DD41CCE4608347E787EE51E6 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		E4F5B0449D5843B480FE9D6B /* FontAwesome5_Brands.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Brands.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf"; sourceTree = "<group>"; };
 		E695CFC707AF46AE8AEFCA6E /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		EFD79B5431D44C60A2AEE8E8 /* NeutrifPro-MediumItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-MediumItalic.ttf"; path = "../src/assets/fonts/NeutrifPro-MediumItalic.ttf"; sourceTree = "<group>"; };
+		F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-SemiBold.ttf"; path = "../src/assets/fonts/NeutrifPro-SemiBold.ttf"; sourceTree = "<group>"; };
 		FAE5A63D73EE4241BA1E1A38 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		FBB5CEC1CF014CE28076907E /* FontAwesome5_Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Regular.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -66,7 +86,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1FC841F82D685372CD6AC5F /* Pods_semargres_semargresTests.framework in Frameworks */,
+				65CFE691C55FDB03D5FB39EC /* libPods-semargres-semargresTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,7 +94,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CC7204B27BFBA49201DFA7E /* Pods_semargres.framework in Frameworks */,
+				C8CC0E59CAD2BE2652CFA9C3 /* libPods-semargres.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -115,8 +135,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				DD2A440DC4DECB5F9090194D /* Pods_semargres.framework */,
-				17794A7A557502849363CDBD /* Pods_semargres_semargresTests.framework */,
+				9AE47E84DB5B4CAE0D3044B9 /* libPods-semargres.a */,
+				D1A6E901C2B252A8C0E2F2F1 /* libPods-semargres-semargresTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -140,6 +160,16 @@
 				64C93E48435545A59A39D72D /* Octicons.ttf */,
 				572D1AC1AFEF4AD7ABA97B9B /* SimpleLineIcons.ttf */,
 				CE14E63D195743BFA73797DF /* Zocial.ttf */,
+				4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */,
+				D24CCC1DDD2B4A0FA6D907FB /* NeutrifPro-BoldItalic.ttf */,
+				8C5837AC3FF349F1A3E39168 /* NeutrifPro-Light.ttf */,
+				9B5C2533212545C39C7D6B14 /* NeutrifPro-LightItalic.ttf */,
+				893BF9289F60489789B53BC0 /* NeutrifPro-Medium.ttf */,
+				EFD79B5431D44C60A2AEE8E8 /* NeutrifPro-MediumItalic.ttf */,
+				4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */,
+				5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */,
+				F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */,
+				499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -275,6 +305,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C29E1E4EFA24004B6D1B033 /* NeutrifPro-Bold.ttf in Resources */,
+				CF9344D6AD1E48FFA95CE26E /* NeutrifPro-BoldItalic.ttf in Resources */,
+				AC1723C058414D2DA1594C4C /* NeutrifPro-Light.ttf in Resources */,
+				EF9A99C4BA29421780CAFDA5 /* NeutrifPro-LightItalic.ttf in Resources */,
+				8D80609644634C41B1336F0A /* NeutrifPro-Medium.ttf in Resources */,
+				EE3746087186448AA3057162 /* NeutrifPro-MediumItalic.ttf in Resources */,
+				F8261A53B30A43769A4BA72B /* NeutrifPro-Regular.ttf in Resources */,
+				825BF7FD3EE84319A7F9C9CB /* NeutrifPro-RegularItalic.ttf in Resources */,
+				7CD59DE9348C4AEDA275B162 /* NeutrifPro-SemiBold.ttf in Resources */,
+				C7E689B5AECF4312A375CB0E /* NeutrifPro-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

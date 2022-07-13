@@ -99,10 +99,6 @@ export default function DetailMerchant({ navigation, route }) {
     Linking.openURL(url);
   };
 
-  const openTelp = async (tel) => {
-    await Linking.canTell(url);
-    Linking.tel(tel);
-  };
   const openMaps = (latitude, longitude) => {
     const daddr = `${latitude},${longitude}`;
     const company = Platform.OS === "ios" ? "apple" : "google";
@@ -186,19 +182,19 @@ export default function DetailMerchant({ navigation, route }) {
               width:200,
             }]}>{getDetail.alamat}</Text>
           </View>
-          <View style={styling.itemDetailContainer}>
+          <View style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openLink(`tel:///${getDetail.notelp}`)}: ()=>{}}>
             <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
           </View>
-          <View style={styling.itemDetailContainer}>
-            <FeatherIcon name="instagram" size={28} color={'#0f2e63'} onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}/>
+          <View style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}>
+            <FeatherIcon name="instagram" size={28} color={'#0f2e63'}/>
             <Text style={styling.itemTextDetail}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
           </View>
-          <View style={styling.itemDetailContainer}>
-            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} onPress={getDetail.link_ig ? ()=>{openLink(`fb://page/${getDetail.link_fb}`)}: ()=>{}}/>
+          <View style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(`www.facebook.com/${getDetail.link_fb}`)}: ()=>{}}>
+            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
           </View>
-<SafeAreaView style={styling.constainerMaps} >
+<View style={styling.constainerMaps} >
 <MapView
 style={styling.MapsStyle}
     initialRegion={{
@@ -235,7 +231,7 @@ style={styling.MapsStyle}
 }} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
   <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
 </Pressable>
-</SafeAreaView>
+</View>
 
 
 
