@@ -2,13 +2,16 @@ require_relative '../node_modules/react-native/scripts/react_native_pods'
 require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 
 platform :ios, '11.0'
-install! 'cocoapods', :deterministic_uuids => false
+# install! 'cocoapods', :deterministic_uuids => false
 # use_frameworks! :linkage => :static
+# $RNFirebaseAsStaticFramework = true
 target 'semargres' do
   config = use_native_modules!
 
   # Flags change depending on the env values.
   flags = get_default_flags()
+  pod 'GoogleUtilities', :modular_headers => true
+  pod 'RNFBApp', :path => '../node_modules/@react-native-firebase/app', :modular_headers => true
 
   use_react_native!(
     :path => config[:reactNativePath],
@@ -21,7 +24,6 @@ target 'semargres' do
 
   permissions_path = '../node_modules/react-native-permissions/ios'
   pod 'Permission-Camera', :path => "#{permissions_path}/Camera"
-
   target 'semargresTests' do
     inherit! :complete
     # Pods for testing
@@ -32,8 +34,8 @@ target 'semargres' do
   # Note that if you have use_frameworks! enabled, Flipper will not work and
   # you should disable the next line.
   use_flipper!()
-  post_install do |installer|
-    react_native_post_install(installer)
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
-  end
+  # post_install do |installer|
+  #   react_native_post_install(installer)
+  #   __apply_Xcode_12_5_M1_post_install_workaround(installer)
+  # end
 end

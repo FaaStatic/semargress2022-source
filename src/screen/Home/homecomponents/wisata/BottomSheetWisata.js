@@ -90,7 +90,7 @@ const BottomSheetWisata = forwardRef(
         <View style={style.containerHeader}>
           {statIcon || statHeight.value ? (
             <EvilIcons name="chevron-down" color={'#0F2E63'}
-            size={25} style={style.iconArrow} onPress={
+            size={40} style={style.iconArrow} onPress={
                 buttonDown
             }/>
           ) : (
@@ -119,6 +119,7 @@ const BottomSheetWisata = forwardRef(
 const style = StyleSheet.create({
   iconArrow: {
     alignSelf: 'center',
+    marginTop:4,
     margin:0,
   },
   container: {
@@ -127,15 +128,16 @@ const style = StyleSheet.create({
     top: SCREEN_HEIGHT,
     height: SCREEN_HEIGHT,
     borderRadius: 25,
+    padding:0,
     backgroundColor: 'white',
-    elevation: 5,
+    elevation: 6,
     flex:1,
     flexDirection:'column',
   },
   containerHeader: {
     flexDirection: 'column',
     justifyContent: 'center',
-    marginTop:8,
+    margin:0,
     width: '100%',
   },
   textStyle: {

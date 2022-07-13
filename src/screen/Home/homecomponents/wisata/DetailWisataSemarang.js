@@ -32,7 +32,6 @@ var offset = 0;
 var onProgress = false;
 
 
-var dataSet = new Set();
 export default function DetailWisataSemarang({ navigation, route }) {
 
   const [length, setLength] = useState(10);
@@ -143,6 +142,17 @@ export default function DetailWisataSemarang({ navigation, route }) {
     }
   };  
 
+  const openLink = async (url) => {
+    await Linking.canOpenURL(url);
+    Linking.openURL(url);
+  };
+
+  const openMaps = (latitude, longitude) => {
+    const daddr = `${latitude},${longitude}`;
+    const company = Platform.OS === "ios" ? "apple" : "google";
+    Linking.openURL(`http://maps.${company}.com/maps?daddr=${daddr}`);
+  }
+
   const moveDetailMerchant = (data) => {
     // console.log(data);
     // console.log('testesdetailmerchant', data.id);
@@ -205,19 +215,19 @@ export default function DetailWisataSemarang({ navigation, route }) {
               {detailResponse.alamat}
             </Text>
           </View>
-          <View style={styling.itemDetailContainer}>
+          <View style={styling.itemDetailContainer} onPress={detailResponse.notelp ? ()=>{openLink(`tel:///${detailResponse.notelp}`)}: ()=>{}}>
             <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.notelp ? detailResponse.notelp : '-'}
             </Text>
           </View>
-          <View style={styling.itemDetailContainer}>
+          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_ig ? ()=>{openLink(`instagram://user?username=${detailResponse.link_ig}`)}: ()=>{}}>
             <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.link_ig ? detailResponse.link_ig : '-'}
             </Text>
           </View>
-          <View style={styling.itemDetailContainer}>
+          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_fb ? ()=>{openLink(`www.facebook.com/${detailResponse.link_fb}`)}: ()=>{}}>
             <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.link_fb ? detailResponse.link_fb : '-'}
@@ -249,21 +259,23 @@ export default function DetailWisataSemarang({ navigation, route }) {
                 title="You"
               />
             </MapView>
+            <Pressable style={{
+  height:30,
+  width:30,
+  padding:'5%',
+  backgroundColor:'#0F2E63',
+  position:'absolute',
+  borderRadius:8,
+  bottom:0,
+  right:0,
+  marginEnd:'5%',
+  marginBottom:'5%',
+  justifyContent:'center'
+}} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
+  <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
+</Pressable>
           </View>
         </View>
-        {/* <Pressable style={{
-        heightzz:27,
-        position:'absolute',
-        backgroundColor:'#0F2E63',
-        borderRadius:2,
-        bottom:0,
-        padding:2,
-        right:0,
-        marginBottom:SCREEN_HEIGHT/5,
-        marginEnd:36,
-      }}>
-      <SimpleIcon name='frame' size={27/2} />
-      </Pressable> */}
       </ScrollView>
       <BottomSheetWisata>
 
