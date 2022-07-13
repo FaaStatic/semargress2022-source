@@ -21,6 +21,7 @@ import HomeWisataSemarang from '../../screen/Home/homecomponents/wisata/HomeWisa
 import Search from '../../screen/Home/Search';
 import HomeMerchat from '../../screen/Home/merchant/HomeMerchant';
 import EventDetail from '../../screen/Event/EventDetail';
+import DetailPromo from '../../screen/Promo/DetailPromo';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -56,10 +57,84 @@ export default function Router() {
             no_telp: null,
             otp: null,
           }}
-          options={{
+          options={({ navigation, screenProps, route }) => ({
             headerShown: true,
             headerTitleAlign: 'center',
+            headerTitle: 'Daftar',
+            headerLeft: () => {
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+                </View>
+              );
+            },
+          })}
+        />
+         <StackScreen.Screen
+          name="DetailPromo"
+          component={DetailPromo}
+          initialParams={{
+            uid: null,
+            email: null,
+            foto: null,
+            fcm_id: null,
+            token: null,
+            no_telp: null,
+            otp: null,
           }}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerTitle: "Detail Promo",
+            header: (screenProps) => {
+              return (
+                <View
+                  style={{
+                    height: 100,
+                    width: '100%',
+                    justifyContent: 'center',
+                    backgroundColor: 'white',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      alignSelf: 'center',
+                      top: SCREEN_HEIGHT / 20,
+                      left: 0,
+                      marginStart: 16,
+                    }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+
+                  <Text
+                    style={{
+                      color: 'black',
+                      alignSelf: 'center',
+                      fontSize: 18,
+                      fontWeight: '600',
+                    }}
+                  >
+                    Detail Promo
+                  </Text>
+                </View>
+              );
+            },
+            // headerLeft: () => {
+            //   return (
+            //     <View>
+            //       <TouchableOpacity onPress={() => navigation.goBack()}>
+            //         <IonIcon name="chevron-back" size={24} color={'black'} />
+            //       </TouchableOpacity>
+            //     </View>
+            //   );
+            // },
+          })}
         />
         <StackScreen.Screen
           name="RouterTab"
@@ -260,7 +335,7 @@ export default function Router() {
           component={EKupon}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: 'E-Koupon Semargress',
+            title: 'E-Kupon Semargress',
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {

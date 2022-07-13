@@ -16,7 +16,6 @@ import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 import Material from 'react-native-vector-icons/MaterialIcons';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
-import simple from 'react-native-vector-icons/SimpleLineIcons'
 import MerchanList from '../../../../util/ListItem/MerchantList';
 import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
 // import { enableLatestRenderer } from 'react-native-maps';
@@ -212,7 +211,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
                 },
               ]}
             >
-              {detailResponse.alamat}
+              {detailResponse.alamat ? detailResponse.alamat : '-' }
             </Text>
           </View>
           <View style={styling.itemDetailContainer} onPress={detailResponse.notelp ? ()=>{openLink(`tel:///${detailResponse.notelp}`)}: ()=>{}}>
@@ -272,7 +271,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
   marginBottom:'5%',
   justifyContent:'center'
 }} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
-  <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
+  <Image source={require('../../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
 </Pressable>
           </View>
         </View>
@@ -302,7 +301,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
 
 const styling = StyleSheet.create({
   flatContainer:{
-    marginTop:SCREEN_HEIGHT/10,
+    marginTop:"5%",
     justifyContent:'center',
     width:SCREEN_WIDTH,
   },

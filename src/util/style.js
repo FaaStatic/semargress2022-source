@@ -12,7 +12,7 @@ const style = StyleSheet.create({
     //   ios: {paddingTop: 20},
     //   android: {paddingTop: StatusBar.currentHeight},
     // }),
-    backgroundColor: '#F9F9F9',
+    backgroundColor: 'white',
     margin: 0,
     padding: 0,
     color : 'black',

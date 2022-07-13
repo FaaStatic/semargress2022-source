@@ -71,9 +71,8 @@ export default function Feed({ navigation, route }) {
   });
 
   const loadmore = async () => {
-    setLoadIndicator(true);
-    if (Last === false) {
-      // setOffset(offset + length);
+    if (Last) {
+      setLoadIndicator(true);
       offset = offset + length;
       getFeed();
     }else{
@@ -105,7 +104,7 @@ export default function Feed({ navigation, route }) {
         if (metadata.status === 200) {
           console.log('testestesfeed', response);
           setResponseFeed(offset === 0 ? response : responseFeed.concat(response));
-          setLast(offset+length === response.length ? true : false);
+          setLast(response.length !== length  ? true : false);
           onProgress = false;
           setDataKosong(false);
           setLoadingOpen(false);

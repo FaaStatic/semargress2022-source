@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  SafeAreaView, 
-  Text, 
-  View, 
-  Pressable, 
-  StyleSheet, 
-  ScrollView, 
+import {
+  SafeAreaView,
+  Text,
+  View,
+  Pressable,
+  StyleSheet,
+  ScrollView,
   Alert,
   Dimensions,
   ActivityIndicator,
   Image,
 } from 'react-native';
+import Entypo from 'react-native-vector-icons/Entypo';
 import { Portal, Provider, TextInput, Modal } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import style from '../../util/style';
@@ -21,18 +22,19 @@ import { sessionId } from '../../util/GlobalVar';
 import messaging from '@react-native-firebase/messaging';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import { colors } from '../../util/color';
+import LinearGradient from 'react-native-linear-gradient';
 
 var fcm_id = '';
 var loginType = '';
+var gender = 1;
 export default function Register({ navigation, route }) {
-
   const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
   const windowWidth = Dimensions.get('window').width;
+  const [radioBtn,setRadioBtn] = useState(true);
   const [dataUID, setDataUID] = useState('');
   const [open, setOpen] = useState(false);
   const [openDate, setOpenDate] = useState(false);
   const [openMonth, setOpenMonth] = useState(false);
-  const [gender, setGender] = useState(null);
   const [items, setItems] = useState([]);
   const [dateItems, setDateItems] = useState([
     { label: '01', value: '01' },
@@ -100,7 +102,7 @@ export default function Register({ navigation, route }) {
 
     if (session != null) {
       // if session is set already
-      console.log("sessionlama ", session)
+      console.log('sessionlama ', session);
       loginType = session.type;
       setTxtEmail(session.email);
       setDataUID(session.uid);
@@ -112,7 +114,7 @@ export default function Register({ navigation, route }) {
         type: type,
       };
 
-      console.log("buatsession ", data)
+      console.log('buatsession ', data);
 
       await SessionManager.StoreAsObject(sessionId, data);
       loginType = type;
@@ -128,19 +130,21 @@ export default function Register({ navigation, route }) {
   };
 
   useEffect(() => {
-
-    if(edit){
+    if (edit) {
       navigation.setOptions({
-        title : "Profile"
+        title: 'Profile',
       });
     }
     loadSession();
     checkToken();
-
+    gender = 1;
+    setRadioBtn(true);
     // disable local variable / function
     const unsubscribe = navigation.addListener('focus', () => {
       loadSession();
       checkToken();
+      gender = 1;
+    setRadioBtn(true);
     });
 
     return () => {
@@ -182,12 +186,10 @@ export default function Register({ navigation, route }) {
 
   // get profile data
   const getDataProfile = () => {
-
     setLoading(true);
 
     Api.get('profile/view')
       .then(async (respon) => {
-
         setLoading(false);
         let body = respon.data;
         let metadata = body.metadata;
@@ -199,7 +201,12 @@ export default function Register({ navigation, route }) {
           setTmptLahir(response.tempat_lahir);
           setAlamat(response.alamat);
           setTxtEmail(response.email);
-          setGender(response.id_gender);
+          gender = response.id_gender;
+          if(gender == 1){
+            setRadioBtn(true);
+          }else{
+            setRadioBtn(false);
+          }
           let tglLahir = response.tgl_lahir.split('-');
           setThn(tglLahir[0]);
           setBln(tglLahir[1]);
@@ -270,8 +277,7 @@ export default function Register({ navigation, route }) {
 
           await SessionManager.StoreAsObject(sessionId, data);
           editProfile();
-        }else{
-
+        } else {
           ShowError(metadata.message);
         }
       })
@@ -296,7 +302,6 @@ export default function Register({ navigation, route }) {
 
     await Api.post('profile/edit', data)
       .then((res) => {
-
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
@@ -305,7 +310,7 @@ export default function Register({ navigation, route }) {
           ShowSuccess(metadata.message);
           if (!edit || edit == undefined) {
             navigation.dispatch(StackActions.replace('RouterTab'));
-          }else{
+          } else {
             //navigation.goBack();
           }
           //saveData(data);
@@ -385,6 +390,18 @@ export default function Register({ navigation, route }) {
     }
   };
 
+  const radioMen = () =>{
+      gender = 1;
+      setRadioBtn(!radioBtn);
+      console.log(gender);
+
+  }
+ const radioWoman = () =>{
+  gender = 0;
+  setRadioBtn(!radioBtn);
+  console.log(gender);
+ }
+
   return (
     <Provider>
       <SafeAreaView style={style.container}>
@@ -419,21 +436,75 @@ export default function Register({ navigation, route }) {
               </View>
             </Modal>
           </Portal>
+          <LinearGradient
+            colors={['#FFC46C45', '#FFC46C45', '#ffffff']}
+            start={{ x: 0.0, y: 0.0 }}
+            end={{ x: 1.5, y: 1.5 }}
+            style={{
+              borderRadius: 8,
+              borderWidth: 1,
+              height: 70,
+              marginTop: '5%',
+              marginBottom: '5%',
+              marginStart: '5%',
+              marginEnd: '5%',
+              borderColor: '#F2994A',
+              flexDirection: 'column',
+              justifyContent: 'center',
+            }}
+          >
+            <View
+              style={{
+                flexDirection: 'row',
+              }}
+            >
+              <Image
+                source={require('../../assets/notif.png')}
+                style={{
+                  height: 30,
+                  width: 25,
+                  marginStart: '8%',
+                  marginEnd: '4%',
+                  marginTop: '0.5%',
+                }}
+                resizeMode="contain"
+              />
+              <Text style={styles.regionTitle}>Isi Biodata diri sesuai dengan KTP anda</Text>
+            </View>
+          </LinearGradient>
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+    fontSize:16,
+  marginBottom:8,
 
-          <Text style={styles.regionTitle}>Isi Biodata diri sesuai dengan KTP anda</Text>
-
+}}> Masukan NIK (Nomor Induk Kependudukan) </Text>
           <TextInput
             placeholder="NIK"
             maxLength={16}
+            placeholderTextColor={'grey'}
             value={ktp}
             theme={themeText}
             onChangeText={(text) => setKTP(text)}
             keyboardType="number-pad"
-            style={styles.title}
+           style={styles.title}
           />
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+  fontSize:16,
+  marginBottom:8,
+
+}}> Nama </Text>
+
 
           <TextInput
             selectionColor="grey"
+            placeholderTextColor={'grey'}
             placeholder="Nama"
             value={nama}
             theme={themeText}
@@ -442,9 +513,65 @@ export default function Register({ navigation, route }) {
             style={styles.title}
           />
 
-          <Text style={styles.dropdownTitle}>Jenis Kelamin</Text>
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+  fontSize:16,
+  marginBottom:20,
 
-          <DropDownPicker
+}}> Jenis Kelamin</Text>
+
+<View style={{
+  flexDirection:'column',
+  marginStart:42,
+}}>
+    <View style={{
+    flexDirection:'row',
+    marginBottom:29,
+   }}>
+    <Pressable style={{
+      height:20,
+      width:20,
+      backgroundColor:radioBtn ? '#6FCF97' :  "#f9f9f9"
+    }}  onPress={radioMen}>
+      <Entypo name='check' color={'white'} size={20}/>
+    </Pressable>
+    <Text style={{
+      fontSize:16,
+      fontWeight:'600',
+      color:'black',
+      marginStart:23,
+    }}>
+       Laki-Laki
+    </Text>
+   </View>
+  <View style={{
+    flexDirection:'row',
+    marginBottom:29,
+   }}>
+    <Pressable style={{
+      height:20,
+      width:20,
+      backgroundColor:radioBtn ?  "#f9f9f9" : '#6FCF97'
+    }} onPress={radioWoman}>
+      <Entypo name='check' color={'white'} size={20}/>
+    </Pressable>
+    <Text style={{
+      fontSize:16,
+      fontWeight:'600',
+      color:'black',
+      marginStart:23,
+    }}>
+       Perempuan
+    </Text>
+   </View>
+
+</View>
+
+
+          {/* <DropDownPicker
             placeholder="Pilih Jenis Kelamin"
             open={open}
             value={gender}
@@ -465,16 +592,26 @@ export default function Register({ navigation, route }) {
               borderColor: 'transparent',
               borderRadius: 0,
             }}
-          />
+          /> */}
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  fontSize:16,
+  marginLeft:20,
+  marginBottom:8,
 
+}}> Tempat Lahir </Text>
           <TextInput
             placeholder="Tempat Lahir"
             value={tmptlahir}
             theme={themeText}
+            placeholderTextColor={'grey'}
             onChangeText={(text) => setTmptLahir(text)}
             keyboardType="default"
             style={styles.title}
           />
+
 
           <Text style={styles.subTitle}> Tanggal Lahir (DD Month YYYY)</Text>
 
@@ -483,7 +620,7 @@ export default function Register({ navigation, route }) {
               flexDirection: 'row',
               marginStart: 20,
               marginEnd: 20,
-              marginBottom: 8,
+              marginBottom: 29,
               justifyContent: 'center',
             }}
           >
@@ -540,29 +677,61 @@ export default function Register({ navigation, route }) {
             />
           </View>
 
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+  fontSize:16,
+  marginBottom:20,
+
+}}> Alamat</Text>
           <TextInput
             placeholder="Alamat"
+            placeholderTextColor={'grey'}
             value={alamat}
+            multiline={true}
             theme={themeText}
             onChangeText={(text) => setAlamat(text)}
             keyboardType="default"
-            style={styles.title}
+            style={[styles.title,{
+              height:100,
+              textAlignVertical:'top'
+            }]}
           />
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+  fontSize:16,
+  marginBottom:20,
 
+}}> Email</Text>
           <TextInput
-            placeholder={txtEmail ? txtEmail : 'Masukan Email'}
+            placeholder={txtEmail ? txtEmail : 'Email'}
             value={txtEmail}
+            placeholderTextColor={'grey'}
             theme={themeText}
             disabled={loginType == 'GOOGLE' ? true : false}
             onChangeText={(text) => setTxtEmail(text)}
             keyboardType="default"
             style={styles.title}
           />
+<Text style={{
+  color:'black',
+  fontFamily:'NeutrifPro-Reguler',
+  fontWeight:'400',
+  marginLeft:20,
+  fontSize:16,
+  marginBottom:20,
 
+}}> Telepon</Text>
           <TextInput
             placeholder={txtTelp ? txtTelp : 'Nomor Telepon'}
             disabled={loginType == 'SMS' ? true : false}
             value={txtTelp}
+            placeholderTextColor={'grey'}
             theme={themeText}
             onChangeText={(text) => setTelp(text)}
             keyboardType="number-pad"
@@ -571,56 +740,71 @@ export default function Register({ navigation, route }) {
 
           <View
             style={{
-              marginTop: 36,
+              marginTop: 16,
               marginEnd: 24,
-              flexDirection: 'row',
+              flexDirection: 'column',
               justifyContent: 'flex-end',
             }}
           >
-            {edit == undefined ||
-              (!edit && (
-                <Pressable onPress={btnSkip}>
-                  <Text
-                    style={{
-                      color: 'grey',
-                      fontSize: 14,
-                      marginEnd: 36,
-                      fontWeight: 'bold',
-                    }}
-                  >
-                    Skip
-                  </Text>
-                </Pressable>
-              ))}
+         
 
-            <Pressable onPress={showAlert}>
+            <Pressable style={{
+              width:150,
+              height:40,
+              borderRadius:8,
+              alignSelf:'center',
+              marginBottom:16,
+              justifyContent:'center',
+              backgroundColor:'#A57FF8'
+            }} onPress={showAlert}>
               <Text
                 style={{
+                  alignSelf:'center',
                   fontSize: 14,
-                  color: 'red',
+                  color: 'white',
                   fontWeight: 'bold',
                 }}
               >
                 Save
               </Text>
             </Pressable>
+
+            {edit == undefined ||
+              (!edit && (
+                <Pressable onPress={btnSkip}>
+                  <Text
+                    style={{
+                      color: '#828282',
+                      fontSize: 16,
+                      fontWeight:'400',
+                      marginTop:8,
+                      alignSelf:'center',
+                      fontWeight: '800',
+                      marginBottom:16,
+                    }}
+                  >
+                    Cancel
+                  </Text>
+                </Pressable>
+              ))}
           </View>
         </ScrollView>
-        
-        {loading &&
-          <ActivityIndicator size="large" 
+
+        {loading && (
+          <ActivityIndicator
+            size="large"
             style={{
-              backgroundColor:'rgba(52, 52, 52, 0.6)',
+              backgroundColor: 'rgba(52, 52, 52, 0.6)',
               width: '100%',
               height: '100%',
-              alignSelf:'center',
-              position:'absolute',
-              top:0,
-              bottom:0,
+              alignSelf: 'center',
+              position: 'absolute',
+              top: 0,
+              bottom: 0,
             }}
             animating={true}
           />
-        }
+        )}
       </SafeAreaView>
     </Provider>
   );
@@ -630,10 +814,11 @@ const themeText = {
   colors: {
     placeholder: 'black',
     text: 'black',
-    primary: 'grey',
+    primary: '#F9F9F9',
     underlineColor: 'transparent',
-    background: 'transparent',
+    background: '#F9F9F9',
   },
+  roundness:8,
 };
 
 const styles = StyleSheet.create({
@@ -645,28 +830,29 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   regionTitle: {
-    fontSize: 12,
+    fontSize: 13,
     alignSelf: 'center',
-    marginTop: 24,
-    color: 'black',
-    marginStart: 24,
-    fontFamily:'NeutrifPro-Regular',
-    marginBottom: 16,
+    color: '400',
+    color: '#F2994A',
+    marginEnd: '2%',
+    marginStart: '2%',
+    fontFamily: 'NeutrifPro-Regular',
   },
   title: {
-    backgroundColor: 'transparent',
-    marginStart: 24,
-    marginEnd: 24,
-    height: 45,
-    fontFamily:'NeutrifPro-Regular',
-    marginBottom: 8,
+    backgroundColor: '#F9F9F9',
+    marginStart: 20,
+    marginEnd: 20,
+    height: 46,
+    borderRadius: 8,
+    fontFamily: 'NeutrifPro-Regular',
+    marginBottom: 40,
     color: 'black',
   },
   subTitle: {
-    fontSize: 12,
+    fontSize: 16,
     color: 'black',
-    marginStart: 24,
-    fontFamily:'NeutrifPro-Regular',
+    marginStart: 40,
+    fontFamily: 'NeutrifPro-Regular',
     marginBottom: 8,
     marginTop: 8,
   },
@@ -675,14 +861,14 @@ const styles = StyleSheet.create({
     height: 45,
     flex: 1,
     color: 'black',
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily: 'NeutrifPro-Regular',
     textAlign: 'center',
   },
   customYear: {
     backgroundColor: 'transparent',
     height: 45,
     maxHeight: 50,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily: 'NeutrifPro-Regular',
     flex: 1,
     color: 'black',
     textAlign: 'center',
@@ -691,7 +877,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: 'black',
     marginStart: 24,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily: 'NeutrifPro-Regular',
     marginBottom: 8,
     marginTop: 8,
   },

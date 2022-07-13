@@ -2,7 +2,7 @@ import DeviceInfo from 'react-native-device-info'
 import {Platform} from 'react-native'
 
 var _Environments = {
-    production:  {BASE_URL: 'https://semaranggreatsale.com/', ENV: 'PRODUCTION', API_KEY: ''},
+    production:  {BASE_URL: 'https://admin.semaranggreatsale.com/', ENV: 'PRODUCTION', API_KEY: ''},
     staging:     {BASE_URL: 'https://dev.semaranggreatsale.com/', ENV: 'STAGING', API_KEY: ''},
     development: {BASE_URL: 'https://dev.semaranggreatsale.com/', ENV: 'DEVELOPMENT', API_KEY: ''},
 }
@@ -18,6 +18,8 @@ function getEnvironment() {
         let devic = data.length;
         if(data[devic-1] == 'dev'){
             platform = 'development';
+        }else{
+            platform = 'production';
         }
         return _Environments[platform]
     }
