@@ -36,7 +36,10 @@
 //    }
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-  [FIRApp configure];
+  if ([FIRApp defaultApp] == nil) {
+      [FIRApp configure];
+    }
+
   RCTAppSetupPrepareApp(application);
   [GMSServices provideAPIKey:@"AIzaSyDKgULQJ7OAafnepNlic0Np2T-u1d2WxP4"];
   UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
