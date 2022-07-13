@@ -47,8 +47,14 @@ export default function DetailMerchant({ navigation, route }) {
   },[navigation]);
 
   const renderingPromo = ({ item }) => {
-    return <ListPromo item={item} />;
+    return <ListPromo item={item} click={promoGet} />;
   };
+
+  const promoGet = (item) =>{
+      navigation.navigate('DetailPromo', {
+        id : item.id_i,
+      });
+  }
 
   const DetailGet = async () => {
     await Api.get(`merchant/all/${id_m}/`, 1)
@@ -176,24 +182,30 @@ export default function DetailMerchant({ navigation, route }) {
               fontSize:16
             }]}>{getDetail.nama}</Text>
           </View>
-          <View style={styling.itemDetailContainer} >
+          <Pressable style={styling.itemDetailContainer} >
             <SimpleIcon name="location-pin" size={28} color={'#0f2e63'} />
-            <Text style={[styling.itemTextDetail,{
-              width:200,
+            <Text numberOfLines={2} style={[styling.itemTextDetail,{
+              width:'50%',
             }]}>{getDetail.alamat}</Text>
-          </View>
-          <View style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openLink(`tel:///${getDetail.notelp}`)}: ()=>{}}>
+          </Pressable>
+          <Pressable style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openLink(`tel:///${getDetail.notelp}`)}: ()=>{}}>
             <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
-            <Text style={styling.itemTextDetail}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
-          </View>
-          <View style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}>
+            <Text numberOfLines={2} style={[styling.itemTextDetail,{
+               width:'50%',
+            }]}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
+          </Pressable>
+          <Pressable style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}>
             <FeatherIcon name="instagram" size={28} color={'#0f2e63'}/>
-            <Text style={styling.itemTextDetail}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
-          </View>
-          <View style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(`www.facebook.com/${getDetail.link_fb}`)}: ()=>{}}>
+            <Text numberOfLines={2} style={[styling.itemTextDetail,{
+               width:'50%',
+            }]}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
+          </Pressable>
+          <Pressable style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(`www.facebook.com/${getDetail.link_fb}`)}: ()=>{}}>
             <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
-            <Text style={styling.itemTextDetail}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
-          </View>
+            <Text numberOfLines={2} style={[styling.itemTextDetail,{
+               width:'50%',
+            }]}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
+          </Pressable>
 <View style={styling.constainerMaps} >
 <MapView
 style={styling.MapsStyle}
@@ -392,6 +404,7 @@ const styling = StyleSheet.create({
     fontWeight: '800',
     color: 'white',
     alignSelf: 'center',
+    textAlign:'center',
     fontFamily:'NeutrifPro-Regular',
     marginEnd: windowWidth / 4,
   },

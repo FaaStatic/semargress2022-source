@@ -1,6 +1,6 @@
 import React, { useState,useCallback } from 'react';
-import { SafeAreaView, Text, View, Image, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import Pressable from 'react-native/Libraries/Components/Pressable/Pressable';
+import { SafeAreaView, Text, View, Image, StyleSheet, Dimensions, ScrollView, Pressable } from 'react-native';
+
 
 
 const { height : HEIGHT_CONTAINER } = Dimensions.get('window');
@@ -32,7 +32,7 @@ return(<View style={style.container}>
                 marginEnd:4,
                 fontFamily:'NeutrifPro-Reguler'
             }]}>{item.profile_name}</Text> 
-            <Text style={[style.textDeskripsi,]}>{` ${item.media_caption}`}</Text>
+            <Text style={[style.textDeskripsi,]}>{  item.media_caption !== null || item.media_caption != '' ? `${item.media_caption}`: 'Tidak Ada Deskripsi'}</Text>
         </Text>{show >5  ? <Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
             color:'#828282',
             marginStart:8,
