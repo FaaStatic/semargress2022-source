@@ -6,13 +6,13 @@ import PushNotification from 'react-native-push-notification';
 import firebase from '@react-native-firebase/app';
 
 var firebaseConfig = {
-  apiKey: 'api-key',
+  apiKey: 'AIzaSyBcnaLt3yXVh4nLergCrtMDADP1Vq0VuJE',
   authDomain: 'project-id.firebaseapp.com',
-  databaseURL: 'https://firebaseapp.com',
-  projectId: 'project-id',
-  storageBucket: 'project-id.appspot.com',
-  messagingSenderId: '453568856155',
-  appId: 'app-id',
+  databaseURL: 'https://semargres2019.firebaseio.com',
+  projectId: 'semargres2019',
+  storageBucket: 'semargres2019.appspot.com',
+  messagingSenderId: '356805825965',
+  appId: '1:356805825965:ios:a8c00486499f8e41',
   measurementId: 'G-measurement-id',
 };
 

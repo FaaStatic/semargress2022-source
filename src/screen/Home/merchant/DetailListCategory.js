@@ -27,7 +27,8 @@ export default function DetailListCategory({ navigation, route }) {
   const [extraData, setExtraData] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [length, setLength] = useState(10);
+  const [openLoad, setOpenLoad] = useState(false);
+  let length = 11;
   const [refreshing, setRefresh] = useState(false);
   const [isLast, setLast] = useState(false);
   const [responList, setResponList] = useState([]);
@@ -43,6 +44,7 @@ export default function DetailListCategory({ navigation, route }) {
   let onProgress = false;
 
   useEffect(() => {
+    setOpenLoad(true);
     console.log('routeparams', route.params);
     console.log('idk', id_k);
     offset = 0;
@@ -54,6 +56,7 @@ export default function DetailListCategory({ navigation, route }) {
     setResponList([]);
     loadSession();
     const unsubscribe = navigation.addListener('focus', () => {
+      setOpenLoad(true);
       offset = 0;
       onProgress = false;
       setExtraData(false);
@@ -65,7 +68,7 @@ export default function DetailListCategory({ navigation, route }) {
     return () => {
       unsubscribe;
     };
-  }, [navigation]);
+  }, [navigation, GrantLocation, currentLocation]);
 
   const currentLocation = () => {
     try {
@@ -93,6 +96,27 @@ export default function DetailListCategory({ navigation, route }) {
       console.log(error.message);
     }
   };
+
+
+  const loadIndice = useCallback(() => {
+    if (loading) {
+      return (
+        <View
+          style={{
+            justifyContent: 'center',
+            marginTop: 8,
+            marginBottom: 8,
+          }}
+        >
+          <DotIndicator color="#251468" size={10} />
+        </View>
+      );
+    } else {
+      return <></>;
+    }
+  });
+
+
   const GrantLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(
@@ -108,9 +132,9 @@ export default function DetailListCategory({ navigation, route }) {
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTES) {
         console.log('StatusLokasi', granted);
+        getListItem();
       } else {
         console.log('StatusLokasi', granted);
-       
       }
     } catch (error) {
       console.log(error.message);
@@ -132,7 +156,7 @@ export default function DetailListCategory({ navigation, route }) {
       kategori: id_k,
       keyword: '',
     };
-
+      console.log('logoffeset', offset);
     await Api.post('merchant/nearby_with_ads', param)
       .then((res) => {
         let body = res.data;
@@ -142,7 +166,6 @@ export default function DetailListCategory({ navigation, route }) {
         console.log('tessaja', response);
         if (metadata.status === 200) {
           setResponList(data);
-         
           var merchant = [];
           var listNew = [];
           response.forEach((element) => {
@@ -161,37 +184,50 @@ export default function DetailListCategory({ navigation, route }) {
                 data: element,
               });
             }
+            console.log("pjgresponse",response.length)
             setResponList(offset == 0 ? listNew : [...responList, ...listNew]);
-            offset = response.length !== 0 ? offset + response.length : offset;
-            setLast(response.length !== length ? true : false);
+            setLast(response.length !== length  ? true : false);
             setListKosong(false);
-            setJumlahItem(jumlahItem + response.length);
-            console.log('testestes',listNew);
+            console.log('testestes',isLast);
+            setLoading(false);
+            setOpenLoad(false);
           
           });
 
           setJumlahItem(jumlahItem + response.length);
         } else if (metadata.status === 401) {
           setListKosong(true);
-        } else {
+          setLoading(false);
+          setOpenLoad(false);
+        } else if(metadata.status === 404){
+          setLast(true);
+          setLoading(false);
+          setOpenLoad(false);
+        }else {
           if (offset == 0) {
             setListKosong(true);
           }
           setLast(true);
+          setLoading(false);
+          setOpenLoad(false);
         }
         setExtraData(!extraData);
       })
       .catch((error) => {
         onProgress = false;
         console.log(error);
+        setLoading(false);
+        setOpenLoad(false);
       });
   };
 
   const loadMore = async () => {
-    if (isLast === false) {
+    if (isLast) {
+      setLoading(true);
       offset += length;
-      getListItem();
-    }
+      console.log('logvar', offset )
+      currentLocation();
+     }
   };
 
   const moveDetail = (data) => {
@@ -237,15 +273,19 @@ export default function DetailListCategory({ navigation, route }) {
 
   return (
     <SafeAreaView style={style.container}>
-      <FlatList
+      
+      {openLoad ?   <BallIndicator size={40} color={'#0F2E63'}/> :    <FlatList
         data={responList}
         renderItem={itemRender}
         extraData={extraData}
         keyExtractor={(item,index) => {index.toString()}}
         showsVerticalScrollIndicator={false}
+        ListFooterComponent={loadIndice}
         onEndReached={loadMore}
         style={style.listStyle}
-      />
+      /> }
+    
+   
     </SafeAreaView>
   );
 }

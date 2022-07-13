@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Dimensions } from 'react-native';
+import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native';
 import EvilIcons from'react-native-vector-icons/EvilIcons';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, {
@@ -20,7 +20,7 @@ const BottomSheetWisata = forwardRef(
   const contextBS = useSharedValue({ y: 0 });
   const MAX_TRANSLATE_Y = -SCREEN_HEIGHT;
   const statHeight = useSharedValue(false);
-  const [statIcon, setStatIcon] = useState(false);
+  const [statIcon, setStatIcon] = useState(true);
 
   const ScrollTo = useCallback((destination) => {
     'worklet';
@@ -73,39 +73,41 @@ const BottomSheetWisata = forwardRef(
   });
 
 
-  const buttonUp = () => {
-    ScrollTo(MAX_TRANSLATE_Y);
-    setStatIcon(true);
-  };
 
-  const buttonDown = () => {
-    const valueScroll = -SCREEN_HEIGHT / 5.5;
-    ScrollTo(valueScroll);
-    setStatIcon(false);
+  const updown = () => {
+    if(statIcon){
+      ScrollTo(MAX_TRANSLATE_Y);
+      setStatIcon(!statIcon);
+    }else{
+      const valueScroll = -SCREEN_HEIGHT / 5.5;
+      ScrollTo(valueScroll);
+      setStatIcon(!statIcon);
+    }
+   
   };
 
   return (
     // <GestureDetector gesture={gestureFunc}>
       <Animated.View style={[style.container, styleBottomSheet]}>
-        <View style={style.containerHeader}>
-          {statIcon || statHeight.value ? (
-            <EvilIcons name="chevron-down" color={'#0F2E63'}
-            size={40} style={style.iconArrow} onPress={
-                buttonDown
-            }/>
+        <Pressable style={style.containerHeader} onPress={
+                updown
+            }>
+          {statIcon ? (
+            <EvilIcons name="chevron-up" color={'#0F2E63'}
+            size={40} style={style.iconArrow}/>
           ) : (
             <EvilIcons
-              name="chevron-up"
+              name="chevron-down"
               color={'#0F2E63'}
               size={40}
               style={style.iconArrow}
-              onPress={buttonUp}
+            
             />
           )}
 
           <Text style={style.textStyle}>Lihat Merchant Terdekat</Text>
         
-        </View>
+        </Pressable>
         <View style={{
             marginTop:16,
           }}>
@@ -145,6 +147,8 @@ const style = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     alignSelf: 'center',
+    marginBottom:16,
+    fontFamily:'NeutrifPro-Reguler'
   },
 });
 

@@ -323,8 +323,9 @@ export default function Login({ navigation }) {
       <SafeAreaView style={style.conteiner2}>
         
         <ScrollView showsVerticalScrollIndicator={false}>
-
-          <View style={style.containerSplash}>
+          <View style={[style.containerSplash,{
+              backgroundColor:'#251468'
+          }]}>
             <View
               style={{
                 backgroundColor: 'white',
@@ -375,7 +376,7 @@ export default function Login({ navigation }) {
               <TouchableOpacity
                 onPress={showModal}
                 style={{
-                  backgroundColor:colors.yellow2,
+                  backgroundColor:'#FB44A0',
                   justifyContent:'center',
                   alignItems:'center',
                   alignSelf:'center',
@@ -441,8 +442,9 @@ export default function Login({ navigation }) {
           transparent={true}
         >
           <View style={{ justifyContent: 'center', flex:1, backgroundColor:'rgba(52, 52, 52, 0.6)' }}>
-            <ImageBackground
-              source={require('../../assets/bgot.png')}
+           
+            <View
+              // source={require('../../assets/bgot.png')}
               style={{
                 borderRadius: 16,
                 alignSelf: 'center',
@@ -450,9 +452,10 @@ export default function Login({ navigation }) {
                 width: 250,
                 overflow: 'hidden',
                 justifyContent: 'center',
+                backgroundColor:'#251468',
                 marginBottom: 20,
               }}
-              resizeMode="stretch"
+              // resizeMode="stretch"
             >
               <Text
                 style={{
@@ -472,7 +475,7 @@ export default function Login({ navigation }) {
                 keyboardType="number-pad"
                 value={otp}
                 onChangeText={(text) => setOtp(text)}
-                placeholder="000000"
+                placeholder="OTP"
                 placeholderTextColor={'#FFFFFF66'}
                 style={{
                   width:200,
@@ -515,14 +518,14 @@ export default function Login({ navigation }) {
                   alignSelf: 'center',
                   marginTop: 16,
                   color: 'white',
-                  backgroundColor:colors.yellow2, 
+                  backgroundColor:'#FB44A0', 
                   borderRadius:6,
                 }}
               >
                   <Text style={{ color: 'white', fontWeight: '600', marginLeft:20, marginRight:20, marginTop:8, marginBottom:8,fontFamily:'NeutrifPro-Regular', }}>Kirim</Text>
               </TouchableOpacity>
 
-            </ImageBackground>
+            </View>
           </View>
         </Modal>
     </SafeAreaView>

@@ -1,11 +1,12 @@
 import React from 'react';
-import { SafeAreaView, Image, StyleSheet } from 'react-native';
+import { SafeAreaView, Image, StyleSheet,Pressable  } from 'react-native';
+
 
 export default function ListPromo({item, click}){
  return(
-    <SafeAreaView style={style.container}>
+    <Pressable style={style.container} onPress={()=>{click(item)}}>
         <Image source={{uri : item.gambar}} style={style.imageStyle}/>
-    </SafeAreaView>
+    </Pressable>
  );
 }
 

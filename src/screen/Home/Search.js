@@ -1,137 +1,147 @@
-import React,{useCallback, useEffect, useState} from 'react';
-import { SafeAreaView, StyleSheet, FlatList, Image, Dimensions, PermissionsAndroid,Text, View } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  Image,
+  Dimensions,
+  PermissionsAndroid,
+  Text,
+  View,
+} from 'react-native';
 import { Api } from '../../util/Api';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native-paper';
 import Geolocation from 'react-native-geolocation-service';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import MerchanList from '../../util/ListItem/MerchantList';
+import { BallIndicator } from 'react-native-indicators';
 let latitude = 0;
 let longitude = 0;
-const {width : SCREEN_WIDTH} = Dimensions.get('window');
-const {height : SCREEN_HEIGHT} = Dimensions.get('window');
-export default function Search({navigation, route}){
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+export default function Search({ navigation, route }) {
+  const [iconVisible, setIconVisible] = useState(false);
+  const [textInput, setTextInput] = useState('');
+  const [response, setResponse] = useState([]);
+  const [dataKosong, setDataKosong] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [msg, setMsg] = useState('');
 
-    const [iconVisible, setIconVisible] = useState(false);
-    const [textInput, setTextInput] = useState('');
-    const [response,setResponse] = useState([]);
-    const [dataKosong, setDataKosong] = useState(false);
-    const [msg,setMsg] = useState('');
-  
-    useEffect(()=>{
+  useEffect(() => {
+    GrantLocation();
+    setTextInput('');
+    const subscribe = navigation.addListener('focus', () => {
       GrantLocation();
       setTextInput('');
-      const subscribe = navigation.addListener('focus', ()=> {
-        GrantLocation();
-        setTextInput('');
-      });
+    });
 
-      return()=>{
-          subscribe;
-      }
+    return () => {
+      subscribe;
+    };
+  }, [navigation, GrantLocation]);
 
-    },[navigation, GrantLocation])
-
-    const currentLocation = () => {
-      try {
-        Geolocation.getCurrentPosition(
-          async (pos) => {
-            const datalatitude = pos.coords.latitude;
-            const datalongitude = pos.coords.longitude;
+  const currentLocation = () => {
+    setLoading(true)
+    try {
+      Geolocation.getCurrentPosition(
+        async (pos) => {
+          const datalatitude = pos.coords.latitude;
+          const datalongitude = pos.coords.longitude;
           latitude = datalatitude;
           longitude = datalongitude;
           onSearch();
-          },
-          (err) => {
-            console.log(err.message);
-          },
-          { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
-        );
-      } catch (error) {
-        console.log(error.message);
-      }
-    };
-    const GrantLocation = async () => {
-      try {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: 'Semargress Meminta Izin Lokasi',
-            message:
-              'Semargress Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
-            buttonNeutral: 'Tanya Nanti',
-            buttonNegative: 'Batal',
-            buttonPositive: 'Iya',
-          }
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTES) {
-          console.log('StatusLokasi', granted);
-        } else {
-          console.log('StatusLokasi', granted);
+        },
+        (err) => {
+          console.log(err.message);
+        },
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+  const GrantLocation = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: 'Semargress Meminta Izin Lokasi',
+          message:
+            'Semargress Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
+          buttonNeutral: 'Tanya Nanti',
+          buttonNegative: 'Batal',
+          buttonPositive: 'Iya',
         }
-      } catch (error) {
-        console.log(error.message);
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTES) {
+        console.log('StatusLokasi', granted);
+      } else {
+        console.log('StatusLokasi', granted);
       }
-    };
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
-
-
-    const onSearch = async () =>{
-      await Api.post('merchant/nearby_with_ads/',{
-        "latitude" : latitude,
-        "longitude" : longitude,
-        "start" : 0,
-        "count" : 10,
-        "jarak" : 50,
-        "kategori" : "",
-        "keyword" : textInput
-      }).then(res =>{
+  const onSearch = async () => {
+    await Api.post('merchant/nearby_with_ads/', {
+      latitude: latitude,
+      longitude: longitude,
+      start: 0,
+      count: 10,
+      jarak: 50,
+      kategori: '',
+      keyword: textInput,
+    })
+      .then((res) => {
         let body = res.data;
         let response = body.response;
         let metadata = body.metadata;
-        if(metadata.status === 200){
-          console.log('statusresponse', response)
+        if (metadata.status === 200) {
+          console.log('statusresponse', response);
           setResponse(response);
           setDataKosong(true);
           ShowSuccess(metadata.message);
-
-        }else if(metadata.status === 401){
+          setLoading(false);
+        } else if (metadata.status === 401) {
           setResponse([]);
           ShowWarning(metadata.message);
           setDataKosong(false);
           setMsg(metadata.message);
           console.log(metadata.message);
-
-        }else{
+          setLoading(false);
+        } else {
           setResponse([]);
           setDataKosong(false);
           setMsg(metadata.message);
           ShowWarning(metadata.message);
           console.log(metadata.message);
+          setLoading(false);
         }
-
-      }).catch(err => {
+      })
+      .catch((err) => {
         ShowError(metadata.message);
         console.log(err);
-      })
-    }
-
-    const moveDetail = (value) =>{
-      navigation.navigate('DetailMerchant', {
-        id_m : value.id_m
+        setLoading(false);
       });
+  };
+
+  const moveDetail = (value) => {
+    navigation.navigate('DetailMerchant', {
+      id_m: value.id_m,
+    });
+  };
+
+  const itemRender = useCallback(({ item }) => {
+    if (item.flag_tipe === 'merchant') {
+      return <MerchanList item={item} pressCall={moveDetail} />;
     }
+  });
 
-    const itemRender = useCallback(({item})=>{
-      if(item.flag_tipe === 'merchant'){
-        return(
-          <MerchanList item={item} pressCall={moveDetail}/>
-        )
-      }
-    })
-
-    return(<SafeAreaView style={style.container}>
-        <View style={style.containerHeader}>
+  return (
+    <SafeAreaView style={style.container}>
+      <View style={style.containerHeader}>
         <Image
           source={require('../../assets/header_app.png')}
           style={{
@@ -144,10 +154,10 @@ export default function Search({navigation, route}){
           }}
           resizeMode={'stretch'}
         />
-        <View style={style.searchView}>  
-        <TextInput
+        <View style={style.searchView}>
+          <TextInput
             mode="flat"
-            selectionColor='grey'
+            selectionColor="grey"
             autoFocus={true}
             underlineColor="transparent"
             activeUnderlineColor="transparent"
@@ -156,41 +166,68 @@ export default function Search({navigation, route}){
             onFocus={() => setIconVisible(true)}
             onBlur={() => setIconVisible(false)}
             value={textInput}
-            onChangeText={(Value)=>{setTextInput(Value)}}
+            onChangeText={(Value) => {
+              setTextInput(Value);
+            }}
             style={style.SearchStyle}
             onSubmitEditing={currentLocation}
           />
-          {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />} 
+          {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />}
         </View>
-     
-           {/* <Pressable style={style.iconNotif}>
-            <Icon name="notifications" size={36} color="white" />
-          </Pressable> */}
+      </View>
+      {loading ? (
+          <BallIndicator
+            size={60}
+            color={'#0F2E63'}
+            style={{
+              marginTop:'10%',
+              alignSelf: 'center',
+            }}
+          />
+      ) : (
+        <View
+          style={{
+            flex: 1,
+          }}
+        >
+          {dataKosong ? (
+            <FlatList
+              data={response}
+              renderItem={itemRender}
+              showsVerticalScrollIndicator={false}
+              horizontal={false}
+              keyExtractor={(item, index) => {
+                index.toString();
+              }}
+              numColumns={2}
+              contentContainerStyle={style.flatContainer}
+              style={style.flatlistStyle}
+            />
+          ) : (
+            <View
+              style={{
+                height: '100%',
+                justifyContent: 'center',
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 24,
+                  fontWeight: '800',
+                  color: 'black',
+                  fontFamily: 'NeutrifPro-Regular',
+                  alignSelf: 'center',
+                  textAlign:'center',
+                }}
+              >
+                Tidak Ditemukan Merchant Terdekat :"(
+              </Text>
+            </View>
+          )}
         </View>
-  
-        <View style ={{
-          marginTop:8,
-          flex:1,
-        }}>
-        { dataKosong ?  <FlatList
-          data={response}
-          renderItem={itemRender}
-          showsVerticalScrollIndicator={false}
-          horizontal={false}
-          keyExtractor={(item,index) => {index.toString()}}
-            numColumns={2}
-          contentContainerStyle={style.flatContainer}
-            style={style.flatlistStyle}
-        /> : <Text style={{
-          fontSize:24,
-          fontWeight:'bold',
-          color:'black',
-          alignSelf:'center'
-        }}>{msg != '' ? msg : '' }</Text>}
-      
-
-        </View>
-    </SafeAreaView>);
+      )}
+    </SafeAreaView>
+  );
 }
 
 const themeSearch = {
@@ -203,49 +240,50 @@ const themeSearch = {
 };
 
 const style = StyleSheet.create({
-  flatContainer:{
-    justifyContent:'center',
-    width:SCREEN_WIDTH,
-    fontFamily:'NeutrifPro-Regular'
+  flatContainer: {
+    marginTop:'5%',
+    justifyContent: 'center',
+    width: SCREEN_WIDTH,
+    fontFamily: 'NeutrifPro-Regular',
   },
-  flatlistStyle:{
-    fontFamily:'NeutrifPro-Regular'
+  flatlistStyle: {
+    fontFamily: 'NeutrifPro-Regular',
   },
-  container:{
-    flex:1,
-    fontFamily:'NeutrifPro-Regular',
-    flexDirection:'column',
-    backgroundColor:'white'
+  container: {
+    flex: 1,
+    height:'100%',
+    fontFamily: 'NeutrifPro-Regular',
+    flexDirection: 'column',
+    backgroundColor: 'white',
+    justifyContent: 'center',
   },
-    containerHeader:{
-        height:100,
-        backgroundColor: '#0F2E63'
-    },
-    searchView: {
-        borderRadius: 16,
-        backgroundColor: 'white',
-        position: 'absolute',
-        borderRadius: 8,
-        bottom: 0,
-        width:350,
-        marginStart: 16,
-        marginEnd:16,
-        marginBottom:15,
-        backgroundColor:'white',
-        flexDirection: 'row',
-      },
-      SearchStyle: {
-        width: 300,
-        alignSelf: 'flex-start',
-        height: 36,
-        marginStart: 6,
-        marginEnd:6,
-        backgroundColor: 'transparent',
-      },
-      iconSearch: {
-        marginTop: 4,
-        marginStart: 6,
-      },
-    
-
+  containerHeader: {
+    height: 100,
+    backgroundColor: '#0F2E63',
+  },
+  searchView: {
+    borderRadius: 16,
+    backgroundColor: 'white',
+    position: 'absolute',
+    borderRadius: 8,
+    bottom: 0,
+    width: 350,
+    marginStart: 16,
+    marginEnd: 16,
+    marginBottom: 15,
+    backgroundColor: 'white',
+    flexDirection: 'row',
+  },
+  SearchStyle: {
+    width: 300,
+    alignSelf: 'flex-start',
+    height: 36,
+    marginStart: 6,
+    marginEnd: 6,
+    backgroundColor: 'transparent',
+  },
+  iconSearch: {
+    marginTop: 4,
+    marginStart: 6,
+  },
 });

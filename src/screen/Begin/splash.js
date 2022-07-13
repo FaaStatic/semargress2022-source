@@ -98,7 +98,7 @@ export default function Splash({navigation}) {
             position: 'absolute',
             marginBottom: 36,
           }}>
-          Copyrigth{'\u00A9'}2022
+          Copyright{'\u00A9'}2022
         </Text>
     </SafeAreaView>
    
