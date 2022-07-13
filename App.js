@@ -1,8 +1,9 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import Router from './src/util/router/router';
 import FlashMessage from "react-native-flash-message";
-import { StatusBar, SafeAreaView, View} from 'react-native';
+import { StatusBar, SafeAreaView, View } from 'react-native';
 import PushNotification from 'react-native-push-notification';
+import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firebase from '@react-native-firebase/app';
 
 var firebaseConfig = {
@@ -16,17 +17,14 @@ var firebaseConfig = {
   measurementId: 'G-measurement-id',
 };
 
-
-
-
 function App() {
 
-  useEffect(()=>{
+  useEffect(() => {
     if (!firebase.apps.length) {
       firebase.initializeApp(firebaseConfig);
     }
-PushNotification.createChannel(
-    {
+    PushNotification.createChannel(
+      {
         channelId: 'semargres',
         channelName: 'channel Semargres',
         channelDescription: 'A channel to categorise your notifications',
@@ -34,22 +32,37 @@ PushNotification.createChannel(
         soundName: 'default',
         importance: 4,
         vibrate: true,
-    },
+      },
       created => console.log(`createChannel returned '${created}'`),
-);
+    );
+
+    const type = 'notification';
+    PushNotificationIOS.addEventListener(type, onRemoteNotification);
+    return () => {
+      PushNotificationIOS.removeEventListener(type);
+    };
 
   })
 
+  const onRemoteNotification = (notification) => {
+    const isClicked = notification.getData().userInteraction === 1;
+
+    if (isClicked) {
+      // Navigate user to another screen
+    } else {
+      // Do something else with push notification
+    }
+  };
 
   return (
     <>
       <Router />
-      <FlashMessage 
-          hideStatusBar={false}
-          statusBarHeight={StatusBar.currentHeight}
-          floating={true}
-          animationDuration={240}
-          position="bottom" /> 
+      <FlashMessage
+        hideStatusBar={false}
+        statusBarHeight={StatusBar.currentHeight}
+        floating={true}
+        animationDuration={240}
+        position="bottom" />
     </>
   );
 }
