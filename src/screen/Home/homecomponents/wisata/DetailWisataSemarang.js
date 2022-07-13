@@ -272,7 +272,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
   marginBottom:'5%',
   justifyContent:'center'
 }} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
-  <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
+  <Image source={require('../../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
 </Pressable>
           </View>
         </View>
