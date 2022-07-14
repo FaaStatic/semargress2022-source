@@ -192,8 +192,11 @@ export default function EKupon({ navigation, route }) {
     keyExtractor={(item,index) => index.toString()}
     onEndReached={loadMore}
     extraData={extraData}
+    showsVerticalScrollIndicator={false}
     contentContainerStyle={{
-      height:SCREEN_HEIGHT
+        bottom:0,
+        top:0,
+        minHeight:'130%'
     }}
     style={style.listcontainer}/>
   </SafeAreaView>;
@@ -202,5 +205,6 @@ export default function EKupon({ navigation, route }) {
 const style=StyleSheet.create({
     listcontainer : {
         backgroundColor:'white',
+       
     }
 })

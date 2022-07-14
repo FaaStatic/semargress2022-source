@@ -14,6 +14,7 @@ import {
   BackHandler,
   Alert,
   Dimensions,
+  LogBox
 } from 'react-native';
 import Style from '../../util/style';
 import { SessionManager } from '../../util/SessionManager';
@@ -27,6 +28,7 @@ import HomeMerchantList from '../../util/ListItem/HomeMerchantList';
 import SpotWisataList from '../../util/ListItem/SpotWisataList';
 import {Environment} from '../../util/environment';
 import messaging from '@react-native-firebase/messaging';
+import ListPromoHome from '../../util/ListItem/ListPromoHome';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -38,6 +40,7 @@ export default function Home({ navigation, route }) {
   const [banner, setBanner] = useState([]);
   const [merchantPop, setMerchantPop] = useState([]);
   const [countKoupon, setCountKoupon] = useState(0);
+  const [promoUser, setPromoUser] = useState([]);
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
   const [left, setLeft] = useState(true);
@@ -67,10 +70,12 @@ export default function Home({ navigation, route }) {
     checkSession();
     kategoriHome();
     jumlahCoupon();
+    getPromo();
     getBannerSlider();
     merchantPopuler();
     getSpotPariwisata();
     checkFCMToken();
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
     const unsubscribe = navigation.addListener('focus', () => {
       setMerchantPop([]);
       setSpotWisata([]);
@@ -78,6 +83,8 @@ export default function Home({ navigation, route }) {
       checkSession();
       kategoriHome();
       jumlahCoupon();
+      getPromo();
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
       getBannerSlider();
       merchantPopuler();
       getSpotPariwisata();
@@ -229,6 +236,39 @@ export default function Home({ navigation, route }) {
     navigation.navigate('HomeWisata');
   }
 
+
+  const getPromo = async () => {
+    await Api.post('api/popup_promo/get_promo', {
+      "start" : 0,
+      "limit" : 5
+    }).then(res => {
+      var body = res.data;
+      var response = body.response.promo;
+      var metadata = body.metadata;
+      if(metadata.status === 200){
+        setPromoUser(response);
+      }else if(metadata.status === 401){
+
+      }else{
+
+      }
+    }).catch(err => {
+      console.log(err.message);
+    })
+  }
+
+  const renderItemPromo = useCallback(({item})=>{
+    return(
+      <ListPromoHome item={item} pressCall={moveDetailPromo} />
+    );
+  })
+
+  const moveDetailPromo = (value) =>{
+    navigation.navigate('DetailPromo', {
+      id : value.id_i
+    })
+  }
+
 const showAllDestination = () =>{
       return(
         <Pressable style={style.containerFooter} onPress={moveHomeWisata}>
@@ -277,19 +317,19 @@ const showAllDestination = () =>{
         />
         <View style={style.searchView}>
         <Pressable style={style.SearchStyle} onPress={()=>{navigation.navigate('Search')}}>
-        <SafeAreaView style={{
+        <View style={{
           flexDirection:'row',
           width:'100%',
         }}>
         <Text style={{
           color:'grey',
           fontSize:13,
-          width:205,
+          width:'85%',
           marginTop:2,
           marginStart:6,
         }}>Cari Merchant</Text>
         <Icon name="search" size={22} color="#4F4F4F" style={style.iconSearch} />
-        </SafeAreaView>
+        </View>
         </Pressable>
         </View>
         
@@ -454,6 +494,37 @@ const showAllDestination = () =>{
           </ImageBackground>
          
         </View>
+       <View 
+        style={{
+          backgroundColor:'white',
+        }}>
+  <Text style={{
+          fontSize:20,
+          fontWeight:'600',
+          color:'#333333',
+          fontFamily: 'NeutrifPro-Reguler',
+          marginStart:18,
+          marginTop:40,
+
+        }}>Promo Hari Ini</Text>   
+       
+       <ScrollView>
+
+           <FlatList
+              nestedScrollEnabled={true}
+              data={promoUser}
+              keyExtractor={(item,index) => index.toString()}
+              showsVerticalScrollIndicator={false}
+              renderItem={renderItemPromo}
+              style={{
+                marginStart:18,
+                marginTop:28,
+              }}
+            />
+            </ScrollView>
+           
+        </View>
+      
       </ScrollView>
 
       {Environment.ENV != 'PRODUCTION' && 
@@ -539,19 +610,19 @@ imagestyleBg:{
   },
   searchView: {
     flex: 1,
-    width: 250,
     borderRadius: 16,
     backgroundColor: 'white',
     position: 'absolute',
     borderRadius: 8,
     bottom: 0,
     marginStart: 16,
+    marginEnd: 16,
     marginBottom:15,
     backgroundColor:'white',
     flexDirection: 'row',
   },
   SearchStyle: {
-    width: 250,
+    width:'100%',
     justifyContent:'center',
     padding:0,
     alignSelf: 'flex-start',

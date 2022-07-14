@@ -51,7 +51,7 @@ const DetailQR = ({navigation, route}) => {
   const getData = () => {
 
       //console.log(param)
-      Api.get('qrcode')
+       Api.get('qrcode')
       .then(async (respon) => {
           let body = respon.data;
           let metadata = body.metadata;
@@ -67,7 +67,7 @@ const DetailQR = ({navigation, route}) => {
           }
       })
       .catch((error) => {
-          
+          console.log(error)
       })
   }
 
@@ -111,7 +111,7 @@ const DetailQR = ({navigation, route}) => {
                 navigation.goBack();
             }}
         >
-            <SimpleIcon name="arrow-left" size={18} color={colors.white} style={{
+            <SimpleIcon name="arrow-left" size={15} color={colors.white} style={{
                 marginTop: 24,
                 marginLeft: 24,
             }} />
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: colors.primary
+        backgroundColor: '#001F58'
 
     }
 });

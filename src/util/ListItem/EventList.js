@@ -22,7 +22,7 @@ export default function EventList({item, pressCall}){
                 fontSize:14,
                 width:'50%'
             }]}>
-              { item.keterangan == '' ?  item.keterangan : '-'}
+              { item.keterangan.length !== 0 ?  item.keterangan : '-'}
             </Text>
             <Pressable onPress={()=>{pressCall(item)}} style={{
                 flexDirection : 'row',
