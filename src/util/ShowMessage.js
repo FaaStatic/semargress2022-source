@@ -30,3 +30,15 @@ export const ShowError = (message) => {
       icon: "warning"
     });
   }
+
+  export const ShowNotif = (tittle, message) => {
+    showMessage({
+      message: tittle ? tittle : "Semargres 2022",
+      description: message ? message : "Harap teliti lagi masukan anda",
+      type: "default",
+      backgroundColor: "#f72545",
+      color: "#FFFFFF",
+      icon: "info",
+      position:'top'
+    });
+  }
