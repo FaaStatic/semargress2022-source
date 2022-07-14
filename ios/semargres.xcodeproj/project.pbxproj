@@ -11,6 +11,18 @@
 		0C84608C287ED98000B1521A /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 277C661A287E1D9B00141FAE /* GoogleService-Info.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
+		271A4FD2287F2D3E008A4960 /* NeutrifPro-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */; };
+		271A4FD3287F2D3E008A4960 /* NeutrifPro-BoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = D24CCC1DDD2B4A0FA6D907FB /* NeutrifPro-BoldItalic.ttf */; };
+		271A4FD4287F2D3E008A4960 /* NeutrifPro-Light.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 8C5837AC3FF349F1A3E39168 /* NeutrifPro-Light.ttf */; };
+		271A4FD5287F2D3E008A4960 /* NeutrifPro-LightItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C2533212545C39C7D6B14 /* NeutrifPro-LightItalic.ttf */; };
+		271A4FD6287F2D3E008A4960 /* NeutrifPro-Medium.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 893BF9289F60489789B53BC0 /* NeutrifPro-Medium.ttf */; };
+		271A4FD7287F2D3E008A4960 /* NeutrifPro-MediumItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = EFD79B5431D44C60A2AEE8E8 /* NeutrifPro-MediumItalic.ttf */; };
+		271A4FD8287F2D3E008A4960 /* NeutrifPro-Regular.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */; };
+		271A4FD9287F2D3E008A4960 /* NeutrifPro-RegularItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */; };
+		271A4FDA287F2D3E008A4960 /* NeutrifPro-SemiBold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */; };
+		271A4FDB287F2D3E008A4960 /* NeutrifPro-SemiBoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */; };
+		27D8A09D287FBF4600B6CED6 /* Images.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
+		27D8A09E287FBF4D00B6CED6 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 271A4FDC287F2F23008A4960 /* Assets.xcassets */; };
 		65CFE691C55FDB03D5FB39EC /* libPods-semargres-semargresTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1A6E901C2B252A8C0E2F2F1 /* libPods-semargres-semargresTests.a */; };
 		7CD59DE9348C4AEDA275B162 /* NeutrifPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */; };
 		825BF7FD3EE84319A7F9C9CB /* NeutrifPro-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */; };
@@ -48,7 +60,10 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = semargres/main.m; sourceTree = "<group>"; };
 		1A4DDD4F0CEB4A968ECA5CE5 /* MaterialCommunityIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialCommunityIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf"; sourceTree = "<group>"; };
 		1A5B0ABD3C9F4EC591F808BC /* FontAwesome5_Solid.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome5_Solid.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf"; sourceTree = "<group>"; };
+		271A4FDC287F2F23008A4960 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = semargres/Assets.xcassets; sourceTree = "<group>"; };
 		277C661A287E1D9B00141FAE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "semargres/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		27D8A09F287FBFFD00B6CED6 /* semargres.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = semargres.entitlements; path = semargres/semargres.entitlements; sourceTree = "<group>"; };
+		27D8A0A0287FC54D00B6CED6 /* appstore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = appstore.png; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-semargres.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-semargres.debug.xcconfig"; path = "Target Support Files/Pods-semargres/Pods-semargres.debug.xcconfig"; sourceTree = "<group>"; };
 		4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Regular.ttf"; path = "../src/assets/fonts/NeutrifPro-Regular.ttf"; sourceTree = "<group>"; };
 		4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "NeutrifPro-Bold.ttf"; path = "../src/assets/fonts/NeutrifPro-Bold.ttf"; sourceTree = "<group>"; };
@@ -122,6 +137,9 @@
 		13B07FAE1A68108700A75B9A /* semargres */ = {
 			isa = PBXGroup;
 			children = (
+				27D8A09F287FBFFD00B6CED6 /* semargres.entitlements */,
+				27D8A0A0287FC54D00B6CED6 /* appstore.png */,
+				271A4FDC287F2F23008A4960 /* Assets.xcassets */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -492,6 +510,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				27D8A09E287FBF4D00B6CED6 /* Assets.xcassets in Sources */,
+				27D8A09D287FBF4600B6CED6 /* Images.xcassets in Sources */,
+				271A4FD2287F2D3E008A4960 /* NeutrifPro-Bold.ttf in Sources */,
+				271A4FD3287F2D3E008A4960 /* NeutrifPro-BoldItalic.ttf in Sources */,
+				271A4FD4287F2D3E008A4960 /* NeutrifPro-Light.ttf in Sources */,
+				271A4FD5287F2D3E008A4960 /* NeutrifPro-LightItalic.ttf in Sources */,
+				271A4FD6287F2D3E008A4960 /* NeutrifPro-Medium.ttf in Sources */,
+				271A4FD7287F2D3E008A4960 /* NeutrifPro-MediumItalic.ttf in Sources */,
+				271A4FD8287F2D3E008A4960 /* NeutrifPro-Regular.ttf in Sources */,
+				271A4FD9287F2D3E008A4960 /* NeutrifPro-RegularItalic.ttf in Sources */,
+				271A4FDA287F2D3E008A4960 /* NeutrifPro-SemiBold.ttf in Sources */,
+				271A4FDB287F2D3E008A4960 /* NeutrifPro-SemiBoldItalic.ttf in Sources */,
 				0C84608C287ED98000B1521A /* GoogleService-Info.plist in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
@@ -565,7 +595,9 @@
 			baseConfigurationReference = 3B4392A12AC88292D35C810B /* Pods-semargres.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				ENABLE_BITCODE = NO;
@@ -583,6 +615,7 @@
 				PRODUCT_NAME = semargres;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -592,7 +625,9 @@
 			baseConfigurationReference = 5709B34CF0A7D63546082F79 /* Pods-semargres.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				INFOPLIST_FILE = semargres/Info.plist;
@@ -608,6 +643,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.gmedia.semargress2019;
 				PRODUCT_NAME = semargres;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
