@@ -31,20 +31,19 @@ export default function Feed({ navigation, route }) {
 
 
   useEffect(() => {
-    offset = 0;
-    setLoadingOpen(true);
-    onProgress = false;
-    setExtraData(!extraData)
-    setResponseFeed([]);
-    getFeed();
+    // offset = 0;
+    // setLoadingOpen(true);
+    // onProgress = false;
+    // setExtraData(!extraData)
+    // setResponseFeed([]);
+    // getFeed();
     const subscribe = navigation.addListener('focus', () => {
       console.log('TESSSSONRESUME', 'resume');
+      setResponseFeed([]);
       offset = 0;
-      // setOffset(0);
       setLoadingOpen(true);
       onProgress = false;
-      setExtraData(!extraData)
-      setResponseFeed([]);
+      setExtraData(!extraData)   
       getFeed();
     });
     return () => {
@@ -73,7 +72,8 @@ export default function Feed({ navigation, route }) {
   const loadmore = async () => {
     if (Last) {
       setLoadIndicator(true);
-      offset = offset + length;
+      offset += length;
+      console.log('jumlah', offset);
       getFeed();
     }else{
 
@@ -102,7 +102,7 @@ export default function Feed({ navigation, route }) {
         let metadata = body.metadata;
         onProgress = false;
         if (metadata.status === 200) {
-          console.log('testestesfeed', response);
+          //console.log('testestesfeed', response);
           setResponseFeed(offset === 0 ? response : responseFeed.concat(response));
           setLast(response.length !== length  ? true : false);
           onProgress = false;

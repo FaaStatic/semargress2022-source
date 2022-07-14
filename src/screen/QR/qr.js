@@ -8,12 +8,14 @@ import {
   Dimensions,
   TextInput,
   TouchableOpacity,
+  ImageBackground,
 } from 'react-native';
 import {Api} from '../../util/Api';
 import  {SessionManager}  from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
 import {ShowSuccess, ShowError, ShowWarning} from '../../util/ShowMessage';
 import {colors} from '../../util/color'
+import AntIcon from 'react-native-vector-icons/AntDesign'
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 
 const Qr = ({navigation, route}) => {
@@ -73,16 +75,16 @@ const Qr = ({navigation, route}) => {
         style={styles.container}
       >
         
-        <Image
-          source={require('../../assets/header_app.png')}
-          style={styles.imageHeder}
-        />
+      
 
         <Text style={styles.title} >QR Code</Text>
 
-        <View
-          style={[styles.divMain,{backgroundColor:colors.primary}]}
+        <ImageBackground
+        source={require('../../assets/bg_profile.png')}
+          style={[styles.divMain,{
+          }]}
         >
+      
           <View
             style={{
               flexDirection:'row',
@@ -119,7 +121,8 @@ const Qr = ({navigation, route}) => {
               <Text
                 style={{
                   color: colors.white,
-                  fontSize:18
+                  fontSize:18,
+                  fontWeight:'700'
                 }}
               >User QR Code</Text>
 
@@ -136,7 +139,8 @@ const Qr = ({navigation, route}) => {
             
             <TouchableOpacity
               style={{
-                alignSelf:'flex-end'
+                alignSelf:'flex-end',
+                flexDirection:'row',
               }}
               onPress={()=>{
                 navigation.navigate('DetailQR');
@@ -145,16 +149,19 @@ const Qr = ({navigation, route}) => {
                   <Text
                     style={{
                       color:'white',
-                      fontSize:16
+                      fontSize:16,
+                      marginEnd:12,
                     }}
                   >Lihat QR</Text>
+
+                  <AntIcon name='right' size={20} color={'#FFFFFF'}/>
             </TouchableOpacity>
-        </View>
+        </ImageBackground>
 
         <View
           style={[styles.divMain,{
             backgroundColor: colors.white,
-            borderColor: colors.primary,
+            borderColor: '#A57FF8',
             borderWidth:2
           }]}
         >
@@ -165,14 +172,16 @@ const Qr = ({navigation, route}) => {
               height: windowHeight/6,
             }}
           >
-            <View
+            <ImageBackground
               style={{
                 padding:30,
-                backgroundColor: colors.primary,
                 flex:1,
                 alignItems:'center',
                 borderRadius:10,
+                borderRadius:12,
+                overflow:'hidden',
               }}
+              source={require('../../assets/bg_profile.png')}
             >
               <Image
                 source={require('../../assets/scanqr.png')}
@@ -182,7 +191,7 @@ const Qr = ({navigation, route}) => {
                   height:'100%',
                 }}
               />
-            </View>
+            </ImageBackground>
 
             <View
               style={{
@@ -194,7 +203,8 @@ const Qr = ({navigation, route}) => {
               <Text
                 style={{
                   color: colors.primary,
-                  fontSize:18
+                  fontSize:18,
+                  fontWeight:'700'
                 }}
               >Scan QR Code</Text>
 
@@ -213,6 +223,7 @@ const Qr = ({navigation, route}) => {
             <TouchableOpacity
               style={{
                 alignSelf:'flex-end',
+                marginTop:43,
               }}
               onPress={()=>{
                 navigation.navigate('ScanQR');
@@ -221,7 +232,8 @@ const Qr = ({navigation, route}) => {
                   <Text
                     style={{
                       color:colors.primary,
-                      fontSize:16
+                      fontSize:16,
+                      fontWeight:'600',
                     }}
                   >Scan QR <SimpleIcon name="arrow-right" size={14  } color={colors.primary} style={{}} /></Text>
                   
@@ -247,10 +259,10 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf:'center',
-    marginTop:'10%',
+    marginTop:31,
     fontSize:25,
     fontWeight:'600',
-    color:'white'
+    color:'#333333'
   },
   container: {
     width: '100%',
@@ -258,10 +270,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column'
   },
   divMain : {
-    marginTop:30,
+    marginTop:43,
     padding:24,
     marginLeft: 24,
     marginRight: 24,
-    borderRadius: 14,
+    overflow:'hidden',
+    borderRadius: 12,
   }
 });

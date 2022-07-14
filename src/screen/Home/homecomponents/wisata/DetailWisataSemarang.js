@@ -142,15 +142,28 @@ export default function DetailWisataSemarang({ navigation, route }) {
   };  
 
   const openLink = async (url) => {
-    await Linking.canOpenURL(url);
-    Linking.openURL(url);
+    var text = url.toString();
+    var res = text.includes('www.');
+   
+    if(res){
+      await Linking.canOpenURL(url);
+      Linking.openURL(`https://${url}`);
+    }else {
+      await Linking.canOpenURL(url);
+      Linking.openURL(`instagram://user?username= ${url}`);
+    }
+    console.log(url);
+  
   };
 
-  const openMaps = (latitude, longitude) => {
-    const daddr = `${latitude},${longitude}`;
-    const company = Platform.OS === "ios" ? "apple" : "google";
-    Linking.openURL(`http://maps.${company}.com/maps?daddr=${daddr}`);
-  }
+  const openTel = async (url) => {
+
+   
+    await Linking.canOpenURL(url);
+    Linking.openURL(`tel://${url}`);
+    console.log(url);
+  
+  };
 
   const moveDetailMerchant = (data) => {
     // console.log(data);
@@ -214,19 +227,19 @@ export default function DetailWisataSemarang({ navigation, route }) {
               {detailResponse.alamat ? detailResponse.alamat : '-' }
             </Text>
           </View>
-          <View style={styling.itemDetailContainer} onPress={detailResponse.notelp ? ()=>{openLink(`tel:///${detailResponse.notelp}`)}: ()=>{}}>
+          <View style={styling.itemDetailContainer} onPress={detailResponse.notelp ? ()=>{openTel(detailResponse.notelp)}: ()=>{}}>
             <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.notelp ? detailResponse.notelp : '-'}
             </Text>
           </View>
-          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_ig ? ()=>{openLink(`instagram://user?username=${detailResponse.link_ig}`)}: ()=>{}}>
+          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_ig ? ()=>{openLink(detailResponse.link_ig)}: ()=>{}}>
             <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.link_ig ? detailResponse.link_ig : '-'}
             </Text>
           </View>
-          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_fb ? ()=>{openLink(`www.facebook.com/${detailResponse.link_fb}`)}: ()=>{}}>
+          <View style={styling.itemDetailContainer}  onPress={detailResponse.link_fb ? ()=>{openLink(detailResponse.link_fb)}: ()=>{}}>
             <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
             <Text style={styling.itemTextDetail}>
               {detailResponse.link_fb ? detailResponse.link_fb : '-'}

@@ -109,7 +109,7 @@ height: 300,
         <Image
           source={require('../../assets/header_app.png')}
           style={{
-            height: 100,
+            height: '50%',
             marginTop: 0,
             top: 0,
             width: '100%',
@@ -175,13 +175,13 @@ const style = StyleSheet.create({
     backgroundColor: '#0F2E63',
   },
   textHeader: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '600',
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
     color: 'white',
     fontFamily:'NeutrifPro-Regular',
-    marginTop: 16,
+    marginTop: 31,
   },
 });
