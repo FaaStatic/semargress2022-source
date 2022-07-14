@@ -11,7 +11,8 @@ import {
   Button,
   Alert,
   Switch,
-  Modal
+  Modal,
+  PermissionsAndroid
 } from 'react-native';
 import {Api} from '../../util/Api';
 import  {SessionManager}  from '../../util/SessionManager';
@@ -43,7 +44,6 @@ const ScanQR = ({navigation, route}) => {
 
   // Load data session
   const loadSession = async () => {
-
     const session = await SessionManager.GetAsObject(sessionId);
       if(session != null){
           console.log("session ",session.token);
@@ -64,6 +64,32 @@ const ScanQR = ({navigation, route}) => {
     };
     //getData();
   }, [navigation]);
+
+const checkCamera =  async() => {
+    try {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+          {
+            title: "Izin Kamera Aplikasi Semargress 2022",
+            message:
+              "Aplikasi Semargress 2022 membutuhkan izin Kamera",
+            buttonNeutral: "Nanti Saja",
+            buttonNegative: "Batal",
+            buttonPositive: "Iya"
+          }
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          setModalQR(true);
+        } else {
+          ShowError("Izin Kamera Terlebih Dahulu");
+        }
+      } catch (err) {
+        console.warn(err);
+      }
+    };
+
+
+
 
   const getData = (data) => {
 
@@ -123,19 +149,18 @@ const ScanQR = ({navigation, route}) => {
             }
     );
 
+    const openCamera = () =>{
+       checkCamera();
+    }
+
+
   return (
 
       <SafeAreaView>
           <View
               style={styles.container}
           >
-
-              <Image
-                  source={require('../../assets/header_app.png')}
-                  style={styles.imageHeder}
-              />
-
-              <TouchableOpacity
+              {/* <TouchableOpacity
                   style={{ width: 54, height: 54 }}
                   onPress={() => {
                       navigation.goBack();
@@ -145,7 +170,7 @@ const ScanQR = ({navigation, route}) => {
                       marginTop: 10,
                       marginLeft: 24,
                   }} />
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               <ScrollView
                   style={styles.mainContainer}
@@ -175,6 +200,7 @@ const ScanQR = ({navigation, route}) => {
                               fontSize: 40,
                               fontWeight: '600',
                               width: '100%',
+                              color:'#333333',
                               alignItems: 'center',
                               textAlign: 'center'
                           }}
@@ -240,15 +266,15 @@ const ScanQR = ({navigation, route}) => {
                               marginTop: 50,
                               marginLeft: 30,
                               marginRight: 30,
-                              backgroundColor: colors.yellow2,
+                              backgroundColor: '#A57FF8',
                               alignSelf: 'center',
                               alignItems: 'center',
-                              borderRadius: 5
+                              borderRadius: 12
                           }}
 
                           onPress={() => {
-
-                              setModalQR(true);
+                                openCamera();
+                             
                           }}
                       >
                           <Text
@@ -266,8 +292,7 @@ const ScanQR = ({navigation, route}) => {
                               marginTop: 30,
                               marginLeft: 30,
                               marginRight: 30,
-                              borderColor: colors.black3,
-                              borderWidth: 1,
+                              borderColor: '#828282',
                               alignSelf: 'center',
                               alignItems: 'center',
                               borderRadius: 5
@@ -280,7 +305,7 @@ const ScanQR = ({navigation, route}) => {
                       >
                           <Text
                               style={{
-                                  color: colors.black3,
+                                  color: '#828282',
                                   padding: 10,
 
                               }}
@@ -381,14 +406,16 @@ const styles = StyleSheet.create({
   container: {
     width: '100%',
     height: '100%',
+    backgroundColor:'#FB44A0'
   },
   mainContainer: {
     backgroundColor: colors.white,
-    borderRadius: 10,
+    borderTopLeftRadius:12,
+    borderTopRightRadius:12,
     width: '100%',
     height: '100%',
     position: 'absolute',
-    marginTop: 40
+    marginTop: 42
   },
   mainTitle: {
     fontWeight:'600',

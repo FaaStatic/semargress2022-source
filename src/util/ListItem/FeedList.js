@@ -32,7 +32,7 @@ return(<View style={style.container}>
                 marginEnd:4,
                 fontFamily:'NeutrifPro-Reguler'
             }]}>{item.profile_name}</Text> 
-            <Text style={[style.textDeskripsi,]}>{  item.media_caption !== null || item.media_caption != '' ? `${item.media_caption}`: 'Tidak Ada Deskripsi'}</Text>
+            <Text style={[style.textDeskripsi,]}>{  item.media_caption.length !== 0 ? ` ${item.media_caption}`: ' Tidak Ada Deskripsi'}</Text>
         </Text>{show >5  ? <Pressable onPress={()=>{setFullDeskripsi(!fullDeskripsi)}}><Text style={[style.textDeskripsi,{
             color:'#828282',
             marginStart:8,

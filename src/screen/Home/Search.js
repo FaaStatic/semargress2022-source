@@ -24,7 +24,7 @@ export default function Search({ navigation, route }) {
   const [iconVisible, setIconVisible] = useState(false);
   const [textInput, setTextInput] = useState('');
   const [response, setResponse] = useState([]);
-  const [dataKosong, setDataKosong] = useState(false);
+  const [dataKosong, setDataKosong] = useState(true);
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState('');
 
@@ -172,7 +172,7 @@ export default function Search({ navigation, route }) {
             style={style.SearchStyle}
             onSubmitEditing={currentLocation}
           />
-          {!iconVisible && <Icon name="search" size={26} color="grey" style={style.iconSearch} />}
+          {!iconVisible ? <Icon name="search" size={26} color="grey" style={style.iconSearch} /> : <Icon name="search" size={26} color="white" style={style.iconSearch} />}
         </View>
       </View>
       {loading ? (
@@ -267,7 +267,6 @@ const style = StyleSheet.create({
     position: 'absolute',
     borderRadius: 8,
     bottom: 0,
-    width: 350,
     marginStart: 16,
     marginEnd: 16,
     marginBottom: 15,
@@ -275,12 +274,13 @@ const style = StyleSheet.create({
     flexDirection: 'row',
   },
   SearchStyle: {
-    width: 300,
+    width: '85%',
+   // backgroundColor:'green',
     alignSelf: 'flex-start',
     height: 36,
     marginStart: 6,
     marginEnd: 6,
-    backgroundColor: 'transparent',
+   backgroundColor: 'transparent',
   },
   iconSearch: {
     marginTop: 4,

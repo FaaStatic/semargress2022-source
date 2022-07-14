@@ -60,7 +60,7 @@ export default function Router() {
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
             headerTitleAlign: 'center',
-            headerTitle: 'Daftar',
+            headerTitle: route.params.title !== undefined ? route.params.title :'Daftar',
             headerLeft: () => {
               return (
                 <View>

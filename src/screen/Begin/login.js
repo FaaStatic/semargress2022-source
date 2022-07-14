@@ -31,7 +31,7 @@ import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import {colors} from '../../util/color';
 import { SignInWithAppleButton } from 'react-native-apple-authentication'
 
-let time = 0;
+var time = 0;
 export default function Login({ navigation }) {
   const [telp, setTelp] = useState('');
   const [otp, setOtp] = useState();
@@ -80,7 +80,7 @@ export default function Login({ navigation }) {
       setInterval(() => {
         if (time >= 1) {
           cound(time);
-          time = time - 1;
+          time -= 1;
         }
       }, 1000);
     } else {
@@ -166,8 +166,8 @@ export default function Login({ navigation }) {
 
   const cound = (d) => {
     d = d - 1;
-    let m = Math.floor((d % 3600) / 60);
-    let s = Math.floor((d % 3600) % 60);
+    var m = Math.floor((d % 3600) / 60);
+    var s = Math.floor((d % 3600) % 60);
     m = `0${m.toString()}`;
     if (s < 10) {
       s = `0${s}`;

@@ -119,10 +119,7 @@ const Profile = ({navigation, route}) => {
       
 
         <ScrollView showsVerticalScrollIndicator={false}>
-        <Image
-          source={require('../../assets/header_app.png')}
-          style={styles.imageHeder}
-        />
+       
 
           <Text style={styles.title} >Profile</Text>
 
@@ -130,20 +127,26 @@ const Profile = ({navigation, route}) => {
             style={{
               flexDirection: 'column',
               alignItems: 'center',
-              marginTop: 30,
+              marginTop: 16,
             }}
           >
 
             <View
               style={{
-                backgroundColor: colors.primary,
                 width: windowWidth - 50,
                 height: windowWidth - 50,
                 marginTop:'25%',
                 padding: 30,
-                borderRadius: 10,
+                borderRadius: 18,
               }}
             >
+
+            <Image source={require('../../assets/bg_profile.png')} style={{
+              position:'absolute',
+              width: windowWidth - 50,
+              height: windowWidth - 50,
+              borderRadius: 18,
+            }} resizeMode='cover'/>
               <Image
                 source={data.foto != undefined? { uri: data.foto } : require('../../assets/logo.png')}
                 style={{
@@ -169,7 +172,7 @@ const Profile = ({navigation, route}) => {
                 }}
 
                 onPress={() => {
-                  navigation.navigate('Register', { edit: true })
+                  navigation.navigate('Register', { edit: true, title : 'Edit Profile' })
                 }}
               >
                 <Image
@@ -198,6 +201,9 @@ const Profile = ({navigation, route}) => {
               <Text style={styles.value} numberOfLines={1} >{data.no_telp}</Text>
 
             </View>
+
+
+
           </View>
 
           <TouchableOpacity style={styles.menuContainer}
@@ -315,13 +321,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   title: {
-    fontSize: 18,
+    fontSize: 22,
     fontWeight: '600',
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
-    color: 'white',
-    marginTop: 16,
+    color: '#333333',
+    marginTop:31,
+
   },
   container: {
     width: '100%',

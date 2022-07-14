@@ -28,6 +28,7 @@ var fcm_id = '';
 var loginType = '';
 var gender = 1;
 export default function Register({ navigation, route }) {
+  const {title} = route.params;
   const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
   const windowWidth = Dimensions.get('window').width;
   const [radioBtn,setRadioBtn] = useState(true);

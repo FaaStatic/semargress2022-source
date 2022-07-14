@@ -101,8 +101,27 @@ export default function DetailMerchant({ navigation, route }) {
   ];
 
   const openLink = async (url) => {
+    var text = url.toString();
+    var res = text.includes('www.');
+   
+    if(res){
+      await Linking.canOpenURL(url);
+      Linking.openURL(`https://${url}`);
+    }else {
+      await Linking.canOpenURL(url);
+      Linking.openURL(`instagram://user?username= ${url}`);
+    }
+    console.log(url);
+  
+  };
+
+  const openTel = async (url) => {
+
+   
     await Linking.canOpenURL(url);
-    Linking.openURL(url);
+    Linking.openURL(`tel://${url}`);
+    console.log(url);
+  
   };
 
   const openMaps = (latitude, longitude) => {
@@ -188,19 +207,19 @@ export default function DetailMerchant({ navigation, route }) {
               width:'50%',
             }]}>{getDetail.alamat}</Text>
           </Pressable>
-          <Pressable style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openLink(`tel:///${getDetail.notelp}`)}: ()=>{}}>
+          <Pressable style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openTel(getDetail.notelp)}: ()=>{}}>
             <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
             <Text numberOfLines={2} style={[styling.itemTextDetail,{
                width:'50%',
             }]}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
           </Pressable>
-          <Pressable style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(`instagram://user?username=${getDetail.link_ig}`)}: ()=>{}}>
+          <Pressable style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(getDetail.link_ig)}: ()=>{}}>
             <FeatherIcon name="instagram" size={28} color={'#0f2e63'}/>
             <Text numberOfLines={2} style={[styling.itemTextDetail,{
                width:'50%',
             }]}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
           </Pressable>
-          <Pressable style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(`www.facebook.com/${getDetail.link_fb}`)}: ()=>{}}>
+          <Pressable style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(getDetail.link_fb)}: ()=>{}}>
             <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
             <Text numberOfLines={2} style={[styling.itemTextDetail,{
                width:'50%',
