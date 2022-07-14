@@ -29,6 +29,7 @@ import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import {colors} from '../../util/color';
+import { SignInWithAppleButton } from 'react-native-apple-authentication'
 
 let time = 0;
 export default function Login({ navigation }) {
@@ -318,6 +319,10 @@ export default function Login({ navigation }) {
 
   };
 
+  const appleSignIn = async (result) => {
+    console.log('Resssult',result);
+  };
+
   return (
     
       <SafeAreaView style={style.conteiner2}>
@@ -413,7 +418,7 @@ export default function Login({ navigation }) {
               </View>
 
               <View style={[styling.btnSubmitStyleGoogle, {backgroundColor:colors.black, marginBottom:20,}]}>
-                <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                {/* <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
                   <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
                   <Text style={[styling.textStyle, {
                     color: colors.white,
@@ -424,7 +429,20 @@ export default function Login({ navigation }) {
                     fontFamily:'NeutrifPro-Regular',
                     fontWeight: '600',
                   }]}>Sign in with Apple</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
+                {SignInWithAppleButton({
+                  buttonStyle: [styling.textStyle, {
+                    color: colors.white,
+                    flex:1,
+                    textAlign:'center',
+                    marginRight:20,
+                    fontSize: 16,
+                    fontFamily:'NeutrifPro-Regular',
+                    fontWeight: '600',
+                  }], 
+                  callBack: appleSignIn,
+                  buttonText: "Sign Up With Apple",
+                })}
               </View>
 
             </View>
