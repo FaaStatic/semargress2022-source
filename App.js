@@ -8,6 +8,9 @@ import PushNotificationIOS from '@react-native-community/push-notification-ios'
 import firebase from '@react-native-firebase/app';
 import {Platform} from 'react-native';
 import {ShowNotif} from './src/util/ShowMessage';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+Icon.loadFont();
 
 var firebaseConfig = {
   apiKey: 'AIzaSyBcnaLt3yXVh4nLergCrtMDADP1Vq0VuJE',
@@ -21,6 +24,22 @@ var firebaseConfig = {
 };
 
 function App() {
+
+let permission = requestPermissions = async() => {
+  if (Platform.OS === 'ios') {
+    Geolocation.requestAuthorization();
+    Geolocation.setRNConfiguration({
+      skipPermissionRequests: false,
+     authorizationLevel: 'whenInUse',
+   });
+  }
+
+  if (Platform.OS === 'android') {
+    await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+    );
+  }
+}
 
   useEffect(() => {
     

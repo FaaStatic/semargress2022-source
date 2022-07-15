@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, SafeAreaView, View, StyleSheet, PermissionsAndroid } from 'react-native';
+import { FlatList, SafeAreaView, View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
 import { SessionManager } from '../../../util/SessionManager';
 import { sessionId } from '../../../util/GlobalVar';
 import { Api } from '../../../util/Api';
@@ -19,6 +19,7 @@ import {
 } from 'react-native-indicators';
 import MerchanList from '../../../util/ListItem/MerchantList';
 import FlashMessage from 'react-native-flash-message';
+import { ShowError, ShowWarning } from '../../../util/ShowMessage';
 
 var latitude = 0;
 var longitude = 0;
@@ -70,7 +71,26 @@ export default function DetailListCategory({ navigation, route }) {
     };
   }, [navigation, GrantLocation, currentLocation]);
 
-  const currentLocation = () => {
+  const currentLocation = async () => {
+
+    if(Platform.OS == 'ios') {
+        
+        const auth = await Geolocation.requestAuthorization('whenInUse');
+        if (auth === 'granted') {
+          
+        }
+        Geolocation.getCurrentPosition(
+          (position) => {
+              console.log(position);
+          },
+          (error) => {
+            console.log("map error: ",error);
+              console.log(error.code, error.message);
+          },
+          { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
+      );
+    }
+
     try {
       Geolocation.getCurrentPosition(
         async (pos) => {
@@ -118,23 +138,37 @@ export default function DetailListCategory({ navigation, route }) {
 
 
   const GrantLocation = async () => {
+
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Semargress Meminta Izin Lokasi',
-          message:
-            'Semargress Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
-          buttonNeutral: 'Tanya Nanti',
-          buttonNegative: 'Batal',
-          buttonPositive: 'Iya',
+
+      const granted = '';
+      if(Platform.OS == 'android') {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Semargress Meminta Izin Lokasi',
+            message:
+              'Semargress Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
+            buttonNeutral: 'Tanya Nanti',
+            buttonNegative: 'Batal',
+            buttonPositive: 'Iya',
+          }
+        );
+      }else {
+        
+        const auth = await Geolocation.requestAuthorization('whenInUse');
+        if (auth === 'granted') {
+          granted = PermissionsAndroid.RESULTS.GRANTES;
+        }else{
+          granted = 'gagal';
         }
-      );
+      }
+      
       if (granted === PermissionsAndroid.RESULTS.GRANTES) {
         console.log('StatusLokasi', granted);
         getListItem();
       } else {
-        console.log('StatusLokasi', granted);
+        ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
       }
     } catch (error) {
       console.log(error.message);

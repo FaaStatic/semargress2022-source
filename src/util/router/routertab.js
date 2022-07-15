@@ -7,6 +7,7 @@ import QR from '../../screen/QR/qr';
 import Event from '../../screen/Event/event';
 import Profil from '../../screen/Profil/profil';
 import { Image, Text, View, StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 
 const TabScreen = createBottomTabNavigator();
 
@@ -18,7 +19,7 @@ export default function RouterTab({ navigation }) {
         tabBarShowLabel: false,
         tabBarStyle: {
           shadowColor: '#D8E3E7',
-          height:85,
+          height:Platform.OS == 'android' ? 85 : 110,
           padding:5,
           paddingLeft:20,
           paddingRight:20,
@@ -51,7 +52,7 @@ export default function RouterTab({ navigation }) {
       <TabScreen.Screen name="Feed" component={Feed} 
        options={{
         tabBarIcon:({focused, size, color}) =>{
-          let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_inactive.png') 
+          let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_active.png') 
           return(
             <View style={style.iconContainer(focused)}>
               <Image source={active} style={[style.iconStyle, {resizeMode:'center'}]}/>
@@ -84,7 +85,7 @@ export default function RouterTab({ navigation }) {
       }}/>
       <TabScreen.Screen name="Profil" component={Profil} options={{
         tabBarIcon:({focused, size, color}) =>{
-          let active = focused ? require('../../assets/profile_active.png') : require('../../assets/profile_inactive.png') 
+          let active = focused ? require('../../assets/profile_active.png') : require('../../assets/profile_active.png') 
           return(
             <View style={style.iconContainer(focused)}>
               <Image source={active} style={style.iconStyle}/> 

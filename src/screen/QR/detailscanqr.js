@@ -104,7 +104,7 @@ const checkCamera =  async() => {
         cara_bayar: isEnabledTunai ? 1 : 2
       }
 
-      Api.post('user/scan_qrcode', param)
+      Api.post('user/scan_qrcode_v2', param)
       .then(async (respon) => {
           let body = respon.data;
           let metadata = body.metadata;

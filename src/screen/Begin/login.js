@@ -13,10 +13,11 @@ import {
   StyleSheet,
   Pressable,
   TouchableOpacity,
-  TextInput, 
-  Button, 
+  TextInput,
+  Button,
   Modal,
-  ScrollView 
+  ScrollView,
+  Dimensions
 } from 'react-native';
 import style from '../../util/style';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
@@ -28,10 +29,14 @@ import { sessionId } from '../../util/GlobalVar';
 import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
-import {colors} from '../../util/color';
-import { SignInWithAppleButton } from 'react-native-apple-authentication'
+import { colors } from '../../util/color';
+import { SignInWithAppleButton } from 'react-native-apple-authentication';
+import jwt_decode from 'jwt-decode';
+import { appleAuth } from '@invertase/react-native-apple-authentication';
 
-var time = 0;
+let time = 0;
+
+let windowHeight = Dimensions.get('window').height;
 export default function Login({ navigation }) {
   const [telp, setTelp] = useState('');
   const [otp, setOtp] = useState();
@@ -46,7 +51,7 @@ export default function Login({ navigation }) {
   useFocusEffect(
     useCallback(() => {
       if (Platform.OS === 'android') {
-        
+
       }
       return () => {
         (time = 0), setModalOtpVisible(false);
@@ -61,7 +66,7 @@ export default function Login({ navigation }) {
     checkToken();
 
     if (modalOTPVisible) {
-    
+
     } else {
       setShowRequest(false);
       setOtp('');
@@ -80,7 +85,7 @@ export default function Login({ navigation }) {
       setInterval(() => {
         if (time >= 1) {
           cound(time);
-          time -= 1;
+          time = time - 1;
         }
       }, 1000);
     } else {
@@ -95,7 +100,7 @@ export default function Login({ navigation }) {
     });
   };
 
-  const loginUser = async (data, res) => {
+  const loginUser = async (data, typeLogin = 'GOOGLE') => {
 
     await Api.post('auth', data)
       .then(async (result) => {
@@ -118,7 +123,7 @@ export default function Login({ navigation }) {
               email: data.email,
               no_telp: telp,
               otp: otp,
-              type: 'GOOGLE',
+              type: typeLogin,
             });
 
           } else {
@@ -129,10 +134,10 @@ export default function Login({ navigation }) {
               token: response.token,
               uid: response.uid,
               email: response.email,
-              type: 'GOOGLE',
+              type: typeLogin,
             };
 
-            saveData(data, 'GOOGLE');
+            saveData(data, typeLogin);
           }
         } else {
 
@@ -146,7 +151,7 @@ export default function Login({ navigation }) {
             display_name: data.displayName,
             no_telp: telp,
             otp: otp,
-            type: 'GOOGLE',
+            type: typeLogin,
           });
         }
 
@@ -166,8 +171,8 @@ export default function Login({ navigation }) {
 
   const cound = (d) => {
     d = d - 1;
-    var m = Math.floor((d % 3600) / 60);
-    var s = Math.floor((d % 3600) % 60);
+    let m = Math.floor((d % 3600) / 60);
+    let s = Math.floor((d % 3600) % 60);
     m = `0${m.toString()}`;
     if (s < 10) {
       s = `0${s}`;
@@ -195,15 +200,15 @@ export default function Login({ navigation }) {
         let metadata = res.data.metadata;
         let status = metadata.status;
 
-        if(status == 200){
+        if (status == 200) {
 
-            time = response.time;
-            setShowRequest(true);
-            intervalCount();
-        }else{
+          time = response.time;
+          setShowRequest(true);
+          intervalCount();
+        } else {
           ShowWarning(metadata.message);
         }
-        
+
       })
       .catch((err) => {
         console.log(err);
@@ -238,7 +243,7 @@ export default function Login({ navigation }) {
           displayName: res.user.displayName
         };
 
-        loginUser(tokenLogin, res);
+        loginUser(tokenLogin);
       })
       .catch((err) => {
         console.log(err);
@@ -320,245 +325,315 @@ export default function Login({ navigation }) {
   };
 
   const appleSignIn = async (result) => {
-    console.log('Resssult',result);
+    
+    console.log('Resssult', result);
+    const { email, email_verified, is_private_email, sub } = jwt_decode(result.identityToken);
+
+    if(result.email != null){
+      const tokenLogin = {
+            uid: result.user,
+            foto: "",
+            fcm_id: fcm,
+            email: result.email,
+            displayName: result.fullName.givenName +" "+ result.fullName.familyName
+          };
+
+      loginUser(tokenLogin, "APPLE");
+         
+    }else{
+      const tokenLogin = {
+        uid: sub,
+        foto: "",
+        fcm_id: fcm,
+        email: email,
+        displayName: ""
+      };
+
+      loginUser(tokenLogin, "APPLE");
+      console.log("tesw");
+    }
+
   };
 
   return (
-    
-      <SafeAreaView style={style.conteiner2}>
-        
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={[style.containerSplash,{
-              backgroundColor:'#251468'
-          }]}>
-            <View
+
+    <SafeAreaView style={style.conteiner2}>
+
+      <View style={[style.containerSplash, {
+        backgroundColor: colors.primary
+      }]}>
+
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={{
+            width: '100%'
+          }}
+        >
+
+          <View
+            style={{
+              backgroundColor: 'white',
+              width: '90%',
+              height: '100%',
+              minHeight: '100%',
+              marginTop: 50,
+              borderRadius: 10,
+              marginLeft: 20,
+              marginRight: 20,
+            }}
+          >
+            <Image
+              source={require('../../assets/logo.png')}
+              style={[
+                style.boxImageSplash,
+                {
+                  width: 245,
+                  height: 245,
+                  marginBottom: 0,
+
+                },
+              ]}
+              resizeMode='contain'
+            />
+
+            <TextInput
+              disabled={modalOTPVisible ? true : false}
+              keyboardType="number-pad"
+              placeholderTextColor={'black'}
+              selectionColor={'grey'}
+              placeholder="Masukkan Nomor WhatsApp"
               style={{
-                backgroundColor: 'white',
-                width:'90%',
-                height:'90%',
-                marginTop:50,
+                backgroundColor: '#F9F9F9',
+                borderRadius: 8,
+                marginStart: 36,
+                marginEnd: 36,
+                height: 55,
+                width: 300,
+                textAlign: 'center',
+                alignSelf: 'center',
+                alignContent: 'center',
+                alignItems: 'center',
+                color: 'black',
+              }}
+              value={telp}
+              onChangeText={(text) => setTelp(text)}
+            />
+
+            <TouchableOpacity
+              onPress={showModal}
+              style={{
+                backgroundColor: '#FB44A0',
+                justifyContent: 'center',
+                alignItems: 'center',
+                alignSelf: 'center',
+                marginTop: 30,
                 borderRadius: 10,
-                marginLeft: 20,
-                marginRight: 20,
               }}
             >
-              <Image
-                source={require('../../assets/logo.png')}
-                style={[
-                  style.boxImageSplash,
-                  {
-                    width: 245,
-                    height: 245,
-                    marginBottom: 0,
-                  
-                  },
-                ]}
-                resizeMode='contain'
-              />
-              <TextInput
-                disabled={modalOTPVisible ? true : false}
-                keyboardType="number-pad"
-                placeholderTextColor={'black'}
-                selectionColor={'grey'}
-                placeholder="Masukkan Nomor WhatsApp"
-                style={{
-                  backgroundColor: '#F9F9F9',
-                  borderRadius:8,
-                  marginStart: 36,
-                  marginEnd: 36,
-                  height: 55,
-                  width:300,
+              <Text style={{ color: colors.white, fontSize: 16, fontWeight: '600', marginLeft: 70, marginRight: 70, marginTop: 14, marginBottom: 14 }}>Login</Text>
+            </TouchableOpacity>
+
+            <View style={{
+              marginStart: 16,
+              marginEnd: 16,
+              marginTop: 10,
+              marginBottom: 16,
+            }} />
+
+            <Text style={styling.textStyleGap}>
+              Atau kamu dapat login menggunakan
+            </Text>
+
+            <View style={styling.btnSubmitStyleGoogle}>
+              <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                <Image source={require('../../assets/google.png')} resizeMode='contain' style={styling.googleIcon} />
+                <Text style={[styling.textStyle, {
+                  color: colors.black3,
+                  flex: 1,
                   textAlign: 'center',
-                  alignSelf:'center',
-                  alignContent:'center',
-                  alignItems:'center',
-                  color:'black',
-                }}
-                value={telp}
-                onChangeText={(text) => setTelp(text)}
-              />
-
-              <TouchableOpacity
-                onPress={showModal}
-                style={{
-                  backgroundColor:'#FB44A0',
-                  justifyContent:'center',
-                  alignItems:'center',
-                  alignSelf:'center',
-                  marginTop: 30,
-                  borderRadius:10,
-                }}
-              >
-                <Text style={{ color: colors.white, fontSize:16, fontWeight:'600', marginLeft: 70, marginRight:70, marginTop:14, marginBottom:14 }}>Login</Text>
+                  marginRight: 20,
+                  fontSize: 16,
+                  fontWeight: '600',
+                }]}>Sign in With Google</Text>
               </TouchableOpacity>
-              
-              <View style={{
-                marginStart: 16,
-                marginEnd: 16,
-                marginTop: 10,
-                marginBottom: 16,
-              }} />
-              
-              <Text style={styling.textStyleGap}>
-                Atau kamu dapat login menggunakan
-              </Text>
-
-              <View style={styling.btnSubmitStyleGoogle}>
-                <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
-                  <Image source={require('../../assets/google.png')} resizeMode='contain' style={styling.googleIcon} />
-                  <Text style={[styling.textStyle, {
-                    color: colors.black3,
-                    flex:1,
-                    textAlign:'center',
-                    marginRight:20,
-                    fontSize: 16,
-                    fontWeight: '600',
-                  }]}>Sign in With Google</Text>
-                </TouchableOpacity>
-              </View>
-
-              <View style={[styling.btnSubmitStyleGoogle, {backgroundColor:colors.black, marginBottom:20,}]}>
-                {/* <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
-                  <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
-                  <Text style={[styling.textStyle, {
-                    color: colors.white,
-                    flex:1,
-                    textAlign:'center',
-                    marginRight:20,
-                    fontSize: 16,
-                    fontFamily:'NeutrifPro-Regular',
-                    fontWeight: '600',
-                  }]}>Sign in with Apple</Text>
-                </TouchableOpacity> */}
-                {SignInWithAppleButton({
-                  buttonStyle: [styling.textStyle, {
-                    color: colors.white,
-                    flex:1,
-                    textAlign:'center',
-                    marginRight:20,
-                    fontSize: 16,
-                    fontFamily:'NeutrifPro-Regular',
-                    fontWeight: '600',
-                  }], 
-                  callBack: appleSignIn,
-                  buttonText: "Sign Up With Apple",
-                })}
-              </View>
-
             </View>
+
+            {Platform.OS == 'ios' && 
+                  <View style={[styling.btnSubmitStyleGoogle, { backgroundColor: colors.black, marginBottom: 20, alignContent:'center', justifyContent:'center', alignItems:'center'}]}>
+                  {/* <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                      <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
+                      <Text style={[styling.textStyle, {
+                        color: colors.white,
+                        flex:1,
+                        textAlign:'center',
+                        marginRight:20,
+                        fontSize: 16,
+                        fontFamily:'NeutrifPro-Regular',
+                        fontWeight: '600',
+                      }]}>Sign in with Apple</Text>
+                    </TouchableOpacity> */}
+                  
+                    <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
+                    <Text touc style={[styling.textStyle, {
+                      color: colors.white,
+                      textAlign:'center',
+                      marginRight:20,
+                      paddingLeft:10,
+                      fontSize: 16,
+                      fontFamily:'NeutrifPro-Regular',
+                      fontWeight: '600',
+                      position:'absolute',
+                    }]}>Sign in with Apple</Text>
+    
+                    {SignInWithAppleButton({
+                    buttonStyle: [styling.textStyle, {
+                      color: colors.white,
+                      width:'100%',
+                      flex: 1,
+                      textAlign: 'center',
+                      marginRight: 20,
+                      fontSize: 16,
+                      position:'absolute',
+                      fontWeight: '600',
+                    }],
+                    callBack: appleSignIn,
+                    buttonText: "                         ",
+                  })}
+                </View>
+            }
           </View>
-          <Image style={{resizeMode:'stretch', width:'100%', height:130,marginTop:-130, }} source={require('../../assets/bg_bottom.png')}></Image>
         </ScrollView>
 
-      
+      </View>
 
-        <Modal
-          visible={modalOTPVisible}
-          animationType="slide"
-          onDismiss={() => setModalOtpVisible(false)}
-          style={style.modalStyle}
-          transparent={true}
-        >
-          <View style={{ justifyContent: 'center', flex:1, backgroundColor:'rgba(52, 52, 52, 0.6)' }}>
-           
-            <View
-              // source={require('../../assets/bgot.png')}
+      <Modal
+        visible={modalOTPVisible}
+        animationType="slide"
+        onDismiss={() => setModalOtpVisible(false)}
+        style={style.modalStyle}
+        transparent={true}
+      >
+        <View style={{ justifyContent: 'center', flex: 1, backgroundColor: 'rgba(52, 52, 52, 0.6)' }}>
+
+          <View
+            // source={require('../../assets/bgot.png')}
+            style={{
+              borderRadius: 16,
+              alignSelf: 'center',
+              height: 350,
+              width: 250,
+              overflow: 'hidden',
+              justifyContent: 'center',
+              backgroundColor: '#251468',
+              marginBottom: 20,
+            }}
+          // resizeMode="stretch"
+          >
+            <Text
               style={{
-                borderRadius: 16,
+                textAlign: 'center',
                 alignSelf: 'center',
-                height: 350,
-                width: 250,
-                overflow: 'hidden',
-                justifyContent: 'center',
-                backgroundColor:'#251468',
-                marginBottom: 20,
+                fontSize: 20,
+                marginBottom: 36,
+                color: 'white',
               }}
-              // resizeMode="stretch"
             >
-              <Text
-                style={{
-                  textAlign: 'center',
-                  alignSelf: 'center',
-                  fontSize: 20,
-                  marginBottom: 36,
-                  color: 'white',
-                }}
-              >
-                Masukkan OTP
-              </Text>
+              Masukkan OTP
+            </Text>
 
-              <TextInput
-                maxLength={6}
-                selectionColor={'white'}
-                keyboardType="number-pad"
-                value={otp}
-                onChangeText={(text) => setOtp(text)}
-                placeholder="OTP"
-                placeholderTextColor={'#FFFFFF66'}
-                style={{
-                  width:200,
-                  marginTop: 8,
-                  color:colors.white,
-                  alignSelf:'center',
-                  borderRadius:8,
-                  backgroundColor: '#FFFFFF44',
-                  marginStart: 36,
-                  marginEnd: 36,
-                  marginBottom: 18,
-                  height: 45,
-                  textAlign: 'center',
-                }}
-              />
-              {showRequest ? (
-                <Text style={{ color: 'white', alignSelf: 'center' }}>{timer}</Text>
-                ) : (
-
-                <TouchableOpacity
-                  onPress={btnRequestOtp}
-                  style={{
-                    width: 100,
-                    height: 28,
-                    alignSelf: 'center',
-                    alignItems: 'center',
-                    marginTop: 16,
-                    color: 'white',
-                  }}
-                >
-                    <Text style={{ color: 'white', fontWeight: '400', fontSize: 14,fontFamily:'NeutrifPro-Regular', }}>
-                      Kirim Ulang ?
-                    </Text>
-                </TouchableOpacity>
-              )}
+            <TextInput
+              maxLength={6}
+              selectionColor={'white'}
+              keyboardType="number-pad"
+              value={otp}
+              onChangeText={(text) => setOtp(text)}
+              placeholder="OTP"
+              placeholderTextColor={'#FFFFFF66'}
+              style={{
+                width: 200,
+                marginTop: 8,
+                color: colors.white,
+                alignSelf: 'center',
+                borderRadius: 8,
+                backgroundColor: '#FFFFFF44',
+                marginStart: 36,
+                marginEnd: 36,
+                marginBottom: 18,
+                height: 45,
+                textAlign: 'center',
+              }}
+            />
+            {showRequest ? (
+              <Text style={{ color: 'white', alignSelf: 'center' }}>{timer}</Text>
+            ) : (
 
               <TouchableOpacity
-                onPress={btnSubmitLogin}
+                onPress={btnRequestOtp}
                 style={{
+                  width: 100,
+                  height: 28,
                   alignSelf: 'center',
+                  alignItems: 'center',
                   marginTop: 16,
                   color: 'white',
-                  backgroundColor:'#FB44A0', 
-                  borderRadius:6,
                 }}
               >
-                  <Text style={{ color: 'white', fontWeight: '600', marginLeft:20, marginRight:20, marginTop:8, marginBottom:8,fontFamily:'NeutrifPro-Regular', }}>Kirim</Text>
+                <Text style={{ color: 'white', fontWeight: '400', fontSize: 14, fontFamily: 'NeutrifPro-Regular', }}>
+                  Kirim Ulang ?
+                </Text>
               </TouchableOpacity>
+            )}
 
-            </View>
+            <TouchableOpacity
+              onPress={btnSubmitLogin}
+              style={{
+                alignSelf: 'center',
+                marginTop: 16,
+                color: 'white',
+                backgroundColor: '#FB44A0',
+                borderRadius: 6,
+              }}
+            >
+              <Text style={{ color: 'white', fontWeight: '600', marginLeft: 20, marginRight: 20, marginTop: 8, marginBottom: 8, fontFamily: 'NeutrifPro-Regular', }}>Kirim</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={{
+                backgroundColor: colors.white,
+                width: 30,
+                height: 30,
+                position: 'absolute',
+                justifyContent: 'center',
+                alignItems: 'center',
+                alignContent: 'center',
+                borderRadius: 15,
+                top: 0,
+                right: 0,
+              }}
+
+              onPress={()=>{setModalOtpVisible(false)}}
+            >
+              <Text style={{ color: colors.primary }}>x</Text>
+            </TouchableOpacity>
           </View>
-        </Modal>
+
+        </View>
+      </Modal>
+
+      <Image style={{ resizeMode: 'stretch', width: '100%', height: 130, position: 'absolute', bottom: 0, }} source={require('../../assets/bg_bottom.png')}></Image>
     </SafeAreaView>
-    
+
   );
 }
 
 const styling = StyleSheet.create({
 
   btnSubmitStyleGoogle: {
-    width:240,
+    width: 240,
     height: 50,
-    justifyContent:'center',
-    paddingLeft:20,
-    alignSelf:'center',
+    justifyContent: 'center',
+    paddingLeft: 20,
+    alignSelf: 'center',
     marginTop: 24,
     backgroundColor: 'white',
     borderRadius: 8,
@@ -566,18 +641,18 @@ const styling = StyleSheet.create({
   },
   btnTouchableGoogle: {
     flexDirection: 'row',
-    alignItems:'center',
+    alignItems: 'center',
   },
   googleIcon: {
     height: 24,
     width: 24,
-    alignSelf:'flex-start',
+    alignSelf: 'flex-start',
   },
-  textStyleGap: { 
+  textStyleGap: {
     alignSelf: 'center',
-    fontSize:14,
-    fontWeight:'400',
-    color:colors.black3,
+    fontSize: 14,
+    fontWeight: '400',
+    color: colors.black3,
   },
   textStyle: { alignSelf: 'center' },
 })

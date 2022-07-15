@@ -75,17 +75,17 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Your message to user when the camera is accessed for the first time</string>
+	<string>We need phone camera access to scan QR</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your message to user when the location is accessed for the first time</string>
+	<string>We need to access location service for apps experience</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Your message to user when the location is accessed for the first time</string>
+	<string>We need to access location service for apps experience</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Your message to user when the location is accessed for the first time</string>
+	<string>We need to access location service for apps experience</string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Your message to user when the microsphone is accessed for the first time</string>
+	<string>We need to access microphone service for apps experience</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Your message to user when the photo library is accessed for the first time</string>
+	<string>We need to access photo library for apps experience</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
