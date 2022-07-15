@@ -1,16 +1,20 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { SafeAreaView, View, Image, StyleSheet, Dimensions, FlatList, Text } from 'react-native';
 import { Api } from '../../util/Api';
+import { colors } from '../../util/color';
 import EventList from '../../util/ListItem/EventList';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+
 var offset = 0;
+var last = false;
+var onProgress = false;
+
 export default function Event({ navigation, route }) {
-  let onProgress = false;
+
   const length = 10;
   const [responseEvent, setResponseEvent] = useState([]);
-  const [Last, setLast] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
@@ -22,7 +26,7 @@ export default function Event({ navigation, route }) {
     setResponseEvent([]);
     setExtraData(false);
     setJumlahItem(0);
-    getApi();
+    //getApi();
     const subscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
@@ -36,12 +40,12 @@ export default function Event({ navigation, route }) {
     };
   }, [navigation]);
 
-  const loadMore =() =>{
-    if (Last === false) {
+  const loadMore = () => {
+    if (last == false) {
       offset += length;
-     getApi();
+      getApi();
+    }
   }
-}
 
   const getApi = async () => {
     if (onProgress) {
@@ -61,14 +65,13 @@ export default function Event({ navigation, route }) {
         let metadata = body.metadata;
         if (metadata.status === 200) {
           onProgress = false;
-          console.log('cektesevent', response);
           setJumlahItem(jumlahItem + response.length);
-          setResponseEvent(response)
+          //setResponseEvent(response)
           setResponseEvent(
             offset === 0 ? response : setResponseEvent(responseEvent.concat(response))
           );
           offset = response.length === 0 ? offset + response.length : offset;
-          setLast(response.length !== length ? true : false);
+          last = response.length !== length ? true : false;
           setDataKosong(false);
         } else if (metadata.status === 401) {
           setDataKosong(true);
@@ -76,8 +79,9 @@ export default function Event({ navigation, route }) {
           if (offset === 0) {
             setDataKosong(true);
           }
-          setLast(true);
+          last = true;
         }
+
         setExtraData(!extraData);
       })
       .catch((err) => {
@@ -88,8 +92,8 @@ export default function Event({ navigation, route }) {
   const moveDetail = (item) => {
     console.log(item)
     const params = {
-      id : item.id_i,
-      nama : item.title
+      id: item.id_i,
+      nama: item.title
     }
     navigation.navigate('EventDetail', params);
   };
@@ -101,45 +105,51 @@ export default function Event({ navigation, route }) {
   return (
     <SafeAreaView style={style.container}>
       <View style={{
-backgroundColor:'white',
-width:'100%',
-height: 300,
+        backgroundColor: 'white',
+        width: '100%',
+        height: 300,
       }}>
-   <View style={style.containerHeader}>
-        <Image
-          source={require('../../assets/header_app.png')}
-          style={{
-            height: '50%',
-            marginTop: 0,
-            top: 0,
-            width: '100%',
-            position: 'absolute',
-            flexDirection: 'row',
-          }}
-          resizeMode={'stretch'}
-        />
-        <Text style={style.textHeader}>Event</Text>
-        <View style={style.containerHeaderAds}>
-          <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
-                   width: SCREEN_WIDTH / 1.2,
-                   height: SCREEN_HEIGHT / 5,
-                  borderRadius:7,
-              }}/>
+        <View style={style.containerHeader}>
+          <Image
+            source={require('../../assets/header_app.png')}
+            style={{
+              height: '50%',
+              marginTop: 0,
+              top: 0,
+              width: '100%',
+              position: 'absolute',
+              flexDirection: 'row',
+            }}
+            resizeMode={'stretch'}
+          />
+          <Text style={style.textHeader}>Event</Text>
+          <View style={style.containerHeaderAds}>
+            <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
+              width: SCREEN_WIDTH / 1.2,
+              height: SCREEN_HEIGHT / 5,
+              borderRadius: 7,
+            }} />
+          </View>
         </View>
       </View>
-      </View>
-   
-   
-      <View >
-          <FlatList 
+
+      <View 
+        style={{
+          backgroundColor: 'white',
+          height:'100%'
+        }}
+      >
+        <FlatList
           data={responseEvent}
           renderItem={itemRender}
+          style={{
+          }}
           onEndReached={loadMore}
-          keyExtractor={(item,index) => {index.toString()}}
+          keyExtractor={(item, index) => item.id_i}
           showsVerticalScrollIndicator={false}
-           />
-        </View>
-       
+        />
+      </View>
+
     </SafeAreaView>
   );
 }
@@ -154,7 +164,7 @@ const style = StyleSheet.create({
     backgroundColor: 'white',
     flexDirection: 'row',
     borderRadius: 16,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily: 'NeutrifPro-Regular',
     alignSelf: 'center',
     marginTop: 120,
     elevation: 5,
@@ -169,19 +179,20 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
+    backgroundColor: colors.secondary
   },
   containerHeader: {
     height: 200,
     backgroundColor: '#0F2E63',
   },
   textHeader: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: '600',
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
-    color: 'white',
     fontFamily:'NeutrifPro-Regular',
-    marginTop: 31,
+    color: 'white',
+    marginTop: 16,
   },
 });

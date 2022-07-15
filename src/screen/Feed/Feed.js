@@ -13,6 +13,7 @@ import { BallIndicator, DotIndicator } from 'react-native-indicators';
 import FeedList from '../../util/ListItem/FeedList';
 import { Api } from '../../util/Api';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
+import { colors } from '../../util/color';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 var offset = 0;
@@ -138,7 +139,7 @@ export default function Feed({ navigation, route }) {
         <View
           style={{
             height: 116,
-            backgroundColor: '#0F2E63',
+            backgroundColor: '#241468',
           }}
         >
           <Image
@@ -161,8 +162,8 @@ export default function Feed({ navigation, route }) {
             borderTopStartRadius: 16,
             borderTopEndRadius: 16,
             backgroundColor: 'white',
-             bottom:0,
-             marginTop:-16,
+            bottom:0,
+            marginTop:-16,
             height: 20,
           }}
         ></View>
@@ -229,6 +230,6 @@ const style = StyleSheet.create({
     height: '100%',
     fontFamily:'NeutrifPro-Regular',
     flexDirection: 'column',
-    backgroundColor: '#0F2E63',
+    backgroundColor: colors.secondary,
   },
 });

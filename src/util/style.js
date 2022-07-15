@@ -21,7 +21,7 @@ const style = StyleSheet.create({
   conteiner2: {
     width:'100%',
     height:'100%',
-    fontFamily:'NeutrifPro-Regular'
+    backgroundColor:colors.primary,
   },
   modalStyle: {
     flexDirection: 'column',

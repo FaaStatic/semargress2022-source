@@ -1,6 +1,6 @@
 const mainColors ={
-    colorPrimary:'#0F2E63',
-    colorSecondary:'#EC3FA7',
+    colorPrimary:'#241468',
+    colorSecondary:'#FB44A0',
     colorDark1:'#405260',
     colorDark2:'#8A979F',
     colorDark3:'#F1F5F8',

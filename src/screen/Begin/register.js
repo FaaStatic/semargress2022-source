@@ -258,10 +258,9 @@ export default function Register({ navigation, route }) {
       profile_name: nama,
       foto: foto,
       fcm_id: fcm_id,
-      type: 'GOOGLE',
+      type: loginType,
     };
 
-    console.log(data);
     await Api.post('register', data)
       .then(async (res) => {
         let body = res.data;
@@ -714,7 +713,7 @@ export default function Register({ navigation, route }) {
             value={txtEmail}
             placeholderTextColor={'grey'}
             theme={themeText}
-            disabled={loginType == 'GOOGLE' ? true : false}
+            disabled={loginType == 'GOOGLE' || loginType == 'APPLE' ? true : false}
             onChangeText={(text) => setTxtEmail(text)}
             keyboardType="default"
             style={styles.title}
