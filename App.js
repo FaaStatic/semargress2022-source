@@ -136,8 +136,31 @@ let permission = requestPermissions = async() => {
 
   const foregroundHandler = () => {
     messaging().onMessage(async remoteMessage => {
-      console.log();
-      ShowNotif(remoteMessage.notification.title, remoteMessage.notification.body)
+      //ShowNotif(remoteMessage.notification.title, remoteMessage.notification.body)
+
+      let title = remoteMessage.notification.title;
+      let message = remoteMessage.notification.body;
+      PushNotification.localNotification({
+        /* Android Only Properties */
+        channelId: 'semargres',
+        autoCancel: true, // (optional) default: true
+        largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
+        smallIcon: 'ic_launcher', // (optional) default: "ic_notification" with fallback for "ic_launcher"
+        bigText: message, // (optional) default: "message" prop
+        vibrate: true, // (optional) default: true
+        vibration: 300, // vibration length in milliseconds, ignored if vibrate=false, default: 1000
+        ongoing: false, // (optional) set whether this is an "ongoing" notification
+        invokeApp: true, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
+        subtitle: message, // (optional) smaller title below notification title
+        playSound: true,
+        soundName: 'default',
+        /* iOS and Android properties */
+        title: title, // (optional)
+        message: message, // (required)
+        userInfo: { screen: 'home' }, // (optional) default: {} (using null throws a JSON value '<null>' error)
+      });
+
+
     });
   };
   
@@ -149,6 +172,7 @@ let permission = requestPermissions = async() => {
         hideStatusBar={false}
         statusBarHeight={StatusBar.currentHeight}
         floating={true}
+        style={{paddingLeft:10, paddingRight:10}}
         animationDuration={240}
         position="bottom" />
     </>

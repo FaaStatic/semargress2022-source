@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { SafeAreaView, Text, View, Image, StyleSheet, Dimensions, ScrollView, Pressable } from 'react-native';
 import VideoPlayer from 'react-native-video-player';
-import VisibilitySensor from '@svanboxel/visibility-sensor-react-native'
 import { colors } from '../color';
 
 const { height: HEIGHT_CONTAINER } = Dimensions.get('window');
@@ -9,19 +8,12 @@ const { width: WIDTH_CONTAINER } = Dimensions.get('window');
 
 export default function FeedList({ item }) {
 
-    let lHeight = HEIGHT_CONTAINER/3.5;
     const [fullDeskripsi, setFullDeskripsi] = useState(false);
     const [show, setShowMore] = useState(0);
     const [paused, setpaused] = useState(true)
     const onTextLayout = useCallback(e => {
         if(show == 0) setShowMore(e.nativeEvent.lines.length);
     })
-
-    const handleImageVisibility = (visible) => {
-        
-        console.log("visible ", visible)
-        setpaused(true);
-      }
 
     return (
     <View style={style.container}>
@@ -31,59 +23,55 @@ export default function FeedList({ item }) {
         </View>
 
         {item.media_type == 'GraphVideo' ? (
-            <VisibilitySensor
-            style={{
-                width:'100%',
-                flex:1,
-                marginTop:8,
-                justifyContent:'center',
-            }}
-            onChange={handleImageVisibility}
-            >
                 <VideoPlayer
                 video={{ uri: item.media_url }}
                 style={{
                     width:'100%',
                     alignSelf:'center',
+                    marginTop: 8,
                 }}
+                videoWidth={item.media_width != 0 ? parseInt(item.media_width) : 1920}
+                videoHeight={item.media_height != 0 ? parseInt(item.media_height) : 1080} 
                 resizeMode="contain"
                 autoplay={false}
+                controls={false}
                 hideControlsOnStart={true}
                 // loop={true}
                 // paused={paused}
                 thumbnail={{ uri: item.media_thumb }}
-            />
-            </VisibilitySensor>
-            
-        ) :
+                />
+            ) :
             (
-                <Image source={{ uri: item.media_url }} resizeMode='contain' style={style.imagePromo} />
+                <Image source={{ uri: item.media_url }} resizeMode='cover' style={style.imagePromo} />
             )
         }
 
-        <Text numberOfLines={fullDeskripsi ? show : 3} onTextLayout={onTextLayout} style={{
+        <Text numberOfLines={fullDeskripsi ? show : 4} onTextLayout={onTextLayout} style={{
             flexDirection: 'row',
             marginTop: 8,
             marginStart: 8,
             marginEnd: 8,
+            fontWeight:'300',
         }}>
             <Text style={[style.textDeskripsi, {
                 fontWeight: '800',
                 marginEnd: 4,
                 color:colors.black,
+                fontWeight:'300',
                 fontFamily: 'NeutrifPro-Reguler'
             }]}>{item.profile_name}</Text>
             <Text style={[style.textDeskripsi,]}>{item.media_caption.length !== 0 ? ` ${item.media_caption}` : ' Tidak Ada Deskripsi'}</Text>
 
         </Text>
-        {show > 3 &&
+        {show > 4 &&
         <Pressable onPress={() => { 
             setFullDeskripsi(!fullDeskripsi) 
             }}>
             <Text style={[style.textDeskripsi, {
-            color: '#615f5f',
+            color: '#9b9b9b',
             marginStart: 8,
             marginTop: 5,
+            fontWeight:'300',
         }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text>
         </Pressable>}
     </View>);
@@ -129,6 +117,6 @@ const style = StyleSheet.create({
     },
     textDeskripsi: {
         fontSize: 15,
-        
+        color:colors.black3
     }
 })

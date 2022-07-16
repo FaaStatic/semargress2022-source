@@ -86,6 +86,7 @@ export default function Feed({ navigation, route }) {
   });
 
   const getFeed = async () => {
+
     if (onProgress) {
       return;
     }
@@ -95,7 +96,8 @@ export default function Feed({ navigation, route }) {
       start: offset,
       count: length,
     };
-    console.log('jumlah_offset', offset);
+    if(offset == 0)setResponseFeed([]);
+    
     await Api.post('api/feed_instagram', param)
       .then((res) => {
         let body = res.data;

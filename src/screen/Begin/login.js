@@ -30,9 +30,8 @@ import { StackActions } from '@react-navigation/native';
 import { useFocusEffect } from '@react-navigation/native';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import { colors } from '../../util/color';
-import { SignInWithAppleButton } from 'react-native-apple-authentication';
 import jwt_decode from 'jwt-decode';
-import { appleAuth } from '@invertase/react-native-apple-authentication';
+import { SignInWithAppleButton } from '@invertase/react-native-apple-authentication';
 
 let time = 0;
 
@@ -374,8 +373,8 @@ export default function Login({ navigation }) {
             style={{
               backgroundColor: 'white',
               width: '90%',
-              height: '100%',
-              minHeight: '100%',
+              height: windowHeight - 100,
+              minHeight: windowHeight - 100,
               marginTop: 50,
               borderRadius: 10,
               marginLeft: 20,
