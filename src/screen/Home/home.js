@@ -14,7 +14,10 @@ import {
   BackHandler,
   Alert,
   Dimensions,
-  LogBox
+  LogBox,
+  Modal,
+  TouchableOpacity,
+  Linking
 } from 'react-native';
 import Style from '../../util/style';
 import { SessionManager } from '../../util/SessionManager';
@@ -29,6 +32,7 @@ import SpotWisataList from '../../util/ListItem/SpotWisataList';
 import { Environment } from '../../util/environment';
 import messaging from '@react-native-firebase/messaging';
 import ListPromoHome from '../../util/ListItem/ListPromoHome';
+import DeviceInfo from 'react-native-device-info';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -45,6 +49,11 @@ export default function Home({ navigation, route }) {
   const [spotWisata, setSpotWisata] = useState([]);
   const [left, setLeft] = useState(true);
   const [right, setRight] = useState(false);
+  const [btnUpdateAndroid, setBtnUpdateAndroid] = useState(false);
+  const [pesanUpdateAndroid, setPesanUpdateAndroid] = useState('');
+  const [linkUpdateAndroid, setUpdateAndroid] = useState('');
+  const [wajibAndroid, setWajibAndroid] = useState('0');
+
   useEffect(() => {
 
     const backAction = () => {
@@ -64,19 +73,9 @@ export default function Home({ navigation, route }) {
     };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-    setMerchantPop([]);
-    setSpotWisata([]);
-    setBanner([]);
-    checkSession();
-    kategoriHome();
-    jumlahCoupon();
-    getPromo();
-    getBannerSlider();
-    merchantPopuler();
-    getSpotPariwisata();
-    checkFCMToken();
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    
     const unsubscribe = navigation.addListener('focus', () => {
+      getLatestVersion();
       setMerchantPop([]);
       setSpotWisata([]);
       setBanner([]);
@@ -158,7 +157,7 @@ export default function Home({ navigation, route }) {
   const getBannerSlider = async () => {
     await Api.get('promo')
       .then((res) => {
-        console.log('Tes Banner', res.data.response);
+        //console.log('Tes Banner', res.data.response);
         setBanner(res.data.response);
       })
       .catch((err) => {
@@ -199,9 +198,43 @@ export default function Home({ navigation, route }) {
       let body = res.data;
       let response = body.response;
       let metadata = body.metadata;
-      console.log("spotWisata", body);
+
       if (metadata.status === 200) {
         setSpotWisata(response);
+      } else if (metadata.status === 401) {
+
+      } else {
+
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  const getLatestVersion = async () => {
+    await Api.get('/latest_version/user')
+    .then(res => {
+      
+      let body = res.data;
+      let response = body.response;
+      let metadata = body.metadata;
+      
+      if (metadata.status === 200) {
+        setUpdateAndroid(response.link_update);
+            var buildVersion = response.build_version;
+            setWajibAndroid(response.wajib);
+
+            console.log("sdjkfhslkhfskjhf");
+            // Android
+            if(Platform.OS === 'android' && buildVersion != DeviceInfo.getVersion()){
+
+              let onlineVersion = parseFloat(buildVersion);
+              let currentVersion = parseFloat(DeviceInfo.getVersion());
+              if(onlineVersion>currentVersion){
+                setPesanUpdateAndroid(buildVersion);
+                setBtnUpdateAndroid(true);
+              }
+            }
       } else if (metadata.status === 401) {
 
       } else {
@@ -529,12 +562,35 @@ export default function Home({ navigation, route }) {
 
       </ScrollView>
 
-      {Environment.ENV == 'PRODUCTION' &&
+      {Environment.ENV != 'PRODUCTION' &&
         <View
-          style={{ width: '100%', backgroundColor: 'red', position: 'absolute', marginTop: 0, padding: 8 }}
+          style={{ width: '100%', backgroundColor: 'red', position: 'absolute', top: 0, padding: 8 }}
         >
           <Text style={{ color: 'white', alignSelf: 'center' }}>{Environment.ENV}</Text>
         </View>}
+
+        {btnUpdateAndroid && (
+          <Modal 
+          onShow={false}
+          animationType="slide" transparent={true}
+          >
+          <View style={{backgroundColor:'rgba(52, 52, 52, 0.8)', flex:1, alignItems:'center', justifyContent:'center'}}>
+            <View style={{borderRadius:12, backgroundColor:'white', elevation:3, paddingTop:24, paddingLeft:16, paddingRight:16, paddingBottom:24, alignItems:'center'}}>
+              <Image source={require('../../assets/logo.png')} style={{height:120, width:120, resizeMode:'contain'}} />
+              <Text style={{width:220, textAlign:'center', marginTop:10, fontSize:14, fontWeight:'300',}}>Versi {pesanUpdateAndroid} Telah Tersedia di Playstore</Text>
+              <TouchableOpacity style={{height:38, width:150, backgroundColor:'#FF0000', alignItems:'center', justifyContent:'center', marginTop:22, borderRadius:100}} onPress={() => Linking.openURL(linkUpdateAndroid)}>
+                <Text style={{fontSize:14, color:'white'}}>Perbarui</Text>
+              </TouchableOpacity>
+
+              {wajibAndroid == "0" && 
+                <TouchableOpacity style={{height:38, width:150, backgroundColor:'#f5b342', alignItems:'center', justifyContent:'center', marginTop:22, borderRadius:100}} onPress={() => {setBtnUpdateAndroid(false)}}>
+                  <Text style={{fontSize:14, color:'white'}}>Lewati</Text>
+              </TouchableOpacity>
+              }
+            </View>
+          </View>
+        </Modal>
+        )}
     </SafeAreaView>
   );
 }
@@ -661,7 +717,7 @@ const style = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 18,
     marginStart: 16,
-    fontWeight: '600',
+    fontWeight: '400',
   },
   btnStyle: {
     width: 95,

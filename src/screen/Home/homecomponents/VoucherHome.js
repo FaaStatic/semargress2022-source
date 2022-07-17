@@ -91,11 +91,11 @@ export default function VoucherHome({ navigation, route }) {
           isEmpty = false;
         } else if (metadata.status === 401) {
             isEmpty = true;
-          console.log('Status', metadata.message);
+          //console.log('Status', metadata.message);
           setDataKosong(true);
         } else if(metadata.status === 404){
             isEmpty = true;
-            console.log('Status', metadata.message);
+            //console.log('Status', metadata.message);
             setMsg(metadata.message)
             setDataKosong(true);
         } else {
@@ -141,8 +141,9 @@ const style = StyleSheet.create({
     textStyle:{
         alignSelf:'center',
         fontSize:18,
-        fontWeight:'bold',
+        alignSelf:'center',
         color:'black',
+        fontWeight:'300',
         position :'absolute',
         marginTop:windows.height/2,
     },

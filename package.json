@@ -14,7 +14,7 @@
     "android:prod": "react-native run-android --variant=productiondebug"
   },
   "dependencies": {
-    "@invertase/react-native-apple-authentication": "^2.2.1",
+    "@invertase/react-native-apple-authentication": "^2.2.2",
     "@react-native-async-storage/async-storage": "^1.17.6",
     "@react-native-community/push-notification-ios": "^1.10.1",
     "@react-native-firebase/app": "^10.8.1",
@@ -26,7 +26,6 @@
     "@react-navigation/material-top-tabs": "^6.2.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/native-stack": "^6.6.2",
-    "@svanboxel/visibility-sensor-react-native": "^1.0.2",
     "axios": "^0.27.2",
     "i": "^0.3.7",
     "jwt-decode": "^3.1.2",
@@ -34,7 +33,6 @@
     "npm": "^8.14.0",
     "react": "17.0.2",
     "react-native": "0.68.2",
-    "react-native-apple-authentication": "^2.0.0",
     "react-native-camera": "^4.2.1",
     "react-native-currency-input": "^1.0.1",
     "react-native-device-info": "^9.0.2",

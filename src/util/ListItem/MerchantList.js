@@ -22,7 +22,7 @@ const style = StyleSheet.create({
   container: {
     flexDirection: 'column',
     width: SCREEN_WIDTH/2 - 25,
-    height: SCREEN_HEIGHT/3.5,
+    height: SCREEN_HEIGHT/3.8,
     marginLeft:defaultMargin,
     marginRight:defaultMargin,
     

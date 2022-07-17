@@ -45,17 +45,14 @@ export default function DetailListCategory({ navigation, route }) {
   let onProgress = false;
 
   useEffect(() => {
+
     setOpenLoad(true);
-    console.log('routeparams', route.params);
-    console.log('idk', id_k);
     offset = 0;
     onProgress = false;
     setExtraData(false);
     GrantLocation();
-    currentLocation();
-    setJumlahItem(0);
     setResponList([]);
-    loadSession();
+    
     const unsubscribe = navigation.addListener('focus', () => {
       setOpenLoad(true);
       offset = 0;
@@ -269,7 +266,7 @@ export default function DetailListCategory({ navigation, route }) {
       id_m: data.id_m,
       kategori: id_k,
     };
-    console.log('categoryitem', param);
+    //console.log('categoryitem', param);
     navigation.navigate('DetailMerchant', param);
   };
 
@@ -290,25 +287,19 @@ export default function DetailListCategory({ navigation, route }) {
     }
   }, []);
 
-  const onRefresh = async () => {
-    offset = 0;
-    setResponList([]);
-    getListItem();
-    setLast(false);
-    await loadMore();
-  };
-
   const loadSession = async () => {
     const session = await SessionManager.GetAsObject(sessionId);
     if (session != null) {
-      console.log('session ', session);
+      
     }
   };
 
   return (
     <SafeAreaView style={style.container}>
       
-      {openLoad ?   <BallIndicator size={40} color={'#0F2E63'}/> :    <FlatList
+      {openLoad ?   
+      <BallIndicator size={40} color={'#0F2E63'}/> :    
+      <FlatList
         data={responList}
         renderItem={itemRender}
         extraData={extraData}

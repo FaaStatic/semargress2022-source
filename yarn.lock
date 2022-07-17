@@ -835,10 +835,10 @@
   "resolved" "https://registry.npmjs.org/@humanwhocodes/object-schema/-/object-schema-1.2.1.tgz"
   "version" "1.2.1"
 
-"@invertase/react-native-apple-authentication@^2.2.1":
-  "integrity" "sha512-sadjKQa9W2i422i7kcZquZ0ZNSBSCljfu7eN0oGqhrzV+RIlWnnU1HiKf/1hOibPQ2ceRvTatjYlHKxrDMirPQ=="
-  "resolved" "https://registry.npmjs.org/@invertase/react-native-apple-authentication/-/react-native-apple-authentication-2.2.1.tgz"
-  "version" "2.2.1"
+"@invertase/react-native-apple-authentication@^2.2.2":
+  "integrity" "sha512-uNZcUn9WbAQP5zSOFXI1+kEUokLwZG9imUulFdt5t22CU2ozGq6zyPm+BAVVg8D5eUUXduX/dJFhbuOpJxiEhQ=="
+  "resolved" "https://registry.npmjs.org/@invertase/react-native-apple-authentication/-/react-native-apple-authentication-2.2.2.tgz"
+  "version" "2.2.2"
 
 "@isaacs/string-locale-compare@^1.1.0":
   "version" "1.1.0"
@@ -1533,11 +1533,6 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@svanboxel/visibility-sensor-react-native@^1.0.2":
-  "integrity" "sha512-UH9EyC2VeOrC6M4tleR0/NgbEBK3sLvTGgq3veGFjLPstGl5grHPxfWXTdSwf4wMbo8UNYRIwEiC1JcItO3wVQ=="
-  "resolved" "https://registry.npmjs.org/@svanboxel/visibility-sensor-react-native/-/visibility-sensor-react-native-1.0.2.tgz"
-  "version" "1.0.2"
-
 "@tootallnate/once@1":
   "integrity" "sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw=="
   "resolved" "https://registry.npmjs.org/@tootallnate/once/-/once-1.1.2.tgz"
@@ -1705,12 +1700,7 @@
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-7.4.1.tgz"
   "version" "7.4.1"
 
-"acorn@^8.2.4":
-  "integrity" "sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A=="
-  "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.7.1.tgz"
-  "version" "8.7.1"
-
-"acorn@^8.7.1":
+"acorn@^8.2.4", "acorn@^8.7.1":
   "integrity" "sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A=="
   "resolved" "https://registry.npmjs.org/acorn/-/acorn-8.7.1.tgz"
   "version" "8.7.1"
@@ -6258,30 +6248,20 @@
   "resolved" "https://registry.npmjs.org/react-freeze/-/react-freeze-1.0.0.tgz"
   "version" "1.0.0"
 
-"react-is@^16.12.0 || ^17.0.0", "react-is@^17.0.1", "react-is@^17.0.2":
+"react-is@^16.12.0 || ^17.0.0", "react-is@^16.13.0", "react-is@^16.13.1", "react-is@^16.7.0":
+  "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
+  "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
+  "version" "16.13.1"
+
+"react-is@^17.0.1":
   "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
   "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
   "version" "17.0.2"
 
-"react-is@^16.13.0":
-  "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
-  "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
-  "version" "16.13.1"
-
-"react-is@^16.13.1":
-  "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
-  "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
-  "version" "16.13.1"
-
-"react-is@^16.7.0":
-  "integrity" "sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ=="
-  "resolved" "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
-  "version" "16.13.1"
-
-"react-native-apple-authentication@^2.0.0":
-  "integrity" "sha512-7SZJ5Gl+9C0Dztu/hFag2j2ET2yhI9wf6Q0liiEwFWPbrP7Jd5/XfMNxDGJerrV/yv949h3bxiVTl4Ce0Xb8lg=="
-  "resolved" "https://registry.npmjs.org/react-native-apple-authentication/-/react-native-apple-authentication-2.0.0.tgz"
-  "version" "2.0.0"
+"react-is@^17.0.2":
+  "integrity" "sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w=="
+  "resolved" "https://registry.npmjs.org/react-is/-/react-is-17.0.2.tgz"
+  "version" "17.0.2"
 
 "react-native-camera@^4.2.1":
   "integrity" "sha512-+Vkql24PFYQfsPRznJCvPwJQfyzCnjlcww/iZ4Ej80bgivKjL9eU0IMQIXp4yi6XCrKi4voWXxIDPMupQZKeIQ=="
