@@ -21,6 +21,7 @@ const style = StyleSheet.create({
   conteiner2: {
     width:'100%',
     height:'100%',
+    alignItems:'center',
     backgroundColor:colors.primary,
   },
   modalStyle: {
@@ -29,10 +30,13 @@ const style = StyleSheet.create({
   },
   containerSplash: {
     height:windowHeight,
+    width:'100%',
     flexDirection: 'column',
     margin: 0,
     padding: 0,
     top: 0,
+    marginLeft:20,
+    marginRight:20,
     backgroundColor:colors.primary,
     alignItems:'center',
     fontFamily:'NeutrifPro-Regular'

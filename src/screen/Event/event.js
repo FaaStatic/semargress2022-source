@@ -103,7 +103,6 @@ export default function Event({ navigation, route }) {
       <View style={{
         backgroundColor: 'white',
         width: '100%',
-        height: 300,
       }}>
         <View style={style.containerHeader}>
           <Image
@@ -119,26 +118,21 @@ export default function Event({ navigation, route }) {
             resizeMode={'stretch'}
           />
           <Text style={style.textHeader}>Event</Text>
-          <View style={style.containerHeaderAds}>
-            <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
-              width: SCREEN_WIDTH / 1.2,
-              height: SCREEN_HEIGHT / 5,
-              borderRadius: 7,
-            }} />
-          </View>
         </View>
       </View>
 
       <View 
         style={{
           backgroundColor: 'white',
-          height:'100%'
+          height:'100%',
+          paddingTop: SCREEN_WIDTH / 5 + 40,
         }}
       >
         <FlatList
           data={responseEvent}
           renderItem={itemRender}
           style={{
+            height:'100%'
           }}
           onEndReached={loadMore}
           keyExtractor={(item, index) => item.id_i}
@@ -146,24 +140,28 @@ export default function Event({ navigation, route }) {
         />
       </View>
 
+      <View style={style.containerHeaderAds}>
+        <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
+          width: SCREEN_WIDTH / 1.2,
+          height: SCREEN_HEIGHT / 4,
+          borderRadius: 7,
+        }} />
+      </View>
     </SafeAreaView>
   );
 }
 
 const style = StyleSheet.create({
   containerHeaderAds: {
-    position: 'absolute',
-    width: SCREEN_WIDTH / 1.2,
-    height: SCREEN_HEIGHT / 5,
-    top: 0,
-    bottom: 0,
     backgroundColor: 'white',
     flexDirection: 'row',
     borderRadius: 16,
-    fontFamily: 'NeutrifPro-Regular',
+    position:'absolute',
     alignSelf: 'center',
     marginTop: 120,
     elevation: 5,
+    marginLeft:30,
+    marginRight:30,
   },
   flatContainer: {
     justifyContent: 'center',

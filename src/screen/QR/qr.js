@@ -74,8 +74,6 @@ const Qr = ({navigation, route}) => {
       <View
         style={styles.container}
       >
-        
-      
 
         <Text style={styles.title} >QR Code</Text>
 
@@ -89,14 +87,15 @@ const Qr = ({navigation, route}) => {
             style={{
               flexDirection:'row',
               marginTop:20,
-              height: windowHeight/6,
+              height: windowWidth/3,
             }}
           >
             <View
               style={{
                 padding:30,
                 backgroundColor:colors.white,
-                flex:1,
+                width:windowWidth/3,
+                height:windowWidth/3,
                 alignItems:'center',
                 borderRadius:10,
               }}
@@ -148,9 +147,11 @@ const Qr = ({navigation, route}) => {
             >
                   <Text
                     style={{
+                      width:100,
                       color:'white',
                       fontSize:16,
                       marginEnd:12,
+                      textAlign:'right',
                     }}
                   >Lihat QR</Text>
 
@@ -169,13 +170,14 @@ const Qr = ({navigation, route}) => {
             style={{
               flexDirection:'row',
               marginTop:20,
-              height: windowHeight/6,
+              height: windowWidth/3,
             }}
           >
             <ImageBackground
               style={{
                 padding:30,
-                flex:1,
+                width:windowWidth/3,
+                height:windowWidth/3,
                 alignItems:'center',
                 borderRadius:10,
                 borderRadius:12,
@@ -224,6 +226,8 @@ const Qr = ({navigation, route}) => {
               style={{
                 alignSelf:'flex-end',
                 marginTop:43,
+                flexDirection:'row',
+                alignItems:'center',
               }}
               onPress={()=>{
                 navigation.navigate('ScanQR');
@@ -234,8 +238,12 @@ const Qr = ({navigation, route}) => {
                       color:colors.primary,
                       fontSize:16,
                       fontWeight:'600',
+                      width:100,
+                      textAlign:'right',
+                      paddingRight:10,
                     }}
-                  >Scan QR <SimpleIcon name="arrow-right" size={14  } color={colors.primary} style={{}} /></Text>
+                  >Scan QR </Text>
+                  <SimpleIcon name="arrow-right" size={14  } color={colors.primary} style={{}} />
                   
             </TouchableOpacity>
 
@@ -259,6 +267,8 @@ const styles = StyleSheet.create({
   },
   title: {
     alignSelf:'center',
+    width:'100%',
+    textAlign:'center',
     marginTop:31,
     fontSize:25,
     fontWeight:'600',

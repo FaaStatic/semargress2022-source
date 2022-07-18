@@ -140,8 +140,8 @@ export default function DetailMerchant({ navigation, route }) {
     <SafeAreaView style={styling.containerView}>
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
         <View style={styling.constainerHeader}>
-          <Image source={{ uri: getDetail.foto }} resizeMode="cover" style={styling.styleImage} />
-          <SafeAreaView style={styling.constainerItemHeader}>
+          <Image source={{ uri: getDetail.foto }} style={styling.styleImage} />
+          <View style={styling.constainerItemHeader}>
             <Pressable
               style={styling.styleIcon}
               onPress={() => {
@@ -154,12 +154,12 @@ export default function DetailMerchant({ navigation, route }) {
             <View style={styling.containerTitle}>
               <Text style={styling.textTitle}>{getDetail.nama}</Text>
             </View>
-          </SafeAreaView>
+          </View>
           <View styling={styling.cardPromo}>
             <Text
               style={{
                 color: 'black',
-                marginTop: 116,
+                marginTop: 100,
                 fontSize: 16,
                 marginStart: 16,
                 marginBottom: 16,
@@ -390,13 +390,12 @@ const styling = StyleSheet.create({
 
   card: {
     height: 175,
-    marginTop: windowHeight / 2.5,
+    width:'85%',
+    marginTop: windowHeight / 3.5,
     backgroundColor: 'white',
     borderRadius: 16,
     elevation: 5,
-    width: 250,
     padding: 0,
-    width: 350,
     position: 'absolute',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -434,7 +433,9 @@ const styling = StyleSheet.create({
     marginEnd: windowWidth / 4,
   },
   styleImage: {
-    height: 400,
+    height: windowHeight/2.5,
+    backgroundColor:'#FF5CB550',
+    resizeMode:'cover',
     width: '100%',
   },
   containerScroll: {

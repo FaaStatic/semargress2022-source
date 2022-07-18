@@ -46,6 +46,7 @@ const style = StyleSheet.create({
     textNama:{
         position:'absolute',
         fontSize:14,
+        width:'100%',
         color:colors.white,
         bottom:0,
         textAlign:'center',

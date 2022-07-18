@@ -111,31 +111,44 @@ const Profile = ({navigation, route}) => {
 
   return (
 
-    <SafeAreaView>
+    <SafeAreaView style={styles.safeAreaContainer}>
       <View
         style={styles.container}
       >
+        <View style={{
+            backgroundColor: 'white',
+            width: '100%',
+          }}>
+            <View style={styles.containerHeader}>
+              <Image
+                source={require('../../assets/header_app.png')}
+                style={{
+                  height: '100%',
+                  marginTop: 0,
+                  top: 0,
+                  width: '100%',
+                  position: 'absolute',
+                  flexDirection: 'row',
+                }}
+                resizeMode={'stretch'}
+              />
+              <Text style={styles.textHeader}>Profile</Text>
+            </View>
+          </View>      
 
-      
-
-        <ScrollView showsVerticalScrollIndicator={false}>
-       
-
-          <Text style={styles.title} >Profile</Text>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:colors.white}}>
 
           <View
             style={{
               flexDirection: 'column',
               alignItems: 'center',
-              marginTop: 16,
             }}
           >
 
             <View
               style={{
-                width: windowWidth - 50,
-                height: windowWidth - 50,
-                marginTop:'25%',
+                width: 350,
+                height: 350,
                 padding: 30,
                 borderRadius: 18,
               }}
@@ -143,8 +156,8 @@ const Profile = ({navigation, route}) => {
 
             <Image source={require('../../assets/bg_profile.png')} style={{
               position:'absolute',
-              width: windowWidth - 50,
-              height: windowWidth - 50,
+              width: 350,
+                height: 350,
               borderRadius: 18,
             }} resizeMode='cover'/>
               <Image
@@ -337,11 +350,13 @@ const styles = StyleSheet.create({
   label: {
     color:colors.white,
     marginTop:10,
+    width:'100%',
     fontWeight:'400',
   },
   value: {
     color:colors.white,
     marginTop:10,
+    width:'100%',
     fontSize:18,
     fontWeight:'600',
   },
@@ -358,6 +373,7 @@ const styles = StyleSheet.create({
   menuTitle:{
     fontSize:16,
     fontWeight:'600',
+    width:'100%',
     color:colors.black,
     marginLeft:19,
   },
@@ -367,5 +383,23 @@ const styles = StyleSheet.create({
     marginRight:30,
     marginTop:30,
     alignItems:'center'
-  }
+  },
+  containerHeader: {
+    height: 90,
+  },
+  textHeader: {
+    fontSize: 18,
+    fontWeight: '600',
+    alignSelf: 'center',
+    position: 'absolute',
+    top: 0,
+    fontFamily:'NeutrifPro-Regular',
+    color: 'white',
+    marginTop: 16,
+  },
+  safeAreaContainer: {
+    flex: 1,
+    flexDirection: 'column',
+    backgroundColor: colors.secondary
+  },
 });
