@@ -23,13 +23,7 @@ export default function EKupon({ navigation, route }) {
 
 
   useEffect(()=>{
-    offset = 0;
-    onProgress = false;
-    setJumlahItem(0);
-    setKuponList([]);
-    setExtraData(false);
-    getKupon();
-    jumlahCoupon();
+
     const unsubscribe = navigation.addListener('focus', () => {
     offset = 0;
     onProgress = false;
@@ -168,20 +162,22 @@ export default function EKupon({ navigation, route }) {
   };
 
   return <SafeAreaView style={{
-    backgroundColor:'white'
+    backgroundColor:'white',
+    flex:1,
+    flexDirection:'column',
+    flexWrap:'wrap'
   }}>
     <View style={{
       borderBottomColor:'#E0E0E0',
       borderBottomWidth:1,
-      marginBottom:23,
+      paddingBottom:16,
+      paddingTop:16,
     }}>
       <Text style={{
         color:'#333333',
         fontWeight:'600',
         fontSize:16,
         marginStart:18,
-        marginBottom:24,
-        marginTop:23,
 
       }} >Jumlah E-Kupon Kamu : {jumlah}</Text>
     </View>
@@ -194,9 +190,7 @@ export default function EKupon({ navigation, route }) {
     extraData={extraData}
     showsVerticalScrollIndicator={false}
     contentContainerStyle={{
-        bottom:0,
-        top:0,
-        minHeight:'130%'
+        height : SCREEN_HEIGHT+(SCREEN_HEIGHT/4)
     }}
     style={style.listcontainer}/>
   </SafeAreaView>;
@@ -205,6 +199,6 @@ export default function EKupon({ navigation, route }) {
 const style=StyleSheet.create({
     listcontainer : {
         backgroundColor:'white',
-       
+        paddingTop:16,
     }
 })

@@ -155,9 +155,10 @@ export default function Home({ navigation, route }) {
   };
 
   const getBannerSlider = async () => {
+    
     await Api.get('promo')
       .then((res) => {
-        //console.log('Tes Banner', res.data.response);
+        console.log('Tes Banner', res.data.response);
         setBanner(res.data.response);
       })
       .catch((err) => {
@@ -322,11 +323,22 @@ export default function Home({ navigation, route }) {
     }
   };
 
+  const bannerRender = useCallback(({item})=>{
+    return(
+      <BannerList item={item} pressCall={moveDetailPromo} />
+    );
+   
+  })
 
   return (
     <SafeAreaView style={style.containerHome}>
 
-<Image
+<View style={{
+        flexDirection: 'column',
+        top: 0,
+        height: '25%'
+      }}>
+        <Image
             source={require('../../assets/header_app.png')}
             style={{
               height: 100,
@@ -337,16 +349,6 @@ export default function Home({ navigation, route }) {
             }}
             resizeMode={'stretch'}
           />
-
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{
-        
-      }}>
-
-<View style={{
-        flexDirection: 'column',
-        top: 0,
-        height: SCREEN_HEIGHT/5
-      }}>
 
         <View
           style={{
@@ -382,6 +384,9 @@ export default function Home({ navigation, route }) {
         </View>
       </View>
 
+      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{
+        
+      }}>
         <View style={style.listService}>
           <FlatList
             nestedScrollEnabled={true}
@@ -447,7 +452,7 @@ export default function Home({ navigation, route }) {
           </View>
         </View>
 
-        <Text style={style.textBannerSmargress}>Event Semargress</Text>
+        <Text style={style.textBannerSmargress}>Event Semargres</Text>
         <View style={{
           width: 350,
           height: 135,
@@ -471,7 +476,7 @@ export default function Home({ navigation, route }) {
               data={banner}
               keyExtractor={(item, index) => index.toString()}
               showsHorizontalScrollIndicator={false}
-              renderItem={BannerList}
+              renderItem={bannerRender}
             />
           </ScrollView>
         </View>
@@ -675,7 +680,7 @@ const style = StyleSheet.create({
     bottom: 0,
     marginStart: 16,
     marginEnd: 16,
-    marginBottom: 15,
+    marginBottom: 24,
     backgroundColor: 'white',
     flexDirection: 'row',
   },
@@ -702,15 +707,13 @@ const style = StyleSheet.create({
   viewCoupon: {
     borderTopLeftRadius: 16,
     borderTopRightRadius: 16,
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#8B68D9',
-    elevation: 16,
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    height: 65,
-    marginTop: '25%',
+    top:0,
+    marginTop:'25%',
     paddingTop: 16,
   },
   TextCoupon: {
@@ -743,8 +746,6 @@ const style = StyleSheet.create({
     margin: 0,
     padding: 0,
     flex: 1,
-    borderTopLeftRadius: 16,
-    borderTopRightRadius: 16,
     backgroundColor: 'white',
     justifyContent: 'center',
   },

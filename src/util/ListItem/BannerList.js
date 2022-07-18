@@ -1,13 +1,13 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import { View, Image, StyleSheet, Pressable } from 'react-native';
 
 
-export default function BannerList({ item }) {
+export default function BannerList({ item , pressCall}) {
     console.log('console dari banner', item.gambar);
     return (
-      <View style={style.bannerContainer}>
+      <Pressable style={style.bannerContainer} onPress={()=>pressCall(item)}>
         <Image source={{ uri: item.gambar }} style={style.bannerImage} resizeMode='cover'/>
-      </View>
+      </Pressable>
     );
   }
 

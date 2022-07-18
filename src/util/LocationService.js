@@ -25,9 +25,9 @@ import Geolocation from 'react-native-geolocation-service';
  export const GrantLocation = async () => {
     try {
       const granted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
-        title: 'Semargress Meminta Izin Lokasi',
+        title: 'Semargres Meminta Izin Lokasi',
         message:
-          'Semargress Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
+          'Semargres Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
         buttonNeutral: 'Tanya Nanti',
         buttonNegative: 'Batal',
         buttonPositive: 'Iya',
