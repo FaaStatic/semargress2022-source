@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { FlatList, SafeAreaView, View, StyleSheet, PermissionsAndroid, Platform } from 'react-native';
+import { FlatList, SafeAreaView, View, StyleSheet, PermissionsAndroid, Platform, Text } from 'react-native';
 import { SessionManager } from '../../../util/SessionManager';
 import { sessionId } from '../../../util/GlobalVar';
 import { Api } from '../../../util/Api';
@@ -46,48 +46,24 @@ export default function DetailListCategory({ navigation, route }) {
 
   useEffect(() => {
 
-    setOpenLoad(true);
-    offset = 0;
-    onProgress = false;
-    setExtraData(false);
-    GrantLocation();
-    setResponList([]);
+
     
     const unsubscribe = navigation.addListener('focus', () => {
+      GrantLocation();
       setOpenLoad(true);
       offset = 0;
       onProgress = false;
       setExtraData(false);
       setJumlahItem(0);
       setResponList([]);
-      currentLocation();
       loadSession();
     });
     return () => {
       unsubscribe;
     };
-  }, [navigation, GrantLocation, currentLocation]);
+  }, [navigation]);
 
   const currentLocation = async () => {
-
-    if(Platform.OS == 'ios') {
-        
-        const auth = await Geolocation.requestAuthorization('whenInUse');
-        if (auth === 'granted') {
-          
-        }
-        Geolocation.getCurrentPosition(
-          (position) => {
-              console.log(position);
-          },
-          (error) => {
-            console.log("map error: ",error);
-              console.log(error.code, error.message);
-          },
-          { enableHighAccuracy: false, timeout: 15000, maximumAge: 10000 }
-      );
-    }
-
     try {
       Geolocation.getCurrentPosition(
         async (pos) => {
@@ -125,7 +101,7 @@ export default function DetailListCategory({ navigation, route }) {
             marginBottom: 8,
           }}
         >
-          <DotIndicator color="#251468" size={10} />
+          <DotIndicator color="#251468" size={6} />
         </View>
       );
     } else {
@@ -137,10 +113,8 @@ export default function DetailListCategory({ navigation, route }) {
   const GrantLocation = async () => {
 
     try {
-
-      const granted = '';
       if(Platform.OS == 'android') {
-        const granted = await PermissionsAndroid.request(
+     const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
           {
             title: 'Semargress Meminta Izin Lokasi',
@@ -151,22 +125,24 @@ export default function DetailListCategory({ navigation, route }) {
             buttonPositive: 'Iya',
           }
         );
-      }else {
+        if (granted) {
+          console.log('StatusLokasi', granted);
+          currentLocation();
+        } else {
+          ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
+        }
+      }else if(Platform.OS == 'ios'){
         
         const auth = await Geolocation.requestAuthorization('whenInUse');
         if (auth === 'granted') {
-          granted = PermissionsAndroid.RESULTS.GRANTES;
+          console.log('StatusLokasi', granted);
+          currentLocation();
         }else{
-          granted = 'gagal';
+          ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
         }
       }
       
-      if (granted === PermissionsAndroid.RESULTS.GRANTES) {
-        console.log('StatusLokasi', granted);
-        getListItem();
-      } else {
-        ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
-      }
+     
     } catch (error) {
       console.log(error.message);
     }
@@ -232,11 +208,21 @@ export default function DetailListCategory({ navigation, route }) {
           setOpenLoad(false);
         } else if(metadata.status === 404){
           setLast(true);
+          if(responList.length !== 0){
+            setListKosong(false);
+          }else{
+            setListKosong(true);
+          }
+         
           setLoading(false);
           setOpenLoad(false);
         }else {
           if (offset == 0) {
-            setListKosong(true);
+            if(responList.length !== 0){
+              setListKosong(false);
+            }else{
+              setListKosong(true);
+            }
           }
           setLast(true);
           setLoading(false);
@@ -257,7 +243,7 @@ export default function DetailListCategory({ navigation, route }) {
       setLoading(true);
       offset += length;
       console.log('logvar', offset )
-      currentLocation();
+      GrantLocation();
      }
   };
 
@@ -298,17 +284,31 @@ export default function DetailListCategory({ navigation, route }) {
     <SafeAreaView style={style.container}>
       
       {openLoad ?   
-      <BallIndicator size={40} color={'#0F2E63'}/> :    
-      <FlatList
-        data={responList}
-        renderItem={itemRender}
-        extraData={extraData}
-        keyExtractor={(item,index) => {index.toString()}}
-        showsVerticalScrollIndicator={false}
-        ListFooterComponent={loadIndice}
-        onEndReached={loadMore}
-        style={style.listStyle}
-      /> }
+      <BallIndicator size={40} color={'#0F2E63'}/> : (ListKosong ? <Text style={{
+        fontSize:23,
+        color:'black',
+        fontWeight:'600',
+        width:'70%',
+        textAlign:'center',
+        alignSelf:'center'
+      }}>Merchant Terdekat Tidak Ditemukan :"(</Text> :  <FlatList
+      data={responList}
+      renderItem={itemRender}
+      extraData={extraData}
+      keyExtractor={(item,index) => {index.toString()}}
+      showsVerticalScrollIndicator={false}
+      ListFooterComponent={loadIndice}
+      onEndReached={({ distanceFromEnd }) => {
+       if(distanceFromEnd > 0){
+        loadMore();
+       }else{
+        return;
+       }
+    }}
+      onEndReachedThreshold={0.5}
+      style={style.listStyle}
+    /> )   
+     }
     
    
     </SafeAreaView>
@@ -319,6 +319,7 @@ const style = StyleSheet.create({
   container: {
     flex: 1,
     padding: 0,
+    justifyContent:'center',
     flexDirection: 'column',
   },
   listStyle: {

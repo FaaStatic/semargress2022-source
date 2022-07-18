@@ -21,16 +21,12 @@ export default function Event({ navigation, route }) {
 
 
   useEffect(() => {
-    offset = 0;
+   
+    const subscribe = navigation.addListener('focus', () => {
+      offset = 0;
     onProgress = false;
     setResponseEvent([]);
     setExtraData(false);
-    setJumlahItem(0);
-    //getApi();
-    const subscribe = navigation.addListener('focus', () => {
-      offset = 0;
-      onProgress = false;
-      setExtraData(false);
       setResponseEvent([]);
       setJumlahItem(0);
       getApi();

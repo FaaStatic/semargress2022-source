@@ -181,7 +181,7 @@ const Profile = ({navigation, route}) => {
                     width: 35,
                     height: 35,
                     borderRadius: 10,
-                    resizeMode: 'contain',
+                    resizeMode: 'stretch',
                   }}
                 >
 

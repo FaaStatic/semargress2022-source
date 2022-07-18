@@ -63,7 +63,7 @@ export default function ListKoupon({data}){
         {data.type =='title' &&
         <View style={{
             flexDirection:'row',
-            width:'100%',
+            width:windowWidth.width,
         }}>
         <Text style={{
                 color:'black',
@@ -71,18 +71,16 @@ export default function ListKoupon({data}){
                 fontWeight:'600',
                 marginStart:20,
                 marginBottom:16,
-                marginTop:16,
                 
             }}>{data.merchant}</Text>
               <Text style={{
                 color:'black',
                 position:'absolute',
                 right:0,
-                marginTop:18,
                 fontSize:13,
+                marginEnd:16,
                 fontWeight:'400',
                 marginBottom:16,
-                marginEnd:32,
             }}>{changeDate(data.insert_at)}</Text>
         </View>
         
