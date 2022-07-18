@@ -149,7 +149,7 @@ export default function EventDetail({ navigation, route }) {
           marginTop: 8,
           width: SCREEN_WIDTH / 1.1,
           alignSelf: 'center',
-        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : 'Tidak Ada Keterangan Promo'}</Text>
+        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : ''}</Text>
 
         <TouchableOpacity style={style.btnStyle} onPress={onPressTertarik}>
           <Text style={{
