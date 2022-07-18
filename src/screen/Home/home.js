@@ -33,6 +33,7 @@ import { Environment } from '../../util/environment';
 import messaging from '@react-native-firebase/messaging';
 import ListPromoHome from '../../util/ListItem/ListPromoHome';
 import DeviceInfo from 'react-native-device-info';
+import { colors } from '../../util/color';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -260,10 +261,7 @@ export default function Home({ navigation, route }) {
 
 
   const moveCategory = (data) => {
-    navigation.navigate('DetailListCategory', {
-      ...data
-    });
-    //console.log('tesidk', data);
+    navigation.navigate('DetailListCategory',data);
   }
 
   const moveHomeWisata = () => {
@@ -333,10 +331,18 @@ export default function Home({ navigation, route }) {
   return (
     <SafeAreaView style={style.containerHome}>
 
-<View style={{
+      <View
+        style={{
+          width: '100%',
+          height: '100%',
+          backgroundColor: colors.primary,
+        }}
+      >
+        <View style={{
         flexDirection: 'column',
         top: 0,
-        height: '25%'
+        backgroundColor: colors.primary,
+        height: 150
       }}>
         <Image
             source={require('../../assets/header_app.png')}
@@ -404,6 +410,7 @@ export default function Home({ navigation, route }) {
                 setRight(true)
               }
             }}
+            
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item, index) => index.toString()}
             renderItem={itemRender}
@@ -485,15 +492,12 @@ export default function Home({ navigation, route }) {
             <Text style={style.textAllMerchant}>Merchant Populer</Text>
             <SimpleIcon name="arrow-right" size={12} color={'#0F2E63'} style={style.styleIconArrow} onPress={() => { navigation.navigate('MerchantHome') }} />
           </Pressable>
-          <ScrollView>
             <FlatList nestedScrollEnabled={true}
               data={merchantPop.slice(0, 10)}
               showsHorizontalScrollIndicator={false}
               renderItem={detailMerchant}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true} />
-          </ScrollView>
-
           <LinearGradient
             colors={['#35CAED33', '#35CAED33', '#ffffff']}
             start={{ x: 0.0, y: 0.0 }}
@@ -519,7 +523,7 @@ export default function Home({ navigation, route }) {
         <View style={style.spotPariwisataContainer}>
           <ImageBackground source={require('../../assets/bgpopulerwisata.png')} style={style.imagestyleBg} resizeMode='cover'>
             <Text style={style.textSpotTitle}>Pariwisata Semarang</Text>
-            <ScrollView>
+            
               <FlatList
                 nestedScrollEnabled={true}
                 horizontal={true}
@@ -530,7 +534,7 @@ export default function Home({ navigation, route }) {
                 ListFooterComponent={showAllDestination}
                 style={style.containerListSpotPariwisata}
               />
-            </ScrollView>
+            
           </ImageBackground>
 
         </View>
@@ -567,35 +571,38 @@ export default function Home({ navigation, route }) {
 
       </ScrollView>
 
-      {Environment.ENV != 'PRODUCTION' &&
+      </View>
+
+
+      {Environment.ENV == 'PRODUCTION' &&
         <View
           style={{ width: '100%', backgroundColor: 'red', position: 'absolute', top: 0, padding: 8 }}
         >
           <Text style={{ color: 'white', alignSelf: 'center' }}>{Environment.ENV}</Text>
         </View>}
 
-        {btnUpdateAndroid && (
-          <Modal 
+      {btnUpdateAndroid && (
+        <Modal
           onShow={false}
           animationType="slide" transparent={true}
-          >
-          <View style={{backgroundColor:'rgba(52, 52, 52, 0.8)', flex:1, alignItems:'center', justifyContent:'center'}}>
-            <View style={{borderRadius:12, backgroundColor:'white', elevation:3, paddingTop:24, paddingLeft:16, paddingRight:16, paddingBottom:24, alignItems:'center'}}>
-              <Image source={require('../../assets/logo.png')} style={{height:120, width:120, resizeMode:'contain'}} />
-              <Text style={{width:220, textAlign:'center', marginTop:10, fontSize:14, fontWeight:'300',}}>Versi {pesanUpdateAndroid} Telah Tersedia di Playstore</Text>
-              <TouchableOpacity style={{height:38, width:150, backgroundColor:'#FF0000', alignItems:'center', justifyContent:'center', marginTop:22, borderRadius:100}} onPress={() => Linking.openURL(linkUpdateAndroid)}>
-                <Text style={{fontSize:14, color:'white'}}>Perbarui</Text>
+        >
+          <View style={{ backgroundColor: 'rgba(52, 52, 52, 0.8)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View style={{ borderRadius: 12, backgroundColor: 'white', elevation: 3, paddingTop: 24, paddingLeft: 16, paddingRight: 16, paddingBottom: 24, alignItems: 'center' }}>
+              <Image source={require('../../assets/logo.png')} style={{ height: 120, width: 120, resizeMode: 'contain' }} />
+              <Text style={{ width: 220, textAlign: 'center', marginTop: 10, fontSize: 14, fontWeight: '300', }}>Versi {pesanUpdateAndroid} Telah Tersedia di Playstore</Text>
+              <TouchableOpacity style={{ height: 38, width: 150, backgroundColor: '#FF0000', alignItems: 'center', justifyContent: 'center', marginTop: 22, borderRadius: 100 }} onPress={() => Linking.openURL(linkUpdateAndroid)}>
+                <Text style={{ fontSize: 14, color: 'white' }}>Perbarui</Text>
               </TouchableOpacity>
 
-              {wajibAndroid == "0" && 
-                <TouchableOpacity style={{height:38, width:150, backgroundColor:'#f5b342', alignItems:'center', justifyContent:'center', marginTop:22, borderRadius:100}} onPress={() => {setBtnUpdateAndroid(false)}}>
-                  <Text style={{fontSize:14, color:'white'}}>Lewati</Text>
-              </TouchableOpacity>
+              {wajibAndroid == "0" &&
+                <TouchableOpacity style={{ height: 38, width: 150, backgroundColor: '#f5b342', alignItems: 'center', justifyContent: 'center', marginTop: 22, borderRadius: 100 }} onPress={() => { setBtnUpdateAndroid(false) }}>
+                  <Text style={{ fontSize: 14, color: 'white' }}>Lewati</Text>
+                </TouchableOpacity>
               }
             </View>
           </View>
         </Modal>
-        )}
+      )}
     </SafeAreaView>
   );
 }
@@ -642,11 +649,11 @@ const style = StyleSheet.create({
     width: 100,
   },
   imagestyleBg: {
-    height: 300,
+    height: SCREEN_WIDTH/2 + 70,
     width: '100%'
   },
   spotPariwisataContainer: {
-    height: 270,
+    height: SCREEN_WIDTH/2 + 70,
     backgroundColor: '#B60D00',
     flexDirection: 'column',
   },
@@ -662,7 +669,7 @@ const style = StyleSheet.create({
     Style.container,
     {
       width: SCREEN_WIDTH,
-      backgroundColor: '#9a85f7',
+      backgroundColor: colors.secondary,
       fontFamily: 'NeutrifPro-Regular'
     },
   ],
@@ -697,7 +704,6 @@ const style = StyleSheet.create({
   iconSearch: {
     bottom: 0,
     right: 0,
-    alignSelf: 'flex-end',
     marginEnd: 16,
   },
   iconNotif: {
@@ -710,23 +716,23 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#8B68D9',
     width: '100%',
+    height:60,
     position: 'absolute',
-    bottom: 0,
-    top:0,
-    marginTop:'25%',
-    paddingTop: 16,
+    alignItems:'center',
+    bottom:0,
+    
   },
   TextCoupon: {
     color: '#FFFFFF',
+    width:'100%',
     fontSize: 18,
+    alignSelf:'center',
     marginStart: 16,
     fontWeight: '400',
   },
   btnStyle: {
     width: 95,
     height: 30,
-    bottom: 0,
-    top: 0,
     marginEnd: 16,
     marginTop: SCREEN_WIDTH / 30,
     backgroundColor: '#F9F9F9',
@@ -746,6 +752,7 @@ const style = StyleSheet.create({
     margin: 0,
     padding: 0,
     flex: 1,
+    alignItems:'center',
     backgroundColor: 'white',
     justifyContent: 'center',
   },

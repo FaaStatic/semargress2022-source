@@ -100,7 +100,7 @@ const DetailQR = ({navigation, route}) => {
 
   return (
 
-    <SafeAreaView>
+    <SafeAreaView style={{backgroundColor:colors.primary}}>
       <View
         style={styles.container}
       >
@@ -162,9 +162,8 @@ const DetailQR = ({navigation, route}) => {
                         source={{uri:dataQR}}
                         defaultSource={require('../../assets/qr.png')}
                         style={{
-                            marginTop: 20,
-                            width: windowWidth*0.65,
-                            height: windowWidth*0.65,
+                            width: '70%',
+                            height: '60%',
                         }}
                         resizeMode='contain'
                     />
@@ -235,7 +234,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         height: '100%',
-        backgroundColor: '#001F58'
+        backgroundColor: colors.primary
 
     }
 });

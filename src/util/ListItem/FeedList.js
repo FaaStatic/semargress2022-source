@@ -95,6 +95,7 @@ const style = StyleSheet.create({
     },
     textHeader: {
         fontSize: 15,
+        width:'100%',
         color: 'black',
         fontWeight: '600',
         marginStart: 17,

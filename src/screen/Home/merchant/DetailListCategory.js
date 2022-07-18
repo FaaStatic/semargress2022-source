@@ -24,14 +24,17 @@ import { ShowError, ShowWarning } from '../../../util/ShowMessage';
 var latitude = 0;
 var longitude = 0;
 var offset = 0;
+var isLast = false;
+var onProgress = false;
+
 export default function DetailListCategory({ navigation, route }) {
+
   const [extraData, setExtraData] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
   const [loading, setLoading] = useState(false);
   const [openLoad, setOpenLoad] = useState(false);
   let length = 11;
   const [refreshing, setRefresh] = useState(false);
-  const [isLast, setLast] = useState(false);
   const [responList, setResponList] = useState([]);
   const [col, setCol] = useState(0);
   const [ListKosong, setListKosong] = useState(false);
@@ -41,21 +44,20 @@ export default function DetailListCategory({ navigation, route }) {
   });
 
   const { id_k } = route.params;
-  console.log('routeparams', route.params);
-  let onProgress = false;
+  //console.log('routeparams', route.params);
 
   useEffect(() => {
-
-
     
+    setOpenLoad(true);
+    setExtraData(false);
+    setResponList([]);
+    setJumlahItem(0);
+    offset = 0;
+    onProgress = false;
+    GrantLocation();
+
     const unsubscribe = navigation.addListener('focus', () => {
-      GrantLocation();
-      setOpenLoad(true);
-      offset = 0;
-      onProgress = false;
-      setExtraData(false);
-      setJumlahItem(0);
-      setResponList([]);
+      
       loadSession();
     });
     return () => {
@@ -64,6 +66,7 @@ export default function DetailListCategory({ navigation, route }) {
   }, [navigation]);
 
   const currentLocation = async () => {
+
     try {
       Geolocation.getCurrentPosition(
         async (pos) => {
@@ -77,8 +80,6 @@ export default function DetailListCategory({ navigation, route }) {
           latitude = datalatitude;
           longitude = datalongitude;
           getListItem();
-          console.log('current', pos);
-          console.log('currentstate', location);
         },
         (err) => {
           console.log(err.message);
@@ -134,8 +135,7 @@ export default function DetailListCategory({ navigation, route }) {
       }else if(Platform.OS == 'ios'){
         
         const auth = await Geolocation.requestAuthorization('whenInUse');
-        if (auth === 'granted') {
-          console.log('StatusLokasi', granted);
+        if (auth == 'granted') {
           currentLocation();
         }else{
           ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
@@ -148,7 +148,8 @@ export default function DetailListCategory({ navigation, route }) {
     }
   };
 
-  const getListItem = async (data) => {
+  const getListItem = (data) => {
+    
     if (onProgress) {
       return;
     }
@@ -163,20 +164,21 @@ export default function DetailListCategory({ navigation, route }) {
       kategori: id_k,
       keyword: '',
     };
-      console.log('logoffeset', offset);
-    await Api.post('merchant/nearby_with_ads', param)
+      
+    Api.post('merchant/nearby_with_ads', param)
       .then((res) => {
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
-        onProgress = false;
-        console.log('tessaja', response);
-        if (metadata.status === 200) {
-          setResponList(data);
+        
+        if (metadata.status == 200) {
+          //setResponList(data);
           var merchant = [];
           var listNew = [];
+
           response.forEach((element) => {
-            if (element.flag_tipe=== 'merchant') {
+            if (element.flag_tipe == 'merchant') {
+
               merchant.push(element);
               if (merchant.length == 2) {
                 listNew.push({
@@ -185,29 +187,27 @@ export default function DetailListCategory({ navigation, route }) {
                 });
                 merchant = [];
               }
-            } else if (element.flag_tipe === 'iklan') {
+            } else if (element.flag_tipe == 'iklan') {
               listNew.push({
                 type: 'iklan',
                 data: element,
               });
-            }
-            console.log("pjgresponse",response.length)
-            setResponList(offset == 0 ? listNew : [...responList, ...listNew]);
-            setLast(response.length !== length  ? true : false);
-            setListKosong(false);
-            console.log('testestes',isLast);
-            setLoading(false);
-            setOpenLoad(false);
-          
+            }          
           });
 
-          setJumlahItem(jumlahItem + response.length);
-        } else if (metadata.status === 401) {
+          setResponList(offset == 0 ? listNew : responList.concat(listNew));
+          isLast = response.length !== length  ? false : true;
+          setListKosong(false);
+          setLoading(false);
+          setOpenLoad(false);
+
+        } else if (metadata.status == 401) {
           setListKosong(true);
           setLoading(false);
           setOpenLoad(false);
-        } else if(metadata.status === 404){
-          setLast(true);
+          isLast = true;
+        } else if(metadata.status == 404){
+          isLast = true;
           if(responList.length !== 0){
             setListKosong(false);
           }else{
@@ -217,6 +217,7 @@ export default function DetailListCategory({ navigation, route }) {
           setLoading(false);
           setOpenLoad(false);
         }else {
+          
           if (offset == 0) {
             if(responList.length !== 0){
               setListKosong(false);
@@ -224,26 +225,30 @@ export default function DetailListCategory({ navigation, route }) {
               setListKosong(true);
             }
           }
-          setLast(true);
+
+          isLast = true;
           setLoading(false);
           setOpenLoad(false);
         }
+
         setExtraData(!extraData);
+        onProgress = false;
       })
       .catch((error) => {
-        onProgress = false;
+        
         console.log(error);
         setLoading(false);
         setOpenLoad(false);
+        onProgress = false;
       });
   };
 
-  const loadMore = async () => {
-    if (isLast) {
+  const loadMore = () => {
+
+    if (!isLast && !onProgress) {
       setLoading(true);
       offset += length;
-      console.log('logvar', offset )
-      GrantLocation();
+      getListItem();
      }
   };
 
@@ -257,14 +262,14 @@ export default function DetailListCategory({ navigation, route }) {
   };
 
   const itemRender = useCallback(({ item }) => {
-    if (item.type === 'merchant') {
+    if (item.type == 'merchant') {
       return (
         <View style={{ margin: 10, flexDirection:'row' }}>
         <MerchanList item={item.data[0]} pressCall={moveDetail}/>
         <MerchanList item={item.data[1]} pressCall={moveDetail}/>
         </View>
       );
-    } else {
+    } else if (item.type == 'iklan') {
       return (
         <View style={{ margin: 10 }}>
           <IklanItem item={item.data} />
@@ -283,33 +288,39 @@ export default function DetailListCategory({ navigation, route }) {
   return (
     <SafeAreaView style={style.container}>
       
-      {openLoad ?   
-      <BallIndicator size={40} color={'#0F2E63'}/> : (ListKosong ? <Text style={{
-        fontSize:23,
-        color:'black',
-        fontWeight:'600',
-        width:'70%',
-        textAlign:'center',
-        alignSelf:'center'
-      }}>Merchant Terdekat Tidak Ditemukan :"(</Text> :  <FlatList
+      <View
+        style={{
+          position:'absolute',
+          alignSelf:'center'
+        }}
+      >
+        {openLoad ? 
+        <BallIndicator size={40} color={'#0F2E63'}/> :
+          (ListKosong ? 
+            <Text style={{
+              fontSize:23,
+              color:'black',
+              fontWeight:'400',
+              width:'70%',
+              textAlign:'center',
+              alignSelf:'center'
+            }}>Merchant Terdekat Tidak Ditemukan :"(</Text> : <></>  
+            )   
+        }
+      </View>
+      
+
+      <FlatList
       data={responList}
       renderItem={itemRender}
       extraData={extraData}
-      keyExtractor={(item,index) => {index.toString()}}
+      keyExtractor={(item,index) => index.toString()}
       showsVerticalScrollIndicator={false}
       ListFooterComponent={loadIndice}
-      onEndReached={({ distanceFromEnd }) => {
-       if(distanceFromEnd > 0){
-        loadMore();
-       }else{
-        return;
-       }
-    }}
-      onEndReachedThreshold={0.5}
+      onEndReached={loadMore}
+      onEndReachedThreshold={1}
       style={style.listStyle}
-    /> )   
-     }
-    
+    />
    
     </SafeAreaView>
   );
@@ -323,8 +334,8 @@ const style = StyleSheet.create({
     flexDirection: 'column',
   },
   listStyle: {
-    flex: 1,
     width: '100%',
+    height:'100%',
   },
   constainerLoading: {
     height: 100,

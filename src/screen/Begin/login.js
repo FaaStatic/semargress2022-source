@@ -31,7 +31,8 @@ import { useFocusEffect } from '@react-navigation/native';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import { colors } from '../../util/color';
 import jwt_decode from 'jwt-decode';
-import { SignInWithAppleButton } from '@invertase/react-native-apple-authentication';
+import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
+
 
 let time = 0;
 
@@ -323,35 +324,51 @@ export default function Login({ navigation }) {
 
   };
 
-  const appleSignIn = async (result) => {
+  const appleSignIn = async () => {
     
-    console.log('Resssult', result);
-    const { email, email_verified, is_private_email, sub } = jwt_decode(result.identityToken);
+    // performs login request
+    const appleAuthRequestResponse = await appleAuth.performRequest({
+      requestedOperation: appleAuth.Operation.LOGIN,
+      requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+    });
 
-    if(result.email != null){
-      const tokenLogin = {
-            uid: result.user,
+    // get current authentication state for user
+    // /!\ This method must be tested on a real device. On the iOS simulator it always throws an error.
+    const credentialState = await appleAuth.getCredentialStateForUser(appleAuthRequestResponse.user);
+
+    // use credentialState response to ensure the user is authenticated
+    //console.log("HelloApple ",appleAuthRequestResponse);
+    if (credentialState === appleAuth.State.AUTHORIZED) {
+      // user is authenticated
+
+      console.log("HelloApple ",appleAuthRequestResponse);
+
+      const { email, email_verified, is_private_email, sub } = jwt_decode(appleAuthRequestResponse.identityToken);
+
+        if(appleAuthRequestResponse.email != null){
+
+          const tokenLogin = {
+              uid: appleAuthRequestResponse.user,
+              foto: "",
+              fcm_id: fcm,
+              email: appleAuthRequestResponse.email,
+              displayName: appleAuthRequestResponse.fullName.givenName +" "+ appleAuthRequestResponse.fullName.familyName
+            };
+
+          loginUser(tokenLogin, "APPLE");     
+        }else{
+          const tokenLogin = {
+            uid: sub,
             foto: "",
             fcm_id: fcm,
-            email: result.email,
-            displayName: result.fullName.givenName +" "+ result.fullName.familyName
+            email: email,
+            displayName: ""
           };
 
-      loginUser(tokenLogin, "APPLE");
-         
-    }else{
-      const tokenLogin = {
-        uid: sub,
-        foto: "",
-        fcm_id: fcm,
-        email: email,
-        displayName: ""
-      };
-
-      loginUser(tokenLogin, "APPLE");
-      console.log("tesw");
+          loginUser(tokenLogin, "APPLE");
+          console.log("tesw");
+        }
     }
-
   };
 
   return (
@@ -365,7 +382,7 @@ export default function Login({ navigation }) {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
-            width: '100%'
+            width: '100%',
           }}
         >
 
@@ -373,6 +390,7 @@ export default function Login({ navigation }) {
             style={{
               backgroundColor: 'white',
               width: '90%',
+              alignSelf:'center',
               height: windowHeight - 100,
               minHeight: windowHeight - 100,
               marginTop: 50,
@@ -459,20 +477,20 @@ export default function Login({ navigation }) {
 
             {Platform.OS == 'ios' && 
                   <View style={[styling.btnSubmitStyleGoogle, { backgroundColor: colors.black, marginBottom: 20, alignContent:'center', justifyContent:'center', alignItems:'center'}]}>
-                  {/* <TouchableOpacity style={styling.btnTouchableGoogle} onPress={btnSubmitGoogle}>
+                  <TouchableOpacity style={styling.btnTouchableGoogle} onPress={appleSignIn}>
                       <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
                       <Text style={[styling.textStyle, {
                         color: colors.white,
                         flex:1,
                         textAlign:'center',
-                        marginRight:20,
+                        marginRight:18,
                         fontSize: 16,
                         fontFamily:'NeutrifPro-Regular',
                         fontWeight: '600',
                       }]}>Sign in with Apple</Text>
-                    </TouchableOpacity> */}
+                    </TouchableOpacity>
                   
-                    <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
+                    {/* <Image source={require('../../assets/ic_apple.png')} resizeMode='contain' style={styling.googleIcon} />
                     <Text touc style={[styling.textStyle, {
                       color: colors.white,
                       textAlign:'center',
@@ -484,7 +502,16 @@ export default function Login({ navigation }) {
                       position:'absolute',
                     }]}>Sign in with Apple</Text>
     
-                    {SignInWithAppleButton({
+                    <AppleButton
+                        buttonStyle={AppleButton.Style.WHITE}
+                        buttonType={AppleButton.Type.SIGN_IN}
+                        style={{
+                          width: 160, // You must specify a width
+                          height: 45, // You must specify a height
+                        }}
+                        onPress={() => appleSignIn()}
+                      /> */}
+                    {/* {AppleButton({
                     buttonStyle: [styling.textStyle, {
                       color: colors.white,
                       width:'100%',
@@ -497,7 +524,7 @@ export default function Login({ navigation }) {
                     }],
                     callBack: appleSignIn,
                     buttonText: "                         ",
-                  })}
+                  })} */}
                 </View>
             }
           </View>

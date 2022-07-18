@@ -168,6 +168,8 @@ const style = StyleSheet.create({
     },
     textStyle : {
         fontSize:16,
+        width:'100%',
+        textAlign:'center',
         color:colors.white,
         position:'absolute',
         bottom:0,
