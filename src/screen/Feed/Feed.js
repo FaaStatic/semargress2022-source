@@ -179,13 +179,7 @@ export default function Feed({ navigation, route }) {
         <BallIndicator size={24} color={'#0F2E63'}/>
       </Modal>
       <FlatList
-           onEndReached={({ distanceFromEnd }) => {
-            if(distanceFromEnd > 0){
-             loadmore();
-            }else{
-             return;
-            }
-         }}
+        onEndReached={loadmore}
         data={responseFeed}
         renderItem={itemRender}
         ListHeaderComponent={headerFlatlist}

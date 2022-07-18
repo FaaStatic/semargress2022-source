@@ -9,8 +9,8 @@ import {
   Dimensions,
   ScrollView,
   Alert,
+  TouchableOpacity
 } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Api } from '../../util/Api';
 import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
@@ -27,7 +27,7 @@ export default function EventDetail({ navigation, route }) {
 
   useEffect(() => {
     getDetail();
-    const subs = navigation.addListener('focus', () => { 
+    const subs = navigation.addListener('focus', () => {
 
       loadSession();
     });
@@ -39,11 +39,11 @@ export default function EventDetail({ navigation, route }) {
   const loadSession = async () => {
 
     const session = await SessionManager.GetAsObject(sessionId);
-      if(session != null){
-          
-        uid = session.uid;
-        getTertarikEvent();
-      }
+    if (session != null) {
+
+      uid = session.uid;
+      getTertarikEvent();
+    }
   };
 
   const getDetail = async () => {
@@ -68,8 +68,8 @@ export default function EventDetail({ navigation, route }) {
   const getTertarikEvent = async () => {
 
     let param = {
-        uid_user :  uid,
-        id_promo :  id
+      uid_user: uid,
+      id_promo: id
     }
 
     await Api.post('api/popup_promo/get_promo_tertarik/', param)
@@ -79,7 +79,7 @@ export default function EventDetail({ navigation, route }) {
         let response = body.response[0];
         let metadata = body.metadata;
         if (metadata.status === 200) {
-          
+
           setFlagTertarik(true);
         } else if (metadata.status === 401) {
           setFlagTertarik(false);
@@ -97,12 +97,12 @@ export default function EventDetail({ navigation, route }) {
   const tertarikEvent = async () => {
 
     let param = {
-        uid_user :  uid,
-        id_promo :  id
+      uid_user: uid,
+      id_promo: id
     }
     await Api.post('api/popup_promo/save_promo_tertarik/', param)
       .then((res) => {
-   
+
         let body = res.data;
         let response = body.response[0];
         let metadata = body.metadata;
@@ -143,6 +143,7 @@ export default function EventDetail({ navigation, route }) {
   return (
     <SafeAreaView style={style.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
+        <View></View>
         <Image
           source={{ uri: responseDetail.gambar }}
           resizeMode="cover"
@@ -157,8 +158,7 @@ export default function EventDetail({ navigation, route }) {
           alignSelf: 'center',
         }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : 'Tidak Ada Keterangan Promo'}</Text>
 
-        {!flagTertarik && 
-          <TouchableOpacity style={style.btnStyle} onPress={()=> onPressTertarik()}>
+        <TouchableOpacity style={style.btnStyle} onPress={onPressTertarik}>
           <Text style={{
             alignSelf: 'center',
             fontSize: 16,
@@ -166,8 +166,7 @@ export default function EventDetail({ navigation, route }) {
             color: 'white'
           }}
           >Saya Tertarik</Text>
-          </TouchableOpacity>
-        }
+        </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>
   );

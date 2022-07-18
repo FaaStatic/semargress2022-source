@@ -350,11 +350,13 @@ const styles = StyleSheet.create({
   label: {
     color:colors.white,
     marginTop:10,
+    width:'100%',
     fontWeight:'400',
   },
   value: {
     color:colors.white,
     marginTop:10,
+    width:'100%',
     fontSize:18,
     fontWeight:'600',
   },
@@ -371,6 +373,7 @@ const styles = StyleSheet.create({
   menuTitle:{
     fontSize:16,
     fontWeight:'600',
+    width:'100%',
     color:colors.black,
     marginLeft:19,
   },

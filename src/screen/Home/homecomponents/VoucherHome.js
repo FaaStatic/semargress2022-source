@@ -83,7 +83,7 @@ export default function VoucherHome({ navigation, route }) {
 
         if (metadata.status === 200) {
           
-          setDataList(offset === 0 ? response.vouchers : [...dataList, ...response.vouchers]);
+          setDataList(offset === 0 ? response.vouchers : [...dataList, response.vouchers]);
           offset = response.length === 0 ? offset + response.vouchers.length : offset;
           setIsLast(response.vouchers.length !== length ? true : false);
           setDataKosong(false);

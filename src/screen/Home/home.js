@@ -261,10 +261,7 @@ export default function Home({ navigation, route }) {
 
 
   const moveCategory = (data) => {
-    navigation.navigate('DetailListCategory', {
-      ...data
-    });
-    //console.log('tesidk', data);
+    navigation.navigate('DetailListCategory',data);
   }
 
   const moveHomeWisata = () => {
@@ -727,6 +724,7 @@ const style = StyleSheet.create({
   },
   TextCoupon: {
     color: '#FFFFFF',
+    width:'100%',
     fontSize: 18,
     alignSelf:'center',
     marginStart: 16,
