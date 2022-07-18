@@ -692,7 +692,6 @@ const style = StyleSheet.create({
   iconSearch: {
     bottom: 0,
     right: 0,
-    alignSelf: 'flex-end',
     marginEnd: 16,
   },
   iconNotif: {
@@ -708,22 +707,20 @@ const style = StyleSheet.create({
     elevation: 16,
     width: '100%',
     position: 'absolute',
+    alignItems:'center',
     bottom: 0,
     height: 65,
-    marginTop: '25%',
-    paddingTop: 16,
   },
   TextCoupon: {
     color: '#FFFFFF',
     fontSize: 18,
+    alignSelf:'center',
     marginStart: 16,
     fontWeight: '400',
   },
   btnStyle: {
     width: 95,
     height: 30,
-    bottom: 0,
-    top: 0,
     marginEnd: 16,
     marginTop: SCREEN_WIDTH / 30,
     backgroundColor: '#F9F9F9',
