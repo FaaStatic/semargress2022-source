@@ -103,13 +103,19 @@ export default function DetailMerchant({ navigation, route }) {
   const openLink = async (url) => {
     var text = url.toString();
     var res = text.includes('www.');
+    var res2 = text.includes('@');
    
     if(res){
       await Linking.canOpenURL(url);
       Linking.openURL(`https://${url}`);
+    }else if(res2){
+      var textEdit = url.replace('@','');
+      console.log(textEdit);
+      await Linking.canOpenURL(textEdit);
+      Linking.openURL(`https://www.instagram.com/${textEdit}`);
     }else {
       await Linking.canOpenURL(url);
-      Linking.openURL(`instagram://user?username= ${url}`);
+      Linking.openURL(`https://www.instagram.com/${url}`);
     }
     console.log(url);
   

@@ -120,7 +120,8 @@ let permission = requestPermissions = async() => {
       handler;
     };
 
-  }, [])
+  }, []);
+
 
   const onRemoteNotification = (notification) => {
 

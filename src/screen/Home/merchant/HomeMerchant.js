@@ -2,35 +2,37 @@ import React,{useState, useCallback, useEffect} from 'react';
 import { SafeAreaView, FlatList, StyleSheet, Image, Text, Pressable,Dimensions } from 'react-native';
 import { Api } from '../../../util/Api';
 import MerchanList from '../../../util/ListItem/MerchantList';
-
+import {
+    BallIndicator,
+    DotIndicator,
+  } from 'react-native-indicators';
 const {height : SCREEN_HEIGHT} = Dimensions.get('window');
 const {width : SCREEN_WIDTH} = Dimensions.get('window');
 var offset = 0;
 export default function HomeMerchat({navigation, route}){
 
     let onProgress = false;
-    const [length, setLength] = useState(10);
-    const [response, setResponse] = useState([]);
+    let length = 6;
+    const [responseList, setResponseList] = useState([]);
     const [Last, setLast] = useState(false);
     const [jumlahItem, setJumlahItem] = useState(0);
     const [dataKosong, setDataKosong] = useState(false);
     const [extraData, setExtraData] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [openLoad, setOpenLoad] = useState(false);
 
 
     useEffect(()=>{
-        offset = 0;
-        onProgress = false;
-        setJumlahItem(0);
-        setExtraData(false);
-        setResponse([]);
-        getApi();
+      
 
         const subscribe = navigation.addListener('focus',()=>{
+        setOpenLoad(true);
+        setLoading(false);
         offset = 0;
         onProgress = false;
         setExtraData(false);
         setJumlahItem(0);
-        setResponse([]);
+        setResponseList([]);
         getApi();
 
         });
@@ -41,6 +43,7 @@ export default function HomeMerchat({navigation, route}){
 
     const loadmore = async () =>{
         if(Last === false){
+            setLoading(true);
             offset += length;
             getApi();
         }
@@ -78,17 +81,22 @@ export default function HomeMerchat({navigation, route}){
             let response = body.response;
             let metadata = body.metadata;
             if(metadata.status === 200){
-                console.log("testeslistwisata", response);
-                setResponse(response);
-                setResponse(offset === 0 ? response: [...response, ...response]);
-                offset = response.length === 0 ? offset + response.length : offset;
-                setLast(response.length !== length ? true : false);
+                console.log("testeslistwisata", response);             
+                setResponseList(response);
+                setResponseList(offset === 0 ? response : responseList.concat(response));
+                setLast(response.length !== length  ? true : false);
+                onProgress = false;
                 setDataKosong(false);
-                setJumlahItem(jumlahItem + response.length);
+                setOpenLoad(false);
+                setLoading(false);
             }else if(metadata.status === 401){
                 setDataKosong(true);
+                setOpenLoad(false);
+                setLoading(false);
             }else if(metadata.status === 404){
                 setDataKosong(true);
+                setOpenLoad(false);
+                setLoading(false);
             }else{
                 if(offset === 0){
                     setDataKosong(true);
@@ -101,22 +109,43 @@ export default function HomeMerchat({navigation, route}){
         })
     }
 
+    const loadIndice = useCallback(() => {
+        if (loading) {
+          return (
+            <View
+              style={{
+                justifyContent: 'center',
+                marginTop: 8,
+                marginBottom: 8,
+              }}
+            >
+              <DotIndicator color="#251468" size={6} />
+            </View>
+          );
+        } else {
+          return <></>;
+        }
+      });
 
 
     return(
     <SafeAreaView style={style.container}>
-        <FlatList
-            horizontal={false}
-            data={response}
-            extraData={extraData}
-            renderItem={itemRender}
-            onEndReached = {loadmore}
-            numColumns = {2}
-            keyExtractor={(item,index) => {index.toString()}}
-            centerContent={true}
-            contentContainerStyle={style.flatlistStyle}
-            style={{flex:1,}}
-        />
+        {openLoad ?  <BallIndicator size={40} color={'#0F2E63'}/>  :
+ <FlatList
+ horizontal={false}
+ data={responseList}
+ extraData={extraData}
+ renderItem={itemRender}
+ onEndReached = {loadmore}
+ numColumns = {2}
+ ListFooterComponent={loadIndice}
+ keyExtractor={(item,index) => {index.toString()}}
+ centerContent={true}
+ contentContainerStyle={style.flatlistStyle}
+ style={{flex:1,}}
+/>
+        }
+       
     </SafeAreaView>);
 }
 

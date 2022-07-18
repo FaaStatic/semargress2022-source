@@ -770,13 +770,13 @@ const style = StyleSheet.create({
   voucherImage: {
     height: 28,
     width: 39,
-    marginStart: 8,
+    marginStart: 14,
   },
   voucherNotice: {
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
-    marginStart: 8,
+    marginStart: 18,
   },
   btnStyleVoucher: {
     height: 25,
@@ -785,6 +785,9 @@ const style = StyleSheet.create({
     color: 'white',
     paddingTop: 6,
     paddingLeft: 8,
+    position:'absolute',
+    right:0,
+    marginEnd:14,
     paddingRight: 8,
     textAlign: 'center',
     borderRadius: 8,
