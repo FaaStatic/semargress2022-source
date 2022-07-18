@@ -73,7 +73,7 @@ export default function ExpiredListQuiz({item}){
                 }]}><Text style={[style.textStyleContent,{
                     fontWeight:'600',
                     color:'#4F4F4F'
-                }]}>Email</Text>   {`\t\t\t\t\t: `} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
+                }]}>Email</Text>  {`\t\t\t\t: `} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
                 <Text style={[style.textStyleContent,{
                     marginBottom:8,
                 }]}><Text style={[style.textStyleContent,{
@@ -118,12 +118,14 @@ const style = StyleSheet.create({
         flexDirection:'column',
     },
     textHeader:{
+        width:'100%',
         marginStart:14,
         fontSize:18,
         color:'#3B237E',
         fontWeight:'600',
     },
     textStyleContent:{
+        
         marginStart:24,
         fontSize:15,
         color:'#4F4F4F',

@@ -115,8 +115,9 @@ const Profile = ({navigation, route}) => {
       <View
         style={styles.container}
       >
+<ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:colors.white}}>
         <View style={{
-            backgroundColor: 'white',
+            backgroundColor: colors.primary,
             width: '100%',
           }}>
             <View style={styles.containerHeader}>
@@ -127,7 +128,6 @@ const Profile = ({navigation, route}) => {
                   marginTop: 0,
                   top: 0,
                   width: '100%',
-                  position: 'absolute',
                   flexDirection: 'row',
                 }}
                 resizeMode={'stretch'}
@@ -136,12 +136,26 @@ const Profile = ({navigation, route}) => {
             </View>
           </View>      
 
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor:colors.white}}>
+          <View
+            style={{
+              marginTop:-16,
+              backgroundColor:colors.white,
+              height:16,
+              width:'100%',
+              borderTopLeftRadius:16,
+              borderTopRightRadius:16,
+            }}
+          >
+
+          </View>
 
           <View
             style={{
               flexDirection: 'column',
               alignItems: 'center',
+              marginTop:20,
+              borderTopLeftRadius:16,
+              borderTopRightRadius:16,
             }}
           >
 
@@ -385,7 +399,8 @@ const styles = StyleSheet.create({
     alignItems:'center'
   },
   containerHeader: {
-    height: 90,
+    height: 100,
+    marginBottom:10,
   },
   textHeader: {
     fontSize: 18,

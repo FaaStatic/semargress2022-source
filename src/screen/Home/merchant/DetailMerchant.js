@@ -162,7 +162,7 @@ export default function DetailMerchant({ navigation, route }) {
                 marginTop: 100,
                 fontSize: 16,
                 marginStart: 16,
-                marginBottom: 16,
+                marginBottom: 12,
                 fontWeight: '800',
                 fontFamily:'NeutrifPro-Regular',
               }}
@@ -170,16 +170,19 @@ export default function DetailMerchant({ navigation, route }) {
               Promo yang Sedang Berlangsung
             </Text>
             {promo.length > 0 ? (
-              <ScrollView>
+              
                 <FlatList
                   nestedScrollEnabled={true}
                   data={promo}
+                  style={{
+                    marginBottom: 16,
+                  }}
                   keyExtractor={(item,index) => {index.toString()}}
                   renderItem={renderingPromo}
                   key={(item) => item.id_i}
                   horizontal={true}
                 />
-              </ScrollView>
+              
             ) : (
               <Text
                 style={{
@@ -269,9 +272,6 @@ style={styling.MapsStyle}
   <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
 </Pressable>
 </View>
-
-
-
         </View>
         <View style={styling.card}>
           <View
@@ -391,7 +391,7 @@ const styling = StyleSheet.create({
   card: {
     height: 175,
     width:'85%',
-    marginTop: windowHeight / 3.5,
+    marginTop: windowHeight / 3.5 + 5,
     backgroundColor: 'white',
     borderRadius: 16,
     elevation: 5,

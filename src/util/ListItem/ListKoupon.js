@@ -5,11 +5,8 @@ const windowWidth = Dimensions.get('window');
 
 export default function ListKoupon({data}){
 
-    console.log('testest',data)
-
     function changeDate(data){
         let dateArr = data.split('/');
-        console.log(dateArr)
         let dateAnswer = null;
          switch(dateArr[1]){
              case '01':
@@ -59,7 +56,6 @@ export default function ListKoupon({data}){
     return(
 
         <>
-
         {data.type =='title' &&
         <View style={{
             flexDirection:'row',
@@ -67,6 +63,7 @@ export default function ListKoupon({data}){
         }}>
         <Text style={{
                 color:'black',
+                width:'100%',
                 fontSize:15,
                 fontWeight:'600',
                 marginStart:20,
@@ -75,6 +72,8 @@ export default function ListKoupon({data}){
             }}>{data.merchant}</Text>
               <Text style={{
                 color:'black',
+                width:'100%',
+                textAlign:'right',
                 position:'absolute',
                 right:0,
                 fontSize:13,

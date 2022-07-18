@@ -281,7 +281,8 @@ const checkCamera =  async() => {
                               style={{
                                   color: colors.white,
                                   padding: 10,
-
+                                  width:'100%',
+                                  textAlign:'center',
                               }}
                           >Lanjutkan Scan QR</Text>
                       </TouchableOpacity>
