@@ -500,6 +500,7 @@ export default function Register({ navigation, route }) {
             placeholderTextColor={'grey'}
             value={ktp}
             theme={themeText}
+            mode={'flat'}
             onChangeText={(text) => setKTP(text)}
             keyboardType="number-pad"
            style={styles.title}
@@ -520,6 +521,7 @@ export default function Register({ navigation, route }) {
             placeholderTextColor={'grey'}
             placeholder="Nama"
             value={nama}
+            mode={'flat'}
             theme={themeText}
             onChangeText={(text) => setNama(text)}
             keyboardType="default"
@@ -619,6 +621,7 @@ export default function Register({ navigation, route }) {
             placeholder="Tempat Lahir"
             value={tmptlahir}
             theme={themeText}
+            mode={'flat'}
             placeholderTextColor={'grey'}
             onChangeText={(text) => setTmptLahir(text)}
             keyboardType="default"
@@ -699,19 +702,25 @@ export default function Register({ navigation, route }) {
   marginBottom:20,
 
 }}> Alamat</Text>
-          <TextInput
+
+<TextInput
             placeholder="Alamat"
             placeholderTextColor={'grey'}
             value={alamat}
+            outlineColor={'transparent'}
+            mode={'outlined'}
+            selectionColor='black'
             multiline={true}
+            textAlignVertical='top'
+            textContentType='addressCityAndState'
             theme={themeText}
             onChangeText={(text) => setAlamat(text)}
             keyboardType="default"
             style={[styles.title,{
-              height:100,
-              textAlignVertical:'top'
+              height: 200, paddingTop: 0       
             }]}
           />
+     
 <Text style={{
   color:'black',
   fontFamily:'NeutrifPro-Reguler',
@@ -724,6 +733,7 @@ export default function Register({ navigation, route }) {
           <TextInput
             placeholder={txtEmail ? txtEmail : 'Email'}
             value={txtEmail}
+            mode={'flat'}
             placeholderTextColor={'grey'}
             theme={themeText}
             disabled={loginType == 'GOOGLE' || loginType == 'APPLE' ? true : false}
@@ -744,6 +754,7 @@ export default function Register({ navigation, route }) {
             placeholder={txtTelp ? txtTelp : 'Nomor Telepon'}
             disabled={loginType == 'SMS' ? true : false}
             value={txtTelp}
+            mode={'flat'}
             placeholderTextColor={'grey'}
             theme={themeText}
             onChangeText={(text) => setTelp(text)}
@@ -865,7 +876,7 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 16,
     color: 'black',
-    marginStart: 40,
+    marginStart: 16,
     fontFamily: 'NeutrifPro-Regular',
     marginBottom: 8,
     marginTop: 8,
