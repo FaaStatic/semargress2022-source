@@ -89,14 +89,15 @@ const Qr = ({navigation, route}) => {
             style={{
               flexDirection:'row',
               marginTop:20,
-              height: windowHeight/6,
+              height: windowWidth/3,
             }}
           >
             <View
               style={{
                 padding:30,
                 backgroundColor:colors.white,
-                flex:1,
+                width:windowWidth/3,
+                height:windowWidth/3,
                 alignItems:'center',
                 borderRadius:10,
               }}
@@ -169,13 +170,14 @@ const Qr = ({navigation, route}) => {
             style={{
               flexDirection:'row',
               marginTop:20,
-              height: windowHeight/6,
+              height: windowWidth/3,
             }}
           >
             <ImageBackground
               style={{
                 padding:30,
-                flex:1,
+                width:windowWidth/3,
+                height:windowWidth/3,
                 alignItems:'center',
                 borderRadius:10,
                 borderRadius:12,

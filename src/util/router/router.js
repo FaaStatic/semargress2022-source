@@ -162,7 +162,7 @@ export default function Router() {
           component={RouterQuiz}
           options={({ navigation, screenProps }) => ({
             headerShown: true,
-            headerTitle: 'Kuis Semargress',
+            headerTitle: 'Kuis Semargres',
             headerTitleAlign: 'center',
             headerShadowVisible: false,
             headerLeft: () => {
@@ -335,7 +335,7 @@ export default function Router() {
           component={EKupon}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: 'E-Kupon Semargress',
+            title: 'E-Kupon Semargres',
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {

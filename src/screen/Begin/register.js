@@ -10,6 +10,7 @@ import {
   Dimensions,
   ActivityIndicator,
   Image,
+  TouchableOpacity,
 } from 'react-native';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Portal, Provider, TextInput, Modal } from 'react-native-paper';
@@ -26,7 +27,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 var fcm_id = '';
 var loginType = '';
-var gender = 1;
+var gender = null;
 export default function Register({ navigation, route }) {
   const {title} = route.params;
   const { uid, email, foto, token, no_telp, otp, type, display_name, edit } = route.params;
@@ -93,6 +94,8 @@ export default function Register({ navigation, route }) {
   const [tgl, setTgl] = useState('');
   const [bln, setBln] = useState('');
   const [thn, setThn] = useState('');
+  const [men, setMen] = useState(false);
+  const [woman, setWoman] = useState(false);
   const [alamat, setAlamat] = useState('');
   const [txtEmail, setTxtEmail] = useState('');
   const [txtTelp, setTelp] = useState('');
@@ -131,6 +134,9 @@ export default function Register({ navigation, route }) {
   };
 
   useEffect(() => {
+    gender = null;
+    setWoman(false);
+      setMen(false);
     if (edit) {
       navigation.setOptions({
         title: 'Profile',
@@ -138,14 +144,17 @@ export default function Register({ navigation, route }) {
     }
     loadSession();
     checkToken();
-    gender = 1;
-    setRadioBtn(true);
+   
+    setRadioBtn(null);
     // disable local variable / function
     const unsubscribe = navigation.addListener('focus', () => {
+      gender = null;
+      setWoman(false);
+      setMen(false);
       loadSession();
       checkToken();
-      gender = 1;
-    setRadioBtn(true);
+      
+    setRadioBtn(null);
     });
 
     return () => {
@@ -204,9 +213,11 @@ export default function Register({ navigation, route }) {
           setTxtEmail(response.email);
           gender = response.id_gender;
           if(gender == 1){
-            setRadioBtn(true);
-          }else{
-            setRadioBtn(false);
+            setMen(true);
+            setWoman(false);
+          }else if(gender == 2){
+            setMen(false);
+            setWoman(true);
           }
           let tglLahir = response.tgl_lahir.split('-');
           setThn(tglLahir[0]);
@@ -392,13 +403,15 @@ export default function Register({ navigation, route }) {
 
   const radioMen = () =>{
       gender = 1;
-      setRadioBtn(!radioBtn);
+      setWoman(false);
+      setMen(true);
       console.log(gender);
 
   }
  const radioWoman = () =>{
-  gender = 0;
-  setRadioBtn(!radioBtn);
+  gender = 2;
+  setWoman(true);
+  setMen(false);
   console.log(gender);
  }
 
@@ -527,17 +540,17 @@ export default function Register({ navigation, route }) {
   flexDirection:'column',
   marginStart:42,
 }}>
-    <View style={{
+    <TouchableOpacity onPress={radioMen} style={{
     flexDirection:'row',
     marginBottom:29,
    }}>
-    <Pressable style={{
+    <View style={{
       height:20,
       width:20,
-      backgroundColor:radioBtn ? '#6FCF97' :  "#f9f9f9"
-    }}  onPress={radioMen}>
+      backgroundColor: men ? '#6FCF97' :  "#f9f9f9"
+    }}  >
       <Entypo name='check' color={'white'} size={20}/>
-    </Pressable>
+    </View>
     <Text style={{
       fontSize:16,
       fontWeight:'600',
@@ -546,18 +559,18 @@ export default function Register({ navigation, route }) {
     }}>
        Laki-Laki
     </Text>
-   </View>
-  <View style={{
+   </TouchableOpacity>
+  <TouchableOpacity onPress={radioWoman} style={{
     flexDirection:'row',
     marginBottom:29,
    }}>
-    <Pressable style={{
+    <View style={{
       height:20,
       width:20,
-      backgroundColor:radioBtn ?  "#f9f9f9" : '#6FCF97'
-    }} onPress={radioWoman}>
+      backgroundColor: woman ?  '#6FCF97': "#f9f9f9" 
+    }} >
       <Entypo name='check' color={'white'} size={20}/>
-    </Pressable>
+    </View>
     <Text style={{
       fontSize:16,
       fontWeight:'600',
@@ -566,7 +579,7 @@ export default function Register({ navigation, route }) {
     }}>
        Perempuan
     </Text>
-   </View>
+   </TouchableOpacity>
 
 </View>
 
@@ -742,6 +755,7 @@ export default function Register({ navigation, route }) {
             style={{
               marginTop: 16,
               marginEnd: 24,
+              marginBottom:16,
               flexDirection: 'column',
               justifyContent: 'flex-end',
             }}

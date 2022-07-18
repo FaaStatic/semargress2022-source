@@ -32,12 +32,6 @@ export default function Feed({ navigation, route }) {
 
 
   useEffect(() => {
-    // offset = 0;
-    // setLoadingOpen(true);
-    // onProgress = false;
-    // setExtraData(!extraData)
-    // setResponseFeed([]);
-    // getFeed();
     const subscribe = navigation.addListener('focus', () => {
       console.log('TESSSSONRESUME', 'resume');
       setResponseFeed([]);
@@ -58,11 +52,11 @@ export default function Feed({ navigation, route }) {
         <View
           style={{
             justifyContent: 'center',
-            marginTop: 8,
-            marginBottom: 8,
+            marginTop: 16,
+            marginBottom: 16,
           }}
         >
-          <DotIndicator color="#251468" size={10} />
+          <DotIndicator color="#251468" size={6}/>
         </View>
       );
     } else {
@@ -71,6 +65,8 @@ export default function Feed({ navigation, route }) {
   });
 
   const loadmore = async () => {
+
+    console.log("last");
     if (Last) {
       setLoadIndicator(true);
       offset += length;
@@ -180,10 +176,16 @@ export default function Feed({ navigation, route }) {
         transparent={true}
         visible={loadingOpen}
       >
-        <BallIndicator size={32} color={'#0F2E63'}/>
+        <BallIndicator size={24} color={'#0F2E63'}/>
       </Modal>
       <FlatList
-        onEndReached={loadmore}
+           onEndReached={({ distanceFromEnd }) => {
+            if(distanceFromEnd > 0){
+             loadmore();
+            }else{
+             return;
+            }
+         }}
         data={responseFeed}
         renderItem={itemRender}
         ListHeaderComponent={headerFlatlist}

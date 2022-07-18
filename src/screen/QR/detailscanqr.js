@@ -70,9 +70,9 @@ const checkCamera =  async() => {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.CAMERA,
           {
-            title: "Izin Kamera Aplikasi Semargress 2022",
+            title: "Izin Kamera Aplikasi Semargres 2022",
             message:
-              "Aplikasi Semargress 2022 membutuhkan izin Kamera",
+              "Aplikasi Semargres 2022 membutuhkan izin Kamera",
             buttonNeutral: "Nanti Saja",
             buttonNegative: "Batal",
             buttonPositive: "Iya"
@@ -111,8 +111,8 @@ const checkCamera =  async() => {
           let response = body.response;
           
           if(metadata.status === 200){
-          
             ShowSuccess("Anda berhasil mendapatkan "+response.jumlah_kupon + " E-Kupon");
+            navigation.navigate('RouterTab');
           }else{
             ShowError(metadata.message)
           }
