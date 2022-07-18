@@ -9,7 +9,8 @@ import {
   Dimensions,
   ScrollView,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from 'react-native';
 import { Api } from '../../util/Api';
 import { SessionManager } from '../../util/SessionManager';
@@ -49,12 +50,14 @@ export default function EventDetail({ navigation, route }) {
   const getDetail = async () => {
     await Api.get(`merchant/view_promo_user/${id}`)
       .then((res) => {
+
         let body = res.data;
         let response = body.response[0];
         let metadata = body.metadata;
-        if (metadata.status === 200) {
+
+        if (metadata.status == 200) {
           setResponseDetail(response);
-        } else if (metadata.status === 401) {
+        } else if (metadata.status == 401) {
           console.log(metadata.message);
         } else {
           console.log(metadata.message);
@@ -78,10 +81,10 @@ export default function EventDetail({ navigation, route }) {
         let body = res.data;
         let response = body.response[0];
         let metadata = body.metadata;
-        if (metadata.status === 200) {
+        if (metadata.status == 200) {
 
           setFlagTertarik(true);
-        } else if (metadata.status === 401) {
+        } else if (metadata.status == 401) {
           setFlagTertarik(false);
           console.log(metadata.message);
         } else {
@@ -106,9 +109,9 @@ export default function EventDetail({ navigation, route }) {
         let body = res.data;
         let response = body.response[0];
         let metadata = body.metadata;
-        if (metadata.status === 200) {
+        if (metadata.status == 200) {
           setFlagTertarik(true)
-        } else if (metadata.status === 401) {
+        } else if (metadata.status == 401) {
           console.log(metadata.message);
         } else {
           console.log(metadata.message);
@@ -120,24 +123,14 @@ export default function EventDetail({ navigation, route }) {
   };
 
   const onPressTertarik = () => {
-    Alert.alert("Informasi", "Anda ingin mengikuti informasi tebaru dari event ini?",
-      [
-        {
-          text: "Tidak",
-          onPress: () => { },
-          style: "cancel",
-        },
-        {
-          text: "Iya",
-          onPress: async () => {
-            tertarikEvent();
-          }
-        },
-      ],
-      {
-        cancelable: true,
-      }
-    );
+
+    if(responseDetail.link == ''){
+      Linking.openURL(responseDetail.gambar);
+    }else{
+      Linking.openURL(responseDetail.link);
+    }
+
+    tertarikEvent();
   };
 
   return (
@@ -156,7 +149,7 @@ export default function EventDetail({ navigation, route }) {
           marginTop: 8,
           width: SCREEN_WIDTH / 1.1,
           alignSelf: 'center',
-        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : 'Tidak Ada Keterangan Promo'}</Text>
+        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : ''}</Text>
 
         <TouchableOpacity style={style.btnStyle} onPress={onPressTertarik}>
           <Text style={{

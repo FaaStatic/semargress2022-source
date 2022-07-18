@@ -5,8 +5,6 @@ import { SessionManager } from '../../../../util/SessionManager';
 import { sessionId } from '../../../../util/GlobalVar';
 import ExpiredListQuiz from '../../../../util/ListItem/ExpiredListQuiz';
 
-
-
 export default function QuizDone({navigation}){
 
     const [questList, setQuestList] = useState([]);
@@ -32,7 +30,6 @@ export default function QuizDone({navigation}){
         let status = res.data.metadata.status;
         let requestData = res.data.response.quiz;
         let msg = res.data.metadata.message;
-        console.log("responseexpiredquiz", res.data);
         if(status === 200){
            setQuestList(requestData);
         }else{

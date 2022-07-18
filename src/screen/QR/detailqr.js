@@ -153,6 +153,8 @@ const DetailQR = ({navigation, route}) => {
                     style={{
                         color:colors.black,
                         fontSize:20,
+                        width:'100%',
+                        textAlign:'center',
                     }}
                 >SCAN QR CODE</Text>
 

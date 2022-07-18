@@ -308,7 +308,6 @@ export default function DetailListCategory({ navigation, route }) {
             )   
         }
       </View>
-      
 
       <FlatList
       data={responList}
@@ -320,6 +319,7 @@ export default function DetailListCategory({ navigation, route }) {
       onEndReached={loadMore}
       onEndReachedThreshold={1}
       style={style.listStyle}
+      contentContainerStyle={{alignItems:'center'}}
     />
    
     </SafeAreaView>

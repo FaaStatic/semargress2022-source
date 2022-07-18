@@ -97,7 +97,6 @@ export default function QuisReady({ navigation, route }) {
   };
 
   const itemRender = useCallback(({ item }) => {
-    console.log('item tes', item[0]);
     return (
         <KuisListItem item={item} onModal={answerChalenge} />
     );
@@ -107,7 +106,7 @@ export default function QuisReady({ navigation, route }) {
     <Provider>
       <Portal>
         <Modal visible={visibleModal} contentContainerStyle={style.ModalStyle}>
-          <SafeAreaView style={style.containerModalStyle}>
+          <View style={style.containerModalStyle}>
             <Text style={style.textHeader}>JAWABANMU ADALAH</Text>
             <Text
               style={[
@@ -148,17 +147,17 @@ export default function QuisReady({ navigation, route }) {
                 <Text style={style.textBtnAnswer}>Kirim</Text>
               </Pressable>
             </View>
-          </SafeAreaView>
+          </View>
         </Modal>
       </Portal>
-      <SafeAreaView style={style.container}>
+      <View style={style.container}>
         <FlatList
           data={listQuiz}
           renderItem={itemRender}
           keyExtractor={(item,index) => {index.toString()}}
           showsVerticalScrollIndicator={false}
         />
-      </SafeAreaView>
+      </View>
     </Provider>
   );
 }
@@ -194,12 +193,13 @@ const style = StyleSheet.create({
     justifyContent: 'center',
   },
   containerBtn: {
+    width:'100%',
     flexDirection: 'row',
     justifyContent: 'center',
   },
   btnAnswer: {
     height: 36,
-    width: 100,
+    width: 80,
     backgroundColor: '#F29836',
     justifyContent: 'center',
     borderRadius: 8,
@@ -207,13 +207,14 @@ const style = StyleSheet.create({
   },
   textBtnAnswer: {
     fontSize: 14,
-    fontWeight: 'bold',
+    fontWeight: '600',
     color: 'white',
     alignSelf: 'center',
   },
   textBtnCancel: {
     fontSize: 14,
-    fontWeight: 'bold',
+    width:50,
+    fontWeight: '600',
     color: 'black',
     marginTop: 8,
     alignSelf: 'center',

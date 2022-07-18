@@ -57,9 +57,13 @@ export default function Home({ navigation, route }) {
 
   useEffect(() => {
 
+    checkSession();
+    kategoriHome();
+
     const backAction = () => {
 
       if (navigation.isFocused()) {
+        
         Alert.alert("Konfirmasi", "Apakah anda yakin ingin keluar dari aplikasi?", [
           {
             text: "Batal",
@@ -74,14 +78,12 @@ export default function Home({ navigation, route }) {
     };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-    
+
     const unsubscribe = navigation.addListener('focus', () => {
       getLatestVersion();
       setMerchantPop([]);
       setSpotWisata([]);
       setBanner([]);
-      checkSession();
-      kategoriHome();
       jumlahCoupon();
       getPromo();
       LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -95,7 +97,6 @@ export default function Home({ navigation, route }) {
 
       backHandler.remove();
       unsubscribe;
-
 
     };
   }, [navigation]);
@@ -117,10 +118,22 @@ export default function Home({ navigation, route }) {
   };
 
   const merchantPopuler = async () => {
-    await Api.get('merchant/all')
+
+    const param = {
+        "start" : 0,
+        "count" : 10
+    }
+    await Api.post('merchant/all', param)
       .then((res) => {
-        console.log('ResponseMerchant', res.data.response);
-        setMerchantPop(res.data.response);
+
+        let body = res.data;
+        let response = body.response;
+        let metadata = body.metadata;
+
+        if(metadata.status == 200){
+          setMerchantPop(res.data.response);
+        }
+        
       })
       .catch((err) => { });
   };
@@ -147,19 +160,16 @@ export default function Home({ navigation, route }) {
   const kategoriHome = async () => {
     await Api.get('kategori')
       .then((res) => {
-        //console.log('Kategori', res.data.response);
         let arr = splitArray(res.data.response);
         setCategory(arr);
-        //console.log('tes kategori', category);
       })
       .catch((err) => { });
   };
 
   const getBannerSlider = async () => {
-    
+
     await Api.get('promo')
       .then((res) => {
-        console.log('Tes Banner', res.data.response);
         setBanner(res.data.response);
       })
       .catch((err) => {
@@ -215,36 +225,36 @@ export default function Home({ navigation, route }) {
 
   const getLatestVersion = async () => {
     await Api.get('/latest_version/user')
-    .then(res => {
-      
-      let body = res.data;
-      let response = body.response;
-      let metadata = body.metadata;
-      
-      if (metadata.status === 200) {
-        setUpdateAndroid(response.link_update);
-            var buildVersion = response.build_version;
-            setWajibAndroid(response.wajib);
+      .then(res => {
 
-            console.log("sdjkfhslkhfskjhf");
-            // Android
-            if(Platform.OS === 'android' && buildVersion != DeviceInfo.getVersion()){
+        let body = res.data;
+        let response = body.response;
+        let metadata = body.metadata;
 
-              let onlineVersion = parseFloat(buildVersion);
-              let currentVersion = parseFloat(DeviceInfo.getVersion());
-              if(onlineVersion>currentVersion){
-                setPesanUpdateAndroid(buildVersion);
-                setBtnUpdateAndroid(true);
-              }
+        if (metadata.status === 200) {
+          setUpdateAndroid(response.link_update);
+          var buildVersion = response.build_version;
+          setWajibAndroid(response.wajib);
+
+          console.log("sdjkfhslkhfskjhf");
+          // Android
+          if (Platform.OS === 'android' && buildVersion != DeviceInfo.getVersion()) {
+
+            let onlineVersion = parseFloat(buildVersion);
+            let currentVersion = parseFloat(DeviceInfo.getVersion());
+            if (onlineVersion > currentVersion) {
+              setPesanUpdateAndroid(buildVersion);
+              setBtnUpdateAndroid(true);
             }
-      } else if (metadata.status === 401) {
+          }
+        } else if (metadata.status === 401) {
 
-      } else {
+        } else {
 
-      }
-    }).catch(err => {
-      console.log(err);
-    })
+        }
+      }).catch(err => {
+        console.log(err);
+      })
   }
 
   const detailMerchant = useCallback(({ item }) => {
@@ -261,7 +271,7 @@ export default function Home({ navigation, route }) {
 
 
   const moveCategory = (data) => {
-    navigation.navigate('DetailListCategory',data);
+    navigation.navigate('DetailListCategory', data);
   }
 
   const moveHomeWisata = () => {
@@ -313,19 +323,16 @@ export default function Home({ navigation, route }) {
     const session = await SessionManager.GetAsObject(sessionId);
     if (session != null) {
       const sesiUid = session.uid;
-      console.log('TEST AT HOME', sesiUid);
-      console.log('TEST AT HOME FULL', session);
     } else {
-      console.log('login dulu!');
       navigation.dispatch(StackActions.replace('Login'));
     }
   };
 
-  const bannerRender = useCallback(({item})=>{
-    return(
+  const bannerRender = useCallback(({ item }) => {
+    return (
       <BannerList item={item} pressCall={moveDetailPromo} />
     );
-   
+
   })
 
   return (
@@ -339,191 +346,205 @@ export default function Home({ navigation, route }) {
         }}
       >
         <View style={{
-        flexDirection: 'column',
-        top: 0,
-        backgroundColor: colors.primary,
-        height: 150
-      }}>
-        <Image
+          flexDirection: 'column',
+          top: 0,
+          backgroundColor: colors.primary,
+          height: 150
+        }}>
+          <Image
             source={require('../../assets/header_app.png')}
             style={{
               height: 100,
               top: 0,
               width: '100%',
-              position:'absolute',
+              position: 'absolute',
               flexDirection: 'row',
             }}
             resizeMode={'stretch'}
           />
 
-        <View
-          style={{
-            height: 100,
-          }}
-        >
-          
-          <View style={style.searchView}>
-            <Pressable style={style.SearchStyle} onPress={() => { navigation.navigate('Search') }}>
-              <View style={{
-                flexDirection: 'row',
-                width: '100%',
-              }}>
-                <Text style={{
-                  color: 'grey',
-                  fontSize: 13,
-                  width: '85%',
-                  marginTop: 2,
-                  marginStart: 6,
-                }}>Cari Merchant</Text>
-                <Icon name="search" size={22} color="#4F4F4F" style={style.iconSearch} />
-              </View>
+          <View
+            style={{
+              height: 100,
+            }}
+          >
+
+            <View style={style.searchView}>
+              <Pressable style={style.SearchStyle} onPress={() => { navigation.navigate('Search') }}>
+                <View style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                }}>
+                  <Text style={{
+                    color: 'grey',
+                    fontSize: 13,
+                    width: '85%',
+                    marginTop: 2,
+                    marginStart: 6,
+                  }}>Cari Merchant</Text>
+                  <Icon name="search" size={22} color="#4F4F4F" style={style.iconSearch} />
+                </View>
+              </Pressable>
+            </View>
+
+          </View>
+
+          <View style={style.viewCoupon}>
+            <Text style={style.TextCoupon}>Jumlah E-Kupon Anda : {countKoupon}</Text>
+            <Pressable style={style.btnStyle} onPress={() => { navigation.navigate('EKupon') }}>
+              <Text style={style.TextListCoupon}>Lihat E-kupon</Text>
             </Pressable>
           </View>
-
         </View>
 
-        <View style={style.viewCoupon}>
-          <Text style={style.TextCoupon}>Jumlah E-Kupon Anda : {countKoupon}</Text>
-          <Pressable style={style.btnStyle} onPress={() => { navigation.navigate('EKupon') }}>
-            <Text style={style.TextListCoupon}>Lihat E-kupon</Text>
-          </Pressable>
-        </View>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{
-        
-      }}>
-        <View style={style.listService}>
-          <FlatList
-            nestedScrollEnabled={true}
-            data={category}
-            horizontal={true}
-            viewabilityConfig={{
-              viewAreaCoveragePercentThreshold: 95
-            }}
-            onMomentumScrollEnd={e => {
-              if (e.nativeEvent.contentOffset.x === 0) {
-                setLeft(true)
-                setRight(false)
-              } else {
-                setLeft(false)
-                setRight(true)
-              }
-            }}
-            
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={itemRender}
-          />
-
-          <View style={{
-            flexDirection: 'row', alignSelf: 'center'
-          }}>
-            <View style={{
-              width: 6,
-              height: 6,
-              margin: 2,
-              borderRadius: 6 / 2,
-              backgroundColor: left ? '#A57FF8' : '#f9f9f9'
-            }}>
-            </View>
-            <View style={{
-              width: 6,
-              height: 6,
-              margin: 2,
-              borderRadius: 6 / 2,
-              backgroundColor: right ? '#A57FF8' : '#f9f9f9'
-            }}>
-            </View>
-          </View>
-
-          <View>
-            <LinearGradient
-              colors={['#A57FF833', '#A57FF81B', '#ffffff']}
-              start={{ x: 0.0, y: 0.0 }}
-              end={{ x: 1, y: 1 }}
-              style={style.voucherView}
-            >
-              <Image
-                source={require('../../assets/voucher.png')}
-                style={style.voucherImage}
-                resizeMode="contain"
-              />
-              <Text style={style.voucherNotice}>Jangan sia-siakan voucher kamu</Text>
-              <Pressable style={style.btnStyleVoucher} onPress={() => {
-                navigation.navigate('VoucherHome');
-              }}>
-                <Text style={style.textVoucherBtn}>Lihat Voucher</Text>
-              </Pressable>
-            </LinearGradient>
-          </View>
-        </View>
-
-        <Text style={style.textBannerSmargress}>Event Semargres</Text>
-        <View style={{
-          width: 350,
-          height: 135,
-          borderRadius: 7,
-          alignSelf: 'center',
-          backgroundColor: 'white',
-          marginBottom: 20
+        <ScrollView showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false} style={{
+          backgroundColor:'#472F9A'
         }}>
-          <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
-            width: 350,
-            height: 135,
-            borderRadius: 7,
-          }} />
-
-        </View>
-        <View>
-          <ScrollView>
+          <View style={style.listService}>
             <FlatList
               nestedScrollEnabled={true}
+              data={category}
               horizontal={true}
-              data={banner}
-              keyExtractor={(item, index) => index.toString()}
+              viewabilityConfig={{
+                viewAreaCoveragePercentThreshold: 95
+              }}
+              onMomentumScrollEnd={e => {
+                if (e.nativeEvent.contentOffset.x === 0) {
+                  setLeft(true)
+                  setRight(false)
+                } else {
+                  setLeft(false)
+                  setRight(true)
+                }
+              }}
+
               showsHorizontalScrollIndicator={false}
-              renderItem={bannerRender}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={itemRender}
             />
-          </ScrollView>
-        </View>
-        <View style={style.containerMerchant}>
-          <Pressable style={style.btnAllMerchant}>
-            <Text style={style.textAllMerchant}>Merchant Populer</Text>
-            <SimpleIcon name="arrow-right" size={12} color={'#0F2E63'} style={style.styleIconArrow} onPress={() => { navigation.navigate('MerchantHome') }} />
-          </Pressable>
+
+            <View style={{
+              flexDirection: 'row', alignSelf: 'center'
+            }}>
+              <View style={{
+                width: 6,
+                height: 6,
+                margin: 2,
+                borderRadius: 6 / 2,
+                backgroundColor: left ? '#A57FF8' : '#f9f9f9'
+              }}>
+              </View>
+              <View style={{
+                width: 6,
+                height: 6,
+                margin: 2,
+                borderRadius: 6 / 2,
+                backgroundColor: right ? '#A57FF8' : '#f9f9f9'
+              }}>
+              </View>
+            </View>
+
+            <View>
+              <LinearGradient
+                colors={['#A57FF833', '#A57FF81B', '#ffffff']}
+                start={{ x: 0.0, y: 0.0 }}
+                end={{ x: 1, y: 1 }}
+                style={style.voucherView}
+              >
+                <Image
+                  source={require('../../assets/voucher.png')}
+                  style={style.voucherImage}
+                  resizeMode="contain"
+                />
+                <Text style={style.voucherNotice}>Jangan sia-siakan voucher kamu</Text>
+                <View
+                  style={{
+                    height:'100%',
+                    flex:1,
+                    justifyContent:'center',
+                  }}
+                >
+                  <TouchableOpacity style={style.btnStyleVoucher} onPress={() => {
+                    navigation.navigate('VoucherHome');
+                  }}>
+                    <Text style={style.textVoucherBtn}>Lihat Voucher</Text>
+                  </TouchableOpacity>
+                </View>
+
+              </LinearGradient>
+            </View>
+          </View>
+
+          <View style={{
+            width: 350,
+            height: 175,
+            marginTop:30,
+            borderRadius: 7,
+            alignSelf: 'center',
+            backgroundColor: 'white',
+            marginBottom: 20
+          }}>
+            <Image source={require('../../assets/iklan.png')} style={{
+              width: 350,
+              height: 175,
+              borderRadius: 7,
+              resizeMode:'cover',
+            }} />
+
+          </View>
+          <View>
+            <ScrollView>
+              <FlatList
+                nestedScrollEnabled={true}
+                horizontal={true}
+                data={banner}
+                keyExtractor={(item, index) => index.toString()}
+                showsHorizontalScrollIndicator={false}
+                renderItem={bannerRender}
+              />
+            </ScrollView>
+          </View>
+          
+          <View style={style.containerMerchant}>
+
+            <Pressable style={style.btnAllMerchant}  onPress={() => { navigation.navigate('MerchantHome') }}>
+              <Text style={style.textAllMerchant}>Merchant Populer</Text>
+              <SimpleIcon name="arrow-right" size={14} color={'#0F2E63'} style={style.styleIconArrow} />
+            </Pressable>
+
             <FlatList nestedScrollEnabled={true}
-              data={merchantPop.slice(0, 10)}
+              data={merchantPop}
               showsHorizontalScrollIndicator={false}
               renderItem={detailMerchant}
               keyExtractor={(item, index) => index.toString()}
               horizontal={true} />
-          <LinearGradient
-            colors={['#35CAED33', '#35CAED33', '#ffffff']}
-            start={{ x: 0.0, y: 0.0 }}
-            end={{ x: 1.0, y: 1.0 }}
-            style={style.kuisContainer}
-          >
-            <Image
-              source={require('../../assets/woman_happy.png')}
-              style={style.imageWomanHappy}
-              resizeMode="contain"
-            />
-            <View style={style.styleNoticeKuis}>
-              <Text style={style.textNoticeKuis} numberOfLines={5}>Jawab Kuis yang diajukan oleh merchant dan menangkan hadiahnya!</Text>
-              <Pressable style={style.btnKuis} onPress={
-                () => { navigation.navigate('RouterQuiz') }
-              }>
-                <Text style={style.texbtnKuis}>Lihat Kuis</Text>
-              </Pressable>
-            </View>
-          </LinearGradient>
-        </View>
 
-        <View style={style.spotPariwisataContainer}>
-          <ImageBackground source={require('../../assets/bgpopulerwisata.png')} style={style.imagestyleBg} resizeMode='cover'>
-            <Text style={style.textSpotTitle}>Pariwisata Semarang</Text>
-            
+            <LinearGradient
+              colors={['#35CAED33', '#35CAED33', '#ffffff']}
+              start={{ x: 0.0, y: 0.0 }}
+              end={{ x: 1.0, y: 1.0 }}
+              style={style.kuisContainer}
+            >
+              <Image
+                source={require('../../assets/woman_happy.png')}
+                style={style.imageWomanHappy}
+                resizeMode="contain"
+              />
+              <View style={style.styleNoticeKuis}>
+                <Text style={style.textNoticeKuis} numberOfLines={5}>Jawab Kuis yang diajukan oleh merchant dan menangkan hadiahnya!</Text>
+                <Pressable style={style.btnKuis} onPress={
+                  () => { navigation.navigate('RouterQuiz') }
+                }>
+                  <Text style={style.texbtnKuis}>Lihat Kuis</Text>
+                </Pressable>
+              </View>
+            </LinearGradient>
+          </View>
+
+          <View style={style.spotPariwisataContainer}>
+            <ImageBackground source={require('../../assets/bgpopulerwisata.png')} style={style.imagestyleBg} resizeMode='cover'>
+              <Text style={style.textSpotTitle}>Pariwisata Semarang</Text>
+
               <FlatList
                 nestedScrollEnabled={true}
                 horizontal={true}
@@ -534,42 +555,42 @@ export default function Home({ navigation, route }) {
                 ListFooterComponent={showAllDestination}
                 style={style.containerListSpotPariwisata}
               />
-            
-          </ImageBackground>
 
-        </View>
-        <View
-          style={{
-            backgroundColor: 'white',
-          }}>
-          <Text style={{
-            fontSize: 20,
-            fontWeight: '600',
-            color: '#333333',
-            fontFamily: 'NeutrifPro-Reguler',
-            marginStart: 18,
-            marginTop: 40,
+            </ImageBackground>
 
-          }}>Promo Hari Ini</Text>
+          </View>
+          <View
+            style={{
+              backgroundColor: 'white',
+            }}>
+            <Text style={{
+              fontSize: 20,
+              fontWeight: '600',
+              color: '#333333',
+              fontFamily: 'NeutrifPro-Reguler',
+              marginStart: 18,
+              marginTop: 40,
 
-          <ScrollView>
+            }}>Promo Hari Ini</Text>
 
-            <FlatList
-              nestedScrollEnabled={true}
-              data={promoUser}
-              keyExtractor={(item, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              renderItem={renderItemPromo}
-              style={{
-                marginStart: 18,
-                marginTop: 28,
-              }}
-            />
-          </ScrollView>
+            <ScrollView>
 
-        </View>
+              <FlatList
+                nestedScrollEnabled={true}
+                data={promoUser}
+                keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+                renderItem={renderItemPromo}
+                style={{
+                  marginStart: 18,
+                  marginTop: 28,
+                }}
+              />
+            </ScrollView>
 
-      </ScrollView>
+          </View>
+
+        </ScrollView>
 
       </View>
 
@@ -649,11 +670,11 @@ const style = StyleSheet.create({
     width: 100,
   },
   imagestyleBg: {
-    height: SCREEN_WIDTH/2 + 70,
+    height: SCREEN_WIDTH / 2 + 70,
     width: '100%'
   },
   spotPariwisataContainer: {
-    height: SCREEN_WIDTH/2 + 70,
+    height: SCREEN_WIDTH / 2 + 70,
     backgroundColor: '#B60D00',
     flexDirection: 'column',
   },
@@ -716,17 +737,17 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#8B68D9',
     width: '100%',
-    height:60,
+    height: 60,
     position: 'absolute',
-    alignItems:'center',
-    bottom:0,
-    
+    alignItems: 'center',
+    bottom: 0,
+
   },
   TextCoupon: {
     color: '#FFFFFF',
-    width:'100%',
+    width: '100%',
     fontSize: 18,
-    alignSelf:'center',
+    alignSelf: 'center',
     marginStart: 16,
     fontWeight: '400',
   },
@@ -752,17 +773,18 @@ const style = StyleSheet.create({
     margin: 0,
     padding: 0,
     flex: 1,
-    alignItems:'center',
+    alignItems: 'center',
     backgroundColor: 'white',
     justifyContent: 'center',
   },
   voucherView: {
     height: 64,
+    width: SCREEN_WIDTH - 40,
     borderRadius: 16,
-    marginStart: 16,
+    marginLeft: 16,
     marginTop: 36,
     marginBottom: 36,
-    marginEnd: 16,
+    marginRight: 16,
     alignContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
@@ -776,28 +798,23 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
-    marginStart: 18,
   },
   btnStyleVoucher: {
-    height: 25,
-    marginStart: 14,
-    backgroundColor: '#A57FF8',
-    color: 'white',
-    paddingTop: 6,
-    paddingLeft: 8,
-    position:'absolute',
-    right:0,
-    marginEnd:14,
-    paddingRight: 8,
-    textAlign: 'center',
-    borderRadius: 8,
+    alignSelf:'flex-end',
+    width:100,
   },
   textVoucherBtn: {
     color: 'white',
-    fontSize: 8,
-    fontWeight: '600',
-    alignSelf: 'center',
-
+    height:25,
+    backgroundColor: '#A57FF8',
+    fontSize: 10,
+    paddingRight: 4,
+    borderRadius: 4,
+    margin:8,
+    alignItems:'center',
+    textAlign:'center',
+    textAlignVertical:'center',
+    fontWeight: '400',
   },
   categoryContainer: {
     flexDirection: 'column',
@@ -847,7 +864,7 @@ const style = StyleSheet.create({
   textBannerSmargress: {
     fontSize: 26,
     alignSelf: 'center',
-    margin: 56,
+    margin: 50,
     color: 'white',
     fontWeight: '700',
   },

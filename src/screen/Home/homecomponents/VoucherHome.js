@@ -55,7 +55,7 @@ export default function VoucherHome({ navigation, route }) {
 
   const loadMore = async () => {
 
-    if (isLast === false) {
+    if (isLast == false) {
       offset += length;
       getVoucherList();
     }
@@ -81,25 +81,25 @@ export default function VoucherHome({ navigation, route }) {
         let metadata = body.metadata;
         let response = body.response;
 
-        if (metadata.status === 200) {
+        if (metadata.status == 200) {
           
-          setDataList(offset === 0 ? response.vouchers : [...dataList, response.vouchers]);
-          offset = response.length === 0 ? offset + response.vouchers.length : offset;
+          setDataList(offset == 0 ? response.vouchers : [...dataList, response.vouchers]);
+          offset = response.length == 0 ? offset + response.vouchers.length : offset;
           setIsLast(response.vouchers.length !== length ? true : false);
           setDataKosong(false);
           setJumlahItem(jumlahItem + response.vouchers.length);
           isEmpty = false;
-        } else if (metadata.status === 401) {
+        } else if (metadata.status == 401) {
             isEmpty = true;
           //console.log('Status', metadata.message);
           setDataKosong(true);
-        } else if(metadata.status === 404){
+        } else if(metadata.status == 404){
             isEmpty = true;
             //console.log('Status', metadata.message);
             setMsg(metadata.message)
             setDataKosong(true);
         } else {
-          if (offset === 0) {
+          if (offset == 0) {
             setDataKosong(true);
           }
           setIsLast(true);
@@ -114,7 +114,7 @@ export default function VoucherHome({ navigation, route }) {
 
   return (
     <SafeAreaView style={style.container}>
-        { dataList.length === 0 ? <Text style={style.textStyle}>{msg}</Text>  : 
+        { dataList.length == 0 ? <Text style={style.textStyle}>{msg}</Text>  : 
 
          <FlatList
          onEndReached={loadMore}
@@ -141,6 +141,8 @@ const style = StyleSheet.create({
     textStyle:{
         alignSelf:'center',
         fontSize:18,
+        width:'100%',
+        textAlign:'center',
         alignSelf:'center',
         color:'black',
         fontWeight:'300',

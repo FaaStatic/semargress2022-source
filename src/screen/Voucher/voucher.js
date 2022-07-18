@@ -33,7 +33,7 @@ const Voucher = ({ navigation, route }) => {
       0: require('../../assets/vector_1.png'),
       1: require('../../assets/vector_2.png'),
       2: require('../../assets/vector_3.png'),
-
+      3: require('../../assets/vector_4.png'),
     }
   };
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +42,7 @@ const Voucher = ({ navigation, route }) => {
   // Load data session
   const loadSession = async () => {
 
-    setBgImage(id % 3);
+    setBgImage(id % 4);
 
     const session = await SessionManager.GetAsObject(sessionId);
     if (session != null) {
@@ -66,6 +66,7 @@ const Voucher = ({ navigation, route }) => {
 
   const getData = () => {
 
+    console.log("id ne", id);
     let param = {
       id_voucher: id
     }
@@ -75,7 +76,7 @@ const Voucher = ({ navigation, route }) => {
         let metadata = body.metadata;
         let response = body.response;
 
-        if (metadata.status === 200) {
+        if (metadata.status == 200) {
           setData(response.voucher);
 
         } else {
@@ -99,7 +100,7 @@ const Voucher = ({ navigation, route }) => {
         let metadata = body.metadata;
         let response = body.response;
 
-        if (metadata.status === 200) {
+        if (metadata.status == 200) {
           ShowSuccess(metadata.message);
           navigation.goBack();
         } else {
@@ -220,6 +221,7 @@ const Voucher = ({ navigation, route }) => {
 
             <Text
               style={{
+                width: '100%',
                 fontSize: 14,
                 color: colors.white,
                 marginTop: 4,
@@ -229,6 +231,7 @@ const Voucher = ({ navigation, route }) => {
 
             <Text
               style={{
+                width: '100%',
                 fontSize: 20,
                 fontWeight:'600',
                 color: colors.white,
@@ -249,6 +252,7 @@ const Voucher = ({ navigation, route }) => {
 
           <Text
             style={{
+              width: '100%',
               color:colors.black3,
               marginLeft:defaultMargin,
               marginRight:defaultMargin,
@@ -261,6 +265,7 @@ const Voucher = ({ navigation, route }) => {
 
           <Text
             style={{
+              width: '100%',
               color:colors.black3,
               marginLeft:defaultMargin,
               marginRight:defaultMargin,
@@ -288,6 +293,7 @@ const Voucher = ({ navigation, route }) => {
 
               <Text
                 style={{
+                  width: '100%',
                   color:colors.black3,
                   fontSize:18,
                   fontWeight:'600',
@@ -312,6 +318,7 @@ const Voucher = ({ navigation, route }) => {
 
               <Text
                 style={{
+                  width: '100%',
                   marginTop:10,
                   fontSize:15,
                   fontWeight:'400',
@@ -337,6 +344,7 @@ const Voucher = ({ navigation, route }) => {
 
               <Text
                 style={{
+                  width: '100%',
                   color:colors.black3,
                   fontSize:18,
                   fontWeight:'600',
@@ -361,6 +369,7 @@ const Voucher = ({ navigation, route }) => {
 
               <Text
                 style={{
+                  width: '100%',
                   marginTop:10,
                   fontSize:15,
                   fontWeight:'400',

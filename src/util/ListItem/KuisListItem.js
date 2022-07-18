@@ -7,10 +7,7 @@ export default function KuisListItem({ item, onModal }) {
 
   function changeDate(data){
     let dateFetch =  data.split(' ');
-    console.log(data)
-    console.log(dateFetch)
     let dateArr = dateFetch[0].split('-');
-    console.log(dateArr)
     let dateAnswer = null;
      switch(dateArr[1]){
          case '01':
@@ -122,6 +119,7 @@ const style = StyleSheet.create({
     marginStart: 16,
   },
   textMerchant: {
+    width:'100%',
     marginStart: 16,
     fontSize: 16,
     marginTop:4,

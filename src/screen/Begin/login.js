@@ -542,7 +542,6 @@ export default function Login({ navigation }) {
         <View style={{ justifyContent: 'center', flex: 1, backgroundColor: 'rgba(52, 52, 52, 0.6)' }}>
 
           <View
-            // source={require('../../assets/bgot.png')}
             style={{
               borderRadius: 16,
               alignSelf: 'center',

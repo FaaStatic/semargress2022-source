@@ -176,6 +176,7 @@ export default function EKupon({ navigation, route }) {
       <Text style={{
         color:'#333333',
         fontWeight:'600',
+        width:'100%',
         fontSize:16,
         marginStart:18,
 

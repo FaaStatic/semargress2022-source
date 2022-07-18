@@ -4,7 +4,13 @@ import {View, Pressable, Image, StyleSheet, Text} from 'react-native'
 export default function IconList({item, Press}) {
     return (
       
-      <View style={{ margin: 20 }}>
+      <View style={{ 
+
+          marginBottom: 16,
+          marginTop: 20,
+          marginRight: 10,
+          marginLeft: 10,
+       }}>
         <Pressable onPress={() => {Press(item)}}>
         <View style={style.categoryContainer}>
           <Image source={{ uri: item.icon }} style={style.iconCategory} resizeMode="contain" />
@@ -18,13 +24,13 @@ export default function IconList({item, Press}) {
   const style = StyleSheet.create({
     categoryContainer: {
         flexDirection: 'column',
-        height: 62,
-        width: 62,
+        height: 70,
+        width: 70,
         backgroundColor:'transparent',
       },
       iconCategory: {
-        height: 62,
-        width: 62,
+        height: 70,
+        width: 70,
         flexDirection: 'column',
         backgroundColor: '#f9f9f9',
         borderRadius: 16,
@@ -35,6 +41,8 @@ export default function IconList({item, Press}) {
         width: 32,
       },
       nameKategori: {
+        width:'100%',
+        textAlign:'center',
         fontSize: 12,
         color: 'black',
         alignSelf: 'center',

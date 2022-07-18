@@ -16,7 +16,7 @@ const images = {
     0: require('../../assets/vector_1.png'),
     1: require('../../assets/vector_2.png'),
     2: require('../../assets/vector_3.png'),
-
+    3: require('../../assets/vector_4.png'),
   }
 };
 
@@ -25,7 +25,7 @@ const windowHeight = Dimensions.get('window').height;
 
 export default function ListVoucher({ item, PressCall }) {
   
-  var bgImage = item.id % 3;
+  var bgImage = item.id % 4;
 
   function changeDate(data) {
     let dateFetch = data.split(' ');
@@ -154,6 +154,7 @@ export default function ListVoucher({ item, PressCall }) {
               <Text
                 style={{
                   fontSize: 14,
+                  width: '100%',
                   color: colors.white,
                   marginTop: 4,
                 }}
@@ -163,6 +164,7 @@ export default function ListVoucher({ item, PressCall }) {
               <Text
                 style={{
                   fontSize: 20,
+                  width: '100%',
                   fontWeight:'600',
                   color: colors.white,
                   marginTop: 4,
@@ -220,6 +222,7 @@ const style = StyleSheet.create({
   textStyle: {
     fontSize: 18,
     color:colors.black3,
+    width: '100%',
     fontWeight:'600',
     marginTop: 4,
     alignSelf: 'flex-start',

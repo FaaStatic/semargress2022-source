@@ -141,6 +141,7 @@ const style = StyleSheet.create({
         flexDirection:'column',
     },
     textHeader:{
+        width:'100%',
         marginStart:8,
         fontSize:16,
         marginBottom:4,
@@ -148,6 +149,7 @@ const style = StyleSheet.create({
         fontWeight:'bold',
     },
     textStyleContent:{
+        width:'100%',
         marginStart:45,
         fontSize:12,
         color:'red',
@@ -158,6 +160,7 @@ const style = StyleSheet.create({
          marginBottom:18
     },
     textPeriode: {
+        width:'100%',
         marginStart: 8,
         color: '#828282',
         marginBottom: 4,

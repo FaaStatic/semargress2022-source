@@ -60,7 +60,7 @@ export default function FeedList({ item }) {
                 fontWeight:'300',
                 fontFamily: 'NeutrifPro-Reguler'
             }]}>{item.profile_name}</Text>
-            <Text style={[style.textDeskripsi,]}>{item.media_caption.length !== 0 ? ` ${item.media_caption}` : ' Tidak Ada Deskripsi'}</Text>
+            <Text style={[style.textDeskripsi,]}>{item.media_caption.length !== 0 ? ` ${item.media_caption}` : ''}</Text>
 
         </Text>
         {show > 4 &&
