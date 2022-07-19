@@ -95,6 +95,8 @@ export default function ListKoupon({data}){
            }}/>
            <Text style={{
             position:'absolute',
+            width:'100%',
+            textAlign:'center',
             fontSize:14,
             fontWeight:'bold',
             color:'white',
