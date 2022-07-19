@@ -8,6 +8,7 @@ import {
   Dimensions,
   View,
   FlatList,
+  Linking,
 } from 'react-native';
 import BottomSheetWisata from './BottomSheetWisata';
 import { Api } from '../../../../util/Api';
@@ -156,6 +157,12 @@ export default function DetailWisataSemarang({ navigation, route }) {
   
   };
 
+  const openMaps = (latitude, longitude) => {
+    const daddr = `${latitude},${longitude}`;
+    const company = Platform.OS === "ios" ? "apple" : "google";
+    Linking.openURL(`http://maps.${company}.com/maps?daddr=${daddr}`);
+  }
+
   const openTel = async (url) => {
 
    
@@ -206,6 +213,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
               style={[
                 styling.itemTextDetail,
                 {
+                  width:'100%',
                   fontWeight: 'bold',
                   fontSize: 16,
                 },
@@ -367,12 +375,14 @@ const styling = StyleSheet.create({
 
   itemTextDetail: {
     fontSize: 14,
+    width:'100%',
     color: '#0f2e63',
     marginStart: 16,
     marginTop: 4,
   },
   headerTextDetail: {
     fontSize: 18,
+    width:'100%',
     fontWeight: 'bold',
     color: '#0f2e63',
     marginTop: 16,
