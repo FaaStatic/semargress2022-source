@@ -8,7 +8,9 @@ import {
   PermissionsAndroid,
   Text,
   View,
+  Pressable,
 } from 'react-native';
+import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Api } from '../../util/Api';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { TextInput } from 'react-native-paper';
@@ -16,6 +18,7 @@ import Geolocation from 'react-native-geolocation-service';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import MerchanList from '../../util/ListItem/MerchantList';
 import { BallIndicator } from 'react-native-indicators';
+import { colors } from '../../util/color';
 let latitude = 0;
 let longitude = 0;
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -141,7 +144,9 @@ export default function Search({ navigation, route }) {
 
   return (
     <SafeAreaView style={style.container}>
+
       <View style={style.containerHeader}>
+
         <Image
           source={require('../../assets/header_app.png')}
           style={{
@@ -175,57 +180,79 @@ export default function Search({ navigation, route }) {
           {!iconVisible ? <Icon name="search" size={26} color="grey" style={style.iconSearch} /> : <Icon name="search" size={26} color="white" style={style.iconSearch} />}
         </View>
       </View>
-      {loading ? (
+
+      <View
+        style={{
+          backgroundColor: colors.white,
+          marginTop:-16,
+          borderTopRightRadius:16,
+          borderTopLeftRadius:16,
+          width:'100%',
+          flex:1,
+        }}
+      >
+
+        {loading ? (
           <BallIndicator
             size={60}
             color={'#0F2E63'}
             style={{
-              marginTop:'10%',
+              marginTop: '10%',
               alignSelf: 'center',
             }}
           />
-      ) : (
-        <View
-          style={{
-            flex: 1,
-          }}
-        >
-          {dataKosong ? (
-            <FlatList
-              data={response}
-              renderItem={itemRender}
-              showsVerticalScrollIndicator={false}
-              horizontal={false}
-              keyExtractor={(item, index) => {
-                index.toString();
-              }}
-              numColumns={2}
-              contentContainerStyle={style.flatContainer}
-              style={style.flatlistStyle}
-            />
-          ) : (
-            <View
-              style={{
-                height: '100%',
-                justifyContent: 'center',
-              }}
-            >
-              <Text
+        ) : (
+          <View
+            style={{
+              flex: 1,
+            }}
+          >
+            {dataKosong ? (
+              <FlatList
+                data={response}
+                renderItem={itemRender}
+                showsVerticalScrollIndicator={false}
+                horizontal={false}
+                keyExtractor={(item, index) => {
+                  index.toString();
+                }}
+                numColumns={2}
+                contentContainerStyle={style.flatContainer}
+                style={style.flatlistStyle}
+              />
+            ) : (
+              <View
                 style={{
-                  fontSize: 24,
-                  fontWeight: '800',
-                  color: 'black',
-                  fontFamily: 'NeutrifPro-Regular',
-                  alignSelf: 'center',
-                  textAlign:'center',
+                  height: '100%',
+                  justifyContent: 'center',
                 }}
               >
-                Tidak Ditemukan Merchant Terdekat :"(
-              </Text>
-            </View>
-          )}
-        </View>
-      )}
+                <Text
+                  style={{
+                    fontSize: 24,
+                    fontWeight: '800',
+                    color: 'black',
+                    fontFamily: 'NeutrifPro-Regular',
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                  }}
+                >
+                  Tidak Ditemukan Merchant Terdekat :"(
+                </Text>
+              </View>
+            )}
+          </View>
+        )}
+      </View>
+
+      <Pressable
+        style={style.styleIcon}
+        onPress={() => {
+          navigation.goBack();
+        }}
+      >
+        <IonIcon name="chevron-back" size={28} color={'white'} />
+      </Pressable>
     </SafeAreaView>
   );
 }
@@ -241,7 +268,7 @@ const themeSearch = {
 
 const style = StyleSheet.create({
   flatContainer: {
-    marginTop:'5%',
+    marginTop: '5%',
     justifyContent: 'center',
     width: SCREEN_WIDTH,
     fontFamily: 'NeutrifPro-Regular',
@@ -251,22 +278,31 @@ const style = StyleSheet.create({
   },
   container: {
     flex: 1,
-    height:'100%',
+    height: '100%',
     fontFamily: 'NeutrifPro-Regular',
     flexDirection: 'column',
-    backgroundColor: 'white',
+    backgroundColor: colors.secondary,
     justifyContent: 'center',
   },
   containerHeader: {
-    height: 100,
+    height: 120,
     backgroundColor: '#0F2E63',
+  },
+  styleIcon: {
+    height: 30,
+    width: 30,
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    marginTop: 40,
+    marginLeft: 20,
   },
   searchView: {
     borderRadius: 16,
     backgroundColor: 'white',
     position: 'absolute',
     borderRadius: 8,
-    bottom: 0,
+    marginTop:40,
     marginStart: 16,
     marginEnd: 16,
     marginBottom: 15,
@@ -275,12 +311,12 @@ const style = StyleSheet.create({
   },
   SearchStyle: {
     width: '85%',
-   // backgroundColor:'green',
+    // backgroundColor:'green',
     alignSelf: 'flex-start',
     height: 36,
     marginStart: 6,
     marginEnd: 6,
-   backgroundColor: 'transparent',
+    backgroundColor: 'transparent',
   },
   iconSearch: {
     marginTop: 4,
