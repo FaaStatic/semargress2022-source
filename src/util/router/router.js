@@ -147,7 +147,17 @@ export default function Router() {
           name="Search"
           component={Search}
           options={{
+              headerLeft: () => {
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+                </View>
+              );
+            },
             headerShown: false,
+          
           }}
         />
         <StackScreen.Screen

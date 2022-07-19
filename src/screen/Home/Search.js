@@ -303,7 +303,7 @@ const style = StyleSheet.create({
     position: 'absolute',
     borderRadius: 8,
     marginTop:40,
-    marginStart: 16,
+    marginStart: "15%",
     marginEnd: 16,
     marginBottom: 15,
     backgroundColor: 'white',

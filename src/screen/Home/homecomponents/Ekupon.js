@@ -23,7 +23,7 @@ export default function EKupon({ navigation, route }) {
 
 
   useEffect(() => {
-
+    getKupon();
     const unsubscribe = navigation.addListener('focus', () => {
       offset = 0;
       onProgress = false;
@@ -82,6 +82,7 @@ export default function EKupon({ navigation, route }) {
         let body = res.data;
         let metadata = body.metadata;
         let response = body.response;
+        console.log('data', response);
         if (metadata.status === 200) {
           let data = response;
           setKuponList(response);
@@ -132,12 +133,12 @@ export default function EKupon({ navigation, route }) {
             }
             tempList.push(itemKupon);
           });
-          setKuponList(offset === 0 ? tempList : [...kuponList, ...tempList]);
+          setKuponList(offset === 0 ? tempList : [...kuponList, tempList]);
           offset = response.length === 0 ? offset + data.length : offset;
           setIsLast(response.length !== length ? true : false);
           setDataKosong(false);
           setJumlahItem(jumlahItem + response.length);
-          console.log('filtered2', filtered)
+          console.log('filtered2', tempList)
         } else if (metadata.status === 404) {
           isEmpty = true;
           console.log('Status', metadata.message);

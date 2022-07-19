@@ -103,7 +103,9 @@ export default function DetailListCategory({ navigation, route }) {
             marginBottom: 8,
           }}
         >
-          <DotIndicator color="#251468" size={6} />
+          <DotIndicator color="#251468" size={6} style={{
+            alignSelf:'center',
+          }} />
         </View>
       );
     } else {
@@ -180,32 +182,38 @@ export default function DetailListCategory({ navigation, route }) {
             return item.flag_tipe === 'merchant'
           })
 
-        
+        var countMerc = 0;
           response.forEach((element) => {
             if (element.flag_tipe == 'merchant') {
-
+              countMerc += 1;
               merchant.push(element);
-              if (merchant.length == 2) {
+              console.log(countMerc);
+              console.log(merchant);
+              if (merchant.length == 2 && countMerc == 2) {
                 listNew.push({
                   type: 'merchant',
                   data: merchant,
                 });
                 merchant = [];
-              }
-            } else if (element.flag_tipe == 'iklan') {
-              listNew.push({
-                type: 'iklan',
-                data: element,
-              });
-            }          
+                countMerc = 0;
+              }    
+          }else if (element.flag_tipe == 'iklan') {
+            listNew.push({
+              type: 'iklan',
+              data: element,
+            });
+          } });
+          listNew.push({
+            type: 'merchant',
+            data: merchant,
           });
-
+          merchant = [];
           setResponList(offset == 0 ? listNew : responList.concat(listNew));
           isLast = response.length !== length  ? false : true;
           setListKosong(false);
           setLoading(false);
           setOpenLoad(false);
-
+          console.log('merchant', listNew);
         } else if (metadata.status == 401) {
           setListKosong(true);
           setLoading(false);
@@ -268,15 +276,24 @@ export default function DetailListCategory({ navigation, route }) {
 
   const itemRender = useCallback(({ item }) => {
     if (item.type == 'merchant') {
-      return (
-        <View style={{ margin: 10, flexDirection:'row' }}>
-        <MerchanList item={item.data[0]} pressCall={moveDetail}/>
-        <MerchanList item={item.data[1]} pressCall={moveDetail}/>
-        </View>
-      );
+      if(item.data.length == 1){
+        return (
+          <View style={{ margin: 10, flexDirection:'column', alignSelf:'flex-start'}}>
+          <MerchanList item={item.data[0]} pressCall={moveDetail}/>
+          </View>
+        );
+      }else if(item.data.length === 2){
+        return (
+          <View style={{ margin: 10, flexDirection:'row',alignSelf:'center' }}>
+          <MerchanList item={item.data[0]} pressCall={moveDetail}/>
+          <MerchanList item={item.data[1]} pressCall={moveDetail}/>
+          </View>
+        );
+      }
+     
     } else if (item.type == 'iklan') {
       return (
-        <View style={{ margin: 10 }}>
+        <View style={{ margin: 10 , alignSelf:'center'}}>
           <IklanItem item={item.data} />
         </View>
       );
@@ -309,7 +326,7 @@ export default function DetailListCategory({ navigation, route }) {
               width:'70%',
               textAlign:'center',
               alignSelf:'center'
-            }}>Merchant Terdekat Tidak Ditemukan :"(</Text> : <></>  
+            }}>Merchant Terdekat Tidak Ditemukan</Text> : <></>  
             )   
         }
       </View>
@@ -324,7 +341,7 @@ export default function DetailListCategory({ navigation, route }) {
       onEndReached={loadMore}
       onEndReachedThreshold={1}
       style={style.listStyle}
-      contentContainerStyle={{alignItems:'center'}}
+      contentContainerStyle={{ width:'100%'}}
     />
    
     </SafeAreaView>
