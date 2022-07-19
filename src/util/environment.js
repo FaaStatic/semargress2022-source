@@ -22,6 +22,8 @@ function getEnvironment() {
             platform = 'production';
         }
         return _Environments[platform]
+    }else{
+        platform = 'production';
     }
 
     // ...now return the correct environment
