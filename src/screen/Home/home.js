@@ -595,11 +595,11 @@ export default function Home({ navigation, route }) {
       </View>
 
 
-      {Environment.ENV == 'PRODUCTION' &&
+      {Environment.ENV != 'PRODUCTION' &&
         <View
           style={{ width: '100%', backgroundColor: 'red', position: 'absolute', top: 0, padding: 8 }}
         >
-          <Text style={{ color: 'white', alignSelf: 'center' }}>{Environment.ENV}</Text>
+          <Text style={{ width: '100%',color: 'white', textAlign: 'center' }}>{Environment.ENV}</Text>
         </View>}
 
       {btnUpdateAndroid && (
