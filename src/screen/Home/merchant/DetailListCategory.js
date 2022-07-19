@@ -98,6 +98,7 @@ export default function DetailListCategory({ navigation, route }) {
         <View
           style={{
             justifyContent: 'center',
+            width:'100%',
             marginTop: 8,
             marginBottom: 8,
           }}
@@ -175,7 +176,11 @@ export default function DetailListCategory({ navigation, route }) {
           //setResponList(data);
           var merchant = [];
           var listNew = [];
+          var tes = response.filter(function(item){
+            return item.flag_tipe === 'merchant'
+          })
 
+        
           response.forEach((element) => {
             if (element.flag_tipe == 'merchant') {
 
