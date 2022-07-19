@@ -676,6 +676,8 @@ const styling = StyleSheet.create({
   textStyleGap: {
     alignSelf: 'center',
     fontSize: 14,
+    textAlign:'center',
+    width:'100%',
     fontWeight: '400',
     color: colors.black3,
   },
