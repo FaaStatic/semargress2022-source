@@ -445,9 +445,10 @@ export default function Login({ navigation }) {
                 alignSelf: 'center',
                 marginTop: 30,
                 borderRadius: 10,
+                width:'50%'
               }}
             >
-              <Text style={{ color: colors.white, fontSize: 16, fontWeight: '600', marginLeft: 70, marginRight: 70, marginTop: 14, marginBottom: 14 }}>Login</Text>
+              <Text style={{ color: colors.white,textAlign:'center',width:'100%', fontSize: 16, fontWeight: '600', marginLeft: 70, marginRight: 70, marginTop: 14, marginBottom: 14 }}>Login</Text>
             </TouchableOpacity>
 
             <View style={{

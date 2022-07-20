@@ -808,6 +808,8 @@ const style = StyleSheet.create({
   },
   textVoucherBtn: {
     color: 'white',
+    width:80,
+    textAlign:'center',
     backgroundColor: '#A57FF8',
     padding:4,
     fontSize: 10,
@@ -849,6 +851,7 @@ const style = StyleSheet.create({
   },
   textAllMerchant: {
     fontSize: 18,
+    width:'100%',
     fontWeight: '600',
     color: '#333333',
     marginStart: 16,
