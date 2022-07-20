@@ -126,13 +126,16 @@ let permission = requestPermissions = async() => {
   const onRemoteNotification = (notification) => {
 
     console.log(notification)
-    const isClicked = notification.getData().userInteraction === 1;
+    if(notification.getData().userInteraction != undefined){
+      const isClicked = notification.getData().userInteraction === 1;
 
-    if (isClicked) {
-      // Navigate user to another screen
-    } else {
-      // Do something else with push notification
+      if (isClicked) {
+        // Navigate user to another screen
+      } else {
+        // Do something else with push notification
+      }
     }
+    
   };
 
   const foregroundHandler = () => {
