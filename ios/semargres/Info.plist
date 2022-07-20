@@ -77,11 +77,11 @@
 	<key>NSCameraUsageDescription</key>
 	<string>We need phone camera access to scan QR</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need to access location service for apps experience</string>
+	<string>We need to use location access for showing nearby merchants </string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need to access location service for apps experience</string>
+	<string>We need to use location access for showing nearby merchants </string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need to access location service for apps experience</string>
+	<string>We need to use location access for showing nearby merchants </string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>We need to access microphone service for apps experience</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -143,7 +143,5 @@
 	<string>Light</string>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIappFonts</key>
-	<string>NeutrifPro-Regular.ttf</string>
 </dict>
 </plist>

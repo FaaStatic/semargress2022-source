@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { SafeAreaView, Text, View, Image, StyleSheet, Dimensions, ScrollView, Pressable } from 'react-native';
+import { SafeAreaView, Text, View, Image, StyleSheet, Dimensions, ScrollView, Pressable, TouchableOpacity } from 'react-native';
 import VideoPlayer from 'react-native-video-player';
 import { colors } from '../color';
 
@@ -64,16 +64,18 @@ export default function FeedList({ item }) {
 
         </Text>
         {show > 4 &&
-        <Pressable onPress={() => { 
-            setFullDeskripsi(!fullDeskripsi) 
-            }}>
-            <Text style={[style.textDeskripsi, {
-            color: '#9b9b9b',
-            marginStart: 8,
-            marginTop: 5,
-            fontWeight:'300',
-        }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text>
-        </Pressable>}
+                <TouchableOpacity onPress={() => { 
+                    setFullDeskripsi(!fullDeskripsi) 
+                    }}>
+                    <Text style={[style.textDeskripsi, {
+                    color: '#9b9b9b',
+                    marginStart: 8,
+                    marginTop: 5,
+                    fontWeight:'300',
+                }]}>{fullDeskripsi ? 'Lebih Sedikit' : 'Selengkapnya'}</Text>
+                </TouchableOpacity>
+        }
+
     </View>);
 
 }
@@ -118,6 +120,7 @@ const style = StyleSheet.create({
     },
     textDeskripsi: {
         fontSize: 15,
-        color:colors.black3
+        color:colors.black3,
+        lineHeight:18.7,
     }
 })

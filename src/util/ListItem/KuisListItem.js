@@ -83,13 +83,14 @@ export default function KuisListItem({ item, onModal }) {
           style={[
             style.textStyle,
             {
-              marginBottom:4
+              marginBottom:8
             },
           ]}
         >
          
           <Text style={{
-            fontWeight:'600'
+            fontWeight:'600',
+            width:'100%',
           }}>Pertanyan</Text> : {item.soal}
         </Text>
         <Text style={style.textStyle}><Text style={[style.textStyle,{
@@ -133,10 +134,12 @@ const style = StyleSheet.create({
     marginBottom: 16,
     fontWeight:'400',
     fontSize: 12,
+    width:'100%',
   },
    textStyle: {
     marginStart: 16,
     color: '#333333',
     fontSize: 15,
+    width:'75%'
   },
 });

@@ -116,6 +116,7 @@ const style = StyleSheet.create({
     },
     containerHeaderText:{
         flexDirection:'column',
+        width:'100%'
     },
     textHeader:{
         width:'100%',

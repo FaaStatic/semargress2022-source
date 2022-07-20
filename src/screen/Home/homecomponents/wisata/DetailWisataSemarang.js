@@ -208,7 +208,10 @@ export default function DetailWisataSemarang({ navigation, route }) {
               },
             ]}
           >
-            <Material name="storefront" size={28} color={'#0f2e63'} />
+            <Image source={require('../../../../assets/shop_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
             <Text
               style={[
                 styling.itemTextDetail,
@@ -223,33 +226,50 @@ export default function DetailWisataSemarang({ navigation, route }) {
             </Text>
           </View>
           <View style={styling.itemDetailContainer}>
-            <SimpleIcon name="location-pin" size={28} color={'#0f2e63'} />
+          <Image source={require('../../../../assets/location_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
             <Text
-              style={[
-                styling.itemTextDetail,
-                {
-                  width: 200,
-                },
-              ]}
+              numberOfLines={6}  style={[styling.itemTextDetail,{
+                width:'75%',
+             }]}
             >
               {detailResponse.alamat ? detailResponse.alamat : '-' }
             </Text>
           </View>
           <View style={styling.itemDetailContainer} onPress={detailResponse.notelp ? ()=>{openTel(detailResponse.notelp)}: ()=>{}}>
-            <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
-            <Text style={styling.itemTextDetail}>
+          <Image source={require('../../../../assets/phone_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text  numberOfLines={6}  style={[styling.itemTextDetail,{
+               width:'75%',
+            }]}>
               {detailResponse.notelp ? detailResponse.notelp : '-'}
             </Text>
           </View>
           <View style={styling.itemDetailContainer}  onPress={detailResponse.link_ig ? ()=>{openLink(detailResponse.link_ig)}: ()=>{}}>
-            <FeatherIcon name="instagram" size={28} color={'#0f2e63'} />
-            <Text style={styling.itemTextDetail}>
+          <Image source={require('../../../../assets/ig_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6}  style={[styling.itemTextDetail,{
+               width:'75%',
+               color:'#A57FF8'
+            }]}>
               {detailResponse.link_ig ? detailResponse.link_ig : '-'}
             </Text>
           </View>
           <View style={styling.itemDetailContainer}  onPress={detailResponse.link_fb ? ()=>{openLink(detailResponse.link_fb)}: ()=>{}}>
-            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
-            <Text style={styling.itemTextDetail}>
+          <Image source={require('../../../../assets/fb_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6}  style={[styling.itemTextDetail,{
+               width:'75%',
+               color:'#A57FF8'
+            }]}>
               {detailResponse.link_fb ? detailResponse.link_fb : '-'}
             </Text>
           </View>
@@ -327,7 +347,7 @@ const styling = StyleSheet.create({
     width:SCREEN_WIDTH,
   },
   flatlistStyle:{
-     marginBottom:SCREEN_HEIGHT/6,
+     marginBottom:SCREEN_HEIGHT/5,
   },
   iconArrow: {
     alignSelf: 'center',
@@ -375,7 +395,7 @@ const styling = StyleSheet.create({
 
   itemTextDetail: {
     fontSize: 14,
-    width:'100%',
+    width:'90%',
     color: '#0f2e63',
     marginStart: 16,
     marginTop: 4,

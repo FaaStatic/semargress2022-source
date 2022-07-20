@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, TouchableOpacity, Text, Dimensions } from 'react-native';
+import { View, TouchableOpacity, Text, Dimensions, Pressable } from 'react-native';
 import RouteTab from './routertab';
 import Splash from '../../screen/Begin/splash';
 import Login from '../../screen/Begin/login';
@@ -117,6 +117,8 @@ export default function Router() {
                       color: 'black',
                       alignSelf: 'center',
                       fontSize: 18,
+                      width:'50%',  
+                      textAlign:'center',
                       fontWeight: '600',
                     }}
                   >
@@ -148,6 +150,7 @@ export default function Router() {
           component={Search}
           options={{
             headerShown: false,
+          
           }}
         />
         <StackScreen.Screen
@@ -209,11 +212,20 @@ export default function Router() {
         <StackScreen.Screen
           name="Voucher"
           component={Voucher}
-          options={{
+          options={({ navigation, screenProps }) => ({
             title: 'Detail Voucher',
             headerShown: true,
             headerTitleAlign: 'center',
-          }}
+            headerLeft: () => {
+              return (
+                <View>
+                  <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+                </View>
+              );
+            },
+          })}
         />
         <StackScreen.Screen
           name='DetailListCategory'

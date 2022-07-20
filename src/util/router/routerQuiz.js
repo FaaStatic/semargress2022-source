@@ -18,7 +18,7 @@ export default function RouterQuiz({ navigation, route }) {
       screenOptions={{
         tabBarLabelStyle: { fontSize: 12 },
         upperCaseLabel: false,
-          tabBarItemStyle: { height:45, width: Math.ceil(windowWidth/3)},
+          tabBarItemStyle: { height:45, width: windowWidth/3},
           tabBarStyle: { backgroundColor: 'white', elevation:5, marginTop:0, },
           tabBarActiveTintColor:'#F29836',
           tabBarIndicatorStyle:{
@@ -26,6 +26,7 @@ export default function RouterQuiz({ navigation, route }) {
           },
           tabBarLabelStyle:{
             textTransform:'none',
+            width:'100%'
           }
       }}>
         <StackTab.Screen
