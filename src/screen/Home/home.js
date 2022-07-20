@@ -54,6 +54,7 @@ export default function Home({ navigation, route }) {
   const [pesanUpdateAndroid, setPesanUpdateAndroid] = useState('');
   const [linkUpdateAndroid, setUpdateAndroid] = useState('');
   const [wajibAndroid, setWajibAndroid] = useState('0');
+  const [iklanPhoto, setIklanPhoto] = useState([]);
 
   useEffect(() => {
 
@@ -78,8 +79,9 @@ export default function Home({ navigation, route }) {
     };
 
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-
+    
     const unsubscribe = navigation.addListener('focus', () => {
+      getIklan();
       getLatestVersion();
       setMerchantPop([]);
       setSpotWisata([]);
@@ -160,8 +162,37 @@ export default function Home({ navigation, route }) {
   const kategoriHome = async () => {
     await Api.get('kategori')
       .then((res) => {
+        let response = res.data.response;
+    
+        var tempList = [];
+        var category = [];
+        var count = 0;
+        response.forEach(element=>{
+          
+          count+=1;
+          category.push(element);
+          if(count === 2){
+            tempList.push({
+              data :{
+                category
+              }
+            });
+            category = [];
+            count = 0;
+          }
+        });
+        if(category.length === 1){
+          tempList.push({
+            data:{
+              category
+            }
+          });
+          category = [];
+          count = 0;
+        }
+        console.log('mosimosi', tempList);
         let arr = splitArray(res.data.response);
-        setCategory(arr);
+        setCategory(tempList);
       })
       .catch((err) => { });
   };
@@ -178,12 +209,21 @@ export default function Home({ navigation, route }) {
   };
 
   const itemRender = useCallback(({ item }) => {
-    return (
-      <View>
-        <IconList item={item[0]} Press={moveCategory} />
-        <IconList item={item[1]} Press={moveCategory} />
-      </View>
-    );
+    if(item.data.category.length === 2){
+      return (
+        <View>
+          <IconList item={item.data.category[0]} Press={moveCategory} />
+          <IconList item={item.data.category[1]} Press={moveCategory} />
+        </View>
+      );
+    }else if(item.data.length === 1){
+      return (
+        <View>
+          <IconList item={item.data.category[0]} Press={moveCategory} />
+        </View>
+      );
+    }
+   
   }, []);
 
   const itemRenderWisata = useCallback(({ item }) => {
@@ -236,7 +276,6 @@ export default function Home({ navigation, route }) {
           var buildVersion = response.build_version;
           setWajibAndroid(response.wajib);
 
-          console.log("sdjkfhslkhfskjhf");
           // Android
           if (Platform.OS === 'android' && buildVersion != DeviceInfo.getVersion()) {
 
@@ -317,6 +356,15 @@ export default function Home({ navigation, route }) {
         <Image source={require('../../assets/logotugumuda.png')} style={style.imageStyleFooter} />
         <Text style={style.textAllFooter}>Lihat Semua Pariwisata Semarang</Text>
       </Pressable>);
+  }
+  const getIklan = () => {
+    Api.post('api/foto_hadiah/get_foto_hadiah').then(res=> {
+        let response = res.data.response[0];
+        console.log('mosimosikudasai', response);
+        setIklanPhoto(response);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   const checkSession = async () => {
@@ -476,19 +524,18 @@ export default function Home({ navigation, route }) {
           </View>
 
           <View style={{
-            width: 350,
-            height: 175,
+               width: SCREEN_WIDTH / 1.2,
+               height: SCREEN_HEIGHT / 4,
             marginTop:30,
             borderRadius: 7,
             alignSelf: 'center',
             backgroundColor: 'white',
             marginBottom: 20
           }}>
-            <Image source={require('../../assets/iklan.png')} style={{
-              width: 350,
-              height: 175,
-              borderRadius: 7,
-              resizeMode:'cover',
+            <Image source={{uri: iklanPhoto.foto}} resizeMode='cover' style={{
+                width: SCREEN_WIDTH / 1.2,
+                height: SCREEN_HEIGHT / 4,
+                borderRadius: 7,
             }} />
 
           </View>
@@ -798,6 +845,7 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
+    marginStart:16,
   },
   btnStyleVoucher: {
     flex:1,
@@ -814,6 +862,7 @@ const style = StyleSheet.create({
     padding:4,
     fontSize: 10,
     borderRadius: 4,
+    overflow:'hidden',
     fontWeight: '400',
   },
   categoryContainer: {
@@ -897,6 +946,7 @@ const style = StyleSheet.create({
     alignSelf: 'flex-start',
     marginEnd: 8,
     fontSize: 16,
+    marginStart:8,
     fontWeight: '600',
   },
   texbtnKuis: {

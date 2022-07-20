@@ -395,6 +395,10 @@ const Voucher = ({ navigation, route }) => {
             flexDirection:'row',
             alignItems:'center',
             padding:defaultMargin,
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.5,
+            shadowRadius: 2,
           }}
         >
 
@@ -410,7 +414,8 @@ const Voucher = ({ navigation, route }) => {
                 padding:10,
                 paddingLeft:15,
                 paddingRight:15,
-                borderRadius:8
+                borderRadius:8,
+              
               }}
 
               onPress={()=>{
@@ -421,6 +426,8 @@ const Voucher = ({ navigation, route }) => {
                   style={{
                     color:colors.white,
                     fontWeight:'500',
+                    width:100,
+                    textAlign:'center'
                   }}
 
                 >Pakai Voucher</Text>

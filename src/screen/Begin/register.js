@@ -557,6 +557,7 @@ export default function Register({ navigation, route }) {
       fontSize:16,
       fontWeight:'600',
       color:'black',
+      width:'75%',
       marginStart:23,
     }}>
        Laki-Laki
@@ -576,6 +577,7 @@ export default function Register({ navigation, route }) {
     <Text style={{
       fontSize:16,
       fontWeight:'600',
+      width:'75%',
       color:'black',
       marginStart:23,
     }}>
@@ -584,30 +586,6 @@ export default function Register({ navigation, route }) {
    </TouchableOpacity>
 
 </View>
-
-
-          {/* <DropDownPicker
-            placeholder="Pilih Jenis Kelamin"
-            open={open}
-            value={gender}
-            items={items}
-            onSelectItem={(item) => {
-              setGender(item.value);
-            }}
-            setOpen={setOpen}
-            setItems={setItems}
-            stickyHeader={true}
-            containerStyle={{
-              marginStart: 24,
-              marginEnd: 16,
-              width: 250,
-            }}
-            style={styles.dropdown}
-            dropDownContainerStyle={{
-              borderColor: 'transparent',
-              borderRadius: 0,
-            }}
-          /> */}
 <Text style={{
   color:'black',
   fontFamily:'NeutrifPro-Reguler',
@@ -645,14 +623,22 @@ export default function Register({ navigation, route }) {
               open={openDate}
               value={tgl}
               items={dateItems}
+              scrollViewProps={{
+                decelerationRate: "fast"
+              }}
               onSelectItem={(item) => {
                 setTgl(item.value);
               }}
               setOpen={setOpenDate}
               setItems={setDateItems}
+              dropDownDirection="TOP"
               stickyHeader={true}
               containerStyle={{
                 flex: 1,
+              }}
+              listMode="SCROLLVIEW"
+              listItemContainer={{
+                backgroundColor:'white'
               }}
               style={styles.dropdown}
               dropDownContainerStyle={{
@@ -666,6 +652,10 @@ export default function Register({ navigation, route }) {
               open={openMonth}
               value={bln}
               items={monthItems}
+              dropDownDirection="TOP"
+              scrollViewProps={{
+                decelerationRate: "fast"
+              }}
               onSelectItem={(item) => {
                 setBln(item.value);
               }}
@@ -674,6 +664,11 @@ export default function Register({ navigation, route }) {
               stickyHeader={true}
               containerStyle={{
                 flex: 1,
+              }}
+              listMode="SCROLLVIEW"
+              
+              listItemContainer={{
+                backgroundColor:'white'
               }}
               style={styles.dropdown}
               dropDownContainerStyle={{
@@ -908,10 +903,11 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     borderColor: 'transparent',
-    backgroundColor: 'transparent',
+    backgroundColor: 'white',
     borderBottomWidth: 1,
     borderBottomColor: 'grey',
     borderRadius: 0,
     marginBottom: 8,
+    overflow:'hidden'
   },
 });

@@ -9,6 +9,7 @@ import {
   Text,
   View,
   Pressable,
+  Platform
 } from 'react-native';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import { Api } from '../../util/Api';
@@ -246,7 +247,23 @@ export default function Search({ navigation, route }) {
       </View>
 
       <Pressable
-        style={style.styleIcon}
+        style={ Platform.OS === 'ios' ? {
+          height: 30,
+          width: 30,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          marginTop: SCREEN_HEIGHT/9.5, 
+          marginLeft: 16,
+        } : {
+          height: 30,
+          width: 30,
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          marginTop: 40,
+          marginLeft: 16,
+        }}
         onPress={() => {
           navigation.goBack();
         }}

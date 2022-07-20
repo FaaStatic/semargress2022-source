@@ -67,7 +67,8 @@ function changeDate(data){
           }}/>
           <View style={{
             flexDirection:'column',
-            marginStart:8
+            marginStart:8,
+            width:'100%',
           }}>
           <Text style={style.textHeader}>{item.nama_merchant}</Text>
           <Text style={style.textPeriode}>
@@ -93,12 +94,13 @@ function changeDate(data){
                     fontWeight:'400',
                     color:'black',
                     marginStart:75,
-                    width:240
+                    width:'50%'
                 }]}><Text style={{
                     fontSize:16,
                     fontWeight:'600',
                     color:'black',
                     marginTop:4,
+                    width:'50%'
                 }}>Hadiah: </Text>{item.hadiah}</Text>
                 <Text style={{
                     fontSize:16,
@@ -139,6 +141,7 @@ const style = StyleSheet.create({
     },
     containerHeaderText:{
         flexDirection:'column',
+        width:'100%',
     },
     textHeader:{
         width:'100%',

@@ -22,12 +22,13 @@ import { Marker } from 'react-native-maps';
 // import { enableLatestRenderer } from 'react-native-maps';
 
 // enableLatestRenderer();
-
+var wordLength = 0;
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 export default function DetailMerchant({ navigation, route }) {
   const [getDetail, setDetail] = useState([]);
   const [promo, setPromo] = useState([]);
+  const [show, setShowMore] = useState(0);
   const [loc, setLoc] = useState(
     {
       latitude : 0,
@@ -136,6 +137,13 @@ export default function DetailMerchant({ navigation, route }) {
     Linking.openURL(`http://maps.${company}.com/maps?daddr=${daddr}`);
   }
 
+
+  const onTextLayout = useCallback(e => {
+    wordLength = e.nativeEvent.lines.length;
+    console.log('tes', wordLength);
+});
+
+
   return (
     <SafeAreaView style={styling.containerView}>
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
@@ -204,34 +212,51 @@ export default function DetailMerchant({ navigation, route }) {
           <View style={[styling.itemDetailContainer,{
             marginTop:8,
           }]}>
-            <Material name="storefront" size={28} color={'#0f2e63'} />
+          <Image source={require('../../../assets/shop_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
             <Text style={[styling.itemTextDetail,{
               fontWeight:'bold',
               fontSize:16
             }]}>{getDetail.nama}</Text>
           </View>
           <Pressable style={styling.itemDetailContainer} >
-            <SimpleIcon name="location-pin" size={28} color={'#0f2e63'} />
-            <Text numberOfLines={2} style={[styling.itemTextDetail,{
-              width:'50%',
+          <Image source={require('../../../assets/location_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6} style={[styling.itemTextDetail,{
+              width:'75%',
             }]}>{getDetail.alamat}</Text>
           </Pressable>
           <Pressable style={styling.itemDetailContainer} onPress={getDetail.notelp ? ()=>{openTel(getDetail.notelp)}: ()=>{}}>
-            <FeatherIcon name="phone" size={28} color={'#0f2e63'} />
-            <Text numberOfLines={2} style={[styling.itemTextDetail,{
-               width:'50%',
+          <Image source={require('../../../assets/phone_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6} style={[styling.itemTextDetail,{
+              width:'75%',
             }]}>{getDetail.notelp ? getDetail.notelp : '-'}</Text>
           </Pressable>
           <Pressable style={styling.itemDetailContainer}  onPress={getDetail.link_ig ? ()=>{openLink(getDetail.link_ig)}: ()=>{}}>
-            <FeatherIcon name="instagram" size={28} color={'#0f2e63'}/>
-            <Text numberOfLines={2} style={[styling.itemTextDetail,{
-               width:'50%',
+          <Image source={require('../../../assets/ig_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6} style={[styling.itemTextDetail,{
+              width:'75%',
+              color:'#A57FF8'
             }]}>{getDetail.link_ig ? getDetail.link_ig : '-' }</Text>
           </Pressable>
           <Pressable style={styling.itemDetailContainer} onPress={getDetail.link_ig ? ()=>{openLink(getDetail.link_fb)}: ()=>{}}>
-            <FeatherIcon name="facebook" size={28} color={'#0f2e63'} />
-            <Text numberOfLines={2} style={[styling.itemTextDetail,{
-               width:'50%',
+            <Image source={require('../../../assets/fb_ico.png')} resizeMode='contain' style={{
+              height:28,
+              width:28,
+            }}/>
+            <Text numberOfLines={6} style={[styling.itemTextDetail,{
+              width:'75%',
+               color:'#A57FF8'
             }]}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
           </Pressable>
 <View style={styling.constainerMaps} >
@@ -285,16 +310,23 @@ style={styling.MapsStyle}
               Diskon Yang Diberikan
             </Text>
             <Text
-            numberOfLines={1}
-              style={{
-                color: 'black',
-                fontFamily:'NeutrifPro-Regular',
-                fontSize: 16,
-                fontWeight: 'bold',
-                marginStart: 16,
-                marginEnd: 16,
-                marginTop: 8,
-              }}
+            onTextLayout={onTextLayout}
+            numberOfLines={wordLength}
+            style={ wordLength == 2 ? {
+              color: 'black',
+              fontFamily:'NeutrifPro-Regular',
+              fontSize: 16,
+              fontWeight: 'bold',
+              marginStart: 16,
+              marginEnd: 16,
+            } : {
+              color: 'black',
+              fontFamily:'NeutrifPro-Regular',
+              fontSize: 11,
+              fontWeight: 'bold',
+              marginStart: 16,
+              marginEnd: 16, 
+            }}
             >
               {getDetail.diskon_default}
             </Text>
@@ -306,33 +338,49 @@ style={styling.MapsStyle}
               borderWidth: 0.5,
               marginEnd: 16,
               marginStart: 16,
+              marginTop:8,
+              marginBottom:8,
               marginEnd: 16,
               backgroundColor: 'grey',
             }}
           />
+
+
           <View
             style={{
               justifyContent: 'flex-start',
               position: 'absolute',
               bottom: 0,
-              marginBottom: 18,
+              marginBottom: 36,
             }}
           >
-            <Text style={{ color: 'grey', fontSize: 12, marginStart: 16, marginBottom: 8 }}>
+            <Text numberOfLines={1} style={{ color: 'grey', fontSize: 12, marginStart: 16, marginBottom: 8 }}>
               Diskon Pengguna Aplikasi
             </Text>
+          
             <Text
-              numberOfLines={1}
-              style={{
+            numberOfLines={wordLength}
+            onTextLayout={onTextLayout}
+              style={ wordLength == 2 ? {
                 color: 'black',
+                fontFamily:'NeutrifPro-Regular',
                 fontSize: 16,
                 fontWeight: 'bold',
                 marginStart: 16,
-                marginBottom: 8,
+                marginEnd: 16,
+              } : {
+                color: 'black',
+                fontFamily:'NeutrifPro-Regular',
+                fontSize: 11,
+                fontWeight: 'bold',
+                marginStart: 16,
+                marginEnd: 16, 
               }}
             >
               {getDetail.diskon_user_app}
             </Text>
+           
+            
           </View>
         </View>
       </ScrollView>
@@ -389,15 +437,19 @@ const styling = StyleSheet.create({
   },
 
   card: {
-    height: 175,
+    height: 200,
     width:'85%',
-    marginTop: windowHeight / 3.5 + 5,
+    marginTop: windowHeight / 4,
     backgroundColor: 'white',
     borderRadius: 16,
-    elevation: 5,
+    elevation:5,
     padding: 0,
     position: 'absolute',
     justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.5,
+    shadowRadius: 2,
     alignSelf: 'center',
     marginBottom: 64,
   },

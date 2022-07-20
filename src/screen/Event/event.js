@@ -18,6 +18,7 @@ export default function Event({ navigation, route }) {
   const [jumlahItem, setJumlahItem] = useState(0);
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
+  const [iklanPhoto, setIklanPhoto] = useState([]);
 
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function Event({ navigation, route }) {
     const subscribe = navigation.addListener('focus', () => {
       offset = 0;
     onProgress = false;
+    getIklan();
     setResponseEvent([]);
     setExtraData(false);
       setResponseEvent([]);
@@ -41,6 +43,15 @@ export default function Event({ navigation, route }) {
       offset += length;
       getApi();
     }
+  }
+
+  const getIklan = () => {
+    Api.post('api/foto_hadiah/get_foto_hadiah').then(res=> {
+        let response = res.data.response[0];
+        setIklanPhoto(response);
+    }).catch(err => {
+      console.log(err);
+    })
   }
 
   const getApi = async () => {
@@ -141,7 +152,7 @@ export default function Event({ navigation, route }) {
       </View>
 
       <View style={style.containerHeaderAds}>
-        <Image source={require('../../assets/iklan.png')} resizeMode='cover' style={{
+        <Image source={{uri: iklanPhoto.foto}}  resizeMode='cover' style={{
           width: SCREEN_WIDTH / 1.2,
           height: SCREEN_HEIGHT / 4,
           borderRadius: 7,

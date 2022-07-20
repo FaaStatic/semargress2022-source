@@ -27,7 +27,7 @@ export default function Feed({ navigation, route }) {
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
   const [loadIndicator, setLoadIndicator] = useState(false);
-  const [loadingOpen, setLoadingOpen] = useState(false);
+  const [loadingOpen, setLoadingOpen] = useState(true);
 
 
 
@@ -108,11 +108,11 @@ export default function Feed({ navigation, route }) {
           setDataKosong(false);
           setLoadingOpen(false);
         } else if (metadata.status === 401) {
-          ShowError(metadata.message);
+          //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
         } else if (metadata.status === 404) {
-          ShowError(metadata.message);
+          //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
         } else {

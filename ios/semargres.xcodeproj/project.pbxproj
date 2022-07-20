@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* semargresTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* semargresTests.m */; };
-		0C84608C287ED98000B1521A /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 277C661A287E1D9B00141FAE /* GoogleService-Info.plist */; };
+		0124B3292887A49700FDE2D1 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 277C661A287E1D9B00141FAE /* GoogleService-Info.plist */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		271A4FD2287F2D3E008A4960 /* NeutrifPro-Bold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */; };
@@ -21,32 +21,6 @@
 		271A4FD9287F2D3E008A4960 /* NeutrifPro-RegularItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */; };
 		271A4FDA287F2D3E008A4960 /* NeutrifPro-SemiBold.ttf in Sources */ = {isa = PBXBuildFile; fileRef = F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */; };
 		271A4FDB287F2D3E008A4960 /* NeutrifPro-SemiBoldItalic.ttf in Sources */ = {isa = PBXBuildFile; fileRef = 499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */; };
-		27B24F6C2880803C0021EA14 /* AntDesign.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B6684955E61444B197B11083 /* AntDesign.ttf */; };
-		27B24F6D2880803C0021EA14 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A55387F7D2084955A3E45879 /* Entypo.ttf */; };
-		27B24F6E2880803C0021EA14 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E695CFC707AF46AE8AEFCA6E /* EvilIcons.ttf */; };
-		27B24F6F2880803C0021EA14 /* Feather.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 52B5D6DE0A9048378B8C22F0 /* Feather.ttf */; };
-		27B24F702880803C0021EA14 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0317A9932FC44AA59C910C21 /* FontAwesome.ttf */; };
-		27B24F712880803C0021EA14 /* FontAwesome5_Brands.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E4F5B0449D5843B480FE9D6B /* FontAwesome5_Brands.ttf */; };
-		27B24F722880803C0021EA14 /* FontAwesome5_Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FBB5CEC1CF014CE28076907E /* FontAwesome5_Regular.ttf */; };
-		27B24F732880803C0021EA14 /* FontAwesome5_Solid.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A5B0ABD3C9F4EC591F808BC /* FontAwesome5_Solid.ttf */; };
-		27B24F742880803C0021EA14 /* Fontisto.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 92D0060E00AB48078B410D9C /* Fontisto.ttf */; };
-		27B24F752880803C0021EA14 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FAE5A63D73EE4241BA1E1A38 /* Foundation.ttf */; };
-		27B24F762880803C0021EA14 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD41CCE4608347E787EE51E6 /* Ionicons.ttf */; };
-		27B24F772880803C0021EA14 /* MaterialCommunityIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1A4DDD4F0CEB4A968ECA5CE5 /* MaterialCommunityIcons.ttf */; };
-		27B24F782880803C0021EA14 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5E6225CBC0494C1CB3B92E40 /* MaterialIcons.ttf */; };
-		27B24F792880803C0021EA14 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 64C93E48435545A59A39D72D /* Octicons.ttf */; };
-		27B24F7A2880803C0021EA14 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 572D1AC1AFEF4AD7ABA97B9B /* SimpleLineIcons.ttf */; };
-		27B24F7B2880803C0021EA14 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CE14E63D195743BFA73797DF /* Zocial.ttf */; };
-		27B24F7C2880803C0021EA14 /* NeutrifPro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4312DE4D45EE4417B474CFD9 /* NeutrifPro-Bold.ttf */; };
-		27B24F7D2880803C0021EA14 /* NeutrifPro-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D24CCC1DDD2B4A0FA6D907FB /* NeutrifPro-BoldItalic.ttf */; };
-		27B24F7E2880803C0021EA14 /* NeutrifPro-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C5837AC3FF349F1A3E39168 /* NeutrifPro-Light.ttf */; };
-		27B24F7F2880803C0021EA14 /* NeutrifPro-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B5C2533212545C39C7D6B14 /* NeutrifPro-LightItalic.ttf */; };
-		27B24F802880803C0021EA14 /* NeutrifPro-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 893BF9289F60489789B53BC0 /* NeutrifPro-Medium.ttf */; };
-		27B24F812880803C0021EA14 /* NeutrifPro-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EFD79B5431D44C60A2AEE8E8 /* NeutrifPro-MediumItalic.ttf */; };
-		27B24F822880803C0021EA14 /* NeutrifPro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4095F80A719942BAA18D463B /* NeutrifPro-Regular.ttf */; };
-		27B24F832880803C0021EA14 /* NeutrifPro-RegularItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5552018935324DDD9022D2FB /* NeutrifPro-RegularItalic.ttf */; };
-		27B24F842880803C0021EA14 /* NeutrifPro-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F1D2EC70126249F7BC47F57C /* NeutrifPro-SemiBold.ttf */; };
-		27B24F852880803C0021EA14 /* NeutrifPro-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 499AB5937A504835916BECCD /* NeutrifPro-SemiBoldItalic.ttf */; };
 		27D8A09D287FBF4600B6CED6 /* Images.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		27D8A09E287FBF4D00B6CED6 /* Assets.xcassets in Sources */ = {isa = PBXBuildFile; fileRef = 271A4FDC287F2F23008A4960 /* Assets.xcassets */; };
 		65CFE691C55FDB03D5FB39EC /* libPods-semargres-semargresTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1A6E901C2B252A8C0E2F2F1 /* libPods-semargres-semargresTests.a */; };
@@ -299,7 +273,6 @@
 				00EEFC60759A1932668264C0 /* [CP] Embed Pods Frameworks */,
 				E235C05ADACE081382539298 /* [CP] Copy Pods Resources */,
 				78DEC1DB248935CD37A3A7DB /* [CP-User] [RNFB] Core Configuration */,
-				27B24F6B2880802E0021EA14 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -361,39 +334,6 @@
 				825BF7FD3EE84319A7F9C9CB /* NeutrifPro-RegularItalic.ttf in Resources */,
 				7CD59DE9348C4AEDA275B162 /* NeutrifPro-SemiBold.ttf in Resources */,
 				C7E689B5AECF4312A375CB0E /* NeutrifPro-SemiBoldItalic.ttf in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		27B24F6B2880802E0021EA14 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				27B24F6C2880803C0021EA14 /* AntDesign.ttf in Resources */,
-				27B24F6D2880803C0021EA14 /* Entypo.ttf in Resources */,
-				27B24F6E2880803C0021EA14 /* EvilIcons.ttf in Resources */,
-				27B24F6F2880803C0021EA14 /* Feather.ttf in Resources */,
-				27B24F702880803C0021EA14 /* FontAwesome.ttf in Resources */,
-				27B24F712880803C0021EA14 /* FontAwesome5_Brands.ttf in Resources */,
-				27B24F722880803C0021EA14 /* FontAwesome5_Regular.ttf in Resources */,
-				27B24F732880803C0021EA14 /* FontAwesome5_Solid.ttf in Resources */,
-				27B24F742880803C0021EA14 /* Fontisto.ttf in Resources */,
-				27B24F752880803C0021EA14 /* Foundation.ttf in Resources */,
-				27B24F762880803C0021EA14 /* Ionicons.ttf in Resources */,
-				27B24F772880803C0021EA14 /* MaterialCommunityIcons.ttf in Resources */,
-				27B24F782880803C0021EA14 /* MaterialIcons.ttf in Resources */,
-				27B24F792880803C0021EA14 /* Octicons.ttf in Resources */,
-				27B24F7A2880803C0021EA14 /* SimpleLineIcons.ttf in Resources */,
-				27B24F7B2880803C0021EA14 /* Zocial.ttf in Resources */,
-				27B24F7C2880803C0021EA14 /* NeutrifPro-Bold.ttf in Resources */,
-				27B24F7D2880803C0021EA14 /* NeutrifPro-BoldItalic.ttf in Resources */,
-				27B24F7E2880803C0021EA14 /* NeutrifPro-Light.ttf in Resources */,
-				27B24F7F2880803C0021EA14 /* NeutrifPro-LightItalic.ttf in Resources */,
-				27B24F802880803C0021EA14 /* NeutrifPro-Medium.ttf in Resources */,
-				27B24F812880803C0021EA14 /* NeutrifPro-MediumItalic.ttf in Resources */,
-				27B24F822880803C0021EA14 /* NeutrifPro-Regular.ttf in Resources */,
-				27B24F832880803C0021EA14 /* NeutrifPro-RegularItalic.ttf in Resources */,
-				27B24F842880803C0021EA14 /* NeutrifPro-SemiBold.ttf in Resources */,
-				27B24F852880803C0021EA14 /* NeutrifPro-SemiBoldItalic.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -570,6 +510,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0124B3292887A49700FDE2D1 /* GoogleService-Info.plist in Sources */,
 				27D8A09E287FBF4D00B6CED6 /* Assets.xcassets in Sources */,
 				27D8A09D287FBF4600B6CED6 /* Images.xcassets in Sources */,
 				271A4FD2287F2D3E008A4960 /* NeutrifPro-Bold.ttf in Sources */,
@@ -582,7 +523,6 @@
 				271A4FD9287F2D3E008A4960 /* NeutrifPro-RegularItalic.ttf in Sources */,
 				271A4FDA287F2D3E008A4960 /* NeutrifPro-SemiBold.ttf in Sources */,
 				271A4FDB287F2D3E008A4960 /* NeutrifPro-SemiBoldItalic.ttf in Sources */,
-				0C84608C287ED98000B1521A /* GoogleService-Info.plist in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -658,7 +598,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = semargres/Info.plist;
@@ -666,6 +606,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -688,13 +629,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 17;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				INFOPLIST_FILE = semargres/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.3;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
