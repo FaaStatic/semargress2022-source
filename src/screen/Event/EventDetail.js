@@ -156,7 +156,9 @@ export default function EventDetail({ navigation, route }) {
             alignSelf: 'center',
             fontSize: 16,
             fontWeight: '500',
-            color: 'white'
+            color: 'white',
+            textAlign:'center',
+            width:'100%',
           }}
           >Saya Tertarik</Text>
         </TouchableOpacity>
@@ -174,7 +176,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 16,
     marginBottom: 16,
-    backgroundColor: '#f29836'
+    backgroundColor: '#A57FF8'
   },
   container: {
     width: '100%',

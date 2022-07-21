@@ -12,15 +12,15 @@ export default function ListPromoHome({item, pressCall}){
             marginStart:16,
             width:'60%'
         }}>
-             <Text style={[style.textGeneric,{
+             <Text numberOfLines={3} style={[style.textGeneric,{
                 fontSize:16,
                 fontWeight:'600'
              }]}>{item.title}</Text>
-            <Text numberOfLines={4} style={[style.textGeneric,{
-                marginTop:16,
+            <Text numberOfLines={3} style={[style.textGeneric,{
+                marginTop:8,
                 fontSize:14,
                 fontWeight:'400',
-                width:'50%'
+                width:'90%'
             }]}>
               { item.keterangan.length !== 0 ?  item.keterangan : '-'}
             </Text>
@@ -46,5 +46,7 @@ const style = StyleSheet.create({
         fontSize:12,
         fontWeight:'bold',
         color:'black',
+        width:'90%',
+        lineHeight:20
     }
 })

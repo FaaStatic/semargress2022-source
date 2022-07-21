@@ -322,7 +322,7 @@ export default function Register({ navigation, route }) {
           if (!edit || edit == undefined) {
             navigation.dispatch(StackActions.replace('RouterTab'));
           } else {
-            //navigation.goBack();
+            navigation.goBack();
           }
           //saveData(data);
         } else {
@@ -782,6 +782,8 @@ export default function Register({ navigation, route }) {
                   alignSelf:'center',
                   fontSize: 14,
                   color: 'white',
+                  width:'100%',
+                  textAlign:'center',
                   fontWeight: 'bold',
                 }}
               >

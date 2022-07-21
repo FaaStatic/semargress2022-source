@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { SafeAreaView, View, Image, StyleSheet, Dimensions, FlatList, Text } from 'react-native';
+import { SafeAreaView, View, Image, StyleSheet, Dimensions, FlatList, Text, Platform } from 'react-native';
 import { Api } from '../../util/Api';
 import { colors } from '../../util/color';
 import EventList from '../../util/ListItem/EventList';
@@ -135,16 +135,20 @@ export default function Event({ navigation, route }) {
       <View 
         style={{
           backgroundColor: 'white',
-          height:'100%',
-          paddingTop: SCREEN_WIDTH / 5 + 40,
+          paddingTop: SCREEN_WIDTH / 5+40,
+          marginBottom:  '50%' 
         }}
       >
         <FlatList
           data={responseEvent}
           renderItem={itemRender}
-          style={{
-            height:'100%'
-          }}
+          ListFooterComponent={()=>{
+          return(
+        <View Style={{
+            height:100,
+            width:'100%'
+          }}/> )}}
+         
           onEndReached={loadMore}
           keyExtractor={(item, index) => item.id_i}
           showsVerticalScrollIndicator={false}
