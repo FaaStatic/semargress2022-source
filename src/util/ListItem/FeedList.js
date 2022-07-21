@@ -6,7 +6,7 @@ import { colors } from '../color';
 const { height: HEIGHT_CONTAINER } = Dimensions.get('window');
 const { width: WIDTH_CONTAINER } = Dimensions.get('window');
 
-export default function FeedList({ item }) {
+export default function FeedList({ item, pressCall }) {
 
     const [fullDeskripsi, setFullDeskripsi] = useState(false);
     const [show, setShowMore] = useState(0);
@@ -17,10 +17,10 @@ export default function FeedList({ item }) {
 
     return (
     <View style={style.container}>
-        <View style={style.containerHeader}>
+        <TouchableOpacity style={style.containerHeader} onPress={()=>pressCall(item)}>
             <Image source={{ uri: item.profile_pic }} resizeMode='stretch' style={style.imageProfileStyle} />
             <Text style={style.textHeader}>{item.profile_name}</Text>
-        </View>
+        </TouchableOpacity>
 
         {item.media_type == 'GraphVideo' ? (
                 <VideoPlayer
@@ -121,6 +121,6 @@ const style = StyleSheet.create({
     textDeskripsi: {
         fontSize: 15,
         color:colors.black3,
-        lineHeight:18.7,
+        lineHeight:18.8,
     }
 })

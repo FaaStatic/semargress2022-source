@@ -33,7 +33,7 @@ export default function DetailListCategory({ navigation, route }) {
   const [jumlahItem, setJumlahItem] = useState(0);
   const [loading, setLoading] = useState(false);
   const [openLoad, setOpenLoad] = useState(false);
-  let length = 11;
+  let length = 10;
   const [refreshing, setRefresh] = useState(false);
   const [responList, setResponList] = useState([]);
   const [col, setCol] = useState(0);
@@ -209,7 +209,7 @@ export default function DetailListCategory({ navigation, route }) {
           });
           merchant = [];
           setResponList(offset == 0 ? listNew : responList.concat(listNew));
-          isLast = response.length !== length  ? false : true;
+          isLast = response.length !== length  ? true : false  ;
           setListKosong(false);
           setLoading(false);
           setOpenLoad(false);
@@ -339,7 +339,6 @@ export default function DetailListCategory({ navigation, route }) {
       showsVerticalScrollIndicator={false}
       ListFooterComponent={loadIndice}
       onEndReached={loadMore}
-      onEndReachedThreshold={1}
       style={style.listStyle}
       contentContainerStyle={{ width:'100%'}}
     />

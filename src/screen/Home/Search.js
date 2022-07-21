@@ -106,11 +106,9 @@ export default function Search({ navigation, route }) {
           console.log('statusresponse', response);
           setResponse(response);
           setDataKosong(true);
-          ShowSuccess(metadata.message);
           setLoading(false);
         } else if (metadata.status === 401) {
           setResponse([]);
-          ShowWarning(metadata.message);
           setDataKosong(false);
           setMsg(metadata.message);
           console.log(metadata.message);
@@ -119,13 +117,11 @@ export default function Search({ navigation, route }) {
           setResponse([]);
           setDataKosong(false);
           setMsg(metadata.message);
-          ShowWarning(metadata.message);
           console.log(metadata.message);
           setLoading(false);
         }
       })
       .catch((err) => {
-        ShowError(metadata.message);
         console.log(err);
         setLoading(false);
       });
@@ -238,7 +234,7 @@ export default function Search({ navigation, route }) {
                     textAlign: 'center',
                   }}
                 >
-                  Tidak Ditemukan Merchant Terdekat :"(
+                  Tidak Ditemukan Merchant Terdekat
                 </Text>
               </View>
             )}

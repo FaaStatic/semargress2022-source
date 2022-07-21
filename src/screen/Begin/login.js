@@ -562,6 +562,8 @@ export default function Login({ navigation }) {
                 fontSize: 20,
                 marginBottom: 36,
                 color: 'white',
+                width:'100%',
+                textAlign:'center'
               }}
             >
               Masukkan OTP
@@ -590,7 +592,7 @@ export default function Login({ navigation }) {
               }}
             />
             {showRequest ? (
-              <Text style={{ color: 'white', alignSelf: 'center' }}>{timer}</Text>
+              <Text style={{ color: 'white', alignSelf: 'center',width:'100%', textAlign:'center'}}>{timer}</Text>
             ) : (
 
               <TouchableOpacity

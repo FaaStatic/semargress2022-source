@@ -403,6 +403,8 @@ const styles = StyleSheet.create({
   mainTitle: {
     fontWeight: '600',
     fontSize: 20,
+    width:'100%',
+    textAlign:'center',
     color: colors.black3,
     marginTop: '3%',
     alignSelf: 'center',

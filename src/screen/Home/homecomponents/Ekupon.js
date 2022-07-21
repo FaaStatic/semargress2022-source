@@ -164,9 +164,10 @@ export default function EKupon({ navigation, route }) {
 
   return <SafeAreaView style={{
     backgroundColor: 'white',
-    flex: 1,
     flexDirection: 'column',
-    flexWrap: 'wrap'
+    flex:1,
+    flexGrow:1
+ 
   }}>
     <View style={{
       borderBottomColor: '#E0E0E0',
@@ -191,10 +192,14 @@ export default function EKupon({ navigation, route }) {
       keyExtractor={(item, index) => index.toString()}
       onEndReached={loadMore}
       extraData={extraData}
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={{
-        height: SCREEN_HEIGHT + (SCREEN_HEIGHT / 4)
+      ListFooterComponent={()=>{
+        return(<View style={{
+          height:42,
+          width:'100%'
+
+        }}/>)
       }}
+      showsVerticalScrollIndicator={false}
       style={style.listcontainer} />
   </SafeAreaView>;
 }

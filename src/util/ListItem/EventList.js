@@ -14,13 +14,15 @@ export default function EventList({item, pressCall}){
             marginStart:16,
             width:'60%'
         }}>
-             <Text style={[style.textGeneric,{
-                fontSize:18
+             <Text numberOfLines={3} style={[style.textGeneric,{
+                fontSize:18,
              }]}>{item.title}</Text>
-            <Text numberOfLines={4} style={[style.textGeneric,{
-                marginTop:16,
+            <Text numberOfLines={5} style={[style.textGeneric,{
+                marginTop:8,
                 fontSize:14,
-                width:'50%'
+                width:'90%',
+                lineHeight:18,
+
             }]}>
               { item.keterangan.length !== 0 ?  item.keterangan : '-'}
             </Text>
@@ -36,9 +38,9 @@ export default function EventList({item, pressCall}){
                 
                 <Text style={[style.textGeneric,{
                     fontSize:16,
-                    marginEnd:8,
+                    textAlign:'right'
                 }]}>Lihat Detail</Text>
-                <Icon name='chevron-thin-right' size={20} color={'#0F2E63'}/>
+                <Icon name='chevron-thin-right' size={18} color={'#0F2E63'}/>
             </Pressable>
         </View>
     </View>);
@@ -65,5 +67,7 @@ const style = StyleSheet.create({
         fontSize:12,
         fontWeight:'bold',
         color:'black',
+        width:'90%',
+        marginEnd:8,
     }
 })

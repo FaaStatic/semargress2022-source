@@ -14,6 +14,7 @@ import FeedList from '../../util/ListItem/FeedList';
 import { Api } from '../../util/Api';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import { colors } from '../../util/color';
+import { off } from 'npm';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 var offset = 0;
@@ -28,6 +29,7 @@ export default function Feed({ navigation, route }) {
   const [extraData, setExtraData] = useState(false);
   const [loadIndicator, setLoadIndicator] = useState(false);
   const [loadingOpen, setLoadingOpen] = useState(true);
+  const [pullRefresh, setPullRefresh] = useState(false);
 
 
 
@@ -78,8 +80,14 @@ export default function Feed({ navigation, route }) {
   };
 
   const itemRender = useCallback(({ item }) => {
-    return <FeedList item={item} />;
+    return <FeedList item={item} pressCall={moveDetail} />;
   });
+
+  const moveDetail = (data) =>{
+    navigation.navigate('DetailMerchant',{
+      id_m : data.id
+    });
+  }
 
   const getFeed = async () => {
 
@@ -107,14 +115,17 @@ export default function Feed({ navigation, route }) {
           onProgress = false;
           setDataKosong(false);
           setLoadingOpen(false);
+          setPullRefresh(false);
         } else if (metadata.status === 401) {
           //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
+          setPullRefresh(false);
         } else if (metadata.status === 404) {
           //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
+          setPullRefresh(false);
         } else {
           ShowError(metadata.message);
           if (offset === 0) {
@@ -122,6 +133,7 @@ export default function Feed({ navigation, route }) {
           }
           setLast(true);
           setLoadingOpen(false);
+          setPullRefresh(false);
         }
         setExtraData(!extraData);
         setLoadIndicator(false);
@@ -169,6 +181,14 @@ export default function Feed({ navigation, route }) {
     );
   });
 
+  const refreshList = () =>{
+    setPullRefresh(true);
+    setLoadingOpen(true);
+    offset = 0;
+    setResponseFeed([]);
+    getFeed();
+  }
+
   return (
     <SafeAreaView style={style.container}>
        <Modal
@@ -182,10 +202,12 @@ export default function Feed({ navigation, route }) {
         onEndReached={loadmore}
         data={responseFeed}
         renderItem={itemRender}
+        onRefresh={refreshList}
         ListHeaderComponent={headerFlatlist}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item,index) => index.toString()}
         ListFooterComponent={loadIndice}
+        refreshing={pullRefresh}
         extraData={extraData}
         contentContainerStyle={{
           backgroundColor: 'white',

@@ -127,15 +127,6 @@ export default function Router() {
                 </View>
               );
             },
-            // headerLeft: () => {
-            //   return (
-            //     <View>
-            //       <TouchableOpacity onPress={() => navigation.goBack()}>
-            //         <IonIcon name="chevron-back" size={24} color={'black'} />
-            //       </TouchableOpacity>
-            //     </View>
-            //   );
-            // },
           })}
         />
         <StackScreen.Screen
@@ -261,15 +252,6 @@ export default function Router() {
             title: route.params.nama,
             headerTitleAlign: 'center',
             headerShadowVisible: true,
-            // headerLeft: () => {
-            //   return (
-            //     <View>
-            //       <TouchableOpacity onPress={() => navigation.goBack()}>
-            //         <IonIcon name="chevron-back" size={24} color={'black'} />
-            //       </TouchableOpacity>
-            //     </View>
-            //   )
-            // },
             header: (screenProps) => {
               return (
                 <View
@@ -299,6 +281,8 @@ export default function Router() {
                       color: 'black',
                       alignSelf: 'center',
                       fontSize: 18,
+                      width:'75%',
+                      textAlign:'center',
                       fontWeight: 'bold',
                     }}
                   >

@@ -28,6 +28,7 @@ const windowHeight = Dimensions.get('window').height;
 export default function DetailMerchant({ navigation, route }) {
   const [getDetail, setDetail] = useState([]);
   const [promo, setPromo] = useState([]);
+  const [kosong, setKosong] = useState(false);
   const [show, setShowMore] = useState(0);
   const [loc, setLoc] = useState(
     {
@@ -63,16 +64,21 @@ export default function DetailMerchant({ navigation, route }) {
         let body = res.data;
         let response = body.response;
         let metadata = body.metadata;
-        console.log('datahasil', response);
-        setDetail(response[0]);
-        setLoc({
-          latitude : parseFloat(response[0].latitude),
-          longitude : parseFloat(response[0].longitude)
+        if(metadata.status === 200){
+          setDetail(response[0]);
+          setLoc({
+            latitude : parseFloat(response[0].latitude),
+            longitude : parseFloat(response[0].longitude)
+          })
+          setPromo(response[0].promo);
+          setKosong(false);
+        }else if(metadata.status === 401){
+          setKosong(true);
+        }else if(metadata.status === 404){
+          setKosong(true);
         }
-         
-
-        )
-        setPromo(response[0].promo);
+        console.log('datahasil', response);
+       
       })
       .catch((err) => {});
   };
@@ -146,6 +152,15 @@ export default function DetailMerchant({ navigation, route }) {
 
   return (
     <SafeAreaView style={styling.containerView}>
+    {
+      kosong ? <Text style={{
+        color:'black',
+        fontSize:24,
+        width:'100%',
+        textAlign:'center',
+        alignSelf:'center',
+        fontWeight:'600',
+      }}>Maaf Data Merchant Belum Ada</Text>  : 
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
         <View style={styling.constainerHeader}>
           <Image source={{ uri: getDetail.foto }} style={styling.styleImage} />
@@ -158,7 +173,7 @@ export default function DetailMerchant({ navigation, route }) {
             >
               <IonIcon name="chevron-back" size={28} color={'white'} />
             </Pressable>
-
+  
             <View style={styling.containerTitle}>
               <Text style={styling.textTitle}>{getDetail.nama}</Text>
             </View>
@@ -259,9 +274,9 @@ export default function DetailMerchant({ navigation, route }) {
                color:'#A57FF8'
             }]}>{getDetail.link_fb ? getDetail.link_fb : '-' }</Text>
           </Pressable>
-<View style={styling.constainerMaps} >
-<MapView
-style={styling.MapsStyle}
+  <View style={styling.constainerMaps} >
+  <MapView
+  style={styling.MapsStyle}
     initialRegion={{
       latitude: loc.latitude,
       longitude: loc.longitude,
@@ -280,8 +295,8 @@ style={styling.MapsStyle}
               pinColor="red"
               title="You"/>
               </MapView>
-
-<Pressable style={{
+  
+  <Pressable style={{
   height:30,
   width:30,
   padding:'5%',
@@ -293,10 +308,10 @@ style={styling.MapsStyle}
   marginEnd:'5%',
   marginBottom:'5%',
   justifyContent:'center'
-}} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
+  }} onPress={()=>{openMaps(loc.latitude,loc.longitude)}}>
   <Image source={require('../../../assets/map_btn.png')}  style={{height:30, width:30, alignSelf:'center'}}/>
-</Pressable>
-</View>
+  </Pressable>
+  </View>
         </View>
         <View style={styling.card}>
           <View
@@ -325,13 +340,14 @@ style={styling.MapsStyle}
               fontSize: 11,
               fontWeight: 'bold',
               marginStart: 16,
+              marginTop:8,
               marginEnd: 16, 
             }}
             >
               {getDetail.diskon_default}
             </Text>
           </View>
-
+  
           <View
             style={{
               borderColor: 'gray',
@@ -344,8 +360,8 @@ style={styling.MapsStyle}
               backgroundColor: 'grey',
             }}
           />
-
-
+  
+  
           <View
             style={{
               justifyContent: 'flex-start',
@@ -384,7 +400,12 @@ style={styling.MapsStyle}
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+  
+    }
+    
+    </SafeAreaView> 
+   
+
   );
 }
 
@@ -497,5 +518,6 @@ const styling = StyleSheet.create({
   },
   containerView: {
     flex: 1,
+    justifyContent:'center'
   },
 });
