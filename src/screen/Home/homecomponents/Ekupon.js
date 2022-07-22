@@ -185,6 +185,9 @@ export default function EKupon({ navigation, route }) {
 
       }} >Jumlah E-Kupon Kamu : {jumlah}</Text>
     </View>
+    <View style={{
+      flex:1,
+    }}>
     <FlatList
       data={kuponList}
       renderItem={itemRender}
@@ -192,6 +195,10 @@ export default function EKupon({ navigation, route }) {
       keyExtractor={(item, index) => index.toString()}
       onEndReached={loadMore}
       extraData={extraData}
+      // contentContainerStyle={{
+      //   flexGrow:1,
+      // }}
+
       ListFooterComponent={()=>{
         return(<View style={{
           height:42,
@@ -201,6 +208,9 @@ export default function EKupon({ navigation, route }) {
       }}
       showsVerticalScrollIndicator={false}
       style={style.listcontainer} />
+
+    </View>
+   
   </SafeAreaView>;
 }
 
@@ -208,5 +218,6 @@ const style = StyleSheet.create({
   listcontainer: {
     backgroundColor: 'white',
     paddingTop: 16,
+    flexGrow:1,
   }
 })

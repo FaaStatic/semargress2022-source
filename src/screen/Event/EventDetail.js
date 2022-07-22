@@ -15,6 +15,8 @@ import {
 import { Api } from '../../util/Api';
 import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
+import HTMLView from 'react-native-htmlview';
+
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -133,6 +135,8 @@ export default function EventDetail({ navigation, route }) {
     tertarikEvent();
   };
 
+  const htmlContent = `<div>${responseDetail.keterangan}</div>`;
+
   return (
     <SafeAreaView style={style.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -143,13 +147,25 @@ export default function EventDetail({ navigation, route }) {
           style={style.imageStyle}
         />
         <Text style={style.textStyleTitle}>{responseDetail.title}</Text>
-        <Text style={{
+<HTMLView value={responseDetail.keterangan !== '' ? htmlContent : '<div><div>'} stylesheet={{
+  div:{
+    color: 'black',
+    fontSize: 14,
+    lineHeight : 25,
+    marginTop: 8,
+    marginStart: 20,
+    marginEnd:20,
+    alignSelf: 'center',
+  }
+}}/>
+
+        {/* <Text style={{
           color: 'black',
           fontSize: 14,
           marginTop: 8,
           width: SCREEN_WIDTH / 1.1,
           alignSelf: 'center',
-        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : ''}</Text>
+        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : ''}</Text> */}
 
         <TouchableOpacity style={style.btnStyle} onPress={onPressTertarik}>
           <Text style={{

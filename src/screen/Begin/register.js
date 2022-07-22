@@ -487,7 +487,7 @@ export default function Register({ navigation, route }) {
           </LinearGradient>
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
     fontSize:16,
@@ -507,7 +507,7 @@ export default function Register({ navigation, route }) {
           />
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
   fontSize:16,
@@ -530,7 +530,7 @@ export default function Register({ navigation, route }) {
 
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
   fontSize:16,
@@ -588,7 +588,7 @@ export default function Register({ navigation, route }) {
 </View>
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   fontSize:16,
   marginLeft:20,
@@ -690,7 +690,7 @@ export default function Register({ navigation, route }) {
 
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
   fontSize:16,
@@ -718,7 +718,7 @@ export default function Register({ navigation, route }) {
      
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
   fontSize:16,
@@ -738,7 +738,7 @@ export default function Register({ navigation, route }) {
           />
 <Text style={{
   color:'black',
-  fontFamily:'NeutrifPro-Reguler',
+  //fontFamily:'NeutrifPro-Reguler',
   fontWeight:'400',
   marginLeft:20,
   fontSize:16,

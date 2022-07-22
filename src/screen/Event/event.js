@@ -135,8 +135,7 @@ export default function Event({ navigation, route }) {
       <View 
         style={{
           backgroundColor: 'white',
-          paddingTop: SCREEN_WIDTH / 5+40,
-          marginBottom:  '50%' 
+          flex:1,
         }}
       >
         <FlatList
@@ -148,7 +147,16 @@ export default function Event({ navigation, route }) {
             height:100,
             width:'100%'
           }}/> )}}
-         
+         ListHeaderComponent={()=>{
+          return(
+            <View style={ {
+              height : Platform.OS ==='ios' ? SCREEN_HEIGHT / 8 :SCREEN_HEIGHT/6,
+            }}/>
+          );
+         }}
+         style={{
+          flexGrow:1,
+         }}
           onEndReached={loadMore}
           keyExtractor={(item, index) => item.id_i}
           showsVerticalScrollIndicator={false}

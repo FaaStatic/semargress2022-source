@@ -85,7 +85,7 @@ export default function Feed({ navigation, route }) {
 
   const moveDetail = (data) =>{
     navigation.navigate('DetailMerchant',{
-      id_m : data.id
+      id_m : data.id_merchant
     });
   }
 

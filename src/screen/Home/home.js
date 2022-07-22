@@ -17,7 +17,8 @@ import {
   LogBox,
   Modal,
   TouchableOpacity,
-  Linking
+  Linking,
+  Platform
 } from 'react-native';
 import Style from '../../util/style';
 import { SessionManager } from '../../util/SessionManager';
@@ -614,7 +615,7 @@ export default function Home({ navigation, route }) {
               fontSize: 20,
               fontWeight: '600',
               color: '#333333',
-              fontFamily: 'NeutrifPro-Reguler',
+              //fontFamily: 'NeutrifPro-Reguler',
               marginStart: 18,
               marginTop: 40,
 
@@ -845,7 +846,7 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
-    marginStart:16,
+    marginStart: Platform.OS == 'ios' ? 8 : 16,
   },
   btnStyleVoucher: {
     flex:1,

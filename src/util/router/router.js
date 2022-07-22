@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { View, TouchableOpacity, Text, Dimensions, Pressable } from 'react-native';
+import { View, TouchableOpacity, Text, Dimensions, Pressable, SafeAreaView } from 'react-native';
 import RouteTab from './routertab';
 import Splash from '../../screen/Begin/splash';
 import Login from '../../screen/Begin/login';
@@ -22,6 +22,8 @@ import Search from '../../screen/Home/Search';
 import HomeMerchat from '../../screen/Home/merchant/HomeMerchant';
 import EventDetail from '../../screen/Event/EventDetail';
 import DetailPromo from '../../screen/Promo/DetailPromo';
+import HomePromo from '../../screen/Promo/HomePromo';
+import RemoveAccount from '../../screen/Profil/RemoveAccount';
 
 const StackScreen = createNativeStackNavigator();
 
@@ -30,7 +32,8 @@ const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 export default function Router() {
   return (
     <NavigationContainer>
-      <StackScreen.Navigator>
+      <StackScreen.Navigator 
+       screenOptions={{headerShadowVisible:true}}>
         <StackScreen.Screen
           name="Splash"
           component={Splash}
@@ -60,7 +63,7 @@ export default function Router() {
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
             headerTitleAlign: 'center',
-            headerTitle: route.params.title !== undefined ? route.params.title :'Daftar',
+            headerTitle: route.params.title !== undefined ? route.params.title : 'Daftar',
             headerLeft: () => {
               return (
                 <View>
@@ -72,7 +75,7 @@ export default function Router() {
             },
           })}
         />
-         <StackScreen.Screen
+        <StackScreen.Screen
           name="DetailPromo"
           component={DetailPromo}
           initialParams={{
@@ -87,7 +90,8 @@ export default function Router() {
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
             headerTitleAlign: 'center',
-            headerTitle: "Detail Promo",
+            headerTitle: 'Detail Promo',
+            headerShadowVisible:true,
             header: (screenProps) => {
               return (
                 <View
@@ -97,8 +101,12 @@ export default function Router() {
                     justifyContent: 'center',
                     backgroundColor: 'white',
                     flexDirection: 'row',
-                  }}
-                >
+                      shadowColor: '#171717',
+                      shadowOffset: {width: -2, height: 4},
+                      shadowOpacity: 0.2,
+                      shadowRadius: 3,
+                    
+                  }}>
                   <TouchableOpacity
                     style={{
                       position: 'absolute',
@@ -117,8 +125,8 @@ export default function Router() {
                       color: 'black',
                       alignSelf: 'center',
                       fontSize: 18,
-                      width:'50%',  
-                      textAlign:'center',
+                      width: '50%',
+                      textAlign: 'center',
                       fontWeight: '600',
                     }}
                   >
@@ -141,7 +149,6 @@ export default function Router() {
           component={Search}
           options={{
             headerShown: false,
-          
           }}
         />
         <StackScreen.Screen
@@ -219,7 +226,7 @@ export default function Router() {
           })}
         />
         <StackScreen.Screen
-          name='DetailListCategory'
+          name="DetailListCategory"
           component={DetailListCategory}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
@@ -281,8 +288,8 @@ export default function Router() {
                       color: 'black',
                       alignSelf: 'center',
                       fontSize: 18,
-                      width:'75%',
-                      textAlign:'center',
+                      width: '75%',
+                      textAlign: 'center',
                       fontWeight: 'bold',
                     }}
                   >
@@ -357,7 +364,7 @@ export default function Router() {
           component={DetailWisataSemarang}
           options={({ navigation, screenProps, route }) => ({
             headerShown: true,
-            title: "Info Wisata",
+            title: 'Info Wisata',
             headerTitleAlign: 'center',
             headerShadowVisible: true,
             headerLeft: () => {
@@ -418,6 +425,121 @@ export default function Router() {
                   <TouchableOpacity onPress={() => navigation.goBack()}>
                     <IonIcon name="chevron-back" size={24} color={'black'} />
                   </TouchableOpacity>
+                </View>
+              );
+            },
+            headerStyle: {
+              elevation: 0,
+              shadowOpacity: 0,
+              backgroundColor: 'white',
+              marginBottom: 0,
+              borderBottomWidth: 0,
+            },
+          })}
+        />
+        <StackScreen.Screen
+          name="RemoveAccount"
+          component={RemoveAccount}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            headerShadowVisible : true,
+            title: 'Kebijakan Hapus Akun',
+            headerTitleAlign: 'center',
+            header: (screenProps) => {
+              return (
+                <View
+                  style={{
+                    height: 100,
+                    width: '100%',
+                    justifyContent: 'center',
+                    backgroundColor: 'white',
+                    flexDirection: 'row',
+                    shadowColor: '#000',
+                    shadowOffset: {
+                      width: 0,
+                      height: 1,
+                    },
+                    shadowOpacity: 30,
+                    shadowRadius: 1.41,
+                    elevation: 30,
+                    borderBottomColor:'rgba(0, 0, 0, 0.08)',
+                    borderBottomWidth:1,
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      alignSelf: 'center',
+                      top: SCREEN_HEIGHT / 20,
+                      left: 0,
+                      marginStart: 16,
+                    }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+
+                  <Text
+                    style={{
+                      color: 'black',
+                      alignSelf: 'center',
+                      fontSize: 18,
+                      width: '75%',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    Kebijakan Hapus Akun
+                  </Text>
+                </View>
+              );
+            },
+          })}
+        />
+        <StackScreen.Screen
+          name="HomePromo"
+          component={HomePromo}
+          options={({ navigation, screenProps, route }) => ({
+            headerShown: true,
+            title: route.params.name,
+            headerTitleAlign: 'center',
+            headerShadowVisible: true,
+            header: (screenProps) => {
+              return (
+                <View
+                  style={{
+                    height: 100,
+                    width: '100%',
+                    justifyContent: 'center',
+                    backgroundColor: 'white',
+                    flexDirection: 'row',
+                  }}
+                >
+                  <TouchableOpacity
+                    style={{
+                      position: 'absolute',
+                      alignSelf: 'center',
+                      top: SCREEN_HEIGHT / 20,
+                      left: 0,
+                      marginStart: 16,
+                    }}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <IonIcon name="chevron-back" size={24} color={'black'} />
+                  </TouchableOpacity>
+
+                  <Text
+                    style={{
+                      color: 'black',
+                      alignSelf: 'center',
+                      fontSize: 18,
+                      width: '75%',
+                      textAlign: 'center',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {route.params.name}
+                  </Text>
                 </View>
               );
             },
