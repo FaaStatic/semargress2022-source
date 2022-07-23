@@ -310,6 +310,25 @@ const Profile = ({navigation, route}) => {
 
           </TouchableOpacity>
 
+          <TouchableOpacity style={styles.menuContainer}
+            onPress={()=>{
+              navigation.navigate('RemoveAccount');
+            }}
+          >
+
+            <Image
+              source={require('../../assets/ic_trash.png')}
+              style={styles.icon}
+            ></Image>
+
+            <Text style={styles.menuTitle} >Kebijakan Hapus Akun</Text>
+
+            <View style={styles.leftIcon}>
+              <SimpleIcon name="arrow-right" size={18} color={'black'} />
+            </View>
+
+          </TouchableOpacity>
+
           <TouchableOpacity style={[styles.menuContainer,{marginBottom:30,}]}
             onPress={() => { showAlert(); }}
           >

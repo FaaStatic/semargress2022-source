@@ -9,7 +9,8 @@ import {
   View,
   FlatList,
   Pressable,
-  Linking
+  Linking,
+  TouchableOpacity
 } from 'react-native';
 import { Api } from '../../../util/Api';
 import IonIcon from 'react-native-vector-icons/Ionicons';
@@ -149,6 +150,12 @@ export default function DetailMerchant({ navigation, route }) {
     console.log('tes', wordLength);
 });
 
+const movePromo = () => {
+  navigation.navigate('HomePromo', {
+    name : `Promo ${getDetail.nama}`,
+    id : data.id_m,
+  })
+}
 
   return (
     <SafeAreaView style={styling.containerView}>
@@ -179,23 +186,54 @@ export default function DetailMerchant({ navigation, route }) {
             </View>
           </View>
           <View styling={styling.cardPromo}>
-            <Text
+            <View style={{
+              flexDirection:'row',
+              width:'100%',
+              marginTop: 100,
+              paddingTop:8,
+            }}>
+ <Text
               style={{
                 color: 'black',
-                marginTop: 100,
                 fontSize: 16,
                 marginStart: 16,
                 marginBottom: 12,
-                fontWeight: '800',
+                fontWeight: '600',
+                textAlignVertical:'center',
                 fontFamily:'NeutrifPro-Regular',
               }}
             >
               Promo yang Sedang Berlangsung
             </Text>
+            <TouchableOpacity style={{
+              marginStart:16,
+              alignContent:'flex-end',
+              position:'absolute',
+              right:0,
+              marginEnd:8,
+              marginTop:8,
+              
+            }}
+            onPress={movePromo}>
+            <Text style={{
+                color: '#A57FF8',
+                textAlignVertical:'center',
+                fontSize: 13,
+                marginBottom: 12,
+                fontWeight: '600',
+                width:75,
+                alignSelf:'flex-end',
+                textAlign:'right'
+              }}>lihat semua</Text>
+            </TouchableOpacity>
+           
+            </View>
+           
             {promo.length > 0 ? (
               
                 <FlatList
                   nestedScrollEnabled={true}
+                  showsHorizontalScrollIndicator={false}
                   data={promo}
                   style={{
                     marginBottom: 16,
@@ -337,7 +375,7 @@ export default function DetailMerchant({ navigation, route }) {
             } : {
               color: 'black',
               fontFamily:'NeutrifPro-Regular',
-              fontSize: 11,
+              fontSize: 13,
               fontWeight: 'bold',
               marginStart: 16,
               marginTop:8,
@@ -387,7 +425,7 @@ export default function DetailMerchant({ navigation, route }) {
               } : {
                 color: 'black',
                 fontFamily:'NeutrifPro-Regular',
-                fontSize: 11,
+                fontSize: 13,
                 fontWeight: 'bold',
                 marginStart: 16,
                 marginEnd: 16, 

@@ -148,7 +148,7 @@ const style = StyleSheet.create({
     fontWeight: '600',
     alignSelf: 'center',
     marginBottom:16,
-    fontFamily:'NeutrifPro-Reguler'
+    //fontFamily:'NeutrifPro-Reguler'
   },
 });
 

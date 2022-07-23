@@ -163,7 +163,7 @@ export default function DetailListCategory({ navigation, route }) {
       longitude: longitude,
       start: offset,
       count: length,
-      jarak: 20,
+      jarak: 30,
       kategori: id_k,
       keyword: '',
     };

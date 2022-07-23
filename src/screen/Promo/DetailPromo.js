@@ -31,7 +31,9 @@ await Api.get(`merchant/view_promo_user/${id}`).then(res => {
     }
 
 
-return(<View>
+return(<View style={{
+    flex:1,
+}}>
     <Image source={{uri : response.gambar}} style={{
         height:350,
         marginStart:'5%',
@@ -43,7 +45,7 @@ return(<View>
     <Text style={{
         fontSize:20,
         color:'#4F4F4F',
-        fontFamily:'NeutrifPro-Reguler',
+        //fontFamily:'NeutrifPro-Reguler',
         fontWeight:'600',
         marginTop:22,
         marginStart:'5%',
@@ -52,7 +54,7 @@ return(<View>
     <Text style={{
          fontSize:13,
          color:'#4F4F4F',
-         fontFamily:'NeutrifPro-Reguler',
+         //fontFamily:'NeutrifPro-Reguler',
          fontWeight:'400',
          marginTop:8,
          marginStart:'5%',

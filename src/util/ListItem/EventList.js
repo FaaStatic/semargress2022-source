@@ -55,8 +55,8 @@ const style = StyleSheet.create({
         marginBottom:8,
     },
     imageStyle :{
-        width:SCREEN_WIDTH/2.8,
-        height:SCREEN_HEIGHT/5,
+        width:120,
+        height:120,
         borderRadius:8,
         marginTop:SCREEN_HEIGHT/40,
         marginStart:16,
