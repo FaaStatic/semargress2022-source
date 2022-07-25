@@ -163,7 +163,6 @@ export default function DetailListCategory({ navigation, route }) {
       longitude: longitude,
       start: offset,
       count: length,
-      jarak: 30,
       kategori: id_k,
       keyword: '',
     };
@@ -178,9 +177,6 @@ export default function DetailListCategory({ navigation, route }) {
           //setResponList(data);
           var merchant = [];
           var listNew = [];
-          var tes = response.filter(function(item){
-            return item.flag_tipe === 'merchant'
-          })
 
         var countMerc = 0;
           response.forEach((element) => {
@@ -209,7 +205,9 @@ export default function DetailListCategory({ navigation, route }) {
           });
           merchant = [];
           setResponList(offset == 0 ? listNew : responList.concat(listNew));
-          isLast = response.length !== length  ? true : false  ;
+          console.log('pjgmerchant',response.length);
+          console.log('pjgcount',length);
+          isLast = response.length-1 !== length  ? true : false  ;
           setListKosong(false);
           setLoading(false);
           setOpenLoad(false);
@@ -257,8 +255,9 @@ export default function DetailListCategory({ navigation, route }) {
   };
 
   const loadMore = () => {
-
-    if (!isLast && !onProgress) {
+    console.log('pjg',offset);
+    console.log('last',isLast);
+    if (!isLast) {
       setLoading(true);
       offset += length;
       getListItem();

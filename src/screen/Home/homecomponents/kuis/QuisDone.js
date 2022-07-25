@@ -60,6 +60,9 @@ export default function QuizDone({navigation}){
         <FlatList
         showsVerticalScrollIndicator={false}
         data={questList}
+        contentContainerStyle={{
+          backgroundColor:'white',
+        }}
         keyExtractor={(item,index) => {index.toString()}}
         renderItem={ExpiredListQuiz}/>
     </SafeAreaView>);
@@ -68,6 +71,6 @@ export default function QuizDone({navigation}){
 const style = StyleSheet.create({
     container:{
       backgroundColor:'white',
-
+      flex: 1,
     }
 })

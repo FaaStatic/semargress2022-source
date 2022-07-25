@@ -67,22 +67,35 @@ export default function Search({ navigation, route }) {
   };
   const GrantLocation = async () => {
     try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-        {
-          title: 'Semargres Meminta Izin Lokasi',
-          message:
-            'Semargres Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
-          buttonNeutral: 'Tanya Nanti',
-          buttonNegative: 'Batal',
-          buttonPositive: 'Iya',
+      if(Platform.OS === 'android'){
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+          {
+            title: 'Semargres Meminta Izin Lokasi',
+            message:
+              'Semargres Membutuhkan akses lokasi untuk menyesuaikna merchant terdekat pengguna',
+            buttonNeutral: 'Tanya Nanti',
+            buttonNegative: 'Batal',
+            buttonPositive: 'Iya',
+          }
+          
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTES) {
+          console.log('StatusLokasi', granted);
+        } else {
+          console.log('StatusLokasi', granted);
+          ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
         }
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTES) {
-        console.log('StatusLokasi', granted);
-      } else {
-        console.log('StatusLokasi', granted);
+      }else if(Platform.OS === 'ios'){
+        const auth = await Geolocation.requestAuthorization('whenInUse');
+        if (auth == 'granted') {
+          console.log('StatusLokasi', auth);
+        }else{
+          console.log('StatusLokasi', auth);
+          ShowWarning("Mohon ijinkan akses lokasi untuk menikmati fitur ini");
+        }
       }
+    
     } catch (error) {
       console.log(error.message);
     }
@@ -161,6 +174,7 @@ export default function Search({ navigation, route }) {
             mode="flat"
             selectionColor="grey"
             autoFocus={true}
+            keyboardType={'default'}
             underlineColor="transparent"
             activeUnderlineColor="transparent"
             placeholder="Cari Merchant"
