@@ -452,7 +452,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"",
+				"${PODS_ROOT}/Target Support Files/Pods-semargres/Pods-semargres-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -598,7 +598,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = semargres/Info.plist;
@@ -629,7 +629,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = semargres/semargres.entitlements;
-				CURRENT_PROJECT_VERSION = 17;
+				CURRENT_PROJECT_VERSION = 18;
 				DEVELOPMENT_TEAM = 7A639MSY8Y;
 				INFOPLIST_FILE = semargres/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

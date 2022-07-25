@@ -513,7 +513,11 @@ export default function Home({ navigation, route }) {
                     justifyContent:'center',
                   }}
                 >
-                  <TouchableOpacity style={style.btnStyleVoucher} onPress={() => {
+                  <TouchableOpacity style={ Platform.OS === 'ios' ? {
+                      width:100,
+                      marginStart:4,
+                      marginEnd:8,
+                  } : style.btnStyleVoucher} onPress={() => {
                     navigation.navigate('VoucherHome');
                   }}>
                     <Text style={style.textVoucherBtn}>Lihat Voucher</Text>
@@ -846,7 +850,7 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
-    marginStart: Platform.OS == 'ios' ? 8 : 16,
+    marginStart: Platform.OS == 'ios' ? 4 : 16,
   },
   btnStyleVoucher: {
     flex:1,

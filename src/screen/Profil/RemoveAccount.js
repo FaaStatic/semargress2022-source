@@ -11,8 +11,9 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { Api } from '../../util/Api';
+import { sessionId } from '../../util/GlobalVar';
 import { SessionManager } from '../../util/SessionManager';
-import { ShowSuccess,showError } from '../../util/ShowMessage';
+import {ShowError, ShowSuccess  }from '../../util/ShowMessage';
 
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -21,17 +22,28 @@ export default function RemoveAccount({ navigation, route }) {
   const [openModal, setOpenModal] = useState(false);
 
 
-  const hapusBtn = () =>{
-    Api.post('').then(res => {
+  const hapusBtn = async () =>{
+    const session = await SessionManager.GetAsObject(sessionId);
+    console.log(session.uid);
+    Api.post('/api/auth/delete_account', {
+      uid :  session.uid
+    }).then(res => {
       let body = res.data;
       let response = body.response;
       let metadata = body.metadata;
       if(metadata.status === 200){
-        ShowSuccess('');
+        setOpenModal(false);
+        ShowSuccess(metadata.message);
+        
         SessionManager.ClearAllKeys();
-        navigation.navigate("Login");
+        navigation.dispatch(StackActions.replace("Login"));
+      }else if(metadata.status === 400){
+        setOpenModal(false);
+        console.log('testing',metadata.message);
+       ShowError(metadata.message.toString());
+      
       }else{
-        showError('');
+        ShowError(metadata.message);
       }
     }).catch(err => {console.log(err);})
   }

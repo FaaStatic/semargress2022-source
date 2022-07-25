@@ -151,9 +151,10 @@ export default function DetailMerchant({ navigation, route }) {
 });
 
 const movePromo = () => {
+  console.log(getDetail.id_m);
   navigation.navigate('HomePromo', {
     name : `Promo ${getDetail.nama}`,
-    id : data.id_m,
+    id : getDetail.id_m,
   })
 }
 
@@ -205,7 +206,7 @@ const movePromo = () => {
             >
               Promo yang Sedang Berlangsung
             </Text>
-            <TouchableOpacity style={{
+            {promo.length > 0 && <TouchableOpacity style={{
               marginStart:16,
               alignContent:'flex-end',
               position:'absolute',
@@ -225,7 +226,8 @@ const movePromo = () => {
                 alignSelf:'flex-end',
                 textAlign:'right'
               }}>lihat semua</Text>
-            </TouchableOpacity>
+            </TouchableOpacity>}
+            
            
             </View>
            

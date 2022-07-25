@@ -6,8 +6,10 @@ import Feed from '../../screen/Feed/Feed';
 import QR from '../../screen/QR/qr';
 import Event from '../../screen/Event/event';
 import Profil from '../../screen/Profil/profil';
-import { Image, Text, View, StyleSheet } from 'react-native';
-import { Platform } from 'react-native';
+import {  Text, View, StyleSheet, Platform  } from 'react-native';
+import { Image } from "@rneui/themed";
+
+
 
 const TabScreen = createBottomTabNavigator();
 
@@ -42,8 +44,10 @@ export default function RouterTab({ navigation }) {
           tabBarIcon:({focused, size, color}) =>{
             let active = focused ? require('../../assets/home_active.png') : require('../../assets/home_inactive.png') 
             return(
-              <View style={style.iconContainer(focused)}>
-                <Image source={active} style={style.iconStyle}/>
+              <View style={[style.iconContainer(focused),{
+                alignItems:'center'
+              }]}>
+                <Image source={active} style={{width:20,height:20, aspectRatio:1}}/>
               </View>
             )
           }
@@ -52,10 +56,12 @@ export default function RouterTab({ navigation }) {
       <TabScreen.Screen name="Feed" component={Feed} 
        options={{
         tabBarIcon:({focused, size, color}) =>{
-          let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_active.png') 
+          let active = focused ? require('../../assets/coupon_active.png') : require('../../assets/coupon_inactive.png') 
           return(
-            <View style={style.iconContainer(focused)}>
-              <Image source={active} style={[style.iconStyle, {resizeMode:'center'}]}/>
+            <View style={[style.iconContainer(focused),{
+              alignItems:'center'
+            }]}>
+              <Image source={active} style={{width:20,height:20, aspectRatio:1}}/>
             </View>
           )
         }
@@ -65,8 +71,8 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/qr_active.png') : require('../../assets/qr_inactive.png') 
           return(
-            <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#A57FF8',justifyContent:'center',borderRadius:12,}]}>
-              <Image source={active} style={[style.iconStyle, {width:30, height:30}]}/>
+            <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#A57FF8',justifyContent:'center',borderRadius:12,alignItems:'center'}]}>
+              <Image source={active} style={{width:30,height:30, aspectRatio:1}}/>
 
             </View>
           )
@@ -77,18 +83,22 @@ export default function RouterTab({ navigation }) {
         tabBarIcon:({focused, size, color}) =>{
           let active = focused ? require('../../assets/even_active.png') : require('../../assets/event_inactive.png') 
           return(
-            <View style={style.iconContainer(focused)}>
-              <Image source={active} style={style.iconStyle}/>
+            <View style={[style.iconContainer(focused),{
+              alignItems:'center'
+            }]}>
+              <Image source={active}style={{width:20,height:20, aspectRatio:1}}/>
             </View>
           )
         }
       }}/>
       <TabScreen.Screen name="Profil" component={Profil} options={{
         tabBarIcon:({focused, size, color}) =>{
-          let active = focused ? require('../../assets/profile_active.png') : require('../../assets/profile_active.png') 
+          let active = focused ? require('../../assets/profile_active.png') : require('../../assets/profile_inactive.png') 
           return(
-            <View style={style.iconContainer(focused)}>
-              <Image source={active} style={style.iconStyle}/> 
+            <View style={[style.iconContainer(focused),{
+              alignItems:'center'
+            }]}>
+              <Image source={active} style={{width:20,height:20, aspectRatio:1}}/> 
             </View>
           )
         }
