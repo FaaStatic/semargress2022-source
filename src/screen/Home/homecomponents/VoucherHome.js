@@ -4,17 +4,19 @@ import { Api } from '../../../util/Api';
 import { SessionManager } from '../../../util/SessionManager';
 import { sessionId } from '../../../util/GlobalVar';
 import ListVoucher from '../../../util/ListItem/ListVoucher';
+import { BallIndicator, DotIndicator } from 'react-native-indicators';
+
 
 let windows = Dimensions.get('window');
 const windowWidth = Dimensions.get('window').width;
 
 var offset = 0;
+var isLast = false;
 var onProgress = false;
 
 export default function VoucherHome({ navigation, route }) {
-  
+  const [loadIndicator, setLoadIndicator] = useState(false);
   const [dataList, setDataList] = useState([]);
-  const [isLast, setIsLast] = useState(false);
   const [jumlahItem, setJumlahItem] = useState(0);
   const [length, setLength] = useState(10);
   const [dataKosong, setDataKosong] = useState(false);
@@ -23,6 +25,7 @@ export default function VoucherHome({ navigation, route }) {
 
   useEffect(() => {
     offset = 0;
+    isLast = false;
     onProgress = false;
     setJumlahItem(0);
     setDataList([]);
@@ -32,6 +35,7 @@ export default function VoucherHome({ navigation, route }) {
       offset = 0;
       onProgress = false;
       setJumlahItem(0);
+      isLast = false;
       setDataList([]);
       getVoucherList();
       setExtraData(false);
@@ -53,9 +57,31 @@ export default function VoucherHome({ navigation, route }) {
     navigation.navigate('Voucher', {id:data});
   };
 
+
+
+  const loadIndice = useCallback(() => {
+    if (loadIndicator) {
+      return (
+        <View
+          style={{
+            justifyContent: 'center',
+            marginTop: 16,
+            marginBottom: 16,
+          }}
+        >
+          <DotIndicator color="#251468" size={6}/>
+        </View>
+      );
+    } else {
+      return <></>;
+    }
+  });
+
+
   const loadMore = async () => {
 
-    if (isLast == false) {
+    if (!isLast) {
+      setLoadIndicator(true);
       offset += length;
       getVoucherList();
     }
@@ -82,19 +108,24 @@ export default function VoucherHome({ navigation, route }) {
         let response = body.response;
 
         if (metadata.status == 200) {
-          
-          setDataList(offset == 0 ? response.vouchers : [...dataList, response.vouchers]);
-          offset = response.length == 0 ? offset + response.vouchers.length : offset;
-          setIsLast(response.vouchers.length !== length ? true : false);
+          setDataList(offset == 0 ? response.vouchers : dataList.concat(response.vouchers));
+          console.log(response.vouchers.length);
+          isLast = response.vouchers.length !== length ? true : false;
           setDataKosong(false);
-          setJumlahItem(jumlahItem + response.vouchers.length);
           isEmpty = false;
+          setLoadIndicator(false);
         } else if (metadata.status == 401) {
             isEmpty = true;
+            isLast = true;
+            setLoadIndicator(false);
+
           //console.log('Status', metadata.message);
           setDataKosong(true);
         } else if(metadata.status == 404){
             isEmpty = true;
+            isLast = true;
+            setLoadIndicator(false);
+
             //console.log('Status', metadata.message);
             setMsg(metadata.message)
             setDataKosong(true);
@@ -102,7 +133,9 @@ export default function VoucherHome({ navigation, route }) {
           if (offset == 0) {
             setDataKosong(true);
           }
-          setIsLast(true);
+          isLast = true;
+          setLoadIndicator(false);
+
         }
         setExtraData(!extraData);
       })
@@ -120,6 +153,7 @@ export default function VoucherHome({ navigation, route }) {
          onEndReached={loadMore}
          extraData={extraData}
          data={dataList}
+         ListFooterComponent={loadIndice}
          showsVerticalScrollIndicator={false}
          renderItem={renderList}
          keyExtractor={(item,index) => {index.toString()}}

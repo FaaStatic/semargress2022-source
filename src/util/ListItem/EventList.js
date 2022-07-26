@@ -17,9 +17,10 @@ export default function EventList({item, pressCall}){
              <Text numberOfLines={3} style={[style.textGeneric,{
                 fontSize:18,
              }]}>{item.title}</Text>
-            <Text numberOfLines={5} style={[style.textGeneric,{
+            <Text numberOfLines={2} style={[style.textGeneric,{
                 marginTop:8,
                 fontSize:14,
+                fontWeight:'400',
                 width:'90%',
                 lineHeight:18,
 

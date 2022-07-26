@@ -9,7 +9,8 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
-  Alert
+  Alert,
+
 } from 'react-native';
 import { Api } from '../../util/Api';
 import { SessionManager } from '../../util/SessionManager';
@@ -21,6 +22,7 @@ import moment from 'moment';
 import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 
 const windowWidth = Dimensions.get('window').width;
+const {height : SCREEN_HEIGHT} =  Dimensions.get('window')
 const defaultMargin = 20;
 
 const Voucher = ({ navigation, route }) => {
@@ -246,7 +248,8 @@ const Voucher = ({ navigation, route }) => {
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
-            marginBottom:100,
+            flexGrow:1,
+            marginBottom:SCREEN_HEIGHT/40,
           }}
         >
 
@@ -304,12 +307,15 @@ const Voucher = ({ navigation, route }) => {
                 style={{
                   position:'absolute',
                   right:0,
+                  height:25,
+                  width:30,
+                  justifyContent:'center',
                 }}
                 onPress={()=>{
                   setIsOpen(!isOpen);
                 }}
               >
-                <SimpleIcon name={isOpen ? "arrow-up" : "arrow-down"} size={18} color={colors.black} style={{}} />
+                <SimpleIcon name={isOpen ? "arrow-up" : "arrow-down"} size={18} color={colors.black} style={{alignSelf:'center'}} />
               </TouchableOpacity>
 
             </View>
@@ -348,6 +354,7 @@ const Voucher = ({ navigation, route }) => {
                   color:colors.black3,
                   fontSize:18,
                   fontWeight:'600',
+                  
                 }}
               >Syarat dan Ketentuan</Text>
 
@@ -355,12 +362,15 @@ const Voucher = ({ navigation, route }) => {
                 style={{
                   position:'absolute',
                   right:0,
+                  height:25,
+                  width:30,
+                  justifyContent:'center',
                 }}
                 onPress={()=>{
                   setIsOpenSNK(!isOpenSNK);
                 }}
               >
-                <SimpleIcon name={isOpenSNK ? "arrow-up" : "arrow-down"} size={18} color={colors.black} style={{}} />
+                <SimpleIcon name={isOpenSNK ? "arrow-up" : "arrow-down"} size={18} color={colors.black} style={{alignSelf:'center'}} />
               </TouchableOpacity>
 
             </View>
@@ -368,6 +378,7 @@ const Voucher = ({ navigation, route }) => {
             {isOpenSNK && 
 
               <Text
+              numberOfLines={SCREEN_HEIGHT/30}
                 style={{
                   width: '100%',
                   marginTop:10,
@@ -402,8 +413,10 @@ const Voucher = ({ navigation, route }) => {
           }}
         >
 
-          <View style={{flex:1,}} >
-              <Text>Berlaku Hingga</Text>
+          <View style={{flex:1}} >
+              <Text style={{
+                color:'#4F4F4F', fontSize:16, fontWeight:'400',marginBottom:4,
+              }}>Berlaku Hingga</Text>
               <Text style={{color:'#B60D00', fontSize:18, fontWeight:'600'}}>{moment(data.valid_end,"YYYY-MM-DD hh:mm:ss").format("DD MMMM YYYY")}</Text>
           </View>
 

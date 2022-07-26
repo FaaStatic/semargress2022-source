@@ -18,13 +18,13 @@ import { off } from 'npm';
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 var offset = 0;
+var isLast = false;
 export default function Feed({ navigation, route }) {
   const [responseFeed, setResponseFeed] = useState([]);
   let onProgress = false;
   // const [offset, setOffset] = useState(0);
 
-   const length = 6;
-  const [Last, setLast] = useState(false);
+   const length = 10;
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
   const [loadIndicator, setLoadIndicator] = useState(false);
@@ -38,6 +38,7 @@ export default function Feed({ navigation, route }) {
       console.log('TESSSSONRESUME', 'resume');
       setResponseFeed([]);
       offset = 0;
+      isLast = false;
       setLoadingOpen(true);
       onProgress = false;
       setExtraData(!extraData)   
@@ -69,13 +70,11 @@ export default function Feed({ navigation, route }) {
   const loadmore = async () => {
 
     console.log("last");
-    if (Last) {
+    if (!isLast) {
       setLoadIndicator(true);
       offset += length;
       console.log('jumlah', offset);
       getFeed();
-    }else{
-
     }
   };
 
@@ -111,7 +110,8 @@ export default function Feed({ navigation, route }) {
         if (metadata.status === 200) {
           //console.log('testestesfeed', response);
           setResponseFeed(offset === 0 ? response : responseFeed.concat(response));
-          setLast(response.length !== length  ? true : false);
+          isLast = response.length !== length  ? true : false;
+          console.log(response.length);
           onProgress = false;
           setDataKosong(false);
           setLoadingOpen(false);
@@ -120,18 +120,20 @@ export default function Feed({ navigation, route }) {
           //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
+          isLast = true;
           setPullRefresh(false);
         } else if (metadata.status === 404) {
           //ShowError(metadata.message);
           setDataKosong(true);
           setLoadingOpen(false);
+          isLast = true;
           setPullRefresh(false);
         } else {
           ShowError(metadata.message);
           if (offset === 0) {
             setDataKosong(true);
           }
-          setLast(true);
+          isLast = true;
           setLoadingOpen(false);
           setPullRefresh(false);
         }
