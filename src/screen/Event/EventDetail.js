@@ -10,12 +10,13 @@ import {
   ScrollView,
   Alert,
   TouchableOpacity,
-  Linking
+  Linking,
+  useWindowDimensions
 } from 'react-native';
 import { Api } from '../../util/Api';
 import { SessionManager } from '../../util/SessionManager';
 import { sessionId } from '../../util/GlobalVar';
-import HTMLView from 'react-native-htmlview';
+import WebView from 'react-native-webview';
 
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -27,7 +28,7 @@ export default function EventDetail({ navigation, route }) {
   const { id } = route.params;
   const [responseDetail, setResponseDetail] = useState([]);
   const [flagTertarik, setFlagTertarik] = useState(false);
-
+  const [keterangan, setKeterangan] = useState('');
   useEffect(() => {
     getDetail();
     const subs = navigation.addListener('focus', () => {
@@ -58,6 +59,10 @@ export default function EventDetail({ navigation, route }) {
         let metadata = body.metadata;
 
         if (metadata.status == 200) {
+          console.log('testes',response.keterangan)
+          var temp = response.keterangan;
+          var tempProc = temp.split('data:image/gif;').join('');
+          setKeterangan(tempProc);
           setResponseDetail(response);
         } else if (metadata.status == 401) {
           console.log(metadata.message);
@@ -84,7 +89,7 @@ export default function EventDetail({ navigation, route }) {
         let response = body.response[0];
         let metadata = body.metadata;
         if (metadata.status == 200) {
-
+          
           setFlagTertarik(true);
         } else if (metadata.status == 401) {
           setFlagTertarik(false);
@@ -135,37 +140,60 @@ export default function EventDetail({ navigation, route }) {
     tertarikEvent();
   };
 
-  const htmlContent = `<div>${responseDetail.keterangan}</div>`;
+  const { width } = useWindowDimensions();
+  const renderersProps = {
+    img: {
+      enableExperimentalPercentWidth: true
+    }
+  };
+
+
+  const htmlRender = {html : `<!DOCTYPE html>
+  <html lang="en">
+  
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+  </head>
+  
+  <body style="color: black; font-size: 16px; font-weight: 400;margin-left: 16px; margin-right: 16px;margin-top:16px; margin-bottom:16px;">
+    ${keterangan}
+  </body>
+  
+  </html>`};
+  const htmlFail = {html : `!DOCTYPE html>
+  <html lang="en">
+  
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Document</title>
+  </head>
+  
+  <body>
+  <div style="color: black; font-size: 13px; font-weight: 400;margin-left: 16px; margin-right: 16px;margin-top:16px; margin-bottom:16px;"><center>Tidak Ada Keterangan</center><div>
+  </body>
+  
+  </html>`}
+
+  
 
   return (
     <SafeAreaView style={style.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View></View>
         <Image
           source={{ uri: responseDetail.gambar }}
           resizeMode="cover"
           style={style.imageStyle}
         />
         <Text style={style.textStyleTitle}>{responseDetail.title}</Text>
-<HTMLView value={responseDetail.keterangan !== '' ? htmlContent : '<div><div>'} stylesheet={{
-  div:{
-    color: 'black',
-    fontSize: 14,
-    lineHeight : 25,
-    marginTop: 8,
-    marginStart: 20,
-    marginEnd:20,
-    alignSelf: 'center',
-  }
-}}/>
 
-        {/* <Text style={{
-          color: 'black',
-          fontSize: 14,
-          marginTop: 8,
-          width: SCREEN_WIDTH / 1.1,
-          alignSelf: 'center',
-        }}>{responseDetail.keterangan !== " " ? responseDetail.keterangan : ''}</Text> */}
+<WebView style={{height:SCREEN_HEIGHT/2.5, backgroundColor:'transparent'}} source={responseDetail.keterangan!== undefined && responseDetail.keterangan!== '' ? htmlRender : htmlFail} ></WebView>
+
+
 
         <TouchableOpacity style={style.btnStyle} onPress={onPressTertarik}>
           <Text style={{
@@ -215,6 +243,6 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'NeutrifPro-Regular',
     color: 'black',
-    marginTop: 8
+    marginTop: 11
   },
 });

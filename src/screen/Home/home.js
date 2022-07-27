@@ -38,7 +38,6 @@ import { colors } from '../../util/color';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
-
 export default function Home({ navigation, route }) {
 
   const [iconVisible, setIconVisible] = useState(false);
@@ -50,6 +49,7 @@ export default function Home({ navigation, route }) {
   const [search, setSearch] = useState();
   const [spotWisata, setSpotWisata] = useState([]);
   const [left, setLeft] = useState(true);
+  const [promoKosong,setPromoKosong] = useState(false);
   const [right, setRight] = useState(false);
   const [btnUpdateAndroid, setBtnUpdateAndroid] = useState(false);
   const [pesanUpdateAndroid, setPesanUpdateAndroid] = useState('');
@@ -328,7 +328,11 @@ export default function Home({ navigation, route }) {
       var response = body.response.promo;
       var metadata = body.metadata;
       if (metadata.status === 200) {
-        setPromoUser(response);
+        if(response.length < 0){
+          setPromoKosong(true);
+        }else{
+          setPromoUser(response);
+        }
       } else if (metadata.status === 401) {
 
       } else {
@@ -615,7 +619,7 @@ export default function Home({ navigation, route }) {
             style={{
               backgroundColor: 'white',
             }}>
-            <Text style={{
+              {promoKosong  ?        <Text style={{
               fontSize: 20,
               fontWeight: '600',
               color: '#333333',
@@ -623,23 +627,30 @@ export default function Home({ navigation, route }) {
               marginStart: 18,
               marginTop: 40,
 
-            }}>Promo Hari Ini</Text>
+            }}>Tidak Ada Promo Hari Ini</Text>:     <Text style={{
+              fontSize: 20,
+              fontWeight: '600',
+              color: '#333333',
+              //fontFamily: 'NeutrifPro-Reguler',
+              marginStart: 18,
+              marginTop: 40,
 
-            <ScrollView>
+            }}>Promo Hari Ini</Text> }
+            
+ <ScrollView>
 
-              <FlatList
-                nestedScrollEnabled={true}
-                data={promoUser}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                renderItem={renderItemPromo}
-                style={{
-                  marginStart: 18,
-                  marginTop: 28,
-                }}
-              />
-            </ScrollView>
-
+<FlatList
+  nestedScrollEnabled={true}
+  data={promoUser}
+  keyExtractor={(item, index) => index.toString()}
+  showsVerticalScrollIndicator={false}
+  renderItem={renderItemPromo}
+  style={{
+    marginStart: 18,
+    marginTop: 28,
+  }}
+/>
+</ScrollView> 
           </View>
 
         </ScrollView>

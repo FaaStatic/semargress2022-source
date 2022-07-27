@@ -3,6 +3,7 @@ import { SafeAreaView, View, Image, StyleSheet, Dimensions, FlatList, Text, Plat
 import { Api } from '../../util/Api';
 import { colors } from '../../util/color';
 import EventList from '../../util/ListItem/EventList';
+import { BallIndicator, DotIndicator } from 'react-native-indicators';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
@@ -19,6 +20,7 @@ export default function Event({ navigation, route }) {
   const [dataKosong, setDataKosong] = useState(false);
   const [extraData, setExtraData] = useState(false);
   const [iklanPhoto, setIklanPhoto] = useState([]);
+  const [loadIndicator, setLoadIndicator] = useState(false);
 
 
   useEffect(() => {
@@ -39,11 +41,33 @@ export default function Event({ navigation, route }) {
   }, [navigation]);
 
   const loadMore = () => {
-    if (last == false) {
+    if (!last) {
+      setLoadIndicator(true);
       offset += length;
       getApi();
     }
   }
+
+  const loadIndice = useCallback(() => {
+    if (loadIndicator) {
+      return (
+        <View
+          style={{
+            justifyContent: 'center',
+            marginTop: 16,
+            marginBottom: 16,
+          }}
+        >
+          <DotIndicator color="#251468" size={6}/>
+        </View>
+      );
+    } else {
+      return ( <View Style={{
+        height:100,
+        width:'100%'
+      }}/>);
+    }
+  });
 
   const getIklan = () => {
     Api.post('api/foto_hadiah/get_foto_hadiah').then(res=> {
@@ -77,16 +101,18 @@ export default function Event({ navigation, route }) {
           setResponseEvent(
             offset === 0 ? response : setResponseEvent(responseEvent.concat(response))
           );
-          offset = response.length === 0 ? offset + response.length : offset;
           last = response.length !== length ? true : false;
           setDataKosong(false);
+          setLoadIndicator(false);
         } else if (metadata.status === 401) {
           setDataKosong(true);
+          setLoadIndicator(false);
         } else {
           if (offset === 0) {
             setDataKosong(true);
           }
           last = true;
+          setLoadIndicator(false);
         }
 
         setExtraData(!extraData);
@@ -141,12 +167,8 @@ export default function Event({ navigation, route }) {
         <FlatList
           data={responseEvent}
           renderItem={itemRender}
-          ListFooterComponent={()=>{
-          return(
-        <View Style={{
-            height:100,
-            width:'100%'
-          }}/> )}}
+          ListFooterComponent={loadIndice}
+       
          ListHeaderComponent={()=>{
           return(
             <View style={ {
