@@ -24,6 +24,7 @@ let latitude = 0;
 let longitude = 0;
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
+const aspect_ratio = SCREEN_WIDTH/SCREEN_HEIGHT;
 export default function Search({ navigation, route }) {
   const [iconVisible, setIconVisible] = useState(false);
   const [textInput, setTextInput] = useState('');
@@ -257,7 +258,8 @@ export default function Search({ navigation, route }) {
       </View>
 
       <Pressable
-        style={ Platform.OS === 'ios' ? {
+        style={ 
+          Platform.OS === 'ios' && aspect_ratio < 0.7 ? {
           height: 30,
           width: 30,
           position: 'absolute',
@@ -271,8 +273,8 @@ export default function Search({ navigation, route }) {
           position: 'absolute',
           left: 0,
           top: 0,
-          marginTop: 40,
-          marginLeft: 16,
+          marginTop: aspect_ratio < 0.7 ? 40 : 65,
+          marginLeft: aspect_ratio < 0.7 ? 16 : 48,
         }}
         onPress={() => {
           navigation.goBack();

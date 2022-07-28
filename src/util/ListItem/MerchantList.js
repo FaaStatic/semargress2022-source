@@ -5,11 +5,22 @@ import { colors } from '../color';
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 const defaultMargin = 10;
+const aspect_ratio = SCREEN_WIDTH/SCREEN_HEIGHT;
+// var isIpadOS = false;
+// const isIpad = (aspect_ratio) => {
 
+// }
 export default function MerchanList({ item, pressCall }) {
-
+ console.log(aspect_ratio );
   return (
-    <View style={style.container}>
+    <View style={{
+      flexDirection: 'column',
+      width: SCREEN_WIDTH/2 - 25,
+      height: SCREEN_HEIGHT/5,
+      marginLeft:defaultMargin,
+      marginRight:defaultMargin,
+      marginBottom: aspect_ratio < 0.7 ? 2: SCREEN_HEIGHT/6
+    }}>
       <Pressable onPress={() => pressCall(item)} style={style.containerGbr}>
         <Image source={{ uri: item.foto }} style={style.imageStyle} resizeMode="cover" />
       </Pressable>
@@ -19,15 +30,7 @@ export default function MerchanList({ item, pressCall }) {
 }
 
 const style = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    width: SCREEN_WIDTH/2 - 25,
-    height: SCREEN_HEIGHT/3.8,
-    marginLeft:defaultMargin,
-    marginRight:defaultMargin,
-    
-    marginBottom:6,
-  },
+
   containerGbr: {
     width: SCREEN_WIDTH/2 - 25,
     height: SCREEN_WIDTH/2 - 25,

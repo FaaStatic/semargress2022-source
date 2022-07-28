@@ -17,7 +17,7 @@ import { colors } from '../color';
 
 const { height: HEIGHT_CONTAINER } = Dimensions.get('window');
 const { width: WIDTH_CONTAINER } = Dimensions.get('window');
-
+const aspect_ratio = WIDTH_CONTAINER/HEIGHT_CONTAINER;
 var statIos = true;
 export default function FeedList({ item, pressCall }) {
   const [fullDeskripsi, setFullDeskripsi] = useState(true);
@@ -85,16 +85,26 @@ export default function FeedList({ item, pressCall }) {
       ) : (
         <Image source={{ uri: item.media_url }} resizeMode="cover" style={style.imagePromo} />
       )}
-
-      <Text
+<View style={{
+  flex:1,
+}}>
+<Text
         numberOfLines={fullDeskripsi ? show : 4}
         onTextLayout={onTextLayout}
-        style={{
+        style={ aspect_ratio > 0.7 ? {
           flexDirection: 'row',
           marginTop: 8,
           marginStart: 8,
           marginEnd: 8,
           fontWeight: '300',
+          height: fullDeskripsi ? HEIGHT_CONTAINER/4  : 40,
+        } : {
+          flexDirection: 'row',
+          marginTop: 8,
+          marginStart: 8,
+          marginEnd: 8,
+          fontWeight: '300',
+          height: fullDeskripsi ? HEIGHT_CONTAINER/2 : 40,
         }}
       >
         <Text
@@ -111,11 +121,12 @@ export default function FeedList({ item, pressCall }) {
         >
           {item.profile_name}
         </Text>
-        <Text style={[style.textDeskripsi]}>
+        <Text style={[style.textDeskripsi,{  flexGrow:1}]}>
           {item.media_caption.length !== 0 ? ` ${item.media_caption}` : ''}
         </Text>
       </Text>
-      {show > 4 && (
+</View>
+{show > 4 && (
         <TouchableOpacity
           onPress={() => {
             setFullDeskripsi(!fullDeskripsi);
@@ -178,6 +189,7 @@ const style = StyleSheet.create({
   textDeskripsi: {
     fontSize: 15,
     color: colors.black3,
-    lineHeight: 18.8,
+    lineHeight: 20,
+    flexGrow:1,
   },
 });

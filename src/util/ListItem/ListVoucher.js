@@ -104,29 +104,39 @@ export default function ListVoucher({ item, PressCall }) {
             <Image
               source={images.logos[bgImage]}
               style={{
-                width: '70%',
+                width: '60%',
                 height: '100%',
                 right: 0,
                 position: 'absolute',
-                resizeMode: 'contain',
+                resizeMode: 'stretch',
                 borderRadius: 15,
               }}
             ></Image>
 
-            <Image
-              source={require('../../assets/logo.png')}
-              style={{
-                width: 30,
-                height: 30,
-                right: 0,
-                marginTop: 10,
-                marginRight: 10,
-                backgroundColor: colors.white,
-                position: 'absolute',
-                resizeMode: 'contain',
-                borderRadius: 15,
-              }}
-            ></Image>
+<View style={{
+  position: 'absolute',
+  right: 0,
+  marginTop: 10,
+  marginRight: 10,
+  width: 30,
+  
+  backgroundColor: 'white',
+  borderRadius: 15,
+  alignItems:'center',
+  justifyContent:'center',
+  height: 30,
+}}>
+  <Image
+            source={require('../../assets/logo_voucher.png')}
+            resizeMode='stretch'
+            style={{
+              width: 28,
+              height: 24,
+              padding:10,
+              borderRadius: 15,
+            }}
+          ></Image>
+</View>
 
             <View
               style={{

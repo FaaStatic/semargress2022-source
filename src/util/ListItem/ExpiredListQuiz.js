@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, StyleSheet, View, Image} from 'react-native';
+import { Text, StyleSheet, View, Image, Platform} from 'react-native';
 
 
 
@@ -67,28 +67,39 @@ export default function ExpiredListQuiz({item}){
                 }]}><Text style={[style.textStyleContent,{
                     fontWeight:'600',
                     color:'#4F4F4F'
-                }]}>Nama</Text> {`\t\t\t\t\t: `} {item.pemenang.nama ? item.pemenang.nama : '-' }</Text>
+                }]}>Nama</Text> {Platform.OS === 'ios' ? `\t\t: `:`\t\t\t\t\t:`} {item.pemenang.nama ? item.pemenang.nama : '-' }</Text>
                 <Text style={[style.textStyleContent,{
                     marginBottom:8,
                 }]}><Text style={[style.textStyleContent,{
                     fontWeight:'600',
                     color:'#4F4F4F'
-                }]}>Email</Text>  {`\t\t\t\t: `} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
+                }]}>Email</Text>  {Platform.OS === 'ios' ? `\t\t: `:`\t\t\t\t:`} {item.pemenang.email ? item.pemenang.email : '-' }</Text>
                 <Text style={[style.textStyleContent,{
                     marginBottom:8,
                 }]}><Text style={[style.textStyleContent,{
                     fontWeight:'600',
                     color:'#4F4F4F'
-                }]}>Jawaban</Text> {`\t\t: `} {item.pemenang.jawaban ? item.pemenang.jawaban : '-' }</Text>
+                }]}>Jawaban</Text> {Platform.OS === 'ios' ? `\t: `:`\t\t:`} {item.pemenang.jawaban ? item.pemenang.jawaban : '-' }</Text>
                 <View style={style.containerHadiah}>
                 <Text style={[style.textStyleContent,{
                     marginStart:0,
                     color:'#4F4F4F'
-                }]}><Text style={[style.textStyleContent,{
+                }]}><Text style={ Platform.OS === 'ios' ?  {
+                    marginStart:24,
+                    fontSize:15,
+                    color:'#4F4F4F',
                     fontWeight:'600',
-                }]}>Hadiah </Text> {`\t\t\t: `} </Text><Text style={[style.textStyleContent,{
+                } : [style.textStyleContent,{
+                    fontWeight:'600',
+                }]}>Hadiah </Text> {Platform.OS === 'ios' ? `\t: `:`\t\t\t:`} </Text><Text style={ Platform.OS === 'ios' ?  {
+                    marginStart:24,
+                    fontSize:15,
+                    color:'#4F4F4F',
+                    width:180,
+                    marginStart:0,marginEnd:24
+                } : [style.textStyleContent,{
                     marginStart:0,
-                    width:200,
+                    width:180,
                 }]}>{item.hadiah}</Text>
                 </View>
               </View>
@@ -126,7 +137,6 @@ const style = StyleSheet.create({
         fontWeight:'600',
     },
     textStyleContent:{
-        
         marginStart:24,
         fontSize:15,
         color:'#4F4F4F',

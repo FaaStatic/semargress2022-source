@@ -1,5 +1,6 @@
 import React, { useEffect, useState  } from 'react';
-import {SafeAreaView, View, Text, Image} from 'react-native';
+import {SafeAreaView, View, Text, Image, TouchableOpacity, Linking} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { Api } from '../../util/Api';
 
 export default function DetailPromo({navigation, route}){
@@ -11,7 +12,16 @@ export default function DetailPromo({navigation, route}){
         getPromoDetail();
     },[getPromoDetail]);
 
+    const onPressTertarik = () => {
 
+        if(response.link == ''){
+          Linking.openURL(response.gambar);
+        }else{
+          Linking.openURL(response.link);
+        }
+      };
+    
+    
     const getPromoDetail = async () =>{
 await Api.get(`merchant/view_promo_user/${id}`).then(res => {
     let body = res.data;
@@ -34,6 +44,11 @@ await Api.get(`merchant/view_promo_user/${id}`).then(res => {
 return(<View style={{
     flex:1,
 }}>
+    <ScrollView 
+    showsVerticalScrollIndicator={false}
+    style={{
+        flexGrow:1,
+    }}>
     <Image source={{uri : response.gambar}} style={{
         height:350,
         marginStart:'5%',
@@ -62,5 +77,28 @@ return(<View style={{
     }}>
    {response.keterangan}
     </Text>
+    <TouchableOpacity style={{
+         borderRadius: 8,
+         width: 250,
+         height: 45,
+         justifyContent: 'center',
+         alignSelf: 'center',
+         marginTop: 48,
+         marginBottom: 16,
+         backgroundColor: '#A57FF8'
+    }} onPress={onPressTertarik}>
+          <Text style={{
+            alignSelf: 'center',
+            fontSize: 16,
+            fontWeight: '500',
+            color: 'white',
+            textAlign:'center',
+            width:'100%',
+          }}
+          >Saya Tertarik</Text>
+        </TouchableOpacity>
+
+    </ScrollView>
+  
 </View>);
 }

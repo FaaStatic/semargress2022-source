@@ -276,9 +276,9 @@ export default function Home({ navigation, route }) {
           setUpdateAndroid(response.link_update);
           var buildVersion = response.build_version;
           setWajibAndroid(response.wajib);
-
+      
           // Android
-          if (Platform.OS === 'android' && buildVersion != DeviceInfo.getVersion()) {
+          if (Platform.OS == 'android' && buildVersion != DeviceInfo.getVersion() ) {
 
             let onlineVersion = parseFloat(buildVersion);
             let currentVersion = parseFloat(DeviceInfo.getVersion());
@@ -286,6 +286,7 @@ export default function Home({ navigation, route }) {
               setPesanUpdateAndroid(buildVersion);
               setBtnUpdateAndroid(true);
             }
+          
           }
         } else if (metadata.status === 401) {
 
@@ -428,11 +429,18 @@ export default function Home({ navigation, route }) {
                   flexDirection: 'row',
                   width: '100%',
                 }}>
-                  <Text style={{
+                  <Text style={Platform.OS === 'ios' ? {
                     color: 'grey',
                     fontSize: 13,
                     width: '85%',
-                    marginTop: 2,
+                    marginTop:4,
+                    marginStart: 6,
+                  } :{
+                    color: 'grey',
+                    fontSize: 13,
+                    width: '85%',
+                    textAlignVertical:'center',
+                    justifyContent:"center",
                     marginStart: 6,
                   }}>Cari Merchant</Text>
                   <Icon name="search" size={22} color="#4F4F4F" style={style.iconSearch} />
@@ -518,9 +526,11 @@ export default function Home({ navigation, route }) {
                   }}
                 >
                   <TouchableOpacity style={ Platform.OS === 'ios' ? {
-                      width:100,
+                      width:80,
                       marginStart:4,
-                      marginEnd:8,
+                      marginEnd:4,
+                      position:'absolute',
+                      right:0
                   } : style.btnStyleVoucher} onPress={() => {
                     navigation.navigate('VoucherHome');
                   }}>
@@ -788,6 +798,7 @@ const style = StyleSheet.create({
   iconSearch: {
     bottom: 0,
     right: 0,
+    position:'absolute',
     marginEnd: 16,
   },
   iconNotif: {
@@ -869,6 +880,9 @@ const style = StyleSheet.create({
     alignContent:'center',
     alignItems:'center',
     textAlign:'center',
+    position:'absolute',
+    right:0,
+    marginEnd:8,
   },
   textVoucherBtn: {
     color: 'white',

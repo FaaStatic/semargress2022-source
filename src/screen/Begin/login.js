@@ -373,11 +373,27 @@ export default function Login({ navigation }) {
 
   return (
 
-    <SafeAreaView style={style.conteiner2}>
+    <SafeAreaView style={{
+      flex:1,
+      width:'100%',
+      alignItems:'center',
+      backgroundColor:colors.primary,
+    }}>
 
-      <View style={[style.containerSplash, {
-        backgroundColor: colors.primary
-      }]}>
+      <View style={{
+        backgroundColor: colors.primary,
+        width:'100%',
+        flex:1,
+        flexDirection: 'column',
+        margin: 0,
+        padding: 0,
+        top: 0,
+        marginLeft:20,
+        marginRight:20,
+        backgroundColor:colors.primary,
+        alignItems:'center',
+        fontFamily:'NeutrifPro-Regular'
+      }}>
 
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -390,9 +406,9 @@ export default function Login({ navigation }) {
             style={{
               backgroundColor: 'white',
               width: '90%',
+              height:windowHeight+100,
               alignSelf:'center',
-              height: windowHeight - 100,
-              minHeight: windowHeight - 100,
+             marginBottom:150,
               marginTop: 50,
               borderRadius: 10,
               marginLeft: 20,
