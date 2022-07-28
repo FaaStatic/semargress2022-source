@@ -191,7 +191,7 @@ export default function EventDetail({ navigation, route }) {
         />
         <Text style={style.textStyleTitle}>{responseDetail.title}</Text>
 
-<WebView style={{height:SCREEN_HEIGHT/2.5, backgroundColor:'transparent'}} source={responseDetail.keterangan!== undefined && responseDetail.keterangan!== '' ? htmlRender : htmlFail} ></WebView>
+<WebView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} style={{minHeight:SCREEN_HEIGHT/2.5, backgroundColor:'transparent', flex:1,flexGrow:1, width:'100%'}} source={responseDetail.keterangan!== undefined && responseDetail.keterangan!== '' ? htmlRender : htmlFail} ></WebView>
 
 
 

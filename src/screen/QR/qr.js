@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Dimensions,
   TextInput,
+  ScrollView,
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
@@ -71,7 +72,8 @@ const Qr = ({navigation, route}) => {
   return (
 
     <SafeAreaView>
-      <View
+      <ScrollView
+      showsVerticalScrollIndicator={false}
         style={styles.container}
       >
 
@@ -248,7 +250,7 @@ const Qr = ({navigation, route}) => {
             </TouchableOpacity>
 
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -276,7 +278,6 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    height: '100%',
     flexDirection: 'column'
   },
   divMain : {

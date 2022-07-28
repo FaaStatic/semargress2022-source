@@ -283,7 +283,7 @@ export default function DetailListCategory({ navigation, route }) {
         );
       }else if(item.data.length === 2){
         return (
-          <View style={{ margin: 10, flexDirection:'row',alignSelf:'center' }}>
+          <View style={{ margin: 10, flexDirection:'row',alignSelf:'center', marginBottom:50,}}>
           <MerchanList item={item.data[0]} pressCall={moveDetail}/>
           <MerchanList item={item.data[1]} pressCall={moveDetail}/>
           </View>
@@ -339,7 +339,8 @@ export default function DetailListCategory({ navigation, route }) {
       ListFooterComponent={loadIndice}
       onEndReached={loadMore}
       style={style.listStyle}
-      contentContainerStyle={{ width:'100%'}}
+      contentContainerStyle={{ width:'100%',
+    marginBottom:20,}}
     />
    
     </SafeAreaView>
@@ -355,7 +356,7 @@ const style = StyleSheet.create({
   },
   listStyle: {
     width: '100%',
-    height:'100%',
+    
   },
   constainerLoading: {
     height: 100,
