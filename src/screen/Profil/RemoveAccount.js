@@ -91,6 +91,7 @@ export default function RemoveAccount({ navigation, route }) {
             fontSize:16,
             fontWeight:'600',
             color: '#4F4F4F',
+            fontFamily:"neutrifpro-regular",
             
           }}>Apa anda yakin ingin menghapus akun ?</Text>
           </View>
@@ -117,6 +118,7 @@ export default function RemoveAccount({ navigation, route }) {
                 fontSize:16,
                 fontWeight:'600',
                 width:'100%',
+                fontFamily:"neutrifpro-regular",
                 textAlign:'center',
               }}>Tidak</Text>
             </TouchableOpacity>
@@ -135,6 +137,7 @@ export default function RemoveAccount({ navigation, route }) {
                 fontSize:16,
                 fontWeight:'600',
                 width:'100%',
+                fontFamily:"neutrifpro-regular",
                 textAlign:'center',
               }}>Hapus</Text>
             </TouchableOpacity>
@@ -160,7 +163,7 @@ export default function RemoveAccount({ navigation, route }) {
           style={{
             marginTop: 36,
             width: 300,
-
+            fontFamily:"neutrifpro-regular",
             alignSelf: 'center',
             textAlign: 'left',
             fontSize: 13,
@@ -174,7 +177,7 @@ export default function RemoveAccount({ navigation, route }) {
           style={{
             marginTop: 10,
             width: 300,
-
+            fontFamily:"neutrifpro-regular",
             alignSelf: 'center',
             textAlign: 'left',
             fontSize: 13,
@@ -189,7 +192,7 @@ export default function RemoveAccount({ navigation, route }) {
           style={{
             marginTop: 10,
             width: 300,
-
+            fontFamily:"neutrifpro-regular",
             alignSelf: 'center',
             textAlign: 'left',
             fontSize: 13,
@@ -203,7 +206,7 @@ export default function RemoveAccount({ navigation, route }) {
           style={{
             marginTop: 10,
             width: 300,
-
+            fontFamily:"neutrifpro-regular",
             alignSelf: 'center',
             textAlign: 'left',
             fontSize: 13,
@@ -229,6 +232,7 @@ export default function RemoveAccount({ navigation, route }) {
               width: '100%',
               textAlign: 'center',
               color: '#A57FF8',
+              fontFamily:"neutrifpro-regular",
               fontWeight: '600',
             }}
           >

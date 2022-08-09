@@ -94,6 +94,7 @@ export default function FeedList({ item, pressCall }) {
         style={ aspect_ratio > 0.7 ? {
           flexDirection: 'row',
           marginTop: 8,
+          fontFamily:"neutrifpro-regular",
           marginStart: 8,
           marginEnd: 8,
           fontWeight: '300',
@@ -115,7 +116,7 @@ export default function FeedList({ item, pressCall }) {
               marginEnd: 4,
               color: colors.black,
               fontWeight: '300',
-              //fontFamily: 'NeutrifPro-Reguler'
+              fontFamily:"neutrifpro-regular",
             },
           ]}
         >
@@ -168,6 +169,7 @@ const style = StyleSheet.create({
   textHeader: {
     fontSize: 15,
     width: '100%',
+    fontFamily:"neutrifpro-regular",
     color: 'black',
     fontWeight: '600',
     marginStart: 17,
@@ -190,6 +192,7 @@ const style = StyleSheet.create({
     fontSize: 15,
     color: colors.black3,
     lineHeight: 20,
+    fontFamily:"neutrifpro-regular",
     flexGrow:1,
   },
 });

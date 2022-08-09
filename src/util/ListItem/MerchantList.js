@@ -47,6 +47,7 @@ const style = StyleSheet.create({
     fontSize: 13,
     fontWeight:'400',
     color: colors.black,
+    fontFamily:"neutrifpro-regular",
     width:SCREEN_WIDTH/2 - 25,
     marginTop:8,
     textAlign:'center',

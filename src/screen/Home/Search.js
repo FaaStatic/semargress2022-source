@@ -244,7 +244,7 @@ export default function Search({ navigation, route }) {
                     fontSize: 24,
                     fontWeight: '800',
                     color: 'black',
-                    fontFamily: 'NeutrifPro-Regular',
+                    fontFamily:"neutrifpro-regular",
                     alignSelf: 'center',
                     textAlign: 'center',
                   }}

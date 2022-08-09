@@ -125,6 +125,7 @@ export default function Router() {
                       color: 'black',
                       alignSelf: 'center',
                       fontSize: 18,
+                      fontFamily:"neutrifpro-regular",
                       width: '50%',
                       textAlign: 'center',
                       fontWeight: '600',
@@ -289,6 +290,7 @@ export default function Router() {
                       alignSelf: 'center',
                       fontSize: 18,
                       width: '75%',
+                      fontFamily:"neutrifpro-regular",
                       textAlign: 'center',
                       fontWeight: 'bold',
                     }}
@@ -485,6 +487,7 @@ export default function Router() {
                       alignSelf: 'center',
                       fontSize: 18,
                       width: '75%',
+                      fontFamily:"neutrifpro-regular",
                       textAlign: 'center',
                       fontWeight: 'bold',
                     }}
@@ -535,6 +538,7 @@ export default function Router() {
                       fontSize: 18,
                       width: '75%',
                       textAlign: 'center',
+                      fontFamily:"neutrifpro-regular",
                       fontWeight: 'bold',
                     }}
                   >

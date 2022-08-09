@@ -5,11 +5,11 @@ import {
   StyleSheet,
   Image,
   SafeAreaView,
-  Dimensions,
   TextInput,
   ScrollView,
   TouchableOpacity,
   ImageBackground,
+  Dimensions
 } from 'react-native';
 import {Api} from '../../util/Api';
 import  {SessionManager}  from '../../util/SessionManager';
@@ -19,6 +19,8 @@ import {colors} from '../../util/color'
 import AntIcon from 'react-native-vector-icons/AntDesign'
 import SimpleIcon from 'react-native-vector-icons/SimpleLineIcons';
 
+
+const {height : viewHeight} = Dimensions.get('window');
 const Qr = ({navigation, route}) => {
 
   const [data, setData] = useState([]);
@@ -71,10 +73,15 @@ const Qr = ({navigation, route}) => {
 
   return (
 
-    <SafeAreaView>
+    <SafeAreaView style={{
+      flex:1,
+    }}>
       <ScrollView
+      
       showsVerticalScrollIndicator={false}
-        style={styles.container}
+        style={[styles.container,{
+       
+        }]}
       >
 
         <Text style={styles.title} >QR Code</Text>
@@ -122,6 +129,7 @@ const Qr = ({navigation, route}) => {
               <Text
                 style={{
                   color: colors.white,
+                  fontFamily:"neutrifpro-regular",
                   fontSize:18,
                   fontWeight:'700'
                 }}
@@ -131,6 +139,7 @@ const Qr = ({navigation, route}) => {
                 style={{
                   color:'white',
                   fontSize:14,
+                  fontFamily:"neutrifpro-regular",
                   marginTop:8,
                   fontWeight:'100',
                 }}
@@ -152,12 +161,15 @@ const Qr = ({navigation, route}) => {
                       width:100,
                       color:'white',
                       fontSize:16,
-                      marginEnd:12,
+                      fontWeight:'600',
+                      fontFamily:"neutrifpro-regular",
+                      width:100,
                       textAlign:'right',
+                      paddingRight:10,
                     }}
                   >Lihat QR</Text>
 
-                  <AntIcon name='right' size={20} color={'#FFFFFF'}/>
+<SimpleIcon name="arrow-right" size={14 } color={'white'} style={{}} />
             </TouchableOpacity>
         </ImageBackground>
 
@@ -207,8 +219,10 @@ const Qr = ({navigation, route}) => {
               <Text
                 style={{
                   color: colors.primary,
+                  fontFamily:"neutrifpro-regular",
                   fontSize:18,
                   fontWeight:'700'
+
                 }}
               >Scan QR Code</Text>
 
@@ -217,6 +231,7 @@ const Qr = ({navigation, route}) => {
                   color: colors.primary,
                   fontSize:14,
                   marginTop:8,
+                  fontFamily:"neutrifpro-regular",
                   fontWeight:'400',
                 }}
               >1. Masukan nominal belanja dan cara bayar
@@ -240,12 +255,13 @@ const Qr = ({navigation, route}) => {
                       color:colors.primary,
                       fontSize:16,
                       fontWeight:'600',
+                      fontFamily:"neutrifpro-regular",
                       width:100,
                       textAlign:'right',
                       paddingRight:10,
                     }}
                   >Scan QR </Text>
-                  <SimpleIcon name="arrow-right" size={14  } color={colors.primary} style={{}} />
+                  <SimpleIcon name="arrow-right" size={14 } color={colors.primary} style={{}} />
                   
             </TouchableOpacity>
 
@@ -271,6 +287,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     width:'100%',
     textAlign:'center',
+    fontFamily:"neutrifpro-regular",
     marginTop:31,
     fontSize:25,
     fontWeight:'600',
@@ -278,11 +295,13 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '100%',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    flexGrow:1,
   },
   divMain : {
     marginTop:43,
     padding:24,
+    flexGrow:1,
     marginLeft: 24,
     marginRight: 24,
     overflow:'hidden',

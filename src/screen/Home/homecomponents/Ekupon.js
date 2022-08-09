@@ -180,6 +180,7 @@ export default function EKupon({ navigation, route }) {
         color: '#333333',
         fontWeight: '600',
         width: '100%',
+        fontFamily:"neutrifpro-regular",
         fontSize: 16,
         marginStart: 18,
 

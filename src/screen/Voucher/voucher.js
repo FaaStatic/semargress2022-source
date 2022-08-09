@@ -225,6 +225,7 @@ const Voucher = ({ navigation, route }) => {
                 width: '100%',
                 marginTop: '16%',
                 fontSize: 20,
+                fontFamily:"neutrifpro-regular",
                 fontWeight:'700',
                 color: colors.white,
               }}
@@ -236,6 +237,7 @@ const Voucher = ({ navigation, route }) => {
                 width: '100%',
                 fontSize: 14,
                 color: colors.white,
+                fontFamily:"neutrifpro-regular",
                 marginTop: 4,
               }}
               numberOfLines={1}
@@ -246,6 +248,7 @@ const Voucher = ({ navigation, route }) => {
                 width: '100%',
                 fontSize: 20,
                 fontWeight:'600',
+                fontFamily:"neutrifpro-regular",
                 color: colors.white,
                 marginTop: 4,
               }}
@@ -267,6 +270,7 @@ const Voucher = ({ navigation, route }) => {
             style={{
               width: '100%',
               color:colors.black3,
+              fontFamily:"neutrifpro-regular",
               marginLeft:defaultMargin,
               marginRight:defaultMargin,
               fontSize:20,
@@ -280,6 +284,7 @@ const Voucher = ({ navigation, route }) => {
             style={{
               width: '100%',
               color:colors.black3,
+              fontFamily:"neutrifpro-regular",
               marginLeft:defaultMargin,
               marginRight:defaultMargin,
               fontSize:14,
@@ -309,6 +314,7 @@ const Voucher = ({ navigation, route }) => {
                   width: '100%',
                   color:colors.black3,
                   fontSize:18,
+                  fontFamily:"neutrifpro-regular",
                   fontWeight:'600',
                 }}
               >Detail dan Cara Penggunaan</Text>
@@ -338,6 +344,7 @@ const Voucher = ({ navigation, route }) => {
                   marginTop:10,
                   fontSize:15,
                   fontWeight:'400',
+                  fontFamily:"neutrifpro-regular",
                   color:colors.black3,
                 }}
               >{data.syarat}</Text>
@@ -364,6 +371,7 @@ const Voucher = ({ navigation, route }) => {
                   color:colors.black3,
                   fontSize:18,
                   fontWeight:'600',
+                  fontFamily:"neutrifpro-regular",
                   
                 }}
               >Syarat dan Ketentuan</Text>
@@ -392,6 +400,7 @@ const Voucher = ({ navigation, route }) => {
                 style={{
                   width: '100%',
                   marginTop:10,
+                  fontFamily:"neutrifpro-regular",
                   fontSize:15,
                   fontWeight:'400',
                   color:colors.black3,
@@ -425,9 +434,9 @@ const Voucher = ({ navigation, route }) => {
 
           <View style={{flex:1}} >
               <Text style={{
-                color:'#4F4F4F', fontSize:16, fontWeight:'400',marginBottom:4,
+                color:'#4F4F4F', fontSize:16,fontFamily:"neutrifpro-regular", fontWeight:'400',marginBottom:4,
               }}>Berlaku Hingga</Text>
-              <Text style={{color:'#B60D00', fontSize:18, fontWeight:'600'}}>{moment(data.valid_end,"YYYY-MM-DD hh:mm:ss").format("DD MMMM YYYY")}</Text>
+              <Text style={{color:'#B60D00',fontFamily:"neutrifpro-regular", fontSize:18, fontWeight:'600'}}>{moment(data.valid_end,"YYYY-MM-DD hh:mm:ss").format("DD MMMM YYYY")}</Text>
           </View>
 
           <View style={{right:0}} >
@@ -449,6 +458,7 @@ const Voucher = ({ navigation, route }) => {
                   style={{
                     color:colors.white,
                     fontWeight:'500',
+                    fontFamily:"neutrifpro-regular",
                     width:100,
                     textAlign:'center'
                   }}

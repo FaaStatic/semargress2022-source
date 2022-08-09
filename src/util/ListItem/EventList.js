@@ -70,5 +70,6 @@ const style = StyleSheet.create({
         color:'black',
         width:'90%',
         marginEnd:8,
+        fontFamily:"neutrifpro-regular",
     }
 })

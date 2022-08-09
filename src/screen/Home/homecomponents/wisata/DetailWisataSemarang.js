@@ -233,6 +233,7 @@ export default function DetailWisataSemarang({ navigation, route }) {
             <Text
               numberOfLines={6}  style={[styling.itemTextDetail,{
                 width:'75%',
+                fontFamily:"neutrifpro-regular",
              }]}
             >
               {detailResponse.alamat ? detailResponse.alamat : '-' }
@@ -399,11 +400,13 @@ const styling = StyleSheet.create({
     color: '#0f2e63',
     marginStart: 16,
     marginTop: 4,
+    fontFamily:"neutrifpro-regular",
   },
   headerTextDetail: {
     fontSize: 18,
     width:'100%',
     fontWeight: 'bold',
+    fontFamily:"neutrifpro-regular",
     color: '#0f2e63',
     marginTop: 16,
     marginStart: 16,

@@ -58,5 +58,6 @@ const style = StyleSheet.create({
         color:colors.black3,
         fontWeight:'600',
         marginStart:16,
+        fontFamily:"neutrifpro-regular",
     }
 })

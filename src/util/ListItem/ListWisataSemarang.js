@@ -28,6 +28,7 @@ const style = StyleSheet.create({
     textNama:{
         position:'absolute',
         fontSize:14,
+        fontFamily:"neutrifpro-regular",
         fontWeight:'bold',
         bottom:0,
         textAlign:'center',

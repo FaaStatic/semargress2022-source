@@ -92,7 +92,7 @@ const About = ({navigation, route}) => {
           showsVerticalScrollIndicator={false}
         >
 
-          <Text style={{fontSize:15, fontWeight:'600',color:colors.black3,lineHeight:25,}}>{isi}</Text>
+          <Text style={{fontSize:15, fontWeight:'600',color:colors.black3,lineHeight:25,fontFamily:"neutrifpro-regular",}}>{isi}</Text>
         </ScrollView>
       </View>
 

@@ -125,7 +125,7 @@ const DetailQR = ({navigation, route}) => {
             }}
         >
             <Text
-                style={{color:colors.white, textAlign:'center', marginTop:'5%'}}
+                style={{color:colors.white, textAlign:'center',fontFamily:"neutrifpro-regular", marginTop:'5%'}}
             >Tunjukan QR code anda kepada petugas merchant untuk dilakukan proses scan</Text>
 
             <View
@@ -154,6 +154,7 @@ const DetailQR = ({navigation, route}) => {
                         color:colors.black,
                         fontSize:20,
                         width:'100%',
+                        fontFamily:"neutrifpro-regular",
                         textAlign:'center',
                     }}
                 >SCAN QR CODE</Text>
@@ -192,6 +193,7 @@ const DetailQR = ({navigation, route}) => {
                             style={{
                                 color:colors.white,
                                 padding:10,
+                                fontFamily:"neutrifpro-regular",
                                 textAlign:'center',
                             }}
                         >Harap Lengkapi Profile Terlebih Dahulu</Text>

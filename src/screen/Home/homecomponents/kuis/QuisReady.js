@@ -210,6 +210,7 @@ const style = StyleSheet.create({
     fontWeight: '600',
     color: 'white',
     alignSelf: 'center',
+    fontFamily:"neutrifpro-regular",
   },
   textBtnCancel: {
     fontSize: 14,
@@ -217,6 +218,7 @@ const style = StyleSheet.create({
     fontWeight: '600',
     color: 'black',
     marginTop: 8,
+    fontFamily:"neutrifpro-regular",
     alignSelf: 'center',
   },
   textHeader: {
@@ -224,6 +226,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     fontSize: 24,
     margin: 16,
+    fontFamily:"neutrifpro-regular",
     textAlign: 'center',
   },
   textInputStyle: {
@@ -237,6 +240,7 @@ const style = StyleSheet.create({
     fontSize: 10,
     color: 'black',
     marginStart: 16,
+    fontFamily:"neutrifpro-regular",
     marginBottom: 16,
   },
 });

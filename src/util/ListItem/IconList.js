@@ -44,6 +44,7 @@ export default function IconList({item, Press}) {
         width:'100%',
         textAlign:'center',
         fontSize: 12,
+        fontFamily:"neutrifpro-regular",
         color: 'black',
         alignSelf: 'center',
       },

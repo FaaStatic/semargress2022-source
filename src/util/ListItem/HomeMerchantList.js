@@ -47,6 +47,7 @@ const style = StyleSheet.create({
         marginTop:4,
         width:120,
         color:'black',
+        fontFamily:"neutrifpro-regular",
         position:'absolute',
         alignSelf:'center',
         textAlign:'center',

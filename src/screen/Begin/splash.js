@@ -114,7 +114,7 @@ export default function Splash({ navigation }) {
           color: 'black',
           fontWeight: 'bold',
           bottom: 0,
-          fontFamily: 'NeutrifPro-Regular',
+          fontFamily:"neutrifpro-regular",
           alignSelf: 'center',
           position: 'absolute',
           marginBottom: 36,

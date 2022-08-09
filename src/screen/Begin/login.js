@@ -32,11 +32,13 @@ import { ShowSuccess, ShowError, ShowWarning } from '../../util/ShowMessage';
 import { colors } from '../../util/color';
 import jwt_decode from 'jwt-decode';
 import appleAuth, { AppleButton } from '@invertase/react-native-apple-authentication';
+import { ScreenHeight } from '@rneui/base';
 
 
 let time = 0;
 
 let windowHeight = Dimensions.get('window').height;
+
 export default function Login({ navigation }) {
   const [telp, setTelp] = useState('');
   const [otp, setOtp] = useState();
@@ -395,20 +397,28 @@ export default function Login({ navigation }) {
         fontFamily:'NeutrifPro-Regular'
       }}>
 
-        <ScrollView
+        {/* <ScrollView
           showsVerticalScrollIndicator={false}
           style={{
             width: '100%',
+            height: 100,
+            backgroundColor:'red'
           }}
-        >
+        > */}
 
-          <View
+          <ScrollView
+          scrollEnabled={true}
+          contentContainerStyle={{
+            flexGrow: 1,
+            alignSelf:'center',
+            height:windowHeight+(windowHeight/10),
+            width:'100%'
+          }}
+          showsVerticalScrollIndicator={false}
             style={{
               backgroundColor: 'white',
               width: '90%',
-              height:windowHeight+100,
               alignSelf:'center',
-             marginBottom:150,
               marginTop: 50,
               borderRadius: 10,
               marginLeft: 20,
@@ -502,7 +512,7 @@ export default function Login({ navigation }) {
                         textAlign:'center',
                         marginRight:18,
                         fontSize: 16,
-                        fontFamily:'NeutrifPro-Regular',
+                        fontFamily:"neutrifpro-regular",
                         fontWeight: '600',
                       }]}>Sign in with Apple</Text>
                     </TouchableOpacity>
@@ -514,7 +524,7 @@ export default function Login({ navigation }) {
                       marginRight:20,
                       paddingLeft:10,
                       fontSize: 16,
-                      fontFamily:'NeutrifPro-Regular',
+                      fontFamily:"neutrifpro-regular",
                       fontWeight: '600',
                       position:'absolute',
                     }]}>Sign in with Apple</Text>
@@ -544,8 +554,8 @@ export default function Login({ navigation }) {
                   })} */}
                 </View>
             }
-          </View>
-        </ScrollView>
+          </ScrollView>
+        {/* </ScrollView> */}
 
       </View>
 
@@ -664,7 +674,7 @@ export default function Login({ navigation }) {
         </View>
       </Modal>
 
-      <Image style={{ resizeMode: 'stretch', width: '100%', height: 130, position: 'absolute', bottom: 0, }} source={require('../../assets/bg_bottom.png')}></Image>
+      <Image style={{ resizeMode: 'stretch', width: '100%', height: 130, position: 'absolute', bottom: -10, }} source={require('../../assets/bg_bottom.png')}></Image>
     </SafeAreaView>
 
   );
@@ -679,6 +689,10 @@ const styling = StyleSheet.create({
     paddingLeft: 20,
     alignSelf: 'center',
     marginTop: 24,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 1,  
     backgroundColor: 'white',
     borderRadius: 8,
     elevation: 4,
@@ -698,7 +712,8 @@ const styling = StyleSheet.create({
     textAlign:'center',
     width:'100%',
     fontWeight: '400',
+    fontFamily:"neutrifpro-regular",
     color: colors.black3,
   },
-  textStyle: { alignSelf: 'center' },
+  textStyle: { alignSelf: 'center',fontFamily:"neutrifpro-regular",},
 })

@@ -168,6 +168,7 @@ const movePromo = () => {
         textAlign:'center',
         alignSelf:'center',
         fontWeight:'600',
+        fontFamily:"neutrifpro-regular",
       }}>Maaf Data Merchant Belum Ada</Text>  : 
       <ScrollView style={styling.containerScroll} showsVerticalScrollIndicator={false}>
         <View style={styling.constainerHeader}>
@@ -201,7 +202,7 @@ const movePromo = () => {
                 marginBottom: 12,
                 fontWeight: '600',
                 textAlignVertical:'center',
-                fontFamily:'NeutrifPro-Regular',
+                fontFamily:"neutrifpro-regular",
               }}
             >
               Promo yang Sedang Berlangsung
@@ -223,6 +224,7 @@ const movePromo = () => {
                 marginBottom: 12,
                 fontWeight: '600',
                 width:75,
+                fontFamily:"neutrifpro-regular",
                 alignSelf:'flex-end',
                 textAlign:'right'
               }}>lihat semua</Text>
@@ -254,7 +256,7 @@ const movePromo = () => {
                   alignSelf: 'center',
                   height: 75,
                   marginTop: 28,
-                  fontFamily:'NeutrifPro-Regular',
+                  fontFamily:"neutrifpro-regular",
                 }}
               >
                 Tidak Ada Promo Tersedia!
@@ -361,7 +363,7 @@ const movePromo = () => {
               top: 0,
             }}
           >
-            <Text style={{ color: 'grey', fontSize: 12, marginStart: 16, marginTop: 16,  fontFamily:'NeutrifPro-Regular', }}>
+            <Text style={{ color: 'grey', fontSize: 12, marginStart: 16, marginTop: 16,  fontFamily:"neutrifpro-regular", }}>
               Diskon Yang Diberikan
             </Text>
             <Text
@@ -369,14 +371,14 @@ const movePromo = () => {
             numberOfLines={wordLength}
             style={ wordLength == 2 ? {
               color: 'black',
-              fontFamily:'NeutrifPro-Regular',
+              ffontFamily:'neutrifpro-regular',
               fontSize: 16,
               fontWeight: 'bold',
               marginStart: 16,
               marginEnd: 16,
             } : {
               color: 'black',
-              fontFamily:'NeutrifPro-Regular',
+              fontFamily:"neutrifpro-regular",
               fontSize: 13,
               fontWeight: 'bold',
               marginStart: 16,
@@ -410,7 +412,7 @@ const movePromo = () => {
               marginBottom: 36,
             }}
           >
-            <Text numberOfLines={1} style={{ color: 'grey', fontSize: 12, marginStart: 16, marginBottom: 8 }}>
+            <Text numberOfLines={1} style={{ color: 'grey', fontSize: 12, marginStart: 16, marginBottom: 8,fontFamily:"neutrifpro-regular", }}>
               Diskon Pengguna Aplikasi
             </Text>
           
@@ -419,14 +421,14 @@ const movePromo = () => {
             onTextLayout={onTextLayout}
               style={ wordLength == 2 ? {
                 color: 'black',
-                fontFamily:'NeutrifPro-Regular',
+                fontFamily:"neutrifpro-regular",
                 fontSize: 16,
                 fontWeight: 'bold',
                 marginStart: 16,
                 marginEnd: 16,
               } : {
                 color: 'black',
-                fontFamily:'NeutrifPro-Regular',
+                fontFamily:"neutrifpro-regular",
                 fontSize: 13,
                 fontWeight: 'bold',
                 marginStart: 16,
@@ -463,7 +465,7 @@ const styling = StyleSheet.create({
   itemTextDetail:{
     fontSize:14,
     color:'#0f2e63',
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     marginStart:16,
     marginTop:4,
   },
@@ -472,7 +474,7 @@ const styling = StyleSheet.create({
     fontWeight:'bold',
     color:'#0f2e63',
     marginTop:16,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     marginStart:16,
     marginBottom:16,
 
@@ -529,7 +531,7 @@ const styling = StyleSheet.create({
   containerTitle: {
     flexDirection: 'row',
     justifyContent: 'center',
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     width: '100%',
     marginEnd: 16,
   },
@@ -542,7 +544,7 @@ const styling = StyleSheet.create({
     color: 'white',
     alignSelf: 'center',
     textAlign:'center',
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     marginEnd: windowWidth / 4,
   },
   styleImage: {

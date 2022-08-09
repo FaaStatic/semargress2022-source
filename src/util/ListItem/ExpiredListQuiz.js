@@ -46,6 +46,7 @@ export default function ExpiredListQuiz({item}){
                     fontWeight:'600',
                     color:'black',
                     marginTop:4,
+                    fontFamily:"neutrifpro-regular",
                 }}>Hadiah: </Text>{item.hadiah}</Text>
                   <View style={{
                 borderRadius:15,
@@ -89,12 +90,14 @@ export default function ExpiredListQuiz({item}){
                     fontSize:15,
                     color:'#4F4F4F',
                     fontWeight:'600',
+                    fontFamily:"neutrifpro-regular",
                 } : [style.textStyleContent,{
                     fontWeight:'600',
                 }]}>Hadiah </Text> {Platform.OS === 'ios' ? `\t: `:`\t\t\t:`} </Text><Text style={ Platform.OS === 'ios' ?  {
                     marginStart:24,
                     fontSize:15,
                     color:'#4F4F4F',
+                    fontFamily:"neutrifpro-regular",
                     width:180,
                     marginStart:0,marginEnd:24
                 } : [style.textStyleContent,{
@@ -127,7 +130,8 @@ const style = StyleSheet.create({
     },
     containerHeaderText:{
         flexDirection:'column',
-        width:'100%'
+        width:'100%',
+        fontFamily:"neutrifpro-regular",
     },
     textHeader:{
         width:'100%',
@@ -135,10 +139,12 @@ const style = StyleSheet.create({
         fontSize:18,
         color:'#3B237E',
         fontWeight:'600',
+        fontFamily:"neutrifpro-regular",
     },
     textStyleContent:{
         marginStart:24,
         fontSize:15,
+        fontFamily:"neutrifpro-regular",
         color:'#4F4F4F',
     },
     containerHadiah : {

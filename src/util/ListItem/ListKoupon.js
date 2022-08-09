@@ -64,6 +64,7 @@ export default function ListKoupon({data}){
         <Text style={{
                 color:'black',
                 width:'100%',
+                fontFamily:"neutrifpro-regular",
                 fontSize:15,
                 fontWeight:'600',
                 marginStart:20,
@@ -73,6 +74,7 @@ export default function ListKoupon({data}){
               <Text style={{
                 color:'black',
                 width:'100%',
+                fontFamily:"neutrifpro-regular",
                 textAlign:'right',
                 position:'absolute',
                 right:0,
@@ -97,6 +99,7 @@ export default function ListKoupon({data}){
             position:'absolute',
             width:'100%',
             textAlign:'center',
+            fontFamily:"neutrifpro-regular",
             fontSize:14,
             fontWeight:'bold',
             color:'white',

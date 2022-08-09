@@ -230,7 +230,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     color: 'white',
     marginTop: 16,
   },

@@ -91,6 +91,7 @@ export default function KuisListItem({ item, onModal }) {
           <Text style={{
             fontWeight:'600',
             width:'100%',
+            fontFamily:"neutrifpro-regular",
           }}>Pertanyan</Text> : {item.soal}
         </Text>
         <Text style={style.textStyle}><Text style={[style.textStyle,{
@@ -124,6 +125,7 @@ const style = StyleSheet.create({
     marginStart: 16,
     fontSize: 16,
     marginTop:4,
+    fontFamily:"neutrifpro-regular",
     marginBottom:4,
     fontWeight: '600',
     color: '#3B237E',
@@ -135,10 +137,12 @@ const style = StyleSheet.create({
     fontWeight:'400',
     fontSize: 12,
     width:'100%',
+    fontFamily:"neutrifpro-regular",
   },
    textStyle: {
     marginStart: 16,
     color: '#333333',
+    fontFamily:"neutrifpro-regular",
     fontSize: 15,
     width:'75%'
   },

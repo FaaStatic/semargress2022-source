@@ -169,7 +169,7 @@ const ScanQR = ({ navigation, route }) => {
           >
             <Text style={styles.mainTitle}>Pembayaran</Text>
 
-            <Text style={[{ marginTop: 30 }, styles.subTitle]}>Masukkan Nominal Belanja</Text>
+            <Text style={[{ marginTop: 30,fontFamily:"neutrifpro-regular", }, styles.subTitle]}>Masukkan Nominal Belanja</Text>
 
             <CurrencyInput
               onChangeValue={setNominal}
@@ -266,6 +266,7 @@ const ScanQR = ({ navigation, route }) => {
                   color: colors.white,
                   padding: 10,
                   width: '100%',
+                  fontFamily:"neutrifpro-regular",
                   textAlign: 'center',
                 }}
               >
@@ -292,6 +293,7 @@ const ScanQR = ({ navigation, route }) => {
                 style={{
                   color: '#828282',
                   padding: 10,
+                  fontFamily:"neutrifpro-regular",
                 }}
               >
                 Batal
@@ -405,6 +407,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     width:'100%',
     textAlign:'center',
+    fontFamily:"neutrifpro-regular",
     color: colors.black3,
     marginTop: '3%',
     alignSelf: 'center',
@@ -414,9 +417,11 @@ const styles = StyleSheet.create({
     color: colors.black3,
     fontSize: 15,
     fontWeight: '400',
+    fontFamily:"neutrifpro-regular",
   },
   subTitle2: {
     color: colors.black3,
+    fontFamily:"neutrifpro-regular",
     fontSize: 16,
     flex: 1,
   },

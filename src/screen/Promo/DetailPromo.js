@@ -60,7 +60,7 @@ return(<View style={{
     <Text style={{
         fontSize:20,
         color:'#4F4F4F',
-        //fontFamily:'NeutrifPro-Reguler',
+        fontFamily:"neutrifpro-regular",
         fontWeight:'600',
         marginTop:22,
         marginStart:'5%',
@@ -69,7 +69,7 @@ return(<View style={{
     <Text style={{
          fontSize:13,
          color:'#4F4F4F',
-         //fontFamily:'NeutrifPro-Reguler',
+         fontFamily:"neutrifpro-regular",
          fontWeight:'400',
          marginTop:8,
          marginStart:'5%',
@@ -90,6 +90,7 @@ return(<View style={{
           <Text style={{
             alignSelf: 'center',
             fontSize: 16,
+            fontFamily:"neutrifpro-regular",
             fontWeight: '500',
             color: 'white',
             textAlign:'center',

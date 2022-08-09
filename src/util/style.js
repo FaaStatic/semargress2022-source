@@ -57,7 +57,7 @@ const style = StyleSheet.create({
     marginBottom: 16,
     textAlign: 'center',
     color: 'black',
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     fontSize: 14,
   },
   btnStyleLogin: {

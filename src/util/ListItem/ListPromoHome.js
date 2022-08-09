@@ -47,6 +47,7 @@ const style = StyleSheet.create({
         fontWeight:'bold',
         color:'black',
         width:'90%',
+        fontFamily:"neutrifpro-regular",
         lineHeight:20
     }
 })

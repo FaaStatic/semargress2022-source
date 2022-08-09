@@ -155,6 +155,7 @@ export default function ListVoucher({ item, PressCall }) {
                   width: '100%',
                   marginTop: '16%',
                   fontSize: 20,
+                  fontFamily:"neutrifpro-regular",
                   fontWeight:'700',
                   color: colors.white,
                 }}
@@ -165,6 +166,7 @@ export default function ListVoucher({ item, PressCall }) {
                 style={{
                   fontSize: 14,
                   width: '100%',
+                  fontFamily:"neutrifpro-regular",
                   color: colors.white,
                   marginTop: 4,
                 }}
@@ -175,6 +177,7 @@ export default function ListVoucher({ item, PressCall }) {
                 style={{
                   fontSize: 20,
                   width: '100%',
+                  fontFamily:"neutrifpro-regular",
                   fontWeight:'600',
                   color: colors.white,
                   marginTop: 4,
@@ -235,6 +238,7 @@ const style = StyleSheet.create({
     width: '100%',
     fontWeight:'600',
     marginTop: 4,
+    fontFamily:"neutrifpro-regular",
     alignSelf: 'flex-start',
   },
   textContainer :{

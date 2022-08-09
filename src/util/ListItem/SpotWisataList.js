@@ -49,6 +49,7 @@ const style = StyleSheet.create({
         width:'100%',
         color:colors.white,
         bottom:0,
+        fontFamily:"neutrifpro-regular",
         textAlign:'center',
         alignSelf:'center',
         marginBottom:8,

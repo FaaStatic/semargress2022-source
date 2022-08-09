@@ -82,16 +82,19 @@ function changeDate(data){
                     fontSize:16,
                     fontWeight:'400',
                     color:'black',
+                    fontFamily:"neutrifpro-regular",
                     marginStart:75,
                     width:240,marginBottom:4,
                 }]}><Text style={{
                     fontSize:16,
+                    fontFamily:"neutrifpro-regular",
                     fontWeight:'600',
                     color:'black',
                 }}>Pertanyaan: </Text>{item.soal}</Text>
                 <Text style={[style.textStyleContent,{
                     fontSize:16,
                     fontWeight:'400',
+                    fontFamily:"neutrifpro-regular",
                     color:'black',
                     marginStart:75,
                     width:'50%'
@@ -100,6 +103,7 @@ function changeDate(data){
                     fontWeight:'600',
                     color:'black',
                     marginTop:4,
+                    fontFamily:"neutrifpro-regular",
                     width:'50%'
                 }}>Hadiah: </Text>{item.hadiah}</Text>
                 <Text style={{
@@ -107,12 +111,14 @@ function changeDate(data){
                     marginTop:12,
                     color:'#FB44A0',
                     marginStart:75,
+                    fontFamily:"neutrifpro-regular",
                     fontWeight:'600',
                     marginBottom:4,
                 }}>Jawaban Kamu</Text>
                 <Text style={{
                     fontSize:13,
                     fontWeight:'400',
+                    fontFamily:"neutrifpro-regular",
                     marginStart:75,
                     color:'black',
                     marginBottom:20,
@@ -147,6 +153,7 @@ const style = StyleSheet.create({
         width:'100%',
         marginStart:8,
         fontSize:16,
+        fontFamily:"neutrifpro-regular",
         marginBottom:4,
         color:'#3B237E',
         fontWeight:'bold',
@@ -168,6 +175,7 @@ const style = StyleSheet.create({
         color: '#828282',
         marginBottom: 4,
         fontWeight:'400',
+        fontFamily:"neutrifpro-regular",
         fontSize: 12,
       },
       textStyleContent:{

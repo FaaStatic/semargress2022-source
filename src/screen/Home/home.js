@@ -435,10 +435,12 @@ export default function Home({ navigation, route }) {
                     width: '85%',
                     marginTop:4,
                     marginStart: 6,
+                    fontFamily:"neutrifpro-regular",
                   } :{
                     color: 'grey',
                     fontSize: 13,
                     width: '85%',
+                    fontFamily:"neutrifpro-regular",
                     textAlignVertical:'center',
                     justifyContent:"center",
                     marginStart: 6,
@@ -633,7 +635,7 @@ export default function Home({ navigation, route }) {
               fontSize: 20,
               fontWeight: '600',
               color: '#333333',
-              //fontFamily: 'NeutrifPro-Reguler',
+              fontFamily:"neutrifpro-regular",
               marginStart: 18,
               marginTop: 40,
 
@@ -641,7 +643,7 @@ export default function Home({ navigation, route }) {
               fontSize: 20,
               fontWeight: '600',
               color: '#333333',
-              //fontFamily: 'NeutrifPro-Reguler',
+              fontFamily:"neutrifpro-regular",
               marginStart: 18,
               marginTop: 40,
 
@@ -672,7 +674,7 @@ export default function Home({ navigation, route }) {
         <View
           style={{ width: '100%', backgroundColor: 'red', position: 'absolute', top: 0, padding: 8 }}
         >
-          <Text style={{ width: '100%',color: 'white', textAlign: 'center' }}>{Environment.ENV}</Text>
+          <Text style={{ width: '100%',color: 'white', textAlign: 'center',fontFamily:"neutrifpro-regular", }}>{Environment.ENV}</Text>
         </View>}
 
       {btnUpdateAndroid && (
@@ -683,14 +685,14 @@ export default function Home({ navigation, route }) {
           <View style={{ backgroundColor: 'rgba(52, 52, 52, 0.8)', flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <View style={{ borderRadius: 12, backgroundColor: 'white', elevation: 3, paddingTop: 24, paddingLeft: 16, paddingRight: 16, paddingBottom: 24, alignItems: 'center' }}>
               <Image source={require('../../assets/logo.png')} style={{ height: 120, width: 120, resizeMode: 'contain' }} />
-              <Text style={{ width: 220, textAlign: 'center', marginTop: 10, fontSize: 14, fontWeight: '300', }}>Versi {pesanUpdateAndroid} Telah Tersedia di Playstore</Text>
+              <Text style={{ width: 220, textAlign: 'center', marginTop: 10, fontSize: 14, fontWeight: '300',fontFamily:"neutrifpro-regular", }}>Versi {pesanUpdateAndroid} Telah Tersedia di Playstore</Text>
               <TouchableOpacity style={{ height: 38, width: 150, backgroundColor: '#FF0000', alignItems: 'center', justifyContent: 'center', marginTop: 22, borderRadius: 100 }} onPress={() => Linking.openURL(linkUpdateAndroid)}>
-                <Text style={{ fontSize: 14, color: 'white' }}>Perbarui</Text>
+                <Text style={{ fontSize: 14, color: 'white',fontFamily:"neutrifpro-regular", }}>Perbarui</Text>
               </TouchableOpacity>
 
               {wajibAndroid == "0" &&
                 <TouchableOpacity style={{ height: 38, width: 150, backgroundColor: '#f5b342', alignItems: 'center', justifyContent: 'center', marginTop: 22, borderRadius: 100 }} onPress={() => { setBtnUpdateAndroid(false) }}>
-                  <Text style={{ fontSize: 14, color: 'white' }}>Lewati</Text>
+                  <Text style={{ fontSize: 14,fontFamily:"neutrifpro-regular", color: 'white' }}>Lewati</Text>
                 </TouchableOpacity>
               }
             </View>
@@ -735,7 +737,7 @@ const style = StyleSheet.create({
   },
   textAllFooter: {
     fontSize: 16,
-    fontFamily: 'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     fontWeight: 'bold',
     alignSelf: 'center',
     textAlign: 'center',
@@ -755,7 +757,7 @@ const style = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     margin: 16,
-    fontFamily: 'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     fontWeight: '600'
   },
 
@@ -822,6 +824,7 @@ const style = StyleSheet.create({
     width: '100%',
     fontSize: 18,
     alignSelf: 'center',
+    fontFamily:"neutrifpro-regular",
     marginStart: 16,
     fontWeight: '400',
   },
@@ -839,6 +842,7 @@ const style = StyleSheet.create({
   },
   TextListCoupon: {
     color: '#0F2E63',
+    fontFamily:"neutrifpro-regular",
     fontSize: 12,
     fontWeight: '600',
     marginStart: 8,
@@ -872,6 +876,7 @@ const style = StyleSheet.create({
     fontWeight: '500',
     fontSize: 12,
     color: 'black',
+    fontFamily:"neutrifpro-regular",
     marginStart: Platform.OS == 'ios' ? 4 : 16,
   },
   btnStyleVoucher: {
@@ -888,6 +893,7 @@ const style = StyleSheet.create({
     color: 'white',
     width:80,
     textAlign:'center',
+    fontFamily:"neutrifpro-regular",
     backgroundColor: '#A57FF8',
     padding:4,
     fontSize: 10,
@@ -933,6 +939,7 @@ const style = StyleSheet.create({
     width:'100%',
     fontWeight: '600',
     color: '#333333',
+    fontFamily:"neutrifpro-regular",
     marginStart: 16,
   },
   styleIconArrow: {
@@ -976,6 +983,7 @@ const style = StyleSheet.create({
     alignSelf: 'flex-start',
     marginEnd: 8,
     fontSize: 16,
+    fontFamily:"neutrifpro-regular",
     marginStart:8,
     fontWeight: '600',
   },
@@ -984,6 +992,7 @@ const style = StyleSheet.create({
     fontWeight: '600',
     marginTop: 4,
     alignSelf: 'center',
+    fontFamily:"neutrifpro-regular",
     color: 'white',
   },
   btnKuis: {

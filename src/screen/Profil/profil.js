@@ -382,6 +382,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color:colors.white,
+    fontFamily:"neutrifpro-regular",
     marginTop:10,
     width:'100%',
     fontWeight:'400',
@@ -390,6 +391,7 @@ const styles = StyleSheet.create({
     color:colors.white,
     marginTop:10,
     width:'100%',
+    fontFamily:"neutrifpro-regular",
     fontSize:18,
     fontWeight:'600',
   },
@@ -408,6 +410,7 @@ const styles = StyleSheet.create({
     fontWeight:'600',
     width:'100%',
     color:colors.black,
+    fontFamily:"neutrifpro-regular",
     marginLeft:19,
   },
   menuContainer :{
@@ -427,7 +430,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     position: 'absolute',
     top: 0,
-    fontFamily:'NeutrifPro-Regular',
+    fontFamily:"neutrifpro-regular",
     color: 'white',
     marginTop: 16,
   },

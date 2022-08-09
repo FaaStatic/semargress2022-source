@@ -21,11 +21,12 @@ export default function RouterTab({ navigation }) {
         tabBarShowLabel: false,
         tabBarStyle: {
           shadowColor: '#D8E3E7',
-          height:Platform.OS == 'android' ? 85 : 110,
+          height:Platform.OS == 'android' ? 85 : 95,
           padding:5,
+          paddingBottom: Platform.OS === 'ios' ? 16 : 0,
           paddingLeft:20,
           paddingRight:20,
-          fontFamily:'NeutrifPro-Regular',
+          fontFamily:"neutrifpro-regular",
           shadowOffset: {
             width: 0,
             height: 28,
@@ -72,7 +73,7 @@ export default function RouterTab({ navigation }) {
           let active = focused ? require('../../assets/qr_active.png') : require('../../assets/qr_inactive.png') 
           return(
             <View style={[style.iconContainer,{height:55,width:55,backgroundColor:'#A57FF8',justifyContent:'center',borderRadius:12,alignItems:'center'}]}>
-              <Image source={active} style={{width:30,height:30, aspectRatio:1}}/>
+              <Image source={active} style={{width:30,height:30, aspectRatio:1}} resizeMode='contain'/>
 
             </View>
           )
@@ -122,7 +123,7 @@ const style = StyleSheet.create({
     bottom : 0,
     padding:8,
     position:'absolute',
-    marginBottom:16,
+    marginBottom: Platform.OS === 'ios' ? 8 : 16,
   }),
   iconStyle:{
     height:20,

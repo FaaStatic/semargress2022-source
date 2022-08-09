@@ -324,6 +324,7 @@ export default function DetailListCategory({ navigation, route }) {
               fontWeight:'400',
               width:'70%',
               textAlign:'center',
+              fontFamily:"neutrifpro-regular",
               alignSelf:'center'
             }}>Merchant Terdekat Tidak Ditemukan</Text> : <></>  
             )   

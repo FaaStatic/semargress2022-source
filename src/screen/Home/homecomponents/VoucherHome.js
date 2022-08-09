@@ -181,6 +181,7 @@ const style = StyleSheet.create({
         color:'black',
         fontWeight:'300',
         position :'absolute',
+        fontFamily:"neutrifpro-regular",
         marginTop:windows.height/2,
     },
     listcontainer : {

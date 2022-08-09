@@ -172,6 +172,7 @@ const style = StyleSheet.create({
         textAlign:'center',
         color:colors.white,
         position:'absolute',
+        fontFamily:"neutrifpro-regular",
         bottom:0,
         marginBottom:16,
         fontWeight:'400',
